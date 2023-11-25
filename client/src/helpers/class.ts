@@ -1,0 +1,1 @@
+const appendClasses = (classes: string[]) => {};

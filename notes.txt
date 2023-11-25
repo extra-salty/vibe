@@ -1,0 +1,10 @@
+		// custom
+		"src/**/*.d.ts",
+		"src/**/*.ts",
+		"src/**/*.d.tsx",
+		"src/**/*.tsx"
+
+    		// custom
+		"allowSyntheticDefaultImports": true,
+		"checkJs": true,
+		"importHelpers": true

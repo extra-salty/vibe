@@ -1,0 +1,31 @@
+body {
+	margin: 10%;
+	background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 1000%;
+	animation: gradient 30s linear infinite;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+
+	// Classes
+	.element {
+		background-color: rgba(79, 75, 75, 0.4);
+		border-radius: 5px;
+		padding: 1%;
+	}
+
+	// Variables
+	--border-radius: 5px;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: left;
+	}
+	50% {
+		background-position: right;
+	}
+	100% {
+		background-position: left;
+	}
+}
