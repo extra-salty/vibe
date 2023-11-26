@@ -1,24 +1,20 @@
 import React, { useCallback } from 'react';
-import { ComponentType } from '../Types';
-import Icon, { Icons } from '../Icon/Icon';
+import { Icons } from '@/components/base/Icon/Icon.type';
+import Icon from '../Icon/Icon';
+import ContainerType from './Container.type';
 import './Container.scss';
-
-type ContainerType = ComponentType & {
-	label?: string;
-	isOpen?: boolean;
-	children?: React.ReactNode;
-};
 
 const Container = ({ label, isOpen = true, children, hidden }: ContainerType) => {
 	const handleLabelClick = useCallback(() => {}, []);
-
-	// const classes = 'container element';
 
 	if (hidden) return;
 	return (
 		<div className='container element'>
 			<div className='header'>
-				<div className='label' onClick={handleLabelClick}>
+				<div
+					className='label'
+					onClick={handleLabelClick}
+				>
 					{label}
 				</div>
 				<Icon name={Icons.expandMore} />

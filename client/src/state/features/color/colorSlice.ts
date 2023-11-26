@@ -9,8 +9,8 @@ export type ColorType = {
 
 const initialState: ColorType = {
 	hue: 0,
-	saturation: 0,
-	lightness: 0,
+	saturation: 100,
+	lightness: 50,
 };
 
 export const colorSlice = createSlice({
@@ -21,10 +21,10 @@ export const colorSlice = createSlice({
 			state.hue = action.payload;
 		},
 		setSaturation: (state, action: PayloadAction<number>) => {
-			state.hue = action.payload;
+			state.saturation = action.payload;
 		},
 		setLightness: (state, action: PayloadAction<number>) => {
-			state.hue = action.payload;
+			state.lightness = action.payload;
 		},
 		resetColor: (state) => {
 			state = initialState;
@@ -32,7 +32,6 @@ export const colorSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const { setHue, setSaturation, setLightness, resetColor } = colorSlice.actions;
 
 export default colorSlice.reducer;

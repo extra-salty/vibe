@@ -1,23 +1,29 @@
 import { ChangeEvent, useCallback } from 'react';
+import SliderType from './Slider.type';
 import './Slider.scss';
 
-type SliderType = {
-	min?: number | string;
-	max?: number | string;
-	value: number | string;
-	onChange: (value: string) => void;
-};
-
-const Slider = ({ min = 0, max = 100, value, onChange }: SliderType) => {
+const Slider = ({
+	value,
+	min = 0,
+	max = 100,
+	background,
+	delay = 0,
+	onChange,
+	hidden,
+	classes,
+}: SliderType) => {
 	// getHueBackgroundColor(color);
 
 	const onChangeHandler = useCallback(
 		({ target }: ChangeEvent<HTMLInputElement>) => {
-			onChange?.(target.value);
+			const delayedInput = setTimeout(() => onChange?.(Number(target.value)), 10);
+			// onChange?.(Number(target.value));
+			return () => clearTimeout(delayedInput);
 		},
 		[onChange],
 	);
 
+	if (hidden) return;
 	return (
 		<input
 			className='slider'
@@ -25,11 +31,9 @@ const Slider = ({ min = 0, max = 100, value, onChange }: SliderType) => {
 			min={min}
 			max={max}
 			value={value}
-			style={
-				{
-					// background: getHueBackgroundColor(color),
-				}
-			}
+			style={{
+				background: background,
+			}}
 			onChange={onChangeHandler}
 		></input>
 	);

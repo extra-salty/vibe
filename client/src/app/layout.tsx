@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Header from '@/ui/components/Header/Header';
+import Header from '@/components/derived/Header/Header';
 import { Open_Sans } from 'next/font/google';
 import './globals.scss';
 import StateProvider from '@/state/StateProvider';

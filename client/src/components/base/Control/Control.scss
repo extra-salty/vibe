@@ -1,0 +1,25 @@
+.control {
+	display: flex;
+
+	input {
+		color: #fff;
+		background: transparent;
+		width: 22px;
+		text-align: right;
+		border: 0;
+	}
+	.unit {
+		color: #fff;
+		width: 15px;
+		font-size: 14px;
+	}
+
+	.increment {
+		display: flex;
+		flex-direction: column;
+
+		.reverse {
+			rotate: 180deg;
+		}
+	}
+}

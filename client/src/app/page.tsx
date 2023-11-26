@@ -1,7 +1,15 @@
 'use client';
-import Container from '@/ui/components/Container/Container';
-import Sliders from '@/ui/components/Sliders/Sliders';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import Container from '@/components/base/Container/Container';
+import ContainerType from '@/components/base/Container/Container.type';
+import Sliders from '@/components/derived/Sliders/Sliders';
+import LEDMatrix from '@/components/derived/LEDMatrix/LEDMatrix';
+
+enum Modules {
+	attributes = 'atrributes',
+	effects = 'effects',
+	ledMatrix = 'ledMatrix',
+}
 
 export default function Home() {
 	// { [key: string]: boolean }
@@ -12,19 +20,38 @@ export default function Home() {
 		eff: 'Effects',
 	};
 
-	return (
-		<div>
+	const modules = useMemo((): ContainerType[] => {
+		return [
+			{
+				key: Modules.attributes,
+				label: l.hsl,
+				children: <Sliders />,
+				isOpen: true,
+			},
+			{
+				key: Modules.effects,
+				label: l.eff,
+				children: <></>,
+				isOpen: true,
+			},
+			{
+				key: Modules.ledMatrix,
+				children: <LEDMatrix />,
+				isOpen: true,
+			},
+		];
+	}, [l.eff, l.hsl]);
+
+	const renderModule = useCallback(({ key, label, children }: ContainerType) => {
+		return (
 			<Container
-				label={l.hsl}
-				isOpen={isOpen.hsl}
+				key={key}
+				label={label}
 			>
-				<Sliders />
+				{children}
 			</Container>
-			<Container
-				label={l.eff}
-				isOpen
-				hidden
-			/>
-		</div>
-	);
+		);
+	}, []);
+
+	return <div className='modules'>{modules.map(renderModule)}</div>;
 }
