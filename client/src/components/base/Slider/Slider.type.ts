@@ -1,4 +1,4 @@
-import { ComponentType } from '../../Components.type';
+import { ComponentType } from '../../Types';
 
 type SliderType = ComponentType & {
 	value: number;

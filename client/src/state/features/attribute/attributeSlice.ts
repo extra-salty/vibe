@@ -1,11 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-export type ColorType = {
-	hue: number;
-	saturation: number;
-	lightness: number;
-};
+import { createSlice } from '@reduxjs/toolkit';
+import { ColorType } from './attributeSlice.type';
 
 const initialState: ColorType = {
 	hue: 0,
@@ -13,8 +8,8 @@ const initialState: ColorType = {
 	lightness: 50,
 };
 
-export const colorSlice = createSlice({
-	name: 'color',
+export const attributeSlice = createSlice({
+	name: 'attribute',
 	initialState,
 	reducers: {
 		setHue: (state, action: PayloadAction<number>) => {
@@ -32,6 +27,6 @@ export const colorSlice = createSlice({
 	},
 });
 
-export const { setHue, setSaturation, setLightness, resetColor } = colorSlice.actions;
+export const { setHue, setSaturation, setLightness, resetColor } = attributeSlice.actions;
 
-export default colorSlice.reducer;
+export default attributeSlice.reducer;

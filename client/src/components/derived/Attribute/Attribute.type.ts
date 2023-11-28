@@ -1,8 +1,7 @@
-import { ColorAttributes } from '@/components/Components.type';
 import { Icons } from '@/components/base/Icon/Icon.type';
 
-type SliderType = {
-	key: ColorAttributes;
+export type AttributeType = {
+	key: Attributes;
 	value: number;
 	max: number;
 	unit: string;
@@ -13,4 +12,9 @@ type SliderType = {
 	onChange: (value: number) => void;
 };
 
-export default SliderType;
+export enum Attributes {
+	hue = 'hue',
+	saturation = 'saturation',
+	lightness = 'lightness',
+	timing = 'timing',
+}

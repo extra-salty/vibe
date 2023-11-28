@@ -2,13 +2,14 @@
 import { useCallback, useMemo, useState } from 'react';
 import Container from '@/components/base/Container/Container';
 import ContainerType from '@/components/base/Container/Container.type';
-import Sliders from '@/components/derived/Sliders/Sliders';
-import LEDMatrix from '@/components/derived/LEDMatrix/LEDMatrix';
+import Effect from '@/components/derived/Effect/Effect';
+import Attribute from '@/components/derived/Attribute/Attribute';
+import './page.scss';
 
 enum Modules {
 	attributes = 'atrributes',
-	effects = 'effects',
-	ledMatrix = 'ledMatrix',
+	effect = 'effect',
+	animation = 'animation',
 }
 
 export default function Home() {
@@ -25,18 +26,19 @@ export default function Home() {
 			{
 				key: Modules.attributes,
 				label: l.hsl,
-				children: <Sliders />,
+				children: <Attribute />,
 				isOpen: true,
 			},
 			{
-				key: Modules.effects,
+				key: Modules.effect,
+				label: l.eff,
+				children: <Effect />,
+				isOpen: true,
+			},
+			{
+				key: Modules.animation,
 				label: l.eff,
 				children: <></>,
-				isOpen: true,
-			},
-			{
-				key: Modules.ledMatrix,
-				children: <LEDMatrix />,
 				isOpen: true,
 			},
 		];
@@ -44,10 +46,7 @@ export default function Home() {
 
 	const renderModule = useCallback(({ key, label, children }: ContainerType) => {
 		return (
-			<Container
-				key={key}
-				label={label}
-			>
+			<Container key={key} label={label}>
 				{children}
 			</Container>
 		);

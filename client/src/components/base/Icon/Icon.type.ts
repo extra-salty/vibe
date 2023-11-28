@@ -1,9 +1,24 @@
-import { ComponentType } from '../../Components.type';
+import { ComponentType } from '../../Types';
 
+// Material Symbols
 export enum Icons {
-	expandMore = 'expand-more',
+	add = 'add',
+	brightness = 'brightness_6',
+	delete = 'delete',
+	expandMore = 'expand_more',
+	gradient = 'gradient',
+	lock = 'lock',
+	next = 'navigate_next',
 	palette = 'palette',
+	pause = 'pause',
+	play = 'play_arrow',
+	remove = 'remove',
+	restart = 'restart_alt',
+	save = 'save',
+	stop = 'stop',
+	timelapse = 'timelapse',
 }
+// triangle for increment
 
 type IconType = ComponentType & {
 	name: Icons;

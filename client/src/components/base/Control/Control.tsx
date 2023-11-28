@@ -32,25 +32,21 @@ const Control = ({
 	if (hidden) return;
 	return (
 		<div className='control'>
-			<input
-				type='number'
-				min={min}
-				max={max}
-				value={value}
-				onChange={onChangeHandler}
-			/>
-			{unit && <span className='unit'>{unit}</span>}
+			<input type='number' min={min} max={max} value={value} onChange={onChangeHandler} />
+			{unit && false && <span className='unit'>{unit}</span>}
 			{hasIncrements && (
 				<div className='increment'>
 					<Icon
 						name={Icons.expandMore}
-						height={10}
+						height={4}
+						width={10}
 						classes='reverse'
 						onClick={() => onIncrementHandler(value, true)}
 					/>
 					<Icon
 						name={Icons.expandMore}
-						height={10}
+						height={4}
+						width={10}
 						onClick={() => onIncrementHandler(value, false)}
 					/>
 				</div>

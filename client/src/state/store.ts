@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import colorReducer from './features/color/colorSlice';
-import ledMatrixReducer from './features/led-matrix/ledMatrixSlice';
+import attributeReducer from './features/attribute/attributeSlice';
+import effectReducer from './features/effect/effectSlice';
 
 export const store = configureStore({
 	reducer: {
-		color: colorReducer,
-		ledMatrix: ledMatrixReducer,
+		attribute: attributeReducer,
+		effect: effectReducer,
 	},
 });
 

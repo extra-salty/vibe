@@ -1,6 +1,9 @@
 import { ChangeEvent, useCallback } from 'react';
 import SliderType from './Slider.type';
 import './Slider.scss';
+import { useDebounce } from '@/helpers/hooks/useDebounce/useDebounce';
+import { useDispatch } from 'react-redux';
+import { setHue } from '@/state/features/attribute/attributeSlice';
 
 const Slider = ({
 	value,
@@ -12,16 +15,17 @@ const Slider = ({
 	hidden,
 	classes,
 }: SliderType) => {
-	// getHueBackgroundColor(color);
-
 	const onChangeHandler = useCallback(
 		({ target }: ChangeEvent<HTMLInputElement>) => {
-			const delayedInput = setTimeout(() => onChange?.(Number(target.value)), 10);
-			// onChange?.(Number(target.value));
-			return () => clearTimeout(delayedInput);
+			onChange?.(Number(target.value));
 		},
 		[onChange],
 	);
+
+	// const debounce = useDebounce(({ target }: ChangeEvent<HTMLInputElement>) => {
+	// 	onChange?.(Number(target.value));
+	// 	console.log(target);
+	// }, 100);
 
 	if (hidden) return;
 	return (

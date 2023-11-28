@@ -11,6 +11,7 @@ const Icon = ({ name, width = 24, height = 24, onClick, hidden, classes }: IconT
 			height={height}
 			className={classes}
 			onClick={onClick}
+			draggable={false}
 		/>
 	);
 };

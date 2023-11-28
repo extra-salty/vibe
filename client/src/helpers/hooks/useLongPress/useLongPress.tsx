@@ -23,10 +23,10 @@ const useLongPress = <T,>({
 	const timeout = useRef<NodeJS.Timeout>();
 	const target = useRef<EventTarget>();
 
-	// if(!onPress) {
-	//   return {
-	//     onClick: (e: React.MouseEvent<T>) => onClick
-	//   }
+	// if (!onPress) {
+	// 	return {
+	// 		onClick: (e: React.MouseEvent<T>) => onClick,
+	// 	};
 	// }
 
 	const start = useCallback(

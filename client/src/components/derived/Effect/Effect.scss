@@ -1,0 +1,33 @@
+.effect {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.led-matrix {
+		display: flex;
+		aspect-ratio: 47 / 21; //2.243
+		width: 100%;
+		height: auto;
+		// gap: 1px;
+
+		.column {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			// gap: 1px;
+
+			.led {
+				width: 100%;
+				height: 100%;
+				border: 1px solid rgba(79, 75, 75, 0.4);
+				padding: 0;
+			}
+		}
+	}
+
+	.actions {
+		display: flex;
+		gap: 5px;
+		width: 20%;
+	}
+}

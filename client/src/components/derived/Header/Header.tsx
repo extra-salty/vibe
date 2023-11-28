@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import Vibe from '@/../public/vibe.svg';
 import './Header.scss';
-import Button from '@/components/base/Button/Button';
 
 const Header = () => {
 	return (
