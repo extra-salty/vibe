@@ -61,6 +61,7 @@ const Attribute = () => {
 		({ key, value, max, unit, background, icon, onChange }: AttributeType) => {
 			return (
 				<div key={key} className='row'>
+					<div className='text'>{key}</div>
 					<Icon name={icon} height={20} width={20} />
 					<Slider value={value} max={max} delay={0} onChange={onChange} background={background} />
 					<Control value={value} max={max} unit={unit} onChange={onChange} />

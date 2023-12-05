@@ -1,6 +1,7 @@
 import { MouseEvent, useCallback } from 'react';
 import ButtonType from './Button.type';
 import useLongPress from '@/helpers/hooks/useLongPress/useLongPress';
+import appendClasses from '@/helpers/appendClass/appendClass';
 import './Button.scss';
 
 const Button = ({
@@ -13,7 +14,9 @@ const Button = ({
 	classes,
 	hidden,
 }: ButtonType) => {
-	const backgroundColor = `hsl(${color.hue} ${color.saturation}% ${color.lightness}%`;
+	const backgroundColor = color
+		? `hsl(${color.hue} ${color.saturation}% ${color.lightness}%`
+		: 'white';
 
 	const mouseEvents = useLongPress({
 		onClick: onClick,
@@ -22,7 +25,7 @@ const Button = ({
 	});
 
 	const handleMouseOver = useCallback(
-		(e: React.MouseEvent<HTMLButtonElement>) => {
+		(e: MouseEvent<HTMLButtonElement>) => {
 			onHover && e.buttons === 1 && onHover();
 		},
 		[onHover],
@@ -31,12 +34,12 @@ const Button = ({
 	if (hidden) return;
 	return (
 		<button
-			className={classes}
+			className={appendClasses([classes])}
 			style={{ backgroundColor }}
 			{...mouseEvents}
-			onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => handleMouseOver(e)}
+			onMouseOver={(e: MouseEvent<HTMLButtonElement>) => handleMouseOver(e)}
 		>
-			{/* {text} */}
+			{text}
 		</button>
 	);
 };

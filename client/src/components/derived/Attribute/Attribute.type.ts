@@ -13,8 +13,8 @@ export type AttributeType = {
 };
 
 export enum Attributes {
-	hue = 'hue',
-	saturation = 'saturation',
-	lightness = 'lightness',
-	timing = 'timing',
+	hue = 'Hue',
+	saturation = 'Saturation',
+	lightness = 'Lightness',
+	timing = 'Timing',
 }

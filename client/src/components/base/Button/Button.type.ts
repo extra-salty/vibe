@@ -3,7 +3,7 @@ import { ColorType } from '@/state/features/attribute/attributeSlice.type';
 
 type ButtonType = ComponentType & {
 	text?: string;
-	color: ColorType;
+	color?: ColorType;
 	delay?: number;
 	onClick: () => void;
 	onPress: () => void;

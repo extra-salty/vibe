@@ -9,6 +9,8 @@ import { Icons } from '@/components/base/Icon/Icon.type';
 import Icon from '@/components/base/Icon/Icon';
 import Button from '@/components/base/Button/Button';
 import './Effect.scss';
+import axios from 'axios';
+import { VercelServiceInstance } from '@/api/vercel/VercelService';
 
 const Effect = () => {
 	const dispatch = useDispatch();
@@ -48,6 +50,25 @@ const Effect = () => {
 		return <Icon key={name} name={icon} onClick={onClick} />;
 	}, []);
 
+	const axiosInstance = axios.create();
+	const handleTestRequest = useCallback(async () => {
+		console.log('test');
+
+		// axiosInstance
+		// 	.get('https://swapi.dev/api/people/1')
+		// 	.then(function (response) {
+		// 		// handle success
+		// 		console.log(response);
+		// 	})
+		// 	.catch(function (error) {
+		// 		// handle error
+		// 		console.log(error);
+		// 	});
+
+		const example = await VercelServiceInstance.getExample();
+		console.log('🚀 ~ file: Effect.tsx:69 ~ handleTestRequest ~ requests:', example);
+	}, []);
+
 	const renderLedMatrix = useCallback(
 		(ledColumn: ColorType[], x: number) => {
 			return (
@@ -76,6 +97,7 @@ const Effect = () => {
 		<div className='effect'>
 			<div className='led-matrix'>{ledMatrix.map(renderLedMatrix)}</div>
 			<div className='actions'>{actions.map(renderActions)}</div>
+			<Button text='test' onClick={() => handleTestRequest()} onPress={() => handleTestRequest()} />
 		</div>
 	);
 };

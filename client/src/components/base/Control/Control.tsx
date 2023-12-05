@@ -2,11 +2,12 @@ import { ChangeEvent, useCallback } from 'react';
 import { Icons } from '../Icon/Icon.type';
 import Icon from '../Icon/Icon';
 import ControlType from './Control.type';
+import appendClasses from '@/helpers/appendClass/appendClass';
 import './Control.scss';
 
 const Control = ({
 	value,
-	min = 100,
+	min = 0,
 	max = 100,
 	hasIncrements = true,
 	unit,
@@ -24,23 +25,24 @@ const Control = ({
 	const onIncrementHandler = useCallback(
 		(value: number, increase: boolean) => {
 			const newValue = increase ? value + 1 : value - 1;
-			onChange?.(newValue);
+			const limitedValue = Math.max(min, Math.min(max, Number(newValue)));
+			onChange?.(limitedValue);
 		},
-		[onChange],
+		[max, min, onChange],
 	);
 
 	if (hidden) return;
 	return (
-		<div className='control'>
+		<div className={appendClasses(['control', classes])}>
 			<input type='number' min={min} max={max} value={value} onChange={onChangeHandler} />
-			{unit && false && <span className='unit'>{unit}</span>}
+			{unit && <span className='unit'>{unit}</span>}
 			{hasIncrements && (
 				<div className='increment'>
 					<Icon
 						name={Icons.expandMore}
 						height={4}
 						width={10}
-						classes='reverse'
+						classes={['reverse']}
 						onClick={() => onIncrementHandler(value, true)}
 					/>
 					<Icon
