@@ -16,6 +16,7 @@ import ButtonType from '@/components/base/Button/Button.type';
 import axios from 'axios';
 import Modal from '../Modal/Modal';
 import './Effect.scss';
+import ModalType from '../Modal/Modal.type';
 
 const Effect = () => {
 	// console.log('effect');
@@ -43,7 +44,7 @@ const Effect = () => {
 			{
 				text: Actions.reset,
 				icon: Icons.restart,
-				onClick: () => dispatch(resetLedMatrix()),
+				onClick: () => setIsModalOpen(true),
 				onPress: () => {},
 				disabled: actionsState.Reset,
 			},
@@ -56,22 +57,38 @@ const Effect = () => {
 				onPress: () => {},
 			},
 		];
-	}, [actionsState.Reset, dispatch]);
+	}, [actionsState.Reset]);
 
 	const renderActions = useCallback((props: ButtonType) => {
 		return <Button key={props.text} {...props} />;
 	}, []);
 
-	const modalActions = useMemo((): ButtonType[] => {
+	const modalActions = useMemo((): Omit<ModalType, 'onModalClose'>[] => {
 		return [
 			{
-				text: ModalActions.cancel,
-				icon: Icons.restart,
-				onClick: () => setIsModalOpen(false),
-				onPress: () => {},
+				header: 'Effect',
+				description: 'Are you sure you want to reset the matrix?',
+				actions: [
+					{
+						text: ModalActions.cancel,
+						onClick: () => {},
+						onPress: () => {},
+					},
+					{
+						text: ModalActions.accept,
+						onClick: () => dispatch(resetLedMatrix()),
+						onPress: () => {},
+					},
+				],
 			},
+			// {
+			// 	text: ModalActions.accept,
+			// 	// icon: Icons.restart,
+			// 	onClick: () => setIsModalOpen(false),
+			// 	onPress: () => {},
+			// },
 		];
-	}, []);
+	}, [dispatch]);
 
 	const renderLedMatrix = useCallback(
 		(ledColumn: ColorType[], x: number) => {
@@ -123,9 +140,12 @@ const Effect = () => {
 			<div className='led-matrix'>{ledMatrix.map(renderLedMatrix)}</div>
 			<div className='actions'>{actions.map(renderActions)}</div>
 			{/* <Button text='test' onClick={() => handleTestRequest()} onPress={() => handleTestRequest()} /> */}
-			<Button text='modal' onClick={() => setIsModalOpen((s) => !s)} onPress={() => {}} />
 
-			{isModalOpen && createPortal(<Modal actions={modalActions} />, document.body)}
+			{isModalOpen &&
+				createPortal(
+					<Modal {...modalActions[0]} onModalClose={() => setIsModalOpen(false)} />,
+					document.body,
+				)}
 		</div>
 	);
 };

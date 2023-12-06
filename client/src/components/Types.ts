@@ -1,4 +1,4 @@
-import { classCollection } from '@/helpers/appendClass/appendClass';
+import { classCollection } from '@/helpers/appendClasses/appendClasses';
 
 export type ComponentType = {
 	hidden?: boolean;

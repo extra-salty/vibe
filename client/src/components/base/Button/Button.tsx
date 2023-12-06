@@ -2,7 +2,7 @@ import { MouseEvent, useCallback, useState } from 'react';
 import Icon from '../Icon/Icon';
 import ButtonType from './Button.type';
 import useLongPress from '@/helpers/hooks/useLongPress/useLongPress';
-import appendClasses from '@/helpers/appendClass/appendClass';
+import appendClasses from '@/helpers/appendClasses/appendClasses';
 import './Button.scss';
 
 const Button = ({

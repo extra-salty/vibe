@@ -1,9 +1,20 @@
 import { ComponentType } from '../../Types';
 
+type IconType = ComponentType & {
+	name: Icons;
+	enlarge?: boolean;
+	width?: number;
+	height?: number;
+	onClick?: () => void;
+};
+
+export default IconType;
+
 // Material Symbols
 export enum Icons {
 	add = 'add',
 	brightness = 'brightness_6',
+	close = 'close',
 	delete = 'delete',
 	expandMore = 'expand_more',
 	gradient = 'gradient',
@@ -20,12 +31,3 @@ export enum Icons {
 	timelapse = 'timelapse',
 	triangle = 'triangle',
 }
-
-type IconType = ComponentType & {
-	name: Icons;
-	width?: number;
-	height?: number;
-	onClick?: () => void;
-};
-
-export default IconType;

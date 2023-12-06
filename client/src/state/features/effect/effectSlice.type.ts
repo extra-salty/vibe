@@ -43,4 +43,5 @@ export enum Actions {
 
 export enum ModalActions {
 	cancel = 'Cancel',
+	accept = 'Accept',
 }

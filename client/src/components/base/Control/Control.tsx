@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback } from 'react';
 import { Icons } from '../Icon/Icon.type';
 import Icon from '../Icon/Icon';
 import ControlType from './Control.type';
-import appendClasses from '@/helpers/appendClass/appendClass';
+import appendClasses from '@/helpers/appendClasses/appendClasses';
 import './Control.scss';
 
 const Control = ({

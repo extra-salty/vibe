@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import IconType from './Icon.type';
-import appendClasses from '@/helpers/appendClass/appendClass';
+import appendClasses from '@/helpers/appendClasses/appendClasses';
+import './Icon.scss';
 
-const Icon = ({ name, width = 24, height = 24, onClick, hidden, classes }: IconType) => {
+const Icon = ({ name, enlarge, width = 24, height = 24, onClick, hidden, classes }: IconType) => {
+	const classNames = appendClasses(['icon', classes, enlarge && 'enlarge']);
+
 	if (hidden) return;
 	return (
 		<Image
@@ -10,7 +13,7 @@ const Icon = ({ name, width = 24, height = 24, onClick, hidden, classes }: IconT
 			alt={name}
 			width={width}
 			height={height}
-			className={appendClasses([classes])}
+			className={classNames}
 			onClick={onClick}
 			draggable={false}
 		/>

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { Icons } from '@/components/base/Icon/Icon.type';
 import Icon from '../Icon/Icon';
 import ContainerType from './Container.type';
-import appendClasses from '@/helpers/appendClass/appendClass';
+import appendClasses from '@/helpers/appendClasses/appendClasses';
 import './Container.scss';
 
 const Container = ({ label, children, hidden }: ContainerType) => {
