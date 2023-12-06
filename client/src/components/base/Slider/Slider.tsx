@@ -3,7 +3,7 @@ import SliderType from './Slider.type';
 import './Slider.scss';
 import { useDebounce } from '@/helpers/hooks/useDebounce/useDebounce';
 import { useDispatch } from 'react-redux';
-import { setHue } from '@/state/features/attribute/attributeSlice';
+import { setHue } from '@/state/features/attributes/attributeSlice';
 
 const Slider = ({
 	value,

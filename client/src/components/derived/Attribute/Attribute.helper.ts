@@ -1,4 +1,4 @@
-import { ColorType } from '@/state/features/attribute/attributeSlice.type';
+import { ColorType } from '@/state/features/attributes/attributeSlice.type';
 import { Attributes } from './Attribute.type';
 
 export const getBackgroundColor = (color: ColorType, attribute: Attributes) => {

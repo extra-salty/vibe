@@ -39,16 +39,17 @@ const Control = ({
 			{hasIncrements && (
 				<div className='increment'>
 					<Icon
-						name={Icons.expandMore}
+						name={Icons.triangle}
 						height={4}
 						width={10}
-						classes={['reverse']}
 						onClick={() => onIncrementHandler(value, true)}
+						classes={['increase']}
 					/>
 					<Icon
-						name={Icons.expandMore}
+						name={Icons.triangle}
 						height={4}
 						width={10}
+						classes={['decrease', 'reverse']}
 						onClick={() => onIncrementHandler(value, false)}
 					/>
 				</div>

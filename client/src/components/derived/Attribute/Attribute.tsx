@@ -1,29 +1,28 @@
 import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setHue, setLightness, setSaturation } from '@/state/features/attribute/attributeSlice';
+import { setHue, setLightness, setSaturation } from '@/state/features/attributes/attributeSlice';
 import { getBackgroundColor } from './Attribute.helper';
 import { RootState } from '@/state/store';
 import { Icons } from '@/components/base/Icon/Icon.type';
-import { AttributeType, Attributes } from './Attribute.type';
+import { AttributeType, Attributes, Units } from './Attribute.type';
 import Icon from '../../base/Icon/Icon';
 import Slider from '../../base/Slider/Slider';
 import Control from '../../base/Control/Control';
 import './Attribute.scss';
 
 const Attribute = () => {
+	// console.log('attr');
 	const dispatch = useDispatch();
-	const color = useSelector((state: RootState) => state.attribute);
+	const { color } = useSelector((state: RootState) => state.attributes);
 	const { hue, saturation, lightness } = color;
 
-	const handleControlChange = useCallback(() => {}, []);
-
-	const attributes = useMemo((): AttributeType[] => {
+	const attributesSliders = useMemo((): AttributeType[] => {
 		return [
 			{
 				key: Attributes.hue,
 				value: hue,
 				max: 360,
-				unit: '°',
+				unit: Units.degree,
 				icon: Icons.palette,
 				background: getBackgroundColor(color, Attributes.hue),
 				onChange: (value: number) => dispatch(setHue(value)),
@@ -32,7 +31,7 @@ const Attribute = () => {
 				key: Attributes.saturation,
 				value: saturation,
 				max: 100,
-				unit: '%',
+				unit: Units.percentage,
 				icon: Icons.gradient,
 				background: getBackgroundColor(color, Attributes.saturation),
 				onChange: (value: number) => dispatch(setSaturation(value)),
@@ -40,7 +39,7 @@ const Attribute = () => {
 			{
 				key: Attributes.lightness,
 				value: lightness,
-				unit: '%',
+				unit: Units.percentage,
 				max: 100,
 				icon: Icons.brightness,
 				background: getBackgroundColor(color, Attributes.lightness),
@@ -49,7 +48,7 @@ const Attribute = () => {
 			{
 				key: Attributes.timing,
 				value: 0,
-				unit: 's',
+				unit: Units.second,
 				max: 100,
 				icon: Icons.timelapse,
 				onChange: (value: number) => {},
@@ -57,7 +56,7 @@ const Attribute = () => {
 		];
 	}, [color, dispatch, hue, lightness, saturation]);
 
-	const renderAttribute = useCallback(
+	const renderAttributeSlider = useCallback(
 		({ key, value, max, unit, background, icon, onChange }: AttributeType) => {
 			return (
 				<div key={key} className='row'>
@@ -71,7 +70,7 @@ const Attribute = () => {
 		[],
 	);
 
-	return <div className='attributes'>{attributes.map(renderAttribute)}</div>;
+	return <div className='attributes'>{attributesSliders.map(renderAttributeSlider)}</div>;
 };
 
 export default Attribute;

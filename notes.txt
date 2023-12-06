@@ -1,10 +1,5 @@
-		// custom
-		"src/**/*.d.ts",
-		"src/**/*.ts",
-		"src/**/*.d.tsx",
-		"src/**/*.tsx"
+- Modal - createPortal
+- mouse Event for Icon
 
-    		// custom
-		"allowSyntheticDefaultImports": true,
-		"checkJs": true,
-		"importHelpers": true
+
+useMemo, useCallback

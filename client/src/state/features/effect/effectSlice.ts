@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Coordinate, EffectType, Effects, setLedColorActionType } from './effectSlice.type';
-import { ColorType } from '../attribute/attributeSlice.type';
+import { Actions, EffectType, Effects, setLedColorActionType } from './effectSlice.type';
+import { ColorType } from '../attributes/attributeSlice.type';
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;
@@ -12,10 +12,13 @@ const DEFAULT_COLOR: ColorType = {
 
 const initialState: EffectType = {
 	name: Effects.welcome,
-	current: Array(NUMBER_OF_COLUMNS)
+	ledMatrix: Array(NUMBER_OF_COLUMNS)
 		.fill(null)
 		.map(() => Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR)),
 	history: undefined,
+	actionsState: {
+		[Actions.reset]: false,
+	},
 };
 
 export const effect = createSlice({
@@ -23,14 +26,14 @@ export const effect = createSlice({
 	initialState,
 	reducers: {
 		resetLedMatrix: (state) => {
-			state = initialState;
+			state.ledMatrix = initialState.ledMatrix;
 		},
 		setLedColor: (state, action: PayloadAction<setLedColorActionType>) => {
 			const {
 				coordinate: { x, y },
-				selectedColor,
+				color,
 			} = action.payload;
-			state.current[x][y] = selectedColor;
+			state.ledMatrix[x][y] = color;
 		},
 	},
 });

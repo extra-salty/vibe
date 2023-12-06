@@ -1,7 +1,8 @@
 import { HttpMethods } from '../HttpMethods';
 
+// headers: Readonly<Record<string, string | boolean>>
 const VercelServiceConfig = {
-	baseURL: 'https://geodb-cities-graphql.p.rapidapi.com',
+	baseURL: 'https://swapi.dev/api',
 	timeout: 1000,
 	headers: {
 		Accept: 'application/json',
@@ -15,4 +16,4 @@ class VercelService extends HttpMethods {
 	};
 }
 
-export const VercelServiceInstance = new VercelService(VercelServiceConfig);
+export const VercelServiceInstance = new VercelService();

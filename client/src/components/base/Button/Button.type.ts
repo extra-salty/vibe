@@ -1,10 +1,14 @@
 import ComponentType from '@/components/Types';
-import { ColorType } from '@/state/features/attribute/attributeSlice.type';
+import { Icons } from '../Icon/Icon.type';
 
 type ButtonType = ComponentType & {
 	text?: string;
-	color?: ColorType;
+	activeText?: string;
+	icon?: Icons;
+	activeIcon?: Icons;
+	iconPosition?: 'start' | 'end';
 	delay?: number;
+	disabled?: boolean;
 	onClick: () => void;
 	onPress: () => void;
 	onHover?: () => void;

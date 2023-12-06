@@ -116,7 +116,14 @@ void setup()
 void loop()
 {
   // dnsServer.processNextRequest();
-  fill_solid(leds, NUM_LEDS, CHSV(100, 255, 255));
-  FastLED.show();
-  delay(50);
+  for (int i = 0; i <= 255; i++)
+  {
+    fill_solid(leds, NUM_LEDS, CHSV(i, 255, 255));
+    FastLED.show();
+    delay(1);
+    // delay(500);
+    // fill_solid(leds, NUM_LEDS, CHSV(100, 255, 0));
+    // FastLED.show();
+    // delay(500);
+  }
 }

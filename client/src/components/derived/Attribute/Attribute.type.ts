@@ -18,3 +18,9 @@ export enum Attributes {
 	lightness = 'Lightness',
 	timing = 'Timing',
 }
+
+export enum Units {
+	degree = '°',
+	percentage = '%',
+	second = 's',
+}

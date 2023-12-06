@@ -1,10 +1,30 @@
 button {
-	height: 30px;
-	width: 50px;
-	// color: blue;
-	font-size: 6px;
-	font-weight: 700;
+	background-color: transparent;
+	color: white;
+	border: 1px solid white;
+	cursor: pointer;
 
-	// @media only screen and (max-width: 600px) {
-	// }
+	&.active {
+		background-color: rgba(200, 200, 200, 0.2);
+	}
+
+	&.disabled {
+		background-color: rgba(200, 200, 200, 0.8);
+		cursor: none;
+	}
+
+	.content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+
+		&:hover {
+			scale: 1.05;
+		}
+
+		&.end {
+			flex-direction: row-reverse;
+		}
+	}
 }

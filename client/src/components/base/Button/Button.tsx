@@ -1,4 +1,5 @@
-import { MouseEvent, useCallback } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
+import Icon from '../Icon/Icon';
 import ButtonType from './Button.type';
 import useLongPress from '@/helpers/hooks/useLongPress/useLongPress';
 import appendClasses from '@/helpers/appendClass/appendClass';
@@ -6,21 +7,34 @@ import './Button.scss';
 
 const Button = ({
 	text,
-	color,
+	activeText,
+	icon,
+	activeIcon,
+	iconPosition = 'start',
 	delay = 300,
+	disabled,
 	onClick,
 	onPress,
 	onHover,
-	classes,
 	hidden,
+	style,
+	classes,
 }: ButtonType) => {
-	const backgroundColor = color
-		? `hsl(${color.hue} ${color.saturation}% ${color.lightness}%`
-		: 'white';
+	const [isActive, setIsActive] = useState<boolean>(false);
+
+	const handleOnClick = useCallback(() => {
+		onClick && onClick();
+		setIsActive((s) => !s);
+	}, [onClick]);
+
+	const handleOnPress = useCallback(() => {
+		onPress && onPress();
+		// setIsActive((s) => !s);
+	}, [onPress]);
 
 	const mouseEvents = useLongPress({
-		onClick: onClick,
-		onPress: onPress,
+		onClick: handleOnClick,
+		onPress: handleOnPress,
 		delay: delay,
 	});
 
@@ -31,15 +45,29 @@ const Button = ({
 		[onHover],
 	);
 
+	const hasActiveState = (activeIcon || activeText) && isActive;
+	const classNames = appendClasses([
+		'button',
+		classes,
+		hasActiveState && 'active',
+		disabled && 'disabled',
+	]);
+
 	if (hidden) return;
 	return (
 		<button
-			className={appendClasses([classes])}
-			style={{ backgroundColor }}
+			className={classNames}
+			style={style}
+			disabled={disabled}
 			{...mouseEvents}
 			onMouseOver={(e: MouseEvent<HTMLButtonElement>) => handleMouseOver(e)}
 		>
-			{text}
+			{(icon || text) && (
+				<div className={appendClasses(['content', iconPosition])}>
+					{icon && <Icon name={isActive && activeIcon ? activeIcon : icon} width={10} />}
+					{text && <span>{isActive && activeText ? activeText : text}</span>}
+				</div>
+			)}
 		</button>
 	);
 };

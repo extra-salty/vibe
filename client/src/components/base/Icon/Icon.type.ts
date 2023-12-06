@@ -7,6 +7,7 @@ export enum Icons {
 	delete = 'delete',
 	expandMore = 'expand_more',
 	gradient = 'gradient',
+	unlock = 'lock_open',
 	lock = 'lock',
 	next = 'navigate_next',
 	palette = 'palette',
@@ -17,8 +18,8 @@ export enum Icons {
 	save = 'save',
 	stop = 'stop',
 	timelapse = 'timelapse',
+	triangle = 'triangle',
 }
-// triangle for increment
 
 type IconType = ComponentType & {
 	name: Icons;
