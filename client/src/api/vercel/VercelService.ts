@@ -16,4 +16,4 @@ class VercelService extends HttpMethods {
 	};
 }
 
-export const VercelServiceInstance = new VercelService();
+export const VercelServiceInstance = new VercelService(VercelServiceConfig);

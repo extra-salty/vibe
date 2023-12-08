@@ -1,0 +1,76 @@
+.uiTable {
+	.tableWrapper {
+		overflow: auto;
+		height: 300px;
+
+		&::-webkit-scrollbar {
+			border-radius: 10px;
+			width: 5px;
+			background: #aaa;
+		}
+
+		&::-webkit-scrollbar-track-piece {
+			border-radius: 10px;
+			background-color: rgb(160, 160, 160);
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border-radius: 10px;
+			background: rgb(112, 112, 112);
+			border: 1px white;
+		}
+
+		table {
+			position: relative;
+			text-align: left;
+			border-collapse: collapse;
+			cursor: pointer;
+
+			thead,
+			th {
+				position: sticky;
+				top: 0;
+				z-index: 10;
+
+				tr {
+					position: sticky;
+				}
+			}
+
+			th {
+				font-weight: 500;
+				font-size: 14px;
+				padding: 5px;
+			}
+
+			// thead,
+			// td,
+			// th,
+			// tr {
+			// 	text-overflow: ellipsis;
+			// }
+
+			tbody {
+				font-size: 12px;
+				// position: absolute;
+				top: 30px;
+
+				tr {
+					text-overflow: ellipsis;
+
+					&:last-of-type {
+						border: 0;
+					}
+
+					&:nth-child(even) {
+						background-color: rgba(169, 160, 160, 0.253);
+					}
+				}
+
+				td {
+					padding: 5px 5px;
+				}
+			}
+		}
+	}
+}

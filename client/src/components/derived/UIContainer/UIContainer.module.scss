@@ -1,0 +1,48 @@
+.uiContainer {
+	background-color: rgba(79, 75, 75, 0.4);
+	border-radius: 8px;
+	padding: 8px 10px;
+
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+
+		.label {
+			font-size: 14px;
+		}
+
+		.icon {
+			transition: 1s ease;
+
+			&.rotated {
+				transform: rotateX(180deg);
+			}
+		}
+	}
+
+	.contentWrapper {
+		display: grid;
+		overflow: hidden;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.5s;
+		margin-top: 5px;
+		border-top: 1px solid #a5a4a4;
+		padding-top: 5px;
+
+		.content {
+			min-height: 0;
+			transition: visibility 0.5s;
+			visibility: hidden;
+		}
+
+		&.expanded {
+			grid-template-rows: 1fr;
+
+			.content {
+				visibility: visible;
+			}
+		}
+	}
+}

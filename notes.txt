@@ -1,4 +1,9 @@
 - focus on modal
 - mouse Event for Icon
+- table row type
 
 useMemo, useCallback
+json and sql databases https://vercel.com/guides/using-databases-with-vercel
+data fetching - swr, tanstack, RTKQ
+node - BE
+css styling methods

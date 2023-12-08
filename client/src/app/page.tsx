@@ -1,9 +1,10 @@
 'use client';
 import { useCallback, useMemo } from 'react';
-import Container from '@/components/base/Container/Container';
-import ContainerType from '@/components/base/Container/Container.type';
-import Effect from '@/components/derived/Effect/Effect';
-import Attribute from '@/components/derived/Attribute/Attribute';
+import UIContainer from '@/components/derived/UIContainer/UIContainer';
+import UIContainerType from '@/components/derived/UIContainer/UIContainer.type';
+import Effect from '@/components/custom/Effect/Effect';
+import Attribute from '@/components/custom/Attribute/Attribute';
+import Animations from '@/components/custom/Animations/Animations';
 import './page.scss';
 
 enum Modules {
@@ -13,7 +14,7 @@ enum Modules {
 }
 
 export default function Home() {
-	const modules = useMemo((): ContainerType[] => {
+	const modules = useMemo((): UIContainerType[] => {
 		return [
 			{
 				label: Modules.attributes,
@@ -22,19 +23,20 @@ export default function Home() {
 			{
 				label: Modules.effect,
 				children: <Effect />,
+				hidden: true,
 			},
 			{
 				label: Modules.animation,
-				children: <></>,
+				children: <Animations />,
 			},
 		];
 	}, []);
 
-	const renderModule = useCallback(({ label, children }: ContainerType) => {
+	const renderModule = useCallback((props: UIContainerType, i: number) => {
 		return (
-			<Container key={label} label={label}>
-				{children}
-			</Container>
+			<UIContainer key={`${i}`} {...props}>
+				{props.children}
+			</UIContainer>
 		);
 	}, []);
 
