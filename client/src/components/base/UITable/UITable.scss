@@ -57,13 +57,14 @@
 
 				tr {
 					text-overflow: ellipsis;
+					border-bottom: 1px solid white;
 
 					&:last-of-type {
 						border: 0;
 					}
 
 					&:nth-child(even) {
-						background-color: rgba(169, 160, 160, 0.253);
+						// background-color: rgba(169, 160, 160, 0.253);
 					}
 				}
 

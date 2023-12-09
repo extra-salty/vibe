@@ -4,3 +4,10 @@ export type AnimationType = {
 	dateCreated: string;
 	dateModified: string;
 };
+
+export type AnimationDataType = {
+	name: React.ReactNode;
+	description: React.ReactNode;
+	dateCreated: string;
+	dateModified: string;
+};

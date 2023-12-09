@@ -47,7 +47,7 @@ const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITab
 				onPress: () => {},
 			},
 			{
-				text: 'Rename',
+				text: 'Read only',
 				onClick: () => {},
 				onPress: () => {},
 			},

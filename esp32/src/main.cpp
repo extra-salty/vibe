@@ -110,20 +110,22 @@ void setup()
   server.begin();
 
   // FastLED setup
-  FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
 }
 
 void loop()
 {
+  fill_solid(leds, NUM_LEDS, CHSV(0, 255, 255));
+  FastLED.show();
   // dnsServer.processNextRequest();
-  for (int i = 0; i <= 255; i++)
-  {
-    fill_solid(leds, NUM_LEDS, CHSV(i, 255, 255));
-    FastLED.show();
-    delay(1);
-    // delay(500);
-    // fill_solid(leds, NUM_LEDS, CHSV(100, 255, 0));
-    // FastLED.show();
-    // delay(500);
-  }
+  // for (int i = 0; i <= 255; i++)
+  // {
+  //   fill_solid(leds, NUM_LEDS, CHSV(i, 255, 255));
+  //   FastLED.show();
+  //   delay(1);
+  //   // delay(500);
+  //   // fill_solid(leds, NUM_LEDS, CHSV(100, 255, 0));
+  //   // FastLED.show();
+  //   // delay(500);
+  // }
 }

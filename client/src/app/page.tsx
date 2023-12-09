@@ -23,7 +23,7 @@ export default function Home() {
 			{
 				label: Modules.effect,
 				children: <Effect />,
-				hidden: true,
+				// hidden: true,
 			},
 			{
 				label: Modules.animation,

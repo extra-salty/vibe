@@ -14,6 +14,7 @@ const Header = () => {
 			/> */}
 			{/* <img src='../../../../public/vibe.svg' /> */}
 			<svg
+				className='logo'
 				viewBox='102.64553990610335 187.79807430918322 344.70892018779335 94.40385138163356'
 				fill='white'
 			>

@@ -1,0 +1,12 @@
+.uiInput {
+	input {
+		background-color: rgba(128, 128, 128, 0.371);
+		color: white;
+		border: 0;
+		// height: f;
+
+		&:focus-visible {
+			outline: unset;
+		}
+	}
+}
