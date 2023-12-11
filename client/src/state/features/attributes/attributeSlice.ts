@@ -23,7 +23,7 @@ export const attributesSlice = createSlice({
 			state.color.lightness = action.payload;
 		},
 		resetColor: (state) => {
-			state = initialState;
+			state.color = initialState.color;
 		},
 	},
 });

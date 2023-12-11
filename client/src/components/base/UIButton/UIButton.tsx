@@ -21,6 +21,7 @@ const UIButton = ({
 	classes,
 }: UIButtonType) => {
 	const [isActive, setIsActive] = useState<boolean>(false);
+	// console.log('button rerender');
 
 	const handleOnClick = useCallback(() => {
 		onClick && onClick();
@@ -47,7 +48,7 @@ const UIButton = ({
 
 	const hasActiveState = (activeIcon || activeText) && isActive;
 	const classNames = appendClasses([
-		'ui-button',
+		'uiButton',
 		classes,
 		hasActiveState && 'active',
 		disabled && 'disabled',
@@ -64,7 +65,9 @@ const UIButton = ({
 		>
 			{(icon || text) && (
 				<div className={appendClasses(['content', iconPosition])}>
-					{icon && <UIIcon name={isActive && activeIcon ? activeIcon : icon} width={10} />}
+					{icon && (
+						<UIIcon name={isActive && activeIcon ? activeIcon : icon} width={10} height={10} />
+					)}
 					{text && <span>{isActive && activeText ? activeText : text}</span>}
 				</div>
 			)}

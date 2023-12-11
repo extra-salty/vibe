@@ -1,3 +1,7 @@
 - focus on modal
 - mouse Event for Icon
 - table row type
+
+
+vercel kv db - redis based, types
+

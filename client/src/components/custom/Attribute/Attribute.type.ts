@@ -1,7 +1,7 @@
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 
 export type AttributeType = {
-	key: Attributes;
+	label: Attributes;
 	value: number;
 	max: number;
 	unit: string;

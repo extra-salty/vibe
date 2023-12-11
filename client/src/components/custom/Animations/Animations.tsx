@@ -64,7 +64,6 @@ const Animations = () => {
 	};
 
 	const data = animations.map(createAnimation);
-	console.log('🚀 ~ file: Animations.tsx:62 ~ Animations ~ data:', data);
 
 	return (
 		<div className={style.animations}>

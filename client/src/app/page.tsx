@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from 'react';
 import UIContainer from '@/components/derived/UIContainer/UIContainer';
 import UIContainerType from '@/components/derived/UIContainer/UIContainer.type';
-import Effect from '@/components/custom/Effect/Effect';
+import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
 import Animations from '@/components/custom/Animations/Animations';
 import './page.scss';
@@ -19,15 +19,17 @@ export default function Home() {
 			{
 				label: Modules.attributes,
 				children: <Attribute />,
+				// hidden: true,
 			},
 			{
 				label: Modules.effect,
-				children: <Effect />,
+				children: <EffectCreator />,
 				// hidden: true,
 			},
 			{
 				label: Modules.animation,
 				children: <Animations />,
+				hidden: true,
 			},
 		];
 	}, []);

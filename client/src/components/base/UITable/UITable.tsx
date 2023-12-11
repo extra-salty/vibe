@@ -9,9 +9,7 @@ import './UITable.scss';
 const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITableType<T, K>) => {
 	const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
-	const handleRowSelect = useCallback((e: any) => {
-		console.log('🚀 ~ file: UITable.tsx:16 ~ handleRowSelect ~ e:', e.target.rowIndex);
-	}, []);
+	const handleRowSelect = useCallback((e: any) => {}, []);
 
 	const renderTableHeader = useCallback(({ header, classes }: TableColumnType<T, K>, i: number) => {
 		return (

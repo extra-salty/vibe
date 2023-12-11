@@ -10,7 +10,7 @@ type UIButtonType = UIComponentType & {
 	delay?: number;
 	disabled?: boolean;
 	onClick: () => void;
-	onPress: () => void;
+	onPress?: () => void;
 	onHover?: () => void;
 };
 

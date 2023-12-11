@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import attributeReducer from './features/attributes/attributeSlice';
-import effectReducer from './features/effect/effectSlice';
+import effectCreatorReducer from './features/effect/effectSlice';
 
 export const store = configureStore({
 	reducer: {
 		attributes: attributeReducer,
-		effect: effectReducer,
+		effectCreator: effectCreatorReducer,
 	},
 });
 
