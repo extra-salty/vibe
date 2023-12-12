@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, memo } from 'react';
 import { Icons } from '../UIIcon/UIIcon.type';
 import UIIcon from '../UIIcon/UIIcon';
 import UIControlType from './UIControl.type';
@@ -15,21 +15,15 @@ const UIControl = ({
 	hidden,
 	classes,
 }: UIControlType) => {
-	const onChangeHandler = useCallback(
-		({ target }: ChangeEvent<HTMLInputElement>) => {
-			onChange?.(Number(target.value));
-		},
-		[onChange],
-	);
+	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
+		onChange?.(Number(target.value));
+	};
 
-	const onIncrementHandler = useCallback(
-		(value: number, increase: boolean) => {
-			const newValue = increase ? value + 1 : value - 1;
-			const limitedValue = Math.max(min, Math.min(max, Number(newValue)));
-			onChange?.(limitedValue);
-		},
-		[max, min, onChange],
-	);
+	const onIncrementHandler = (value: number, increase: 'increase' | 'decrease') => {
+		const newValue = increase === 'increase' ? value + 1 : value - 1;
+		const limitedValue = Math.max(min, Math.min(max, Number(newValue)));
+		onChange?.(limitedValue);
+	};
 
 	const classNames = appendClasses(['ui-control', classes]);
 
@@ -44,15 +38,17 @@ const UIControl = ({
 						name={Icons.triangle}
 						height={4}
 						width={10}
-						onClick={() => onIncrementHandler(value, true)}
+						// enlarge
+						onClick={() => onIncrementHandler(value, 'increase')}
 						classes={['enlarge']}
 					/>
 					<UIIcon
 						name={Icons.triangle}
 						height={4}
 						width={10}
+						// enlarge
 						classes={['enlarge', 'reverse']}
-						onClick={() => onIncrementHandler(value, false)}
+						onClick={() => onIncrementHandler(value, 'decrease')}
 					/>
 				</div>
 			)}
@@ -60,4 +56,4 @@ const UIControl = ({
 	);
 };
 
-export default UIControl;
+export default memo(UIControl);

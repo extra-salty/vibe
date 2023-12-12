@@ -1,7 +1,7 @@
-import UIComponentType from '@/components/Types';
+import UIComponentProps from '@/components/Types';
 import { Icons } from '../UIIcon/UIIcon.type';
 
-type UIInputType = UIComponentType & {
+type UIInputType = UIComponentProps & {
 	value?: string;
 	readonly?: boolean;
 	disabled?: boolean;

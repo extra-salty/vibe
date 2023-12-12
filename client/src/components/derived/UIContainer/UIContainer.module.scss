@@ -26,14 +26,14 @@
 		display: grid;
 		overflow: hidden;
 		grid-template-rows: 0fr;
-		transition: grid-template-rows 0.5s;
+		transition: grid-template-rows 0.5s ease-in-out;
 		margin-top: 5px;
 		border-top: 1px solid #a5a4a4;
 		padding-top: 5px;
 
 		.content {
 			min-height: 0;
-			transition: visibility 0.5s;
+			transition: visibility 0.5s ease-in-out;
 			visibility: hidden;
 		}
 

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import UIIconType from './UIIcon.type';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
 import './UIIcon.scss';
+import { memo } from 'react';
 
 const UIIcon = ({
 	name,
@@ -28,4 +29,4 @@ const UIIcon = ({
 	);
 };
 
-export default UIIcon;
+export default memo(UIIcon);

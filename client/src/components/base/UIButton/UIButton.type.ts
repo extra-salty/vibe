@@ -1,7 +1,7 @@
-import UIComponentType from '@/components/Types';
+import UIComponentProps from '@/components/Types';
 import { Icons } from '../UIIcon/UIIcon.type';
 
-type UIButtonType = UIComponentType & {
+type UIButtonProps = UIComponentProps & {
 	text?: string;
 	activeText?: string;
 	icon?: Icons;
@@ -14,4 +14,4 @@ type UIButtonType = UIComponentType & {
 	onHover?: () => void;
 };
 
-export default UIButtonType;
+export default UIButtonProps;

@@ -1,34 +1,38 @@
 import { Actions, ModalActions } from '@/state/features/effect/effectSlice.type';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPortal } from 'react-dom';
-import { addFrame, nextFrame, prevFrame, resetFrame } from '@/state/features/effect/effectSlice';
+import {
+	addFrame,
+	duplicateFrame,
+	nextFrame,
+	prevFrame,
+	resetFrame,
+} from '@/state/features/effect/effectSlice';
 import { RootState } from '@/state/store';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import UIButton from '@/components/base/UIButton/UIButton';
-import UIButtonType from '@/components/base/UIButton/UIButton.type';
+import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import Modal from '../../derived/UIModal/UIModal';
 import ModalType from '../../derived/UIModal/UIModal.type';
 import style from './EffectCreator.module.scss';
-import LedMatrix from '../LedMatrix/LedMatrix';
+import Frame from '../Frame/Frame';
+import FrameList from '../FrameList/FrameList';
 
 const EffectCreator = () => {
 	const dispatch = useDispatch();
-	const {
-		effect: { frames, activeFrame },
-		actionsState,
-	} = useSelector((state: RootState) => state.effectCreator);
-	// const { color } = useSelector((state: RootState) => state.attributes);
-	console.log('🚀 ~ file: EffectCreator.tsx:19 ~ EffectCreator ~ frames:', frames);
+	const frames = useSelector((state: RootState) => state.effectCreator.effect.frames);
+	const framesLendgth = useSelector((state: RootState) => state.effectCreator.effect.frames.length);
+	console.log('🚀 ~ file: EffectCreator.tsx:26 ~ EffectCreator ~ framesLendgth:', framesLendgth);
+	const activeFrame = useSelector((state: RootState) => state.effectCreator.effect.activeFrame);
+	const actionsState = useSelector((state: RootState) => state.effectCreator.actionsState);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-	const actions: UIButtonType[] = [
+	const frameActions: UIButtonProps[] = [
 		{
 			text: Actions.reset,
 			icon: Icons.restart,
 			onClick: () => setIsModalOpen(true),
-			onPress: () => {},
 			disabled: actionsState.Reset,
 		},
 		{
@@ -37,36 +41,37 @@ const EffectCreator = () => {
 			icon: Icons.lock,
 			activeIcon: Icons.unlock,
 			onClick: () => {},
-			onPress: () => {},
 		},
 		{
 			text: Actions.add,
 			icon: Icons.add,
-			onClick: () => dispatch(addFrame()),
-			onPress: () => {},
-		},
-		{
-			text: Actions.next,
-			icon: Icons.next,
-			disabled: activeFrame === frames.length - 1,
-			onClick: () => dispatch(nextFrame()),
-			onPress: () => {},
+			onClick: () => {
+				dispatch(addFrame());
+				dispatch(nextFrame());
+			},
 		},
 		{
 			text: Actions.prev,
 			icon: Icons.next,
 			disabled: activeFrame === 0,
 			onClick: () => dispatch(prevFrame()),
-			onPress: () => {},
 		},
+		{
+			text: Actions.next,
+			icon: Icons.next,
+			disabled: activeFrame === frames.length - 1,
+			onClick: () => dispatch(nextFrame()),
+		},
+
 		{
 			text: Actions.duplicate,
 			icon: Icons.expandMore,
-			onClick: () => dispatch(prevFrame()),
-			onPress: () => {},
+			onClick: () => {
+				dispatch(duplicateFrame({ frameIndex: activeFrame }));
+				dispatch(nextFrame());
+			},
 		},
 	];
-
 	const modalActions: Omit<ModalType, 'onModalClose'>[] = [
 		{
 			header: 'Effect',
@@ -75,26 +80,26 @@ const EffectCreator = () => {
 				{
 					text: ModalActions.cancel,
 					onClick: () => {},
-					onPress: () => {},
 				},
 				{
 					text: ModalActions.accept,
-					onClick: () => dispatch(resetFrame()),
-					onPress: () => {},
+					onClick: () => dispatch(resetFrame({ frameIndex: activeFrame })),
 				},
 			],
 		},
 	];
 
-	const renderActions = useCallback((props: UIButtonType) => {
+	const renderActions = useCallback((props: UIButtonProps) => {
 		return <UIButton key={props.text} {...props} />;
 	}, []);
 
 	return (
 		<div className={style.effectCreator}>
-			<LedMatrix />
-			<div className='framePagination'>{`${activeFrame + 1}/${frames.length}`}</div>
-			<div className={style.actions}>{actions.map(renderActions)}</div>
+			{/* <Frame frame={frames[activeFrame]} frameIndex={activeFrame} color={color} /> */}
+			{/* <Frame frame={frames[activeFrame]} frameIndex={activeFrame} /> */}
+			<FrameList />
+			{/* <div className='framePagination'>{`${activeFrame + 1}/${frames.length}`}</div> */}
+			{/* <div className={style.actions}>{frameActions.map(renderActions)}</div> */}
 
 			{isModalOpen &&
 				createPortal(

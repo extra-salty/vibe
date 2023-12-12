@@ -1,9 +1,10 @@
 import { classCollection } from '@/helpers/appendClasses/appendClasses';
+import { CSSProperties } from 'react';
 
-export type UIComponentType = {
+export type UIComponentProps = {
 	hidden?: boolean;
-	style?: React.CSSProperties;
+	styles?: CSSProperties;
 	classes?: classCollection;
 };
 
-export default UIComponentType;
+export default UIComponentProps;

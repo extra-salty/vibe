@@ -5,3 +5,4 @@
 
 vercel kv db - redis based, types
 
+	const before = performance.now();

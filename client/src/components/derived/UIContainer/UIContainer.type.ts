@@ -1,6 +1,6 @@
-import { UIComponentType } from '../../Types';
+import { UIComponentProps } from '../../Types';
 
-type UIContainerType = UIComponentType & {
+type UIContainerType = UIComponentProps & {
 	label?: string;
 	expanded?: boolean;
 	children: React.ReactNode;

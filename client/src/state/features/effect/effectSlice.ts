@@ -1,46 +1,25 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Actions, EffectI, EffectType, Effects, setLedColorActionType } from './effectSlice.type';
-import { ColorType } from '../attributes/attributeSlice.type';
+import { Actions, ColorT, EffectCreatorT, setLedColorActionT } from './effectSlice.type';
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;
-const DEFAULT_COLOR: ColorType = {
+const DEFAULT_COLOR: ColorT = {
 	hue: 0,
-	saturation: 50,
+	saturation: 0,
 	lightness: 100,
 };
+const initialFrame = Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR));
 
-const newFrame = Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR));
-
-// class Effect implements EffectI {
-// 	name: string;
-// 	description: string = '';
-// 	frames: ColorType[][][];
-// 	activeFrame: number;
-// 	dateCreated: Date;
-// 	dateModified?: Date | undefined;
-
-// 	constructor(name: string) {
-// 		this.name = 'Effect1';
-// 		this.activeFrame = 0;
-// 		this.frames = Array(1).fill(
-// Array(NUMBER_OF_COLUMNS)
-// 	.fill(null)
-// 	.map(() => Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR)),
-// 		);
-// 		this.dateCreated = new Date();
-// 	}
-
-// 	createFrame(): ColorType[][] {
-// 		return Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR));
-// 	}
-// }
-
-const initialState: EffectType = {
+const initialState: EffectCreatorT = {
+	color: {
+		hue: 0,
+		saturation: 100,
+		lightness: 50,
+	},
 	effect: {
 		name: '',
 		description: '',
-		frames: [newFrame],
+		frames: [initialFrame, initialFrame],
 		activeFrame: 0,
 	},
 	actionsState: {
@@ -52,15 +31,39 @@ export const effectCreator = createSlice({
 	name: 'effectCreator',
 	initialState,
 	reducers: {
-		resetFrame: (state) => {
-			state.effect.frames[0] = initialState.effect.frames[0];
+		// Color Actions
+		setHue: (state, action: PayloadAction<number>) => {
+			state.color.hue = action.payload;
+		},
+		setSaturation: (state, action: PayloadAction<number>) => {
+			state.color.saturation = action.payload;
+		},
+		setLightness: (state, action: PayloadAction<number>) => {
+			state.color.lightness = action.payload;
+		},
+		setColor: (state, action: PayloadAction<ColorT>) => {
+			state.color = action.payload;
+		},
+		resetColor: (state) => {
+			state.color = initialState.color;
+		},
+		// Frame Actions
+		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			state.effect.frames[frameIndex] = initialFrame;
 		},
 		addFrame: (state) => {
-			state.effect.frames.push(newFrame);
+			state.effect.frames.push(initialFrame);
 		},
-		duplicateFrame: (state, action: PayloadAction<{ activeFrame: number }>) => {
-			const { activeFrame } = action.payload;
-			state.effect.frames.splice(0, 0, newFrame);
+		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			const newFrame = state.effect.frames[frameIndex];
+			state.effect.frames.splice(frameIndex, 0, newFrame);
+		},
+		deleteFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			const newFrame = state.effect.frames[frameIndex];
+			state.effect.frames.splice(frameIndex, 0, newFrame);
 		},
 		nextFrame: (state) => {
 			state.effect.activeFrame++;
@@ -68,18 +71,27 @@ export const effectCreator = createSlice({
 		prevFrame: (state) => {
 			state.effect.activeFrame--;
 		},
-
-		setLedColor: (state, action: PayloadAction<setLedColorActionType>) => {
+		setLedColor: (state, action: PayloadAction<setLedColorActionT>) => {
 			const {
+				frameIndex,
 				coordinate: { x, y },
-				color,
 			} = action.payload;
-			state.effect.frames[0][x][y] = color;
+			state.effect.frames[frameIndex][x][y] = state.color;
 		},
 	},
 });
 
-export const { resetFrame, addFrame, duplicateFrame, nextFrame, prevFrame, setLedColor } =
-	effectCreator.actions;
+export const {
+	setHue,
+	setSaturation,
+	setLightness,
+	resetColor,
+	resetFrame,
+	addFrame,
+	duplicateFrame,
+	nextFrame,
+	prevFrame,
+	setLedColor,
+} = effectCreator.actions;
 
 export default effectCreator.reducer;

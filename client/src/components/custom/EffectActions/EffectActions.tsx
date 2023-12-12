@@ -1,4 +1,4 @@
-import UIButtonType from '@/components/base/UIButton/UIButton.type';
+import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import style from './EffectActions.module.scss';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import { Actions } from '@/state/features/effect/effectSlice.type';

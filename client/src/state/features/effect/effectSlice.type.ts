@@ -1,9 +1,8 @@
-import { ColorType } from '../attributes/attributeSlice.type';
-
-export type EffectType = {
+export type EffectCreatorT = {
+	color: ColorT;
 	effect: EffectI;
 	history?: {
-		values: ColorType[][];
+		values: ColorT[][];
 		repeat?: number;
 		delay?: number;
 	}[];
@@ -13,21 +12,30 @@ export type EffectType = {
 export interface EffectI {
 	name: string;
 	description?: string;
-	frames: ColorType[][][];
+	frames: FrameT[];
 	activeFrame: number;
 	dateCreated?: Date;
 	dateModified?: Date;
-	createFrame?: () => ColorType[][];
+	createFrame?: () => ColorT[][];
 }
 
-export type Coordinate = {
+export type CoordinateT = {
 	x: number;
 	y: number;
 };
 
-export type setLedColorActionType = {
-	coordinate: Coordinate;
-	color: ColorType;
+export type FrameT = ColorT[][];
+
+export type setLedColorActionT = {
+	frameIndex: number;
+	coordinate: CoordinateT;
+	// color: ColorType;
+};
+
+export type ColorT = {
+	hue: number;
+	saturation: number;
+	lightness: number;
 };
 
 export enum Effects {

@@ -1,10 +1,10 @@
 'use client';
-import { useCallback, useMemo } from 'react';
 import UIContainer from '@/components/derived/UIContainer/UIContainer';
 import UIContainerType from '@/components/derived/UIContainer/UIContainer.type';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
 import Animations from '@/components/custom/Animations/Animations';
+import FrameList from '@/components/custom/FrameList/FrameList';
 import './page.scss';
 
 enum Modules {
@@ -14,37 +14,34 @@ enum Modules {
 }
 
 export default function Home() {
-	const modules = useMemo((): UIContainerType[] => {
-		return [
-			{
-				label: Modules.attributes,
-				children: <Attribute />,
-				// hidden: true,
-			},
-			{
-				label: Modules.effect,
-				children: <EffectCreator />,
-				// hidden: true,
-			},
-			{
-				label: Modules.animation,
-				children: <Animations />,
-				hidden: true,
-			},
-		];
-	}, []);
-
-	const renderModule = useCallback((props: UIContainerType, i: number) => {
-		return (
-			<UIContainer key={`${i}`} {...props}>
-				{props.children}
-			</UIContainer>
-		);
-	}, []);
+	const modules: UIContainerType[] = [
+		{
+			label: Modules.attributes,
+			children: <Attribute />,
+			// hidden: true,
+		},
+		{
+			label: Modules.effect,
+			children: <EffectCreator />,
+			// hidden: true,
+		},
+		{
+			label: 'Frame List',
+			children: <FrameList />,
+			hidden: true,
+		},
+		{
+			label: Modules.animation,
+			children: <Animations />,
+			hidden: true,
+		},
+	];
 
 	return (
-		<>
-			<div className='modules'>{modules.map(renderModule)}</div>
-		</>
+		<div className='modules'>
+			{modules.map((props, i) => {
+				return <UIContainer key={`${i}`} {...props} />;
+			})}
+		</div>
 	);
 }

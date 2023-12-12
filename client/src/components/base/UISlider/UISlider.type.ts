@@ -1,10 +1,9 @@
-import { UIComponentType } from '../../Types';
+import { UIComponentProps } from '../../Types';
 
-type UISliderType = UIComponentType & {
+type UISliderType = UIComponentProps & {
 	value: number;
 	min?: number | string;
 	max?: number | string;
-	background?: string;
 	delay?: number;
 	onChange: (value: number) => void;
 };

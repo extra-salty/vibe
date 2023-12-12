@@ -1,6 +1,6 @@
-import { UIComponentType } from '../../Types';
+import { UIComponentProps } from '../../Types';
 
-type UIControlType = UIComponentType & {
+type UIControlType = UIComponentProps & {
 	value: number;
 	min?: number;
 	max?: number;

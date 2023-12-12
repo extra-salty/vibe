@@ -1,6 +1,6 @@
-import UIComponentType from '@/components/Types';
+import UIComponentProps from '@/components/Types';
 
-type UISelectType = UIComponentType & {
+type UISelectType = UIComponentProps & {
 	options: UISelectOption[];
 	optionGroups?: UISelectOptionGroup[];
 	value?: UISelectOption['key'];

@@ -1,12 +1,12 @@
 import ComponentType from '@/components/Types';
-import UIButtonType from '@/components/base/UIButton/UIButton.type';
+import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import React from 'react';
 
 type ModalType = ComponentType & {
 	header?: string;
 	description?: string;
 	children?: React.ReactNode;
-	actions?: UIButtonType[];
+	actions?: UIButtonProps[];
 	enlargeClickable?: boolean;
 	onModalClose: () => void;
 };

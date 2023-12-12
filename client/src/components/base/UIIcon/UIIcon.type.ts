@@ -1,6 +1,6 @@
-import { UIComponentType } from '../../Types';
+import { UIComponentProps } from '../../Types';
 
-type UIIconType = UIComponentType & {
+type UIIconType = UIComponentProps & {
 	name: Icons;
 	enlarge?: boolean;
 	width?: number;

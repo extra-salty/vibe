@@ -2,26 +2,28 @@ import { ChangeEvent, useCallback } from 'react';
 import UISliderType from './UISlider.type';
 import './UISlider.scss';
 import { useDebounce } from '@/helpers/hooks/useDebounce/useDebounce';
-import { useDispatch } from 'react-redux';
-import { setHue } from '@/state/features/attributes/attributeSlice';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
 
 const UISlider = ({
 	value,
 	min = 0,
 	max = 100,
-	background,
 	delay = 0,
 	onChange,
 	hidden,
 	classes,
+	styles,
 }: UISliderType) => {
-	const onChangeHandler = useCallback(
-		({ target }: ChangeEvent<HTMLInputElement>) => {
-			onChange?.(Number(target.value));
-		},
-		[onChange],
-	);
+	// const onChangeHandler = useCallback(
+	// 	({ target }: ChangeEvent<HTMLInputElement>) => {
+	// 		onChange?.(Number(target.value));
+	// 	},
+	// 	[onChange],
+	// );
+
+	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
+		onChange?.(Number(target.value));
+	};
 
 	// const debounce = useDebounce(({ target }: ChangeEvent<HTMLInputElement>) => {
 	// 	onChange?.(Number(target.value));
@@ -38,9 +40,7 @@ const UISlider = ({
 			min={min}
 			max={max}
 			value={value}
-			style={{
-				background: background,
-			}}
+			style={styles}
 			onChange={onChangeHandler}
 		></input>
 	);

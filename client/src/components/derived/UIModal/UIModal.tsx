@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
 import ModalType from './UIModal.type';
-import UIButtonType from '@/components/base/UIButton/UIButton.type';
+import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import './UIModal.scss';
@@ -21,7 +21,7 @@ const Modal = ({
 	}, [onModalClose]);
 
 	const renderAction = useCallback(
-		(props: UIButtonType, i: number) => {
+		(props: UIButtonProps, i: number) => {
 			const newOnClick = () => {
 				props.onClick();
 				handleModalClose();

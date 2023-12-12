@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Icons } from '../UIIcon/UIIcon.type';
 import UITableType, { TableColumnType } from './UITable.type';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
-import UIButtonType from '../UIButton/UIButton.type';
+import UIButtonProps from '../UIButton/UIButton.type';
 import UIButton from '../UIButton/UIButton';
 import './UITable.scss';
 
@@ -32,33 +32,28 @@ const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITab
 		[columns, handleRowSelect],
 	);
 
-	const actions = useMemo((): UIButtonType[] => {
-		return [
-			{
-				text: 'Delete',
-				onClick: () => {},
-				onPress: () => {},
-			},
-			{
-				text: 'Duplicate',
-				onClick: () => {},
-				onPress: () => {},
-			},
-			{
-				text: 'Read only',
-				onClick: () => {},
-				onPress: () => {},
-			},
-		];
-	}, []);
+	const actions: UIButtonProps[] = [
+		{
+			text: 'Delete',
+			onClick: () => {},
+		},
+		{
+			text: 'Duplicate',
+			onClick: () => {},
+		},
+		{
+			text: 'Read only',
+			onClick: () => {},
+		},
+	];
 
-	const renderActions = useCallback((props: UIButtonType, i: number) => {
+	const renderActions = (props: UIButtonProps, i: number) => {
 		return <UIButton key={i} {...props} />;
-	}, []);
+	};
 
-	const renderSortActions = useCallback((props: UIButtonType) => {
+	const renderSortActions = (props: UIButtonProps) => {
 		return <UIButton {...props} />;
-	}, []);
+	};
 
 	const classNames = appendClasses(['uiTable', classes]);
 
