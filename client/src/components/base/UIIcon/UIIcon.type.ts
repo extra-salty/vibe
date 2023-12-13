@@ -1,6 +1,6 @@
 import { UIComponentProps } from '../../Types';
 
-type UIIconType = UIComponentProps & {
+type UIIconProps = UIComponentProps & {
 	name: Icons;
 	enlarge?: boolean;
 	width?: number;
@@ -8,26 +8,28 @@ type UIIconType = UIComponentProps & {
 	onClick?: () => void;
 };
 
-export default UIIconType;
+export default UIIconProps;
 
 // Material Symbols
 export enum Icons {
 	add = 'add',
-	brightness = 'brightness_6',
+	brightness = 'brightness',
 	close = 'close',
 	delete = 'delete',
+	duplicate = 'duplicate',
 	expandMore = 'expand_more',
 	gradient = 'gradient',
-	unlock = 'lock_open',
 	lock = 'lock',
-	next = 'navigate_next',
+	next = 'next',
 	palette = 'palette',
 	pause = 'pause',
-	play = 'play_arrow',
+	play = 'play',
 	remove = 'remove',
-	restart = 'restart_alt',
+	restart = 'restart',
 	save = 'save',
 	stop = 'stop',
 	timelapse = 'timelapse',
 	triangle = 'triangle',
+	unlock = 'unlock',
+	unlockRight = 'unlock_right',
 }

@@ -1,5 +1,11 @@
-.modules {
+.effect {
 	display: flex;
-	flex-direction: column;
-	gap: 10px;
+	justify-content: center;
+	gap: 20px;
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
 }

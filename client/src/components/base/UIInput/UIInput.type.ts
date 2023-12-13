@@ -1,7 +1,9 @@
-import UIComponentProps from '@/components/Types';
 import { Icons } from '../UIIcon/UIIcon.type';
+import { HTMLInputTypeAttribute } from 'react';
+import UIComponentProps from '@/components/Types';
 
-type UIInputType = UIComponentProps & {
+type UIInputProps = UIComponentProps & {
+	type: HTMLInputTypeAttribute;
 	value?: string;
 	readonly?: boolean;
 	disabled?: boolean;
@@ -14,4 +16,4 @@ type UIInputType = UIComponentProps & {
 	onChange: (value: string) => void;
 };
 
-export default UIInputType;
+export default UIInputProps;

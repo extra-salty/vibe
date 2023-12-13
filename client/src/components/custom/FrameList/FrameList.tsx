@@ -1,19 +1,16 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '@/state/store';
-import Frame from '../Frame/Frame';
+import { useFrames } from '@/state/features/effect/effectSelector';
+import FrameItem from './FrameItem/FrameItem';
 import style from './FrameList.module.scss';
 
-type FrameListProps = {};
-
-const FrameList = ({}: FrameListProps) => {
-	const frames = useSelector((state: RootState) => state.effectCreator.effect.frames);
+const FrameList = () => {
+	const frames = useFrames();
 
 	return (
 		<ul className={style.frameList}>
-			{frames.map((frame, i: number) => {
+			{frames.map((_, i: number) => {
 				return (
-					<li key={i}>
-						<Frame frame={frame} frameIndex={i} />
+					<li key={i} className={style.frameItem}>
+						<FrameItem index={i} />
 					</li>
 				);
 			})}

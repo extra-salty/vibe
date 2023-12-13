@@ -1,35 +1,9 @@
+import { Actions } from './effectSlice.enum';
+
 export type EffectCreatorT = {
 	color: ColorT;
-	effect: EffectI;
-	history?: {
-		values: ColorT[][];
-		repeat?: number;
-		delay?: number;
-	}[];
+	effect: EffectT;
 	actionsState: { [key in Actions]?: boolean };
-};
-
-export interface EffectI {
-	name: string;
-	description?: string;
-	frames: FrameT[];
-	activeFrame: number;
-	dateCreated?: Date;
-	dateModified?: Date;
-	createFrame?: () => ColorT[][];
-}
-
-export type CoordinateT = {
-	x: number;
-	y: number;
-};
-
-export type FrameT = ColorT[][];
-
-export type setLedColorActionT = {
-	frameIndex: number;
-	coordinate: CoordinateT;
-	// color: ColorType;
 };
 
 export type ColorT = {
@@ -38,28 +12,27 @@ export type ColorT = {
 	lightness: number;
 };
 
-export enum Effects {
-	welcome = 'welcome',
-}
+export type EffectT = {
+	name: string;
+	description?: string;
+	activeFrame: number;
+	frames: FrameT[];
+	dateCreated?: Date;
+	dateModified?: Date;
+};
 
-export enum Actions {
-	add = 'Add',
-	delete = 'Delete',
-	duplicate = 'Duplicate',
-	lock = 'Lock',
-	next = 'Next',
-	pause = 'Pause',
-	play = 'Play',
-	prev = 'Previous',
-	redo = 'Redo',
-	remove = 'Remove',
-	reset = 'Reset',
-	save = 'Save',
-	undo = 'Undo',
-	unlock = 'Unlock',
-}
+export type FrameT = {
+	data: ColorT[][];
+	duration: number;
+	history?: any;
+};
 
-export enum ModalActions {
-	cancel = 'Cancel',
-	accept = 'Accept',
-}
+export type setLedColorActionT = {
+	frameIndex: number;
+	coordinate: CoordinateT;
+};
+
+export type CoordinateT = {
+	x: number;
+	y: number;
+};

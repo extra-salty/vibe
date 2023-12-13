@@ -1,7 +1,14 @@
+@import '../../../app/mixins.scss';
+
 .frameList {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 	padding: 0;
+	padding-right: 10px;
+	max-height: 700px;
+	overflow: auto;
+
+	@include scrollBar();
 }

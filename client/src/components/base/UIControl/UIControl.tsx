@@ -9,7 +9,7 @@ const UIControl = ({
 	value,
 	min = 0,
 	max = 100,
-	hasIncrements = true,
+	hasIncrements,
 	unit,
 	onChange,
 	hidden,

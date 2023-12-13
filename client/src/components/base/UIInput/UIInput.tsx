@@ -1,9 +1,10 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, memo } from 'react';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
-import UIInputType from './UIInput.type';
+import UIInputProps from './UIInput.type';
 import './UIInput.scss';
 
 const UIInput = ({
+	type = 'text',
 	value,
 	label,
 	readonly,
@@ -14,22 +15,19 @@ const UIInput = ({
 	onChange,
 	classes,
 	hidden,
-}: UIInputType) => {
+}: UIInputProps) => {
 	const classNames = appendClasses(['uiInput', classes]);
 
-	const onChangeHandler = useCallback(
-		({ target }: ChangeEvent<HTMLInputElement>) => {
-			onChange?.(target.value);
-		},
-		[onChange],
-	);
+	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
+		onChange?.(target.value);
+	};
 
 	if (hidden) return null;
 	return (
 		<div className={classNames}>
-			{label && <label>{label}:</label>}
+			{!!label && <label>{label}</label>}
 			<input
-				type='text'
+				type={type}
 				value={value}
 				placeholder={placeholder}
 				disabled={disabled}
@@ -42,4 +40,4 @@ const UIInput = ({
 	);
 };
 
-export default UIInput;
+export default memo(UIInput);

@@ -23,14 +23,9 @@ const useLongPress = <T,>({
 	const timeout = useRef<NodeJS.Timeout>();
 	const target = useRef<EventTarget>();
 
-	// if (!onPress) {
-	// 	return {
-	// 		onClick: (e: React.MouseEvent<T>) => onClick,
-	// 	};
-	// }
-
 	const start = useCallback(
-		(e: React.MouseEvent<T> | React.TouchEvent<T>) => {
+		// (e: React.MouseEvent<T> | React.TouchEvent<T>) => {
+		(e: React.MouseEvent<T>) => {
 			const clonedEvent = { ...e };
 
 			if (shouldPreventDefault && e.target) {
@@ -47,7 +42,8 @@ const useLongPress = <T,>({
 	);
 
 	const clear = useCallback(
-		(e: React.MouseEvent<T> | React.TouchEvent<T>, shouldTriggerClick = true) => {
+		// (e: React.MouseEvent<T> | React.TouchEvent<T>, shouldTriggerClick = true) => {
+		(e: React.MouseEvent<T>, shouldTriggerClick = true) => {
 			timeout.current && clearTimeout(timeout.current);
 			shouldTriggerClick && !longPressTriggered && onClick?.(e);
 
@@ -62,10 +58,10 @@ const useLongPress = <T,>({
 
 	return {
 		onMouseDown: (e: React.MouseEvent<T>) => start(e),
-		onTouchStart: (e: React.TouchEvent<T>) => start(e),
 		onMouseUp: (e: React.MouseEvent<T>) => clear(e),
 		onMouseLeave: (e: React.MouseEvent<T>) => clear(e, false),
-		onTouchEnd: (e: React.TouchEvent<T>) => clear(e),
+		// onTouchStart: (e: React.TouchEvent<T>) => start(e),
+		// onTouchEnd: (e: React.TouchEvent<T>) => clear(e),
 	};
 };
 

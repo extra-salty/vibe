@@ -14,7 +14,7 @@ enum Modules {
 }
 
 export default function Home() {
-	const modules: UIContainerType[] = [
+	const moduleFirstColumn: UIContainerType[] = [
 		{
 			label: Modules.attributes,
 			children: <Attribute />,
@@ -26,22 +26,32 @@ export default function Home() {
 			// hidden: true,
 		},
 		{
-			label: 'Frame List',
-			children: <FrameList />,
-			hidden: true,
-		},
-		{
 			label: Modules.animation,
 			children: <Animations />,
 			hidden: true,
 		},
 	];
 
+	const moduleSecondColumn: UIContainerType[] = [
+		{
+			label: 'Preview',
+			children: <FrameList />,
+			// hidden: true,
+		},
+	];
+
 	return (
-		<div className='modules'>
-			{modules.map((props, i) => {
-				return <UIContainer key={`${i}`} {...props} />;
-			})}
+		<div className='effect'>
+			<div className='column'>
+				{moduleFirstColumn.map((props, i) => {
+					return <UIContainer key={`${i}`} {...props} />;
+				})}
+			</div>
+			<div className='column'>
+				{moduleSecondColumn.map((props, i) => {
+					return <UIContainer key={`${i}`} {...props} />;
+				})}
+			</div>
 		</div>
 	);
 }

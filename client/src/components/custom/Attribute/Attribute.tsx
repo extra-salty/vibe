@@ -1,16 +1,16 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useCallback, useMemo } from 'react';
 import { setHue, setLightness, setSaturation } from '@/state/features/effect/effectSlice';
 import { useBackgroundColor } from './useBackgroundColor';
-import { RootState } from '@/state/store';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import { AttributeType, Attributes, Units } from './Attribute.type';
 import AttributeSlider from '../AttributeSlider/AttributeSlider';
 import style from './Attribute.module.scss';
-import { useCallback, useMemo } from 'react';
+import { useColor } from '@/state/features/effect/effectSelector';
 
 const Attribute = () => {
 	const dispatch = useDispatch();
-	const color = useSelector((state: RootState) => state.effectCreator.color);
+	const color = useColor();
 	const { hue, saturation, lightness } = color;
 
 	const onChangeHandler = useCallback(

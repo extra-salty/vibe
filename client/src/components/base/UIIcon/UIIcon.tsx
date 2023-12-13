@@ -1,18 +1,18 @@
+import { memo } from 'react';
 import Image from 'next/image';
-import UIIconType from './UIIcon.type';
+import UIIconProps from './UIIcon.type';
 import appendClasses from '@/helpers/appendClasses/appendClasses';
 import './UIIcon.scss';
-import { memo } from 'react';
 
 const UIIcon = ({
 	name,
 	enlarge,
-	width = 24,
-	height = 24,
+	width = 20,
+	height = 20,
 	onClick,
 	hidden,
 	classes,
-}: UIIconType) => {
+}: UIIconProps) => {
 	const classNames = appendClasses(['ui-icon', classes, enlarge && 'enlarge']);
 
 	if (hidden) return null;
