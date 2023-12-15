@@ -24,10 +24,16 @@ export type EffectT = {
 export type FrameT = {
 	data: ColorT[][];
 	duration: number;
-	history?: any;
+	undo: HistoryT[];
+	redo: HistoryT[];
 };
 
-export type setLedColorActionT = {
+export type HistoryT = {
+	coordinate: CoordinateT;
+	value: ColorT;
+};
+
+export type FrameCellLocationT = {
 	frameIndex: number;
 	coordinate: CoordinateT;
 };

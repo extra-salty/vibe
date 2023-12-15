@@ -2,7 +2,10 @@
 - mouse Event for Icon
 - table row type
 
-
-vercel kv db - redis based, types
-const before = performance.now();
-propswithchildren
+- Rest vs Restful
+- hashes
+- database type
+- communicating with FE
+- db interface
+- json as db? mongo
+- redis

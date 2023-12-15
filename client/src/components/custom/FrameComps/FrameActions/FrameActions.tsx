@@ -1,30 +1,29 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback } from 'react';
 import { useFrameDuration, useFramesLength } from '@/state/features/effect/effectSelector';
 import { setFrameDuration } from '@/state/features/effect/effectSlice';
 import { useDispatch } from 'react-redux';
+import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIControl from '@/components/base/UIControl/UIControl';
-import style from './FrameActions.module.scss';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import style from './FrameActions.module.scss';
 
 type FrameActionsProps = {
-	index: number;
+	frameIndex: number;
 	actions: UIButtonProps[];
 };
 
-const FrameActions = ({ index, actions }: FrameActionsProps) => {
+const FrameActions = ({ frameIndex, actions }: FrameActionsProps) => {
 	const dispatch = useDispatch();
-	// const [index, setIndex] = useState<number>(frameIndex);
 	const framesLength = useFramesLength();
-	const duration = useFrameDuration(index);
+	const duration = useFrameDuration(frameIndex);
 
 	const onChangeHandler = useCallback(
 		(value: number) => {
-			dispatch(setFrameDuration({ index, value }));
+			dispatch(setFrameDuration({ frameIndex, value }));
 		},
-		[dispatch, index],
+		[dispatch, frameIndex],
 	);
 
 	const renderActionButton = (props: UIButtonProps) => {
@@ -33,12 +32,13 @@ const FrameActions = ({ index, actions }: FrameActionsProps) => {
 
 	return (
 		<div>
-			<div className='framePagination'>{`${index + 1}/${framesLength}`}</div>
+			<div className={style.framePagination}>{`${frameIndex + 1}/${framesLength}`}</div>
 			<div className={style.frameActionButtons}>{actions.map(renderActionButton)}</div>
 			<div className={style.delay}>
 				<UIIcon name={Icons.timelapse} />
-				<UIControl value={duration} min={0} max={10000} onChange={onChangeHandler} unit='ms' />
+				<UIControl value={duration} min={0} max={10000} onChange={onChangeHandler} />
 			</div>
+			{/* <UICheckbox /> */}
 		</div>
 	);
 };

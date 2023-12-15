@@ -1,14 +1,14 @@
-import ComponentType from '@/components/Types';
+import ComponentType from '@/components/UIComponent.type';
 
 type UITableType<T, K extends keyof T> = ComponentType & {
 	data: T[];
-	columns: TableColumnType<T, K>[];
+	header: UITableColumnType<T, K>[];
 };
 
 export default UITableType;
 
-export type TableColumnType<T, K extends keyof T> = {
+export type UITableColumnType<T, K extends keyof T> = {
 	key: K;
-	header: string;
+	text: string;
 	classes?: string;
 };

@@ -1,4 +1,4 @@
-import { UIComponentProps } from '../../Types';
+import { UIComponentProps } from '../../UIComponent.type';
 
 type UIIconProps = UIComponentProps & {
 	name: Icons;
@@ -10,7 +10,6 @@ type UIIconProps = UIComponentProps & {
 
 export default UIIconProps;
 
-// Material Symbols
 export enum Icons {
 	add = 'add',
 	brightness = 'brightness',
@@ -24,12 +23,14 @@ export enum Icons {
 	palette = 'palette',
 	pause = 'pause',
 	play = 'play',
+	redo = 'redo',
 	remove = 'remove',
 	restart = 'restart',
 	save = 'save',
 	stop = 'stop',
 	timelapse = 'timelapse',
 	triangle = 'triangle',
+	undo = 'undo',
 	unlock = 'unlock',
 	unlockRight = 'unlock_right',
 }

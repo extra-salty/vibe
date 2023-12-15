@@ -1,11 +1,11 @@
-import ComponentType from '@/components/Types';
+import ComponentType from '@/components/UIComponent.type';
 
 type UICheckboxType = ComponentType & {
+	isChecked: boolean;
 	label?: string;
 	description?: string;
-	value: string;
+	value?: string;
 	isDisabled?: boolean;
-	isChecked?: boolean;
 	onChange?: (checked: boolean) => void;
 };
 

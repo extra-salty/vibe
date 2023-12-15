@@ -1,6 +1,6 @@
 import React from 'react';
 import UICheckboxType from './UICheckbox.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import './UICheckbox.scss';
 
 const UICheckbox = ({

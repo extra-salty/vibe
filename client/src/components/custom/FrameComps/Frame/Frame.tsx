@@ -1,16 +1,17 @@
 import { memo } from 'react';
-import { useFrame } from '@/state/features/effect/effectSelector';
-import FrameCell from './FrameCell/FrameCell';
+import FrameCell from '../FrameCell/FrameCell';
+import { ColorT } from '@/state/features/effect/effectSlice.type';
 import style from './Frame.module.scss';
 
-const Frame = ({ index }: { index: number }) => {
-	const frame = useFrame(index);
+type FrameProps = {
+	frameData: ColorT[][];
+	frameIndex: number;
+};
 
-	// disabled
-
+const Frame = ({ frameData, frameIndex }: FrameProps) => {
 	return (
 		<div className={style.frame}>
-			{frame.data.map((frameColumn, x) => {
+			{frameData.map((frameColumn, x) => {
 				return (
 					<div key={x} className={style.frameColumn}>
 						{frameColumn.map((color, y) => {
@@ -20,7 +21,7 @@ const Frame = ({ index }: { index: number }) => {
 									color={color}
 									xIndex={x}
 									yIndex={y}
-									frameIndex={index}
+									frameIndex={frameIndex}
 								/>
 							);
 						})}

@@ -1,4 +1,4 @@
-import UIComponentProps from '@/components/Types';
+import UIComponentProps from '@/components/UIComponent.type';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 
 export type AttributeType = UIComponentProps & {

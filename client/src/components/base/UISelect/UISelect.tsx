@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import UISelectType, { UISelectOption, UISelectOptionGroup } from './UISelect.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 
 const UISelect = ({
 	options,

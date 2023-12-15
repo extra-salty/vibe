@@ -1,8 +1,8 @@
 import { ChangeEvent, memo } from 'react';
 import { Icons } from '../UIIcon/UIIcon.type';
 import UIIcon from '../UIIcon/UIIcon';
-import UIControlType from './UIControl.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import UIControlProps from './UIControl.type';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import './UIControl.scss';
 
 const UIControl = ({
@@ -14,7 +14,7 @@ const UIControl = ({
 	onChange,
 	hidden,
 	classes,
-}: UIControlType) => {
+}: UIControlProps) => {
 	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		onChange?.(Number(target.value));
 	};
@@ -25,12 +25,19 @@ const UIControl = ({
 		onChange?.(limitedValue);
 	};
 
-	const classNames = appendClasses(['ui-control', classes]);
+	const classNames = appendClasses(['uiControl', classes]);
 
 	if (hidden) return null;
 	return (
 		<div className={classNames}>
-			<input type='number' min={min} max={max} value={value} onChange={onChangeHandler} />
+			<input
+				className={classNames}
+				type='number'
+				min={min}
+				max={max}
+				value={value}
+				onChange={onChangeHandler}
+			/>
 			{unit && <span className='unit'>{unit}</span>}
 			{hasIncrements && (
 				<div className='increment'>

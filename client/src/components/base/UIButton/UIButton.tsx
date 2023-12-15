@@ -1,15 +1,13 @@
-import { MouseEvent, memo, PropsWithChildren, useState } from 'react';
+import { MouseEvent, memo, PropsWithChildren } from 'react';
 import UIIcon from '../UIIcon/UIIcon';
 import UIButtonProps from './UIButton.type';
-import useLongPress from '@/helpers/hooks/useLongPress/useLongPress';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import useLongPress from '@/misc/hooks/useLongPress/useLongPress';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import './UIButton.scss';
 
 const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 	text,
-	activeText,
 	icon,
-	activeIcon,
 	iconPosition = 'start',
 	delay = 500,
 	disabled,
@@ -22,22 +20,9 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 	styles,
 	classes,
 }) => {
-	const hasActiveState = activeIcon || activeText;
-	const [isActive, setIsActive] = useState<boolean>(false);
-
-	const handleOnClick = (e: MouseEvent<HTMLButtonElement>) => {
-		onClick?.(e);
-		hasActiveState && setIsActive((s) => !s);
-	};
-
-	const handleOnPress = (e: MouseEvent<HTMLButtonElement>) => {
-		onPress?.(e);
-		hasActiveState && setIsActive((s) => !s);
-	};
-
 	const mouseEvents = useLongPress({
-		onClick: handleOnClick,
-		onPress: handleOnPress,
+		onClick: onClick,
+		onPress: onPress ? onPress : () => {},
 		delay: delay,
 	});
 
@@ -47,15 +32,14 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 
 	const renderContent = (icon || text) && (
 		<div className={appendClasses(['content', iconPosition])}>
-			{icon && <UIIcon name={isActive && activeIcon ? activeIcon : icon} />}
-			{text && <span>{isActive && activeText ? activeText : text}</span>}
+			{icon && <UIIcon name={icon} />}
+			{text && <span>{text}</span>}
 		</div>
 	);
 
 	const classNames = appendClasses([
 		'uiButton',
 		classes,
-		hasActiveState && isActive && 'active',
 		disabled && 'disabled',
 		hasBorder && 'border',
 	]);

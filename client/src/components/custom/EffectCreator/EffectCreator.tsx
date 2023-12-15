@@ -1,75 +1,56 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useActiveFrame, useFramesLength } from '@/state/features/effect/effectSelector';
-import {
-	addFrame,
-	duplicateFrame,
-	nextFrame,
-	prevFrame,
-	resetFrame,
-} from '@/state/features/effect/effectSlice';
-import { RootState } from '@/state/store';
+import { Actions, ModalActions } from '@/state/features/effect/effectSlice.enum';
+import { useFrames } from '@/state/features/effect/effectSelector';
+import { nextFrame, prevFrame, resetFrame } from '@/state/features/effect/effectSlice';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
-import UIButton from '@/components/base/UIButton/UIButton';
+import { FrameT } from '@/state/features/effect/effectSlice.type';
+import Frame from '../FrameComps/Frame/Frame';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import Modal from '../../derived/UIModal/UIModal';
 import ModalType from '../../derived/UIModal/UIModal.type';
-import Frame from '../Frame/Frame';
+import UIButton from '@/components/base/UIButton/UIButton';
 import style from './EffectCreator.module.scss';
-import { Actions, ModalActions } from '@/state/features/effect/effectSlice.enum';
+import { getData } from '@/app/api/get/route';
 
 const EffectCreator = () => {
-	const dispatch = useDispatch();
-	const framesLength = useFramesLength();
-	const activeFrame = useActiveFrame();
-	const actionsState = useSelector((state: RootState) => state.effectCreator.actionsState);
-
+	// const actionsState = useSelector((state: RootState) => state.effectCreator.actionsState);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const frameActions: UIButtonProps[] = [
-		{
-			text: Actions.reset,
-			icon: Icons.restart,
-			onClick: () => setIsModalOpen(true),
-			disabled: actionsState.Reset,
-		},
-		{
-			text: Actions.lock,
-			activeText: Actions.unlock,
-			icon: Icons.lock,
-			activeIcon: Icons.unlock,
-			onClick: () => {},
-		},
-		{
-			text: Actions.add,
-			icon: Icons.add,
-			onClick: () => {
-				dispatch(addFrame());
-				dispatch(nextFrame());
-			},
-		},
-		{
-			text: Actions.prev,
-			icon: Icons.next,
-			disabled: activeFrame === 0,
-			onClick: () => dispatch(prevFrame()),
-		},
-		{
-			text: Actions.next,
-			icon: Icons.next,
-			disabled: activeFrame === framesLength - 1,
-			onClick: () => dispatch(nextFrame()),
-		},
 
+	const frames = useFrames();
+	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
+	// const countRef = useRef(count);
+
+	const [durationTime, setDurationTime] = useState<number>(0);
+	const [overwrtieDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
+
+	const handleEffectPlay = () => {
+		frames.forEach((frame, i) => {
+			const timer = setTimeout(() => {
+				setActiveFrameIndex(i);
+				console.log(i);
+			}, i * 1000);
+
+			return () => clearTimeout(timer);
+		});
+	};
+
+	const actions: UIButtonProps[] = [
 		{
-			text: Actions.duplicate,
-			icon: Icons.expandMore,
-			onClick: () => {
-				dispatch(duplicateFrame({ index: activeFrame }));
-				dispatch(nextFrame());
-			},
+			text: Actions.play,
+			icon: Icons.play,
+			onClick: handleEffectPlay,
+		},
+		{
+			text: Actions.save,
+			icon: Icons.save,
+			onClick: handleEffectPlay,
 		},
 	];
+
+	const renderActions = (props: UIButtonProps, i: number) => {
+		return <UIButton key={i} {...props} />;
+	};
 
 	const modalActions: Omit<ModalType, 'onModalClose'>[] = [
 		{
@@ -82,7 +63,7 @@ const EffectCreator = () => {
 				},
 				{
 					text: ModalActions.accept,
-					onClick: () => dispatch(resetFrame({ index: activeFrame })),
+					onClick: () => {},
 				},
 			],
 		},
@@ -90,7 +71,10 @@ const EffectCreator = () => {
 
 	return (
 		<div className={style.effectCreator}>
-			<Frame index={activeFrame} />
+			<Frame frameData={frames[activeFrameIndex].data} frameIndex={activeFrameIndex} />
+			<div className='framePagination'>{`${activeFrameIndex + 1}/${frames.length}`}</div>
+
+			{actions.map(renderActions)}
 
 			{isModalOpen &&
 				createPortal(
@@ -102,3 +86,8 @@ const EffectCreator = () => {
 };
 
 export default EffectCreator;
+
+// reset all
+// delete all
+// set duration to all
+// lock all

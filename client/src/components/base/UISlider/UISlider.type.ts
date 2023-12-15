@@ -1,4 +1,4 @@
-import { UIComponentProps } from '../../Types';
+import { UIComponentProps } from '../../UIComponent.type';
 
 type UISliderType = UIComponentProps & {
 	value: number;

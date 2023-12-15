@@ -19,7 +19,8 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@style/": ["./src/style/*"]
 		},
 		"allowSyntheticDefaultImports": true,
 		"checkJs": true,

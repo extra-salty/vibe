@@ -1,4 +1,4 @@
-import { classCollection } from '@/helpers/appendClasses/appendClasses';
+import { classCollection } from '@/misc/hooks/appendClasses/appendClasses';
 import { CSSProperties } from 'react';
 
 export type UIComponentProps = {

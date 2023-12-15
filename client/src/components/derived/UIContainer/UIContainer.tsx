@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { Icons } from '@/components/base/UIIcon/UIIcon.type';
 import UIIcon from '../../base/UIIcon/UIIcon';
 import UIContainerType from './UIContainer.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import style from './UIContainer.module.scss';
 
 const UIContainer = ({ label, expanded, children, hidden, classes }: UIContainerType) => {

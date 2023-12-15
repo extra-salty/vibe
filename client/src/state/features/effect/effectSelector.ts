@@ -1,8 +1,10 @@
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 
+// Color
 export const useColor = () => useSelector((state: RootState) => state.effectCreator.color);
 
+// Frame
 export const useFrames = () => useSelector((state: RootState) => state.effectCreator.effect.frames);
 
 export const useFramesLength = () =>
@@ -17,8 +19,7 @@ export const useFrameDuration = (index: number) =>
 export const useActiveFrame = () =>
 	useSelector((state: RootState) => state.effectCreator.effect.activeFrame);
 
-const useEffectSelector = () => {
-	return { frames: frames };
-};
+// Frame actions
 
-export default useEffectSelector;
+export const useFrameHistoryLength = (index: number) =>
+	useSelector((state: RootState) => state.effectCreator.effect.frames[index].history.length);

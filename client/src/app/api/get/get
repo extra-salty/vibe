@@ -1,0 +1,12 @@
+import { kv } from '@vercel/kv';
+
+async function getkv() {
+	try {
+		const getExample = await kv.get('getExample');
+		console.log(getExample);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export default getkv;

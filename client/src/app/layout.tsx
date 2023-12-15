@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
-import Header from '@/components/custom/Header/Header';
+import Header from '@/components/custom/PageComps/Header/Header';
 import StateProvider from '@/state/StateProvider';
 import './globals.scss';
 

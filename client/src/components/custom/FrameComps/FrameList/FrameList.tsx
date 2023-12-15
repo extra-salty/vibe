@@ -1,5 +1,5 @@
 import { useFrames } from '@/state/features/effect/effectSelector';
-import FrameItem from './FrameItem/FrameItem';
+import FrameItem from '../FrameItem/FrameItem';
 import style from './FrameList.module.scss';
 
 const FrameList = () => {
@@ -7,10 +7,10 @@ const FrameList = () => {
 
 	return (
 		<ul className={style.frameList}>
-			{frames.map((_, i: number) => {
+			{frames.map((frame, i: number) => {
 				return (
 					<li key={i} className={style.frameItem}>
-						<FrameItem index={i} />
+						<FrameItem frame={frame} frameIndex={i} />
 					</li>
 				);
 			})}

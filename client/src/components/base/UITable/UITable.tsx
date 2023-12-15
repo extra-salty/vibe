@@ -1,20 +1,20 @@
 import React, { useCallback, useState } from 'react';
 import { Icons } from '../UIIcon/UIIcon.type';
-import UITableType, { TableColumnType } from './UITable.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import UITableType, { UITableColumnType } from './UITable.type';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import UIButtonProps from '../UIButton/UIButton.type';
 import UIButton from '../UIButton/UIButton';
 import './UITable.scss';
 
-const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITableType<T, K>) => {
+const UITable = <T, K extends keyof T>({ data, header, hidden, classes }: UITableType<T, K>) => {
 	const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
 	const handleRowSelect = useCallback((e: any) => {}, []);
 
-	const renderTableHeader = useCallback(({ header, classes }: TableColumnType<T, K>, i: number) => {
+	const renderTableHeader = useCallback(({ text, classes }: UITableColumnType<T, K>, i: number) => {
 		return (
 			<th key={`headCell-${i}`} className={classes || ''}>
-				{header}
+				{text}
 			</th>
 		);
 	}, []);
@@ -23,16 +23,25 @@ const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITab
 		(row: any, i: number) => {
 			return (
 				<tr key={`row-${i}`} data-item={i} onClick={(e) => handleRowSelect(e)}>
-					{columns.map((column, j) => {
+					{header.map((column, j) => {
 						return <td key={`cell-${j}`}>{row[column.key]}</td>;
 					})}
 				</tr>
 			);
 		},
-		[columns, handleRowSelect],
+		[handleRowSelect, header],
 	);
 
+	const handleCreateEffect = () => {
+		// getkv;
+	};
+
 	const actions: UIButtonProps[] = [
+		{
+			text: 'get',
+			// onClick: get(),
+			onClick: () => {},
+		},
 		{
 			text: 'Delete',
 			onClick: () => {},
@@ -65,7 +74,7 @@ const UITable = <T, K extends keyof T>({ data, columns, hidden, classes }: UITab
 			<div className='tableWrapper'>
 				<table>
 					<thead>
-						<tr>{columns.map(renderTableHeader)}</tr>
+						<tr>{header.map(renderTableHeader)}</tr>
 					</thead>
 					<tbody>{data.map(renderTableBody)}</tbody>
 				</table>

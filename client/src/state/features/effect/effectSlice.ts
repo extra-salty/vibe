@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ColorT, EffectCreatorT, setLedColorActionT } from './effectSlice.type';
+import { ColorT, EffectCreatorT, FrameCellLocationT } from './effectSlice.type';
 import { Actions } from './effectSlice.enum';
 
 const NUMBER_OF_COLUMNS = 24;
@@ -11,7 +11,9 @@ const DEFAULT_COLOR: ColorT = {
 };
 const initialFrame = {
 	data: Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR)),
-	duration: 1,
+	duration: 1000,
+	redo: [],
+	undo: [],
 };
 
 const initialState: EffectCreatorT = {
@@ -51,24 +53,28 @@ export const effectCreator = createSlice({
 		resetColor: (state) => {
 			state.color = initialState.color;
 		},
+
 		// Frame Actions
-		resetFrame: (state, action: PayloadAction<{ index: number }>) => {
-			const { index } = action.payload;
-			state.effect.frames[index] = initialFrame;
+		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+
+			state.effect.frames[frameIndex] = initialFrame;
 		},
 		addFrame: (state) => {
 			state.effect.frames.push(initialFrame);
 			state.effect.activeFrame++;
 		},
-		duplicateFrame: (state, action: PayloadAction<{ index: number }>) => {
-			const { index } = action.payload;
-			const newFrame = state.effect.frames[index];
-			state.effect.frames.splice(index, 0, newFrame);
+		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			const newFrame = state.effect.frames[frameIndex];
+
+			state.effect.frames.splice(frameIndex, 0, newFrame);
 		},
-		deleteFrame: (state, action: PayloadAction<{ index: number }>) => {
-			const { index } = action.payload;
+		deleteFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+
 			state.effect.activeFrame = 0;
-			state.effect.frames.splice(index, 1);
+			state.effect.frames.splice(frameIndex, 1);
 		},
 		nextFrame: (state) => {
 			state.effect.activeFrame++;
@@ -76,17 +82,47 @@ export const effectCreator = createSlice({
 		prevFrame: (state) => {
 			state.effect.activeFrame--;
 		},
+
 		// Frame update
-		setFrameCellColor: (state, action: PayloadAction<setLedColorActionT>) => {
-			const {
-				frameIndex,
-				coordinate: { x, y },
-			} = action.payload;
+		setFrameCellColor: (state, action: PayloadAction<FrameCellLocationT>) => {
+			const { frameIndex, coordinate } = action.payload;
+			const { x, y } = coordinate;
+
 			state.effect.frames[frameIndex].data[x][y] = state.color;
 		},
-		setFrameDuration: (state, action: PayloadAction<{ index: number; value: number }>) => {
-			const { index, value } = action.payload;
-			state.effect.frames[index].duration = value;
+		addtoUndo: (state, action: PayloadAction<FrameCellLocationT>) => {
+			const { frameIndex, coordinate } = action.payload;
+			const { x, y } = coordinate;
+			const value = state.effect.frames[frameIndex].data[x][y];
+
+			state.effect.frames[frameIndex].undo.push({ value, coordinate });
+		},
+		applyUndo: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			const undo = state.effect.frames[frameIndex].undo;
+			const { coordinate, value } = undo[undo.length - 1];
+			const { x, y } = coordinate;
+			const currentValue = state.effect.frames[frameIndex].data[x][y];
+
+			state.effect.frames[frameIndex].redo.push({ value: currentValue, coordinate });
+			state.effect.frames[frameIndex].undo.pop();
+			state.effect.frames[frameIndex].data[x][y] = value;
+		},
+		applyRedo: (state, action: PayloadAction<{ frameIndex: number }>) => {
+			const { frameIndex } = action.payload;
+			const redo = state.effect.frames[frameIndex].redo;
+			const { coordinate, value } = redo[redo.length - 1];
+			const { x, y } = coordinate;
+			const currentValue = state.effect.frames[frameIndex].data[x][y];
+
+			state.effect.frames[frameIndex].undo.push({ value: currentValue, coordinate });
+			state.effect.frames[frameIndex].redo.pop();
+			state.effect.frames[frameIndex].data[x][y] = value;
+		},
+		setFrameDuration: (state, action: PayloadAction<{ frameIndex: number; value: number }>) => {
+			const { frameIndex, value } = action.payload;
+
+			state.effect.frames[frameIndex].duration = value;
 		},
 	},
 });
@@ -107,6 +143,9 @@ export const {
 	// Frame update
 	setFrameCellColor,
 	setFrameDuration,
+	addtoUndo,
+	applyUndo,
+	applyRedo,
 } = effectCreator.actions;
 
 export default effectCreator.reducer;

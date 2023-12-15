@@ -1,4 +1,4 @@
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 
 describe('non strings as input', () => {
 	it('empty array returns empty', () => {

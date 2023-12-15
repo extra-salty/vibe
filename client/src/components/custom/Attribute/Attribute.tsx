@@ -60,40 +60,6 @@ const Attribute = () => {
 		},
 	];
 
-	const attributesSlidersMemo = useMemo(() => {
-		return [
-			{
-				label: Attributes.hue,
-				value: hue,
-				max: 360,
-				unit: Units.degree,
-				icon: Icons.palette,
-				// styles: { background: useBackgroundColor(color, Attributes.hue) },
-				onChange: (value: number) => dispatch(setHue(value)),
-				// onChange: onChangeHandler(setHue),
-				// onChange: onChangeHandlerAsd,
-			},
-			{
-				label: Attributes.saturation,
-				value: saturation,
-				max: 100,
-				unit: Units.percentage,
-				icon: Icons.gradient,
-				// styles: { background: useBackgroundColor(color, Attributes.saturation) },
-				onChange: (value: number) => dispatch(setSaturation(value)),
-			},
-			{
-				label: Attributes.lightness,
-				value: lightness,
-				unit: Units.percentage,
-				max: 100,
-				icon: Icons.brightness,
-				// styles: { background: useBackgroundColor(color, Attributes.lightness) },
-				onChange: (value: number) => dispatch(setLightness(value)),
-			},
-		];
-	}, [dispatch, hue, lightness, saturation]);
-
 	return (
 		<div className={style.attributes}>
 			{attributesSliders.map((attributeProps, i) => {

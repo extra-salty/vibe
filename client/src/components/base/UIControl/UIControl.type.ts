@@ -1,6 +1,6 @@
-import { UIComponentProps } from '../../Types';
+import { UIComponentProps } from '../../UIComponent.type';
 
-type UIControlType = UIComponentProps & {
+type UIControlProps = UIComponentProps & {
 	value: number;
 	min?: number;
 	max?: number;
@@ -9,4 +9,4 @@ type UIControlType = UIComponentProps & {
 	onChange: (value: number) => void;
 };
 
-export default UIControlType;
+export default UIControlProps;

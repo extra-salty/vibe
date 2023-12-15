@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { memo, useCallback } from 'react';
-import { setFrameCellColor } from '@/state/features/effect/effectSlice';
+import { addtoUndo, setFrameCellColor } from '@/state/features/effect/effectSlice';
 import { ColorT } from '@/state/features/effect/effectSlice.type';
 import UIButton from '@/components/base/UIButton/UIButton';
 import style from './FrameCell.module.scss';
@@ -21,12 +21,9 @@ const FrameCell = ({
 	const dispatch = useDispatch();
 
 	const onClickHandler = useCallback(() => {
-		dispatch(
-			setFrameCellColor({
-				coordinate: { x, y },
-				frameIndex,
-			}),
-		);
+		const payload = { coordinate: { x, y }, frameIndex };
+		dispatch(addtoUndo(payload));
+		dispatch(setFrameCellColor(payload));
 	}, [dispatch, frameIndex, x, y]);
 
 	return (

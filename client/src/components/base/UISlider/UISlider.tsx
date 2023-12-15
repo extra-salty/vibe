@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback } from 'react';
 import UISliderType from './UISlider.type';
 import './UISlider.scss';
-import { useDebounce } from '@/helpers/hooks/useDebounce/useDebounce';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import { useDebounce } from '@/misc/hooks/useDebounce/useDebounce';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 
 const UISlider = ({
 	value,

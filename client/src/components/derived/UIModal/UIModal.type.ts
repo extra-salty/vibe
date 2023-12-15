@@ -1,4 +1,4 @@
-import ComponentType from '@/components/Types';
+import ComponentType from '@/components/UIComponent.type';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import React from 'react';
 

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Image from 'next/image';
 import UIIconProps from './UIIcon.type';
-import appendClasses from '@/helpers/appendClasses/appendClasses';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import './UIIcon.scss';
 
 const UIIcon = ({
