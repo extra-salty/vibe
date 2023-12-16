@@ -22,6 +22,10 @@ const EffectTable = () => {
 			classes: 'width',
 		},
 		{
+			key: 'frames',
+			text: 'Frames',
+		},
+		{
 			key: 'dateCreated',
 			text: 'Date created',
 		},
@@ -49,6 +53,7 @@ const EffectTable = () => {
 			select: false,
 			name: 'Fire',
 			description: 'asdasdsad',
+			frames: 10,
 			dateCreated: locale,
 			dateModified: locale,
 		},
@@ -56,6 +61,7 @@ const EffectTable = () => {
 			select: false,
 			name: 'Glow',
 			description: 'asdasd',
+			frames: 10,
 			dateCreated: locale,
 			dateModified: locale,
 		},
@@ -66,12 +72,14 @@ const EffectTable = () => {
 		name,
 		description,
 		dateCreated,
+		frames,
 		dateModified,
 	}: EffectTableHeaderT): EffectTableDataT => {
 		return {
 			select: <UICheckbox isChecked={select} onChange={() => {}} />,
 			name: <UIInput type='text' value={name} onChange={() => {}} />,
 			description: <UIInput type='text' value={description} onChange={() => {}} />,
+			frames: frames,
 			dateCreated: dateCreated,
 			dateModified: dateModified,
 		};

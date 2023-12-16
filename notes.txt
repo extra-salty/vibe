@@ -9,3 +9,5 @@
 - db interface
 - json as db? mongo
 - redis
+- crud ops
+- sync between dbs and clien and be

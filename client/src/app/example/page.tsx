@@ -1,14 +1,9 @@
+// 'use client';
+import { connectToDatabase } from '@/services/database/database.service';
 import React from 'react';
-import { getData } from '../api/get/route';
-import { setData } from '../api/set/route';
 
 const page = () => {
-	// const asyncFunction = async () => {
-	// 	const data2 = await setData();
-	// 	const data = await getData();
-	// };
-
-	// asyncFunction();
+	connectToDatabase();
 
 	return <div>Asd</div>;
 };
