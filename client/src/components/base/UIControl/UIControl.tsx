@@ -1,5 +1,5 @@
 import { ChangeEvent, memo } from 'react';
-import { Icons } from '../UIIcon/UIIcon.type';
+import { Icons } from '../UIIcon/UIIcon.types';
 import UIIcon from '../UIIcon/UIIcon';
 import UIControlProps from './UIControl.type';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import Image from 'next/image';
-import UIIconProps from './UIIcon.type';
+import UIIconProps from './UIIcon.types';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import './UIIcon.scss';
 

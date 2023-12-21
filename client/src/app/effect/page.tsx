@@ -5,14 +5,13 @@ import UIContainerType from '@/components/derived/UIContainer/UIContainer.type';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
 import FrameList from '@/components/custom/FrameComps/FrameList/FrameList';
-import './page.scss';
+import './_page.scss';
 
 const Effect = () => {
 	const moduleFirstColumn: UIContainerType[] = [
 		{
 			label: Modules.attributes,
 			children: <Attribute />,
-			// hidden: true,
 		},
 		{
 			label: Modules.effect,

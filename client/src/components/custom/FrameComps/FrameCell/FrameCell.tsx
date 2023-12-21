@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { memo, useCallback } from 'react';
 import { addtoUndo, setFrameCellColor } from '@/state/features/effect/effectSlice';
-import { ColorT } from '@/state/features/effect/effectSlice.type';
+import { ColorT } from '@/state/features/effect/effectSlice.types';
 import UIButton from '@/components/base/UIButton/UIButton';
 import style from './FrameCell.module.scss';
 

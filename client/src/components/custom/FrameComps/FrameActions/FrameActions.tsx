@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { useFrameDuration, useFramesLength } from '@/state/features/effect/effectSelector';
 import { setFrameDuration } from '@/state/features/effect/effectSlice';
 import { useDispatch } from 'react-redux';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIControl from '@/components/base/UIControl/UIControl';

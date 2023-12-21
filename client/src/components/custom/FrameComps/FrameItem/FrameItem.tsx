@@ -2,7 +2,7 @@ import { memo, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFramesLength } from '@/state/features/effect/effectSelector';
 import { RootState } from '@/state/store';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import {
 	addFrame,
 	deleteFrame,
@@ -11,14 +11,14 @@ import {
 	applyUndo,
 	applyRedo,
 } from '@/state/features/effect/effectSlice';
-import { FrameT } from '@/state/features/effect/effectSlice.type';
+import { StateFrameT } from '@/state/features/effect/effectSlice.types';
 import FrameActions from '../FrameActions/FrameActions';
 import Frame from '../Frame/Frame';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import style from './FrameItem.module.scss';
 
 type FrameItemProps = {
-	frame: FrameT;
+	frame: StateFrameT;
 	frameIndex: number;
 };
 

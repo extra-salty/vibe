@@ -18,8 +18,3 @@ export const useFrameDuration = (index: number) =>
 
 export const useActiveFrame = () =>
 	useSelector((state: RootState) => state.effectCreator.effect.activeFrame);
-
-// Frame actions
-
-export const useFrameHistoryLength = (index: number) =>
-	useSelector((state: RootState) => state.effectCreator.effect.frames[index].history.length);

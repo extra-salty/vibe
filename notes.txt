@@ -1,13 +1,19 @@
+TODO:
 - focus on modal
-- mouse Event for Icon
-- table row type
+- rename type to types
+- is my http client global instance?
+- window.addEventListener('unhandledrejection', function(event)) needed?
 
-- Rest vs Restful
-- hashes
-- database type
-- communicating with FE
-- db interface
-- json as db? mongo
-- redis
-- crud ops
-- sync between dbs and clien and be
+Check out:
+- abort controller
+- environments - dev vs prod
+
+Ask:
+- error handling
+- app/pages router, the method matters in app?
+- request inside request - first client and server - for security and auth
+- important header params?
+- error in server side?
+
+
+- create separate async fn for promises like in useEffect, need state every time?

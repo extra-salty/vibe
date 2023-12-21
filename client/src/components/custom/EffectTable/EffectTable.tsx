@@ -1,96 +1,138 @@
-import { UITableColumnType } from '@/components/base/UITable/UITable.type';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelectedStaticEffectIds } from '@/state/features/app/appSelector';
+import { setSelectedEffects } from '@/state/features/app/appSlice';
 import { EffectTableDataT, EffectTableHeaderT } from './EffectTable.type';
+import { VibeServiceInstance } from '@/services/vibe/vibeService';
+import { Effect, BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { convertDate } from '@/misc/helpers/helpers';
+import { UITableHeaderType } from '@/components/base/UITable/UITable.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UITable from '@/components/base/UITable/UITable';
-import UIInput from '@/components/base/UIInput/UIInput';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
+import UIButton from '@/components/base/UIButton/UIButton';
 import style from './EffectTable.module.scss';
-import { useState } from 'react';
+import UIIcon from '@/components/base/UIIcon/UIIcon';
+import Link from 'next/link';
 
 const EffectTable = () => {
-	const effectTableHeader: UITableColumnType<EffectTableHeaderT, keyof EffectTableHeaderT>[] = [
+	const dispatch = useDispatch();
+	const [effectsData, setEffectsData] = useState<BaseEffectT[]>();
+	const selectedIds = useSelectedStaticEffectIds();
+
+	const getStaticEffectsData = async () => {
+		const data = await VibeServiceInstance.getStaticEffectsData();
+		setEffectsData(data);
+	};
+
+	const handleCreateEffect = async () => {
+		try {
+			const newEffect = new Effect('name', 'description');
+
+			await VibeServiceInstance.createStaticEffect(newEffect);
+			getStaticEffectsData();
+		} catch (e) {}
+	};
+
+	const handleDeleteEffects = async () => {
+		try {
+			VibeServiceInstance.deleteStaticEffects(selectedIds);
+			getStaticEffectsData();
+		} catch (e) {}
+	};
+
+	const handleOnSelect = (_id: string) => dispatch(setSelectedEffects({ _id }));
+
+	const actions: UIButtonProps[] = [
+		{
+			text: 'Create',
+			onClick: handleCreateEffect,
+		},
+		{
+			text: 'Delete',
+			onClick: handleDeleteEffects,
+			disabled: !selectedIds.length,
+		},
+		{
+			text: 'Duplicate',
+			onClick: handleDeleteEffects,
+			disabled: !(selectedIds.length === 1),
+		},
+		{
+			text: 'Select All ',
+			onClick: handleDeleteEffects,
+			disabled: !(selectedIds.length === 1),
+		},
+	];
+
+	const effectTableHeader: UITableHeaderType<EffectTableHeaderT, keyof EffectTableHeaderT>[] = [
 		{
 			key: 'select',
-			text: 'Select',
+			header: 'Select',
 		},
 		{
 			key: 'name',
-			text: 'Name',
+			header: 'Name',
 		},
 		{
 			key: 'description',
-			text: 'Description',
+			header: 'Description',
 			classes: 'width',
 		},
 		{
 			key: 'frames',
-			text: 'Frames',
+			header: <UIIcon name={Icons.stack} height={12} />,
+		},
+		{
+			key: 'duration',
+			header: 'Duration (s)',
 		},
 		{
 			key: 'dateCreated',
-			text: 'Date created',
+			header: 'Date created',
 		},
 		{
 			key: 'dateModified',
-			text: 'Date modified',
-		},
-		// {
-		// 	key: 'goTo',
-		// 	text: 'Go to',
-		// },
-	];
-
-	const dateInstance = new Date();
-	const locale = dateInstance.toLocaleString('hu-HU', {
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-	});
-
-	const effects: EffectTableHeaderT[] = [
-		{
-			select: false,
-			name: 'Fire',
-			description: 'asdasdsad',
-			frames: 10,
-			dateCreated: locale,
-			dateModified: locale,
+			header: 'Date modified',
 		},
 		{
-			select: false,
-			name: 'Glow',
-			description: 'asdasd',
-			frames: 10,
-			dateCreated: locale,
-			dateModified: locale,
+			key: 'link',
+			header: 'Link',
 		},
 	];
 
-	const renderEffectTableData = ({
-		select,
-		name,
-		description,
-		dateCreated,
-		frames,
-		dateModified,
-	}: EffectTableHeaderT): EffectTableDataT => {
+	const handleEffectLinkClick = (effect: BaseEffectT) => {};
+
+	const useRenderEffectTableData = (effect: BaseEffectT): EffectTableDataT => {
+		const { _id, name, description, dateCreated, dateModified, frames } = effect;
 		return {
-			select: <UICheckbox isChecked={select} onChange={() => {}} />,
-			name: <UIInput type='text' value={name} onChange={() => {}} />,
-			description: <UIInput type='text' value={description} onChange={() => {}} />,
-			frames: frames,
-			dateCreated: dateCreated,
-			dateModified: dateModified,
+			select: <UICheckbox onChange={() => handleOnSelect(_id)} />,
+			name,
+			description,
+			frames: frames.length,
+			duration: frames.reduce((duration, frame) => duration + frame.duration, 0) / 1000,
+			dateCreated: convertDate(dateCreated),
+			dateModified: convertDate(dateModified),
+			link: <UIButton onClick={() => handleEffectLinkClick(effect)} />,
 		};
 	};
 
-	const data = effects.map(renderEffectTableData);
+	const data = effectsData?.map(useRenderEffectTableData);
+
+	const renderActionButtons = (props: UIButtonProps, i: number) => <UIButton key={i} {...props} />;
+
+	useEffect(() => {
+		getStaticEffectsData();
+	}, []);
 
 	return (
-		<div className={style.animations}>
-			<UITable data={[...data, ...data]} header={effectTableHeader} />
-		</div>
+		<>
+			{actions.map(renderActionButtons)}
+			<div className={style.animations}>
+				{data && <UITable data={data} header={effectTableHeader} />}
+			</div>
+		</>
 	);
 };
 

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import FrameCell from '../FrameCell/FrameCell';
-import { ColorT } from '@/state/features/effect/effectSlice.type';
+import { ColorT } from '@/state/features/effect/effectSlice.types';
 import style from './Frame.module.scss';
 
 type FrameProps = {

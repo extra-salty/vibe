@@ -27,6 +27,7 @@ export enum Icons {
 	remove = 'remove',
 	restart = 'restart',
 	save = 'save',
+	stack = 'stack',
 	stop = 'stop',
 	timelapse = 'timelapse',
 	triangle = 'triangle',

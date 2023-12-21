@@ -3,9 +3,10 @@ export type EffectTableHeaderT = {
 	name: string;
 	description: string;
 	frames: number;
+	duration: number;
 	dateCreated: string;
 	dateModified: string;
-	// goTo: string;
+	link: string;
 };
 
 export type EffectTableDataT = {
@@ -13,7 +14,8 @@ export type EffectTableDataT = {
 	name: React.ReactNode;
 	description: React.ReactNode;
 	frames: number;
+	duration: number;
 	dateCreated: string;
 	dateModified: string;
-	// goTo: React.ReactNode;
+	link: React.ReactNode;
 };

@@ -1,5 +1,5 @@
 import UIComponentProps from '@/components/UIComponent.type';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 
 export type AttributeType = UIComponentProps & {
 	label: Attributes;

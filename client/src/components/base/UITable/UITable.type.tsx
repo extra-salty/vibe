@@ -1,14 +1,16 @@
-import ComponentType from '@/components/UIComponent.type';
+import { UIComponentProps } from '@/components/UIComponent.type';
 
-type UITableType<T, K extends keyof T> = ComponentType & {
+type UITableProps<T, K extends keyof T> = UIComponentProps & {
 	data: T[];
-	header: UITableColumnType<T, K>[];
+	header: UITableHeaderType<T, K>[];
+	// isLoading: boolean;
+	// error: React.ReactNode;
 };
 
-export default UITableType;
+export default UITableProps;
 
-export type UITableColumnType<T, K extends keyof T> = {
+export type UITableHeaderType<T, K extends keyof T> = {
 	key: K;
-	text: string;
+	header: string | React.ReactNode;
 	classes?: string;
 };

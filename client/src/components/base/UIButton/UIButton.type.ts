@@ -1,6 +1,6 @@
 import UIComponentProps from '@/components/UIComponent.type';
 import { MouseEvent } from 'react';
-import { Icons } from '../UIIcon/UIIcon.type';
+import { Icons } from '../UIIcon/UIIcon.types';
 
 type UIButtonProps = UIComponentProps & {
 	text?: string;

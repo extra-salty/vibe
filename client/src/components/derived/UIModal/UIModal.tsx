@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import ModalType from './UIModal.type';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';

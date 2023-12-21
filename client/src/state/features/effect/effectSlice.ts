@@ -1,35 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ColorT, EffectCreatorT, FrameCellLocationT } from './effectSlice.type';
-import { Actions } from './effectSlice.enum';
+import { Color, ColorT, EffectCreatorT, FrameCellLocationT, StateFrame } from './effectSlice.types';
 
-const NUMBER_OF_COLUMNS = 24;
-const NUMBER_OF_ROWS = 12;
-const DEFAULT_COLOR: ColorT = {
+const newFrame = new StateFrame(1000, {
 	hue: 0,
-	saturation: 0,
-	lightness: 100,
-};
-const initialFrame = {
-	data: Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR)),
-	duration: 1000,
-	redo: [],
-	undo: [],
-};
+	saturation: 100,
+	lightness: 50,
+});
 
 const initialState: EffectCreatorT = {
-	color: {
-		hue: 0,
-		saturation: 100,
-		lightness: 50,
-	},
+	color: new Color(0, 100, 50),
 	effect: {
+		_id: '',
 		name: '',
 		description: '',
 		activeFrame: 0,
-		frames: [initialFrame],
-	},
-	actionsState: {
-		[Actions.reset]: false,
+		frames: [],
+		dateCreated: new Date(),
+		dateModified: new Date(),
 	},
 };
 
@@ -54,14 +41,14 @@ export const effectCreator = createSlice({
 			state.color = initialState.color;
 		},
 
-		// Frame Actions
+		// Effect Actions
 		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
 
-			state.effect.frames[frameIndex] = initialFrame;
+			state.effect.frames[frameIndex] = newFrame;
 		},
 		addFrame: (state) => {
-			state.effect.frames.push(initialFrame);
+			state.effect.frames.push(newFrame);
 			state.effect.activeFrame++;
 		},
 		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {

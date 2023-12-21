@@ -1,4 +1,4 @@
-import { Icons } from '../UIIcon/UIIcon.type';
+import { Icons } from '../UIIcon/UIIcon.types';
 import { HTMLInputTypeAttribute } from 'react';
 import UIComponentProps from '@/components/UIComponent.type';
 

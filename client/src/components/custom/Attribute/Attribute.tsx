@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 import { setHue, setLightness, setSaturation } from '@/state/features/effect/effectSlice';
 import { useBackgroundColor } from './useBackgroundColor';
-import { Icons } from '@/components/base/UIIcon/UIIcon.type';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { AttributeType, Attributes, Units } from './Attribute.type';
 import AttributeSlider from '../AttributeSlider/AttributeSlider';
 import style from './Attribute.module.scss';
