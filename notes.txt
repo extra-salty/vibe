@@ -14,6 +14,7 @@ Ask:
 - request inside request - first client and server - for security and auth
 - important header params?
 - error in server side?
+- class vs object, type
 
 
 - create separate async fn for promises like in useEffect, need state every time?

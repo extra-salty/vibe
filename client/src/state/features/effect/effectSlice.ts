@@ -1,19 +1,36 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Color, ColorT, EffectCreatorT, FrameCellLocationT, StateFrame } from './effectSlice.types';
+import {
+	ColorT,
+	EffectCreatorT,
+	FrameCellLocationT,
+	StateEffectT,
+	StateFrameT,
+} from './effectSlice.types';
 
-const newFrame = new StateFrame(1000, {
+const color: ColorT = {
 	hue: 0,
 	saturation: 100,
 	lightness: 50,
-});
+};
+
+const newFrame: StateFrameT = {
+	data: Array(24).fill(Array(12).fill(color)),
+	duration: 1000,
+	redo: [],
+	undo: [],
+};
 
 const initialState: EffectCreatorT = {
-	color: new Color(0, 100, 50),
+	color: {
+		selectedColor: color,
+		colorHistory: [],
+		colorPresets: [],
+	},
+	activeFrame: 0,
 	effect: {
 		_id: '',
 		name: '',
 		description: '',
-		activeFrame: 0,
 		frames: [],
 		dateCreated: new Date(),
 		dateModified: new Date(),
@@ -26,22 +43,33 @@ export const effectCreator = createSlice({
 	reducers: {
 		// Color update
 		setHue: (state, action: PayloadAction<number>) => {
-			state.color.hue = action.payload;
+			state.color.selectedColor.hue = action.payload;
 		},
 		setSaturation: (state, action: PayloadAction<number>) => {
-			state.color.saturation = action.payload;
+			state.color.selectedColor.saturation = action.payload;
 		},
 		setLightness: (state, action: PayloadAction<number>) => {
-			state.color.lightness = action.payload;
+			state.color.selectedColor.lightness = action.payload;
 		},
 		setColor: (state, action: PayloadAction<ColorT>) => {
-			state.color = action.payload;
+			state.color.selectedColor = action.payload;
 		},
 		resetColor: (state) => {
 			state.color = initialState.color;
 		},
 
 		// Effect Actions
+		setActiveEffect: (state, action: PayloadAction<{ effect: StateEffectT }>) => {
+			const { effect } = action.payload;
+
+			state.effect = effect;
+		},
+		setEffectName: (state, action: PayloadAction<string>) => {
+			state.effect.name = action.payload;
+		},
+		setEffectDescription: (state, action: PayloadAction<string>) => {
+			state.effect.description = action.payload;
+		},
 		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
 
@@ -49,7 +77,7 @@ export const effectCreator = createSlice({
 		},
 		addFrame: (state) => {
 			state.effect.frames.push(newFrame);
-			state.effect.activeFrame++;
+			state.activeFrame++;
 		},
 		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
@@ -60,22 +88,22 @@ export const effectCreator = createSlice({
 		deleteFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
 
-			state.effect.activeFrame = 0;
+			state.activeFrame = 0;
 			state.effect.frames.splice(frameIndex, 1);
 		},
 		nextFrame: (state) => {
-			state.effect.activeFrame++;
+			state.activeFrame++;
 		},
 		prevFrame: (state) => {
-			state.effect.activeFrame--;
+			state.activeFrame--;
 		},
 
-		// Frame update
+		// Frame actions
 		setFrameCellColor: (state, action: PayloadAction<FrameCellLocationT>) => {
 			const { frameIndex, coordinate } = action.payload;
 			const { x, y } = coordinate;
 
-			state.effect.frames[frameIndex].data[x][y] = state.color;
+			state.effect.frames[frameIndex].data[x][y] = state.color.selectedColor;
 		},
 		addtoUndo: (state, action: PayloadAction<FrameCellLocationT>) => {
 			const { frameIndex, coordinate } = action.payload;
@@ -120,14 +148,17 @@ export const {
 	setSaturation,
 	setLightness,
 	resetColor,
-	// Frame actions
+	// Effect actions
+	setActiveEffect,
+	setEffectName,
+	setEffectDescription,
 	resetFrame,
 	addFrame,
 	duplicateFrame,
 	deleteFrame,
 	nextFrame,
 	prevFrame,
-	// Frame update
+	// Frame actions
 	setFrameCellColor,
 	setFrameDuration,
 	addtoUndo,

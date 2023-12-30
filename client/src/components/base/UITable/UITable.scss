@@ -1,56 +1,46 @@
 @import '../../../style/mixins.scss';
-// @import '@style/mixins.scss';
 
 .uiTable {
-	.tableWrapper {
-		overflow: auto;
-		height: 300px;
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+	width: 100%;
 
-		@include scrollBar();
+	thead,
+	th {
+		font-weight: 500;
+		font-size: 12px;
+		padding: 5px;
+		position: sticky;
+		top: 0;
+		z-index: 10;
 
-		table {
-			position: relative;
-			text-align: left;
-			border-collapse: collapse;
-			width: 100%;
+		tr {
+			font-size: 10px;
 
-			thead,
-			th {
-				font-weight: 500;
-				font-size: 12px;
-				padding: 5px;
-				position: sticky;
-				top: 0;
-				z-index: 10;
+			position: sticky;
+		}
+	}
 
-				tr {
-					font-size: 10px;
+	tbody {
+		font-size: 12px;
+		top: 30px;
 
-					position: sticky;
-				}
+		tr {
+			text-overflow: ellipsis;
+			border-bottom: 1px solid white;
+
+			&:last-of-type {
+				border: 0;
 			}
 
-			tbody {
-				font-size: 12px;
-				top: 30px;
-
-				tr {
-					text-overflow: ellipsis;
-					border-bottom: 1px solid white;
-
-					&:last-of-type {
-						border: 0;
-					}
-
-					&:hover {
-						background-color: rgba(189, 181, 181, 0.404);
-					}
-				}
-
-				td {
-					padding: 5px 5px;
-				}
+			&:hover {
+				background-color: rgba(189, 181, 181, 0.404);
 			}
+		}
+
+		td {
+			padding: 5px 5px;
 		}
 	}
 }

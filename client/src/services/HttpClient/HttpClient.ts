@@ -17,6 +17,10 @@ export class HttpService {
 		return this.request<ResponseType>(HttpMethods.POST, methodConfig);
 	}
 
+	put<ResponseType>(methodConfig: MethodConfigT) {
+		return this.request<ResponseType>(HttpMethods.PUT, methodConfig);
+	}
+
 	delete<ResponseType>(methodConfig: MethodConfigT) {
 		return this.request<ResponseType>(HttpMethods.DELETE, methodConfig);
 	}

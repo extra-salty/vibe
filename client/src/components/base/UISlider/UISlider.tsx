@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback } from 'react';
-import UISliderType from './UISlider.type';
-import './UISlider.scss';
 import { useDebounce } from '@/misc/hooks/useDebounce/useDebounce';
+import UISliderType from './UISlider.type';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import './UISlider.scss';
 
 const UISlider = ({
 	value,
@@ -21,8 +21,8 @@ const UISlider = ({
 	// 	[onChange],
 	// );
 
-	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
-		onChange?.(Number(target.value));
+	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		onChange?.(Number(e.target.value));
 	};
 
 	// const debounce = useDebounce(({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const UISlider = ({
 	// 	console.log(target);
 	// }, 100);
 
-	const classNames = appendClasses(['ui-slider', classes]);
+	const classNames = appendClasses(['uiSlider', classes]);
 
 	if (hidden) return null;
 	return (

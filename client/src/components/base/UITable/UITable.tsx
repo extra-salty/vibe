@@ -21,7 +21,7 @@ let UITable = <T, K extends keyof T>({ data, header, hidden, classes }: UITableP
 	const renderTableBody = useCallback(
 		(row: any, i: number) => {
 			return (
-				<tr key={`row-${i}`} data-item={i} onClick={(e) => handleRowSelect(e)}>
+				<tr key={`row-${i}`} onClick={(e) => handleRowSelect(e)}>
 					{header.map((column, j) => {
 						return <td key={`cell-${j}`}>{row[column.key]}</td>;
 					})}
@@ -35,16 +35,12 @@ let UITable = <T, K extends keyof T>({ data, header, hidden, classes }: UITableP
 
 	if (hidden) return null;
 	return (
-		<div className={classNames}>
-			<div className='tableWrapper'>
-				<table>
-					<thead>
-						<tr>{header.map(renderTableHeader)}</tr>
-					</thead>
-					<tbody>{data.map(renderTableBody)}</tbody>
-				</table>
-			</div>
-		</div>
+		<table className={classNames}>
+			<thead>
+				<tr>{header.map(renderTableHeader)}</tr>
+			</thead>
+			<tbody>{data.map(renderTableBody)}</tbody>
+		</table>
 	);
 };
 

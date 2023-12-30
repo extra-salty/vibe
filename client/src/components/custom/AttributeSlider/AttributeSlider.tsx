@@ -7,7 +7,7 @@ import style from './AttributeSlider.module.scss';
 const AttributeSlider = ({ label, value, max, unit, icon, onChange, styles }: AttributeType) => {
 	return (
 		<div className={style.row}>
-			<div className={style.text}>{label}</div>
+			<div className={style.label}>{label}</div>
 			<UIIcon name={icon} height={20} width={20} />
 			<UISlider value={value} max={max} delay={0} styles={styles} onChange={onChange} />
 			<UIControl

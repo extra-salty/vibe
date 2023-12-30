@@ -1,7 +1,19 @@
-.animations {
-	// height: 300px;
+@import '../../../style/mixins.scss';
 
-	.width {
-		background-color: red;
+.tableActions {
+	display: flex;
+	justify-content: space-between;
+
+	> div {
+		display: flex;
+		gap: 5px;
 	}
+}
+
+.effectTable {
+	overflow: auto;
+	max-height: 300px;
+	margin-top: 5px;
+
+	@include scrollBar();
 }

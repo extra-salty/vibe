@@ -4,7 +4,7 @@
 	align-items: center;
 	gap: 12px;
 
-	.text {
+	.label {
 		min-width: 70px;
 		font-size: 14px;
 	}
@@ -12,6 +12,10 @@
 	.control {
 		input {
 			width: 22px;
+		}
+
+		span {
+			width: 15px;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 export type EffectTableHeaderT = {
+	numbering: string;
 	select: boolean;
 	name: string;
 	description: string;
@@ -6,10 +7,11 @@ export type EffectTableHeaderT = {
 	duration: number;
 	dateCreated: string;
 	dateModified: string;
-	link: string;
+	edit: string;
 };
 
 export type EffectTableDataT = {
+	numbering: number;
 	select: React.ReactNode;
 	name: React.ReactNode;
 	description: React.ReactNode;
@@ -17,5 +19,5 @@ export type EffectTableDataT = {
 	duration: number;
 	dateCreated: string;
 	dateModified: string;
-	link: React.ReactNode;
+	edit: React.ReactNode;
 };

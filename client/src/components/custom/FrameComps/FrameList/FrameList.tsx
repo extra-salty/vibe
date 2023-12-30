@@ -6,10 +6,10 @@ const FrameList = () => {
 	const frames = useFrames();
 
 	return (
-		<ul className={style.frameList}>
-			{frames.map((frame, i: number) => {
+		<ul className={style.list}>
+			{frames.map((frame, i) => {
 				return (
-					<li key={i} className={style.frameItem}>
+					<li key={i} className={style.item}>
 						<FrameItem frame={frame} frameIndex={i} />
 					</li>
 				);

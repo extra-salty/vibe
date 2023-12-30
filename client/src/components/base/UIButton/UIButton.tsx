@@ -1,4 +1,4 @@
-import { MouseEvent, memo, PropsWithChildren } from 'react';
+import { MouseEvent, memo, PropsWithChildren, useState } from 'react';
 import UIIcon from '../UIIcon/UIIcon';
 import UIButtonProps from './UIButton.type';
 import useLongPress from '@/misc/hooks/useLongPress/useLongPress';
@@ -9,9 +9,10 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 	text,
 	icon,
 	iconPosition = 'start',
+	iconSize = 15,
 	delay = 500,
 	disabled,
-	hasBorder,
+	hasBorder = true,
 	// isLoading,
 	onClick,
 	onPress,
@@ -32,8 +33,9 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 
 	const renderContent = (icon || text) && (
 		<div className={appendClasses(['content', iconPosition])}>
-			{icon && <UIIcon name={icon} />}
+			{icon && <UIIcon name={icon} width={iconSize} height={iconSize} />}
 			{text && <span>{text}</span>}
+			{/* {true && <span className='hoverTip'>Hover tip</span>} */}
 		</div>
 	);
 

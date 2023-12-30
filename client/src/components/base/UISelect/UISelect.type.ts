@@ -1,24 +1,26 @@
 import UIComponentProps from '@/components/UIComponent.type';
 
-type UISelectType = UIComponentProps & {
-	options: UISelectOption[];
-	optionGroups?: UISelectOptionGroup[];
-	value?: UISelectOption['key'];
+type UISelectProps = UIComponentProps & {
+	options?: UISelectOptionProps[];
+	optionGroups?: UISelectOptionGroupProps[];
+	value?: UISelectOptionProps['key'];
 	disabledOptionsKeys?: string[];
 	showEmptyOption?: boolean;
 	isRequired?: boolean;
 	isDisabled?: boolean;
-	onChange?: (value: UISelectOption['key']) => void;
+	label?: string;
+	id?: string;
+	onChange: (value: UISelectOptionProps['key']) => void;
 };
 
-export default UISelectType;
+export default UISelectProps;
 
-export type UISelectOption = {
+export type UISelectOptionProps = {
 	key: string;
 	label: string;
 };
 
-export type UISelectOptionGroup = {
+export type UISelectOptionGroupProps = {
 	label: string;
-	options: UISelectOption[];
+	options: UISelectOptionProps[];
 };

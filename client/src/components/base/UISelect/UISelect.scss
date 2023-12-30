@@ -1,2 +1,25 @@
 .uiSelect {
+	label {
+		font-size: 14px;
+		margin-right: 4px;
+	}
+	select {
+		background-color: transparent;
+		border-color: white;
+		color: white;
+		box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+		&:focus-visible {
+			outline: 0;
+		}
+
+		optgroup {
+			background-color: rgba(128, 128, 128, 1);
+			font-size: 12px;
+		}
+
+		option {
+			background-color: rgba(128, 128, 128, 1);
+		}
+	}
 }

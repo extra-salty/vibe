@@ -16,3 +16,18 @@
 		border: 1px white;
 	}
 }
+
+@mixin input {
+	background: rgba(175, 175, 175, 0.3);
+	color: white;
+	border: 0;
+	height: 20px;
+
+	&::placeholder {
+		color: rgb(200, 200, 200);
+	}
+
+	&:focus-visible {
+		outline: unset;
+	}
+}

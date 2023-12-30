@@ -11,19 +11,23 @@ const UIControl = ({
 	max = 100,
 	hasIncrements,
 	unit,
+	disabled = false,
 	onChange,
 	hidden,
 	classes,
 }: UIControlProps) => {
-	const onChangeHandler = ({ target }: ChangeEvent<HTMLInputElement>) => {
-		onChange?.(Number(target.value));
+	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		const limitedValue = limitValue(Number(e.target.value));
+		onChange?.(limitedValue);
 	};
 
 	const onIncrementHandler = (value: number, increase: 'increase' | 'decrease') => {
 		const newValue = increase === 'increase' ? value + 1 : value - 1;
-		const limitedValue = Math.max(min, Math.min(max, Number(newValue)));
+		const limitedValue = limitValue(newValue);
 		onChange?.(limitedValue);
 	};
+
+	const limitValue = (value: number) => Math.max(min, Math.min(max, value));
 
 	const classNames = appendClasses(['uiControl', classes]);
 
@@ -31,11 +35,11 @@ const UIControl = ({
 	return (
 		<div className={classNames}>
 			<input
-				className={classNames}
 				type='number'
 				min={min}
 				max={max}
 				value={value}
+				disabled={disabled}
 				onChange={onChangeHandler}
 			/>
 			{unit && <span className='unit'>{unit}</span>}

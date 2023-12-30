@@ -6,6 +6,7 @@ type UIControlProps = UIComponentProps & {
 	max?: number;
 	unit?: string;
 	hasIncrements?: boolean;
+	disabled?: boolean;
 	onChange: (value: number) => void;
 };
 

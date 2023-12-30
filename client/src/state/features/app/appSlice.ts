@@ -23,6 +23,14 @@ export const App = createSlice({
 				state.selectedStaticEffects.splice(indexOfId, 1);
 			}
 		},
+		removeSelectedEffectIds: (state, action: PayloadAction<{ _ids: string[] }>) => {
+			const { _ids } = action.payload;
+
+			_ids.map((_id) => {
+				const indexOfId = state.selectedStaticEffects.indexOf(_id);
+				state.selectedStaticEffects.splice(indexOfId, 1);
+			});
+		},
 	},
 });
 

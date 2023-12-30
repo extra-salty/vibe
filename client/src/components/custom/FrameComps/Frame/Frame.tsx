@@ -1,16 +1,20 @@
 import { memo } from 'react';
-import FrameCell from '../FrameCell/FrameCell';
 import { ColorT } from '@/state/features/effect/effectSlice.types';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import FrameCell from '../FrameCell/FrameCell';
 import style from './Frame.module.scss';
 
 type FrameProps = {
 	frameData: ColorT[][];
 	frameIndex: number;
+	isDisabled: boolean;
 };
 
-const Frame = ({ frameData, frameIndex }: FrameProps) => {
+const Frame = ({ frameData, frameIndex, isDisabled }: FrameProps) => {
+	const classNames = appendClasses([style.frame, isDisabled && 'disabled']);
+
 	return (
-		<div className={style.frame}>
+		<div className={classNames}>
 			{frameData.map((frameColumn, x) => {
 				return (
 					<div key={x} className={style.frameColumn}>

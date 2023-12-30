@@ -15,9 +15,8 @@ const appendClasses = (classes: classCollection) => {
 		})
 		.filter((x) => x && x !== true) as string[];
 
+	// !!x.trim()
 	return strings.join(' ');
 };
 
 export default appendClasses;
-
-// !!x.trim()

@@ -1,5 +1,10 @@
 export type EffectCreatorT = {
-	color: ColorT;
+	color: {
+		selectedColor: ColorT;
+		colorHistory: ColorT[];
+		colorPresets: ColorT[];
+	};
+	activeFrame: number;
 	effect: StateEffectT;
 };
 
@@ -33,7 +38,6 @@ export type BaseEffectT = {
 };
 
 export type StateEffectT = Omit<BaseEffectT, 'frames'> & {
-	activeFrame: number;
 	frames: StateFrameT[];
 };
 
@@ -42,7 +46,9 @@ export type BaseFrameT = {
 	duration: number;
 };
 
-export type StateFrameT = BaseFrameT & {
+export type StateFrameT = BaseFrameT & HistoriesT;
+
+export type HistoriesT = {
 	undo: HistoryT[];
 	redo: HistoryT[];
 };

@@ -6,6 +6,7 @@ type UIButtonProps = UIComponentProps & {
 	text?: string;
 	icon?: Icons;
 	iconPosition?: 'start' | 'end';
+	iconSize?: number;
 	delay?: number;
 	disabled?: boolean;
 	hasBorder?: boolean;
