@@ -1,45 +1,43 @@
 'use client';
 import { Modules } from '@/misc/labels/labels';
 import UIContainer from '@/components/derived/UIContainer/UIContainer';
-import UIContainerType from '@/components/derived/UIContainer/UIContainer.type';
+import UIContainerProps from '@/components/derived/UIContainer/UIContainer.type';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
-import FrameList from '@/components/custom/FrameComps/FrameList/FrameList';
+import FrameGrid from '@/components/custom/FrameComps/FrameGrid/FrameGrid';
 import './_page.scss';
 
 const Effect = () => {
-	const moduleFirstColumn: UIContainerType[] = [
-		{
-			label: Modules.attributes,
-			children: <Attribute />,
-		},
-		{
-			label: Modules.effect,
-			children: <EffectCreator />,
-			// hidden: true,
-		},
-	];
-
-	const moduleSecondColumn: UIContainerType[] = [
-		{
-			label: 'Frame List',
-			children: <FrameList />,
-			// hidden: true,
-		},
+	const modules: UIContainerProps[][] = [
+		[
+			{
+				label: Modules.attributes,
+				children: <Attribute />,
+			},
+			{
+				label: Modules.effect,
+				children: <EffectCreator />,
+			},
+		],
+		[
+			{
+				label: 'Frame List',
+				children: <FrameGrid />,
+			},
+		],
 	];
 
 	return (
-		<div className='effect'>
-			<div className='column'>
-				{moduleFirstColumn.map((props, i) => {
-					return <UIContainer key={`${i}`} {...props} />;
-				})}
-			</div>
-			<div className='column'>
-				{moduleSecondColumn.map((props, i) => {
-					return <UIContainer key={`${i}`} {...props} />;
-				})}
-			</div>
+		<div className='parent'>
+			{modules.map((column, i) => {
+				return (
+					<div key={i} className='column'>
+						{column.map((props, j) => (
+							<UIContainer key={j} {...props} />
+						))}
+					</div>
+				);
+			})}
 		</div>
 	);
 };

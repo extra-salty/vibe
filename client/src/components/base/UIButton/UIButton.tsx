@@ -1,4 +1,4 @@
-import { MouseEvent, memo, PropsWithChildren, useState } from 'react';
+import { MouseEvent, memo, PropsWithChildren } from 'react';
 import UIIcon from '../UIIcon/UIIcon';
 import UIButtonProps from './UIButton.type';
 import useLongPress from '@/misc/hooks/useLongPress/useLongPress';

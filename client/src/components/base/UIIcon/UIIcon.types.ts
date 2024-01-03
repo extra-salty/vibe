@@ -16,6 +16,7 @@ export enum Icons {
 	close = 'close',
 	delete = 'delete',
 	duplicate = 'duplicate',
+	drag = 'drag',
 	edit = 'edit',
 	expandMore = 'expand_more',
 	gradient = 'gradient',

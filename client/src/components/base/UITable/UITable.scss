@@ -1,33 +1,29 @@
 @import '../../../style/mixins.scss';
 
 .uiTable {
-	position: relative;
+	// position: relative;
 	text-align: left;
 	border-collapse: collapse;
 	width: 100%;
 
-	thead,
+	thead {
+		text-wrap: nowrap;
+	}
+
 	th {
-		font-weight: 500;
-		font-size: 12px;
 		padding: 5px;
-		position: sticky;
-		top: 0;
-		z-index: 10;
+		// top: 0;
+		// z-index: 10;
+		// position: sticky;
 
-		tr {
-			font-size: 10px;
-
-			position: sticky;
-		}
+		font-weight: 600;
+		font-size: 14px;
 	}
 
 	tbody {
 		font-size: 12px;
-		top: 30px;
 
 		tr {
-			text-overflow: ellipsis;
 			border-bottom: 1px solid white;
 
 			&:last-of-type {
@@ -41,6 +37,7 @@
 
 		td {
 			padding: 5px 5px;
+			text-wrap: nowrap;
 		}
 	}
 }

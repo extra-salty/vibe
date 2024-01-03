@@ -7,7 +7,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		cursor: pointer;
+
+		&.expanded {
+			cursor: pointer;
+		}
 
 		.label {
 			font-size: 14px;
@@ -27,9 +30,9 @@
 		overflow: hidden;
 		grid-template-rows: 0fr;
 		transition: grid-template-rows 0.5s ease-in-out;
-		margin-top: 5px;
+		margin-top: 2px;
 		border-top: 1px solid #a5a4a4;
-		padding-top: 5px;
+		padding-top: 10px;
 
 		.content {
 			min-height: 0;

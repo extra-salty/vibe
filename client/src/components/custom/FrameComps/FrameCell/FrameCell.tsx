@@ -34,6 +34,7 @@ const FrameCell = ({
 			onClick={onClickHandler}
 			// onPress={() => {console.log('asd')}}
 			onHover={onClickHandler}
+			onPress={() => {}}
 		/>
 	);
 };

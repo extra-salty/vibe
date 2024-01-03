@@ -18,3 +18,7 @@ Ask:
 
 
 - create separate async fn for promises like in useEffect, need state every time?
+
+
+https://github.com/bvaughn/react-resizable-panels
+How can I use persistent layouts with SSR?

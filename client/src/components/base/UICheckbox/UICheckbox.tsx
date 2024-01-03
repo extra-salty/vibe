@@ -1,27 +1,36 @@
-import UICheckboxType from './UICheckbox.type';
+import { generateRandomElementId } from '@/misc/helpers/helpers';
+import UICheckboxProps from './UICheckbox.type';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import UILabel from '../UILabel/UILabel';
 import './UICheckbox.scss';
 
 const UICheckbox = ({
 	value,
 	isDisabled,
 	isChecked,
+	label,
+	id,
 	onChange,
 	classes,
 	hidden,
-}: UICheckboxType) => {
+}: UICheckboxProps) => {
 	const classNames = appendClasses(['uiCheckbox', classes]);
+
+	const elId = id || generateRandomElementId();
 
 	if (hidden) return null;
 	return (
-		<input
-			type='checkbox'
-			className={classNames}
-			checked={isChecked}
-			value={value}
-			disabled={isDisabled}
-			onChange={({ target }) => onChange?.(target.checked)}
-		/>
+		<div className={classNames}>
+			<input
+				id={elId}
+				type='checkbox'
+				checked={isChecked}
+				value={value}
+				disabled={isDisabled}
+				onChange={({ target }) => onChange?.(target.checked)}
+			/>
+			{label && <UILabel label={label} htmlFor={elId} />}
+		</div>
 	);
 };
 

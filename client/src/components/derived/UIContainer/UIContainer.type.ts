@@ -1,9 +1,10 @@
 import { UIComponentProps } from '../../UIComponent.type';
 
-type UIContainerType = UIComponentProps & {
+type UIContainerProps = UIComponentProps & {
 	label?: string;
-	expanded?: boolean;
+	expandable?: boolean;
+	isExpanded?: boolean;
 	children: React.ReactNode;
 };
 
-export default UIContainerType;
+export default UIContainerProps;

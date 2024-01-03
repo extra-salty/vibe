@@ -1,12 +1,13 @@
 import ComponentType from '@/components/UIComponent.type';
 
-type UICheckboxType = ComponentType & {
+type UICheckboxProps = ComponentType & {
 	isChecked?: boolean;
 	label?: string;
-	description?: string;
 	value?: string;
+	id?: string;
+	description?: string;
 	isDisabled?: boolean;
 	onChange?: (checked: boolean) => void;
 };
 
-export default UICheckboxType;
+export default UICheckboxProps;

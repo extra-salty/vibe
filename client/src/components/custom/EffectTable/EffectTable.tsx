@@ -128,12 +128,12 @@ const EffectTable = () => {
 
 	const effectTableHeader: UITableHeaderType<EffectTableHeaderT, keyof EffectTableHeaderT>[] = [
 		{
-			key: 'numbering',
-			header: '#',
+			key: 'select',
+			header: '',
 		},
 		{
-			key: 'select',
-			header: 'Select',
+			key: 'numbering',
+			header: '#',
 		},
 		{
 			key: 'name',

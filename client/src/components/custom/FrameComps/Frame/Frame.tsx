@@ -7,7 +7,7 @@ import style from './Frame.module.scss';
 type FrameProps = {
 	frameData: ColorT[][];
 	frameIndex: number;
-	isDisabled: boolean;
+	isDisabled?: boolean;
 };
 
 const Frame = ({ frameData, frameIndex, isDisabled }: FrameProps) => {

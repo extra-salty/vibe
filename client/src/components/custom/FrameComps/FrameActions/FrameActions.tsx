@@ -18,6 +18,7 @@ import UIControl from '@/components/base/UIControl/UIControl';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import style from './FrameActions.module.scss';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import { useSortable } from '@dnd-kit/sortable';
 
 type FrameActionsProps = {
 	frame: StateFrameT;
@@ -27,6 +28,10 @@ type FrameActionsProps = {
 };
 
 const FrameActions = ({ frame, frameIndex, isDisabled, setIsDisabled }: FrameActionsProps) => {
+	const { isDragging, attributes, listeners, transform, transition } = useSortable({
+		id: Number(frameIndex),
+	});
+
 	const dispatch = useDispatch();
 	const framesLength = useFramesLength();
 
@@ -88,10 +93,12 @@ const FrameActions = ({ frame, frameIndex, isDisabled, setIsDisabled }: FrameAct
 
 	return (
 		<div className={style.frameActions}>
+			<button {...listeners} {...attributes}>
+				<UIIcon name={Icons.drag} width={20} height={20} />
+			</button>
 			<div className={appendClasses([style.row, style.pagination])}>
 				<UIIcon name={Icons.stack} width={15} height={15} />
 				<UIControl onChange={handleFrameMove} max={framesLength} value={frameIndex + 1} />
-				<div>{`/ ${framesLength}`}</div>
 			</div>
 			<div className={style.actionButtons}>{frameActionButtons.map(renderActionButtons)}</div>
 			<div className={style.row}>

@@ -1,5 +1,33 @@
 .uiCheckbox {
-	&:hover {
-		cursor: pointer;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	gap: 5px;
+
+	input[type='checkbox'] {
+		-webkit-appearance: none;
+		appearance: none;
+		margin: 0;
+		height: 10px;
+		width: 10px;
+		border: 2px solid white;
+		background-color: white;
+		border-radius: 50%;
+		transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+		transition-duration: 1s;
+
+		&:checked {
+			background-color: gray;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 }

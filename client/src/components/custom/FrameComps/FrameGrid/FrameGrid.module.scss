@@ -1,0 +1,11 @@
+@import '../../../../style/mixins.scss';
+
+.frameGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+	width: fit-content;
+	height: 800px;
+
+	@include scrollBar();
+}

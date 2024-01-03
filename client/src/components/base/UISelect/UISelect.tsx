@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback } from 'react';
 import { generateRandomElementId } from '@/misc/helpers/helpers';
 import UISelectProps, { UISelectOptionProps, UISelectOptionGroupProps } from './UISelect.type';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import UILabel from '../UILabel/UILabel';
 import './UISelect.scss';
 
 const UISelect = ({
@@ -34,7 +35,7 @@ const UISelect = ({
 	if (hidden || (options && optionGroups)) return null;
 	return (
 		<div className={classNames}>
-			{label && <label htmlFor={elId}>{label}</label>}
+			{label && <UILabel label={label} htmlFor={elId} />}
 			<select
 				id={elId}
 				required={isRequired}

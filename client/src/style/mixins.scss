@@ -1,4 +1,7 @@
 @mixin scrollBar {
+	overflow: auto;
+	overflow-x: auto;
+
 	&::-webkit-scrollbar {
 		border-radius: 10px;
 		width: 5px;
