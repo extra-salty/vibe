@@ -1,6 +1,9 @@
 .frameCell {
-	width: 15px;
-	height: 15px;
+	height: 100%;
+	width: auto;
+	aspect-ratio: 1 / 1;
+	// height: 15px;
+	// width: 15px;
 	border: 1px solid rgba(79, 75, 75, 0.4);
 	color: black;
 	padding: 0;

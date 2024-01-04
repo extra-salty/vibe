@@ -2,9 +2,9 @@ import { UIComponentProps } from '../../UIComponent.type';
 
 type UIIconProps = UIComponentProps & {
 	name: Icons;
-	enlarge?: boolean;
 	width?: number;
 	height?: number;
+	isRotated?: boolean;
 	onClick?: () => void;
 };
 
@@ -28,6 +28,7 @@ export enum Icons {
 	redo = 'redo',
 	remove = 'remove',
 	restart = 'restart',
+	resize = 'resize',
 	save = 'save',
 	stack = 'stack',
 	stop = 'stop',

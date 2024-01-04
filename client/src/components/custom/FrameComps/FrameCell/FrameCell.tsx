@@ -29,7 +29,7 @@ const FrameCell = ({
 	return (
 		<UIButton
 			// text={`${x}/${y}`}
-			styles={{ backgroundColor: `hsl(${h} ${s}% ${l}%` }}
+			styles={{ backgroundColor: `hsl(${h} ${s}% ${l}% / ${(l / 100) * 2} ` }}
 			classes={[style.frameCell]}
 			onClick={onClickHandler}
 			// onPress={() => {console.log('asd')}}

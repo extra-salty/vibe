@@ -2,10 +2,9 @@
 
 .frameGrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 	gap: 20px;
-	width: fit-content;
-	height: 800px;
+	height: 70vh;
 
 	@include scrollBar();
 }

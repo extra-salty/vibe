@@ -1,44 +1,40 @@
 'use client';
+import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Modules } from '@/misc/labels/labels';
 import UIContainer from '@/components/derived/UIContainer/UIContainer';
 import UIContainerProps from '@/components/derived/UIContainer/UIContainer.type';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
 import FrameGrid from '@/components/custom/FrameComps/FrameGrid/FrameGrid';
-import './_page.scss';
+import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
+import style from './page.module.scss';
 
 const Effect = () => {
-	const modules: UIContainerProps[][] = [
-		[
-			{
-				label: Modules.attributes,
-				children: <Attribute />,
-			},
-			{
-				label: Modules.effect,
-				children: <EffectCreator />,
-			},
-		],
-		[
-			{
-				label: 'Frame List',
-				children: <FrameGrid />,
-			},
-		],
+	const firstPanel: UIContainerProps[] = [
+		{
+			label: Modules.attributes,
+			children: <Attribute />,
+		},
+		{
+			label: Modules.effect,
+			children: <EffectCreator />,
+		},
 	];
 
 	return (
-		<div className='parent'>
-			{modules.map((column, i) => {
-				return (
-					<div key={i} className='column'>
-						{column.map((props, j) => (
-							<UIContainer key={j} {...props} />
-						))}
-					</div>
-				);
-			})}
-		</div>
+		<PanelGroup direction='horizontal' className={style.panelGroup}>
+			<Panel defaultSize={50} minSize={30} className={style.column}>
+				{firstPanel.map((moduleProps, i) => (
+					<UIContainer key={i} {...moduleProps} />
+				))}
+			</Panel>
+			<ResizeHandle />
+			<Panel defaultSize={50} minSize={30} className={style.column}>
+				<UIContainer label='Frame Grid'>
+					<FrameGrid />
+				</UIContainer>
+			</Panel>
+		</PanelGroup>
 	);
 };
 

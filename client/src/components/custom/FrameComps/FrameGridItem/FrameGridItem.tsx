@@ -1,7 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { StateFrameT } from '@/state/features/effect/effectSlice.types';
 import { CSSProperties, memo, useState } from 'react';
-import { UniqueIdentifier } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import Frame from '../Frame/Frame';
 import FrameActions from '../FrameActions/FrameActions';

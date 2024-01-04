@@ -6,23 +6,22 @@ import './UIIcon.scss';
 
 const UIIcon = ({
 	name,
-	enlarge,
+	isRotated,
 	width = 20,
 	height = 20,
 	onClick,
 	hidden,
 	classes,
 }: UIIconProps) => {
-	const classNames = appendClasses(['ui-icon', classes, enlarge && 'enlarge']);
-
 	if (hidden) return null;
+
 	return (
 		<Image
 			src={`/${name}.svg`}
 			alt={name}
 			width={width}
 			height={height}
-			className={classNames}
+			className={appendClasses(['uiIcon', classes, isRotated && 'rotated'])}
 			onClick={onClick}
 			draggable={false}
 		/>

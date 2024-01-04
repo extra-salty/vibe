@@ -10,7 +10,7 @@ import {
 const color: ColorT = {
 	hue: 0,
 	saturation: 100,
-	lightness: 50,
+	lightness: 0,
 };
 
 const newFrame: StateFrameT = {

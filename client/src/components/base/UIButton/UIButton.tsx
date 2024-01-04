@@ -39,17 +39,15 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 		</div>
 	);
 
-	const classNames = appendClasses([
-		'uiButton',
-		classes,
-		disabled && 'disabled',
-		hasBorder && 'border',
-	]);
-
 	if (hidden) return null;
 	return (
 		<button
-			className={classNames}
+			className={appendClasses([
+				'uiButton',
+				classes,
+				disabled && 'disabled',
+				hasBorder && 'border',
+			])}
 			style={styles}
 			disabled={disabled}
 			{...mouseEvents}
