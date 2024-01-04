@@ -1,6 +1,8 @@
 import { ChangeEvent, memo } from 'react';
+import { generateRandomElementId } from '@/misc/helpers/helpers';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import UIInputProps from './UIInput.type';
+import UILabel from '../UILabel/UILabel';
 import './UIInput.scss';
 
 const UIInput = ({
@@ -11,11 +13,15 @@ const UIInput = ({
 	placeholder = '',
 	minLength,
 	maxLength,
+	label,
+	id,
 	onChange,
 	classes,
 	hidden,
 }: UIInputProps) => {
 	const classNames = appendClasses(['uiInput', classes]);
+
+	const elId = id || generateRandomElementId();
 
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		onChange?.(e.target.value);
@@ -24,7 +30,7 @@ const UIInput = ({
 	if (hidden) return null;
 	return (
 		<div className={classNames}>
-			<label></label>
+			{label && <UILabel label={label} htmlFor={elId} />}
 			<input
 				type={type}
 				value={value}

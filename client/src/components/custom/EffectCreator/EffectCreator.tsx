@@ -5,6 +5,7 @@ import { setEffectDescription, setEffectName } from '@/state/features/effect/eff
 import { convertDate } from '@/misc/helpers/helpers';
 import { VibeServiceInstance } from '@/services/vibe/vibeService';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { EffectDataUpdateT } from '@/services/vibe/vibeService.types';
 import { Actions } from '@/state/features/effect/effectSlice.enum';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import Frame from '../FrameComps/Frame/Frame';
@@ -13,16 +14,18 @@ import UIButton from '@/components/base/UIButton/UIButton';
 import UIInput from '@/components/base/UIInput/UIInput';
 import UIInputProps from '@/components/base/UIInput/UIInput.type';
 import style from './EffectCreator.module.scss';
-import { EffectDataUpdateT } from '@/services/vibe/vibeService.types';
+import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
+import UILabel, { UILabelProps } from '@/components/base/UILabel/UILabel';
 
 const EffectCreator = () => {
 	const dispatch = useDispatch();
 	const frames = useFrames();
 	const effect = useActiveEffect();
-	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 
+	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [durationTime, setDurationTime] = useState<number>(0);
-	const [overwrtieDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
+	const [overwrriteDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
+	const [showCellCoordinate, setShowCellCoordinate] = useState<boolean>(false);
 
 	const handleEffectPlay = () => {
 		frames.forEach((frame, i) => {
@@ -64,28 +67,40 @@ const EffectCreator = () => {
 		},
 	];
 
-	const effectInputs: UIInputProps[] = [
+	const components: { input: UIInputProps; label: UILabelProps }[] = [
 		{
-			value: effect.name,
-			onChange: (value) => dispatch(setEffectName(value)),
+			input: {
+				value: effect.name,
+				onChange: (value) => dispatch(setEffectName(value)),
+				id: 'effectName',
+			},
+			label: { label: 'Name', htmlFor: 'effectName' },
 		},
 		{
-			value: effect.description,
-			onChange: (value) => dispatch(setEffectDescription(value)),
+			input: {
+				value: effect.description,
+				onChange: (value) => dispatch(setEffectDescription(value)),
+				id: 'effectDesc',
+			},
+			label: { label: 'Description', htmlFor: 'effectDesc' },
 		},
 		{
-			value: convertDate(effect.dateCreated),
-			readonly: true,
+			input: {
+				value: convertDate(effect.dateCreated),
+				id: 'dateCreated',
+				disabled: true,
+			},
+			label: { label: 'Date Created', htmlFor: 'dateCreated' },
 		},
 		{
-			value: convertDate(effect.dateModified),
-			disabled: true,
+			input: {
+				value: convertDate(effect.dateModified),
+				id: 'dateModified',
+				disabled: true,
+			},
+			label: { label: 'Date Created', htmlFor: 'dateModified' },
 		},
 	];
-
-	const renderButtons = (props: UIButtonProps, i: number) => <UIButton key={i} {...props} />;
-
-	const renderInputs = (props: UIInputProps, i: number) => <UIInput key={i} {...props} />;
 
 	return (
 		<div className={style.effectCreator}>
@@ -93,10 +108,19 @@ const EffectCreator = () => {
 				frameData={frames[activeFrameIndex].data}
 				frameIndex={activeFrameIndex}
 				isDisabled={false}
+				showCoordinate={showCellCoordinate}
 			/>
 			<div className='framePagination'>{`${activeFrameIndex + 1}/${frames.length}`}</div>
-			{effectButtons.map(renderButtons)}
-			{effectInputs.map(renderInputs)}
+			{effectButtons.map((props: UIButtonProps, i: number) => (
+				<UIButton key={i} {...props} />
+			))}
+			{components.map((comps, i) => (
+				<div key={i}>
+					<UILabel {...comps.label} />
+					<UIInput {...comps.input} />
+				</div>
+			))}
+			<UICheckbox label='Show cell index' onChange={() => setShowCellCoordinate((s) => !s)} />
 		</div>
 	);
 };

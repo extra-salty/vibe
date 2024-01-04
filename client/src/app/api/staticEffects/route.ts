@@ -21,16 +21,6 @@ export async function GET(req: NextRequest) {
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
 
-		// const staticEffects = await db.collection('effectList').aggregate([
-		// 	{
-		// 		$project: {
-		// 			frames: 1,
-		// 			length: { $size: '$frames' },
-		// 		},
-		// 	},
-		// 	{ $sort: { length: -1 } },
-		// 	{ $find: {} },
-		// ]);
 		return NextResponse.json(staticEffects);
 	} catch (e) {
 		console.log(e);

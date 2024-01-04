@@ -30,11 +30,9 @@ const UISelect = ({
 
 	const elId = id || generateRandomElementId();
 
-	const classNames = appendClasses(['uiSelect', classes]);
-
 	if (hidden || (options && optionGroups)) return null;
 	return (
-		<div className={classNames}>
+		<div className={appendClasses(['uiSelect', classes])}>
 			{label && <UILabel label={label} htmlFor={elId} />}
 			<select
 				id={elId}

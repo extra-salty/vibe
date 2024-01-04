@@ -1,12 +1,10 @@
 .frameCell {
-	height: 100%;
-	width: auto;
+	width: 100%;
+	height: auto;
 	aspect-ratio: 1 / 1;
-	// height: 15px;
-	// width: 15px;
-	border: 1px solid rgba(79, 75, 75, 0.4);
-	color: black;
+
 	padding: 0;
-	font-size: 6px;
-	font-weight: 700;
+	font-size: 8px;
+	color: black;
+	border: 1px solid gray;
 }

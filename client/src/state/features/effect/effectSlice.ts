@@ -10,11 +10,17 @@ import {
 const color: ColorT = {
 	hue: 0,
 	saturation: 100,
+	lightness: 50,
+};
+
+const newFrameColor: ColorT = {
+	hue: 0,
+	saturation: 100,
 	lightness: 0,
 };
 
 const newFrame: StateFrameT = {
-	data: Array(24).fill(Array(12).fill(color)),
+	data: Array(24).fill(Array(12).fill(newFrameColor)),
 	duration: 1000,
 	redo: [],
 	undo: [],

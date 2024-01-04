@@ -1,13 +1,13 @@
 .frameActions {
-	width: 60px;
+	max-width: 60px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 
 	.actionButtons {
 		display: flex;
 		flex-direction: column;
-		gap: 15px;
+		gap: 10px;
 	}
 
 	.row {

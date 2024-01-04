@@ -11,6 +11,7 @@ type UIInputProps = UIComponentProps & {
 	minLength?: number;
 	maxLength?: number;
 	label?: string;
+	id?: string;
 	icon?: Icons;
 	iconPosition?: 'start' | 'end';
 	onChange?: (value: string) => void;

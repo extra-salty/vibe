@@ -1,29 +1,28 @@
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useSelectedStaticEffectIds } from '@/state/features/app/appSelector';
 import { useDispatch } from 'react-redux';
-import { setActiveEffect } from '@/state/features/effect/effectSlice';
 import { setSelectedEffects } from '@/state/features/app/appSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { VibeServiceInstance } from '@/services/vibe/vibeService';
 import { EffectTableDataT, EffectTableHeaderT } from './EffectTable.type';
-import { Effect, BaseEffectT, HistoriesT } from '@/state/features/effect/effectSlice.types';
+import { Effect, BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { UITableHeaderType } from '@/components/base/UITable/UITable.type';
 import { UISelectOptionProps } from '@/components/base/UISelect/UISelect.type';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
+import UIButton from '@/components/base/UIButton/UIButton';
 import UITable from '@/components/base/UITable/UITable';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
-import UIButton from '@/components/base/UIButton/UIButton';
 import UISelect from '@/components/base/UISelect/UISelect';
 import UIInput from '@/components/base/UIInput/UIInput';
+import UIIcon from '@/components/base/UIIcon/UIIcon';
+import Link from 'next/link';
 import style from './EffectTable.module.scss';
 
 const EffectTable = () => {
-	const router = useRouter();
 	const dispatch = useDispatch();
-
 	const selectedIds = useSelectedStaticEffectIds();
+
 	const [effectsData, setEffectsData] = useState<BaseEffectT[]>();
 	const [sortOption, setSortOption] = useState<string>('name-asc');
 	const [filterOption, setFilterOption] = useState<string>('name');
@@ -58,20 +57,6 @@ const EffectTable = () => {
 		}
 	};
 
-	const handleEffectLinkClick = (effect: BaseEffectT) => {
-		const historyProps: HistoriesT = {
-			undo: [],
-			redo: [],
-		};
-		const frames = effect.frames.map((frame) => {
-			return { ...frame, ...historyProps };
-		});
-
-		dispatch(setActiveEffect({ effect: { ...effect, frames } }));
-
-		router.push('/effect');
-	};
-
 	const useRenderEffectTableData = (effect: BaseEffectT, i: number): EffectTableDataT => {
 		const { _id, name, description, dateCreated, dateModified, frames } = effect;
 		return {
@@ -89,12 +74,9 @@ const EffectTable = () => {
 			dateCreated: convertDate(dateCreated),
 			dateModified: convertDate(dateModified),
 			edit: (
-				<UIButton
-					onClick={() => handleEffectLinkClick(effect)}
-					icon={Icons.edit}
-					iconSize={14}
-					hasBorder={false}
-				/>
+				<Link href={`/effect/${_id}`}>
+					<UIIcon name={Icons.edit} width={15} height={15} />
+				</Link>
 			),
 		};
 	};

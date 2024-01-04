@@ -7,6 +7,14 @@ const baseUri = process.env.NEXT_PUBLIC_BASE_API_URL;
 const config: Record<string, any> = {};
 
 class VibeService extends HttpService {
+	getStaticEffect(_id: string): Promise<BaseEffectT> {
+		const methodConfig: MethodConfigT = {
+			endpoint: 'staticEffect',
+			params: { _id },
+		};
+		return this.get<BaseEffectT>(methodConfig);
+	}
+
 	getStaticEffects(options: EffectDataOptionsT): Promise<BaseEffectT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: 'staticEffects',

@@ -8,13 +8,12 @@ type FrameProps = {
 	frameData: ColorT[][];
 	frameIndex: number;
 	isDisabled?: boolean;
+	showCoordinate?: boolean;
 };
 
-const Frame = ({ frameData, frameIndex, isDisabled }: FrameProps) => {
-	const classNames = appendClasses([style.frame, isDisabled && 'disabled']);
-
+const Frame = ({ frameData, frameIndex, isDisabled, showCoordinate }: FrameProps) => {
 	return (
-		<div className={classNames}>
+		<div className={appendClasses([style.frame, isDisabled && 'disabled'])}>
 			{frameData.map((frameColumn, x) => {
 				return (
 					<div key={x} className={style.frameColumn}>
@@ -26,6 +25,7 @@ const Frame = ({ frameData, frameIndex, isDisabled }: FrameProps) => {
 									xIndex={x}
 									yIndex={y}
 									frameIndex={frameIndex}
+									showCoordinate={showCoordinate}
 								/>
 							);
 						})}

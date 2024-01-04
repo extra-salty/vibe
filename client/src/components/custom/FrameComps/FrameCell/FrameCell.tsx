@@ -10,11 +10,13 @@ type FrameCellProps = {
 	frameIndex: number;
 	xIndex: number;
 	yIndex: number;
+	showCoordinate?: boolean;
 };
 
 const FrameCell = ({
 	color: { hue: h, saturation: s, lightness: l },
 	frameIndex,
+	showCoordinate,
 	xIndex: x,
 	yIndex: y,
 }: FrameCellProps) => {
@@ -28,7 +30,7 @@ const FrameCell = ({
 
 	return (
 		<UIButton
-			// text={`${x}/${y}`}
+			text={showCoordinate ? `${x}/${y}` : undefined}
 			styles={{ backgroundColor: `hsl(${h} ${s}% ${l}% / ${(l / 100) * 2} ` }}
 			classes={[style.frameCell]}
 			onClick={onClickHandler}

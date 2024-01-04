@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { MongoClient } from 'mongodb';
 import { IS_DEVELOPMENT_ENV } from '../../../appConfig';
 

@@ -30,7 +30,7 @@ const FrameGridItem = ({ frameIndex, frame }: FrameGridItemProps) => {
 	};
 
 	return (
-		<div ref={setNodeRef} className={style.frameItem} style={inlineStyles}>
+		<div ref={setNodeRef} className={style.frameGridItem} style={inlineStyles}>
 			<FrameActions
 				frame={frame}
 				frameIndex={frameIndex}
