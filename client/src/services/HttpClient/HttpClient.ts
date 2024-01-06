@@ -40,6 +40,7 @@ export class HttpService {
 				headers: {
 					'Content-Type': 'application/json',
 				},
+				// cache: 'default'
 				body: JSON.stringify(data),
 			});
 
@@ -54,19 +55,5 @@ export class HttpService {
 		}
 
 		return result;
-
-		// return fetch(`api/getStaticEffects`)
-		// 	.then((res) => {
-		// 		if (res.ok) {
-		// 			return res.json();
-		// 		} else {
-		// 			throw new Error(`Error occured during ${this.baseUrl}: ${res.status}`);
-		// 		}
-		// 	})
-		// 	.then((data) => {
-		// 		console.log(data);
-		// 		return data;
-		// 	})
-		// 	.catch((error) => console.error(error));
 	}
 }

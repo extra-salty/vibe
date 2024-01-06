@@ -1,34 +1,16 @@
-'use client';
-import UIContainer from '@/components/derived/UIContainer/UIContainer';
-import UIContainerProps from '@/components/derived/UIContainer/UIContainer.type';
-import Attribute from '@/components/custom/Attribute/Attribute';
-import EffectTable from '@/components/custom/EffectTable/EffectTable';
-import './_page.scss';
+import { VibeServiceInstance } from '@/services/vibe/vibeService';
+import StateProvider from '@/state/StateProvider';
+import AnimationCreator from '@/components/custom/AnimationComps/AnimationCreator/AnimationCreator';
+import './page.scss';
 
-enum Modules {
-	attributes = 'Attributes',
-	effect = 'Effect',
-	animation = 'Animation',
-}
-
-const Home = () => {
-	const modules: UIContainerProps[] = [
-		{
-			label: Modules.attributes,
-			children: <Attribute />,
-		},
-		{
-			label: Modules.animation,
-			children: <EffectTable />,
-		},
-	];
+const Home = async () => {
+	const effects = await VibeServiceInstance.getStaticEffects();
+	const animations = await VibeServiceInstance.getAnimations();
 
 	return (
-		<div className='column'>
-			{modules.map((props, i) => {
-				return <UIContainer key={`${i}`} {...props} />;
-			})}
-		</div>
+		<StateProvider>
+			<AnimationCreator effects={effects} animations={animations} />
+		</StateProvider>
 	);
 };
 

@@ -1,3 +1,4 @@
+'use client';
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 import { useSelectedColor } from '@/state/features/effect/effectSelector';

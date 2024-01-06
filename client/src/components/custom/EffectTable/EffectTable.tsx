@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+'use client';
+import { useCallback, useState } from 'react';
 import { useSelectedStaticEffectIds } from '@/state/features/app/appSelector';
 import { useDispatch } from 'react-redux';
 import { setSelectedEffects } from '@/state/features/app/appSlice';
@@ -19,11 +20,11 @@ import UIIcon from '@/components/base/UIIcon/UIIcon';
 import Link from 'next/link';
 import style from './EffectTable.module.scss';
 
-const EffectTable = () => {
+const EffectTable = ({ effects }: { effects: BaseEffectT[] }) => {
 	const dispatch = useDispatch();
 	const selectedIds = useSelectedStaticEffectIds();
 
-	const [effectsData, setEffectsData] = useState<BaseEffectT[]>();
+	const [effectsData, setEffectsData] = useState<BaseEffectT[]>(effects);
 	const [sortOption, setSortOption] = useState<string>('name-asc');
 	const [filterOption, setFilterOption] = useState<string>('name');
 	const [filterValue, setFilterValue] = useState<string>('');
@@ -201,9 +202,9 @@ const EffectTable = () => {
 		},
 	];
 
-	useEffect(() => {
-		getStaticEffectsData();
-	}, [getStaticEffectsData]);
+	// useEffect(() => {
+	// 	getStaticEffectsData();
+	// }, [getStaticEffectsData]);
 
 	return (
 		<div>

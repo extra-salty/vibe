@@ -1,12 +1,14 @@
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { HttpService } from '../HttpClient/HttpClient';
 import { MethodConfigT } from '../HttpClient/HttpClient.types';
 import { EffectDataOptionsT, EffectDataUpdateT } from './vibeService.types';
+import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { AnimationT } from '@/state/features/animation/animation.types';
 
 const baseUri = process.env.NEXT_PUBLIC_BASE_API_URL;
 const config: Record<string, any> = {};
 
 class VibeService extends HttpService {
+	// Static Effects
 	getStaticEffect(_id: string): Promise<BaseEffectT> {
 		const methodConfig: MethodConfigT = {
 			endpoint: 'staticEffect',
@@ -15,7 +17,7 @@ class VibeService extends HttpService {
 		return this.get<BaseEffectT>(methodConfig);
 	}
 
-	getStaticEffects(options: EffectDataOptionsT): Promise<BaseEffectT[]> {
+	getStaticEffects(options?: EffectDataOptionsT): Promise<BaseEffectT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: 'staticEffects',
 			params: options,
@@ -45,6 +47,22 @@ class VibeService extends HttpService {
 			data: selectedStaticEffects,
 		};
 		return this.delete(methodConfig);
+	}
+
+	// Animations
+	getAnimations(): Promise<AnimationT[]> {
+		const methodConfig: MethodConfigT = {
+			endpoint: 'animations',
+		};
+		return this.get<AnimationT[]>(methodConfig);
+	}
+
+	createAnimation(effect: BaseEffectT) {
+		const methodConfig: MethodConfigT = {
+			endpoint: 'staticEffects',
+			data: effect,
+		};
+		return this.post(methodConfig);
 	}
 }
 

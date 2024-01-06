@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useActiveEffect, useFrames } from '@/state/features/effect/effectSelector';
+import { useActiveEffect } from '@/state/features/effect/effectSelector';
 import { setEffectDescription, setEffectName } from '@/state/features/effect/effectSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { VibeServiceInstance } from '@/services/vibe/vibeService';
@@ -19,16 +19,15 @@ import UILabel, { UILabelProps } from '@/components/base/UILabel/UILabel';
 
 const EffectCreator = () => {
 	const dispatch = useDispatch();
-	const frames = useFrames();
-	const effect = useActiveEffect();
 
+	const effect = useActiveEffect();
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [durationTime, setDurationTime] = useState<number>(0);
 	const [overwrriteDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
 	const [showCellCoordinate, setShowCellCoordinate] = useState<boolean>(false);
 
 	const handleEffectPlay = () => {
-		frames.forEach((frame, i) => {
+		effect.frames.forEach((frame, i) => {
 			const timer = setTimeout(() => {
 				setActiveFrameIndex(i);
 			}, i * 1000);
@@ -105,7 +104,7 @@ const EffectCreator = () => {
 	return (
 		<div className={style.effectCreator}>
 			<Frame
-				frameData={frames[activeFrameIndex].data}
+				frameData={effect.frames[activeFrameIndex].data}
 				frameIndex={activeFrameIndex}
 				isDisabled={false}
 				showCoordinate={showCellCoordinate}
@@ -126,20 +125,3 @@ const EffectCreator = () => {
 };
 
 export default EffectCreator;
-
-// const modalActions: Omit<ModalType, 'onModalClose'>[] = [
-//   {
-//     header: 'Effect',
-//     description: 'Are you sure you want to reset the matrix?',
-//     actions: [
-//       {
-//         text: ModalActions.cancel,
-//         onClick: () => {},
-//       },
-//       {
-//         text: ModalActions.accept,
-//         onClick: () => {},
-//       },
-//     ],
-//   },
-// ];

@@ -1,8 +1,7 @@
 'use client';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Modules } from '@/misc/labels/labels';
-import UIContainer from '@/components/derived/UIContainer/UIContainer';
-import UIContainerProps from '@/components/derived/UIContainer/UIContainer.type';
+import UIContainer, { UIContainerProps } from '@/components/derived/UIContainer/UIContainer';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import Attribute from '@/components/custom/Attribute/Attribute';
 import FrameGrid from '@/components/custom/FrameComps/FrameGrid/FrameGrid';
@@ -11,7 +10,7 @@ import style from './page.module.scss';
 import { BaseEffectT, HistoriesT } from '@/state/features/effect/effectSlice.types';
 import { useDispatch } from 'react-redux';
 import { setActiveEffect } from '@/state/features/effect/effectSlice';
-import { useCallback, useEffect } from 'react';
+import { Suspense, useCallback, useEffect } from 'react';
 import { VibeServiceInstance } from '@/services/vibe/vibeService';
 
 const Effect = ({ params: { id } }: { params: { id: string } }) => {
@@ -37,17 +36,17 @@ const Effect = ({ params: { id } }: { params: { id: string } }) => {
 			label: Modules.attributes,
 			children: <Attribute />,
 		},
-		{
-			label: Modules.effect,
-			children: <EffectCreator />,
-		},
+		// {
+		// 	label: Modules.effect,
+		// 	children: <EffectCreator />,
+		// },
 	];
 
 	getStaticEffectData();
 
-	useEffect(() => {
-		getStaticEffectData();
-	}, [getStaticEffectData]);
+	// useEffect(() => {
+	// 	getStaticEffectData();
+	// }, [getStaticEffectData]);
 
 	return (
 		<>
@@ -60,6 +59,7 @@ const Effect = ({ params: { id } }: { params: { id: string } }) => {
 				<ResizeHandle />
 				<Panel defaultSize={70} minSize={30} className={style.column}>
 					<UIContainer label='Frame Grid'>
+						{/* <Suspense></Suspense> */}
 						<FrameGrid />
 					</UIContainer>
 				</Panel>

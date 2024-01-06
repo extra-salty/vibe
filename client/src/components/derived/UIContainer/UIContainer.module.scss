@@ -4,48 +4,9 @@
 	padding: 8px 10px;
 
 	.header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		&.expanded {
-			cursor: pointer;
-		}
-
+		border-bottom: 1px solid white;
 		.label {
 			font-size: 14px;
-		}
-
-		.icon {
-			transition: 1s ease;
-
-			&.rotated {
-				transform: rotateX(180deg);
-			}
-		}
-	}
-
-	.contentWrapper {
-		display: grid;
-		overflow: hidden;
-		grid-template-rows: 0fr;
-		transition: grid-template-rows 0.5s ease-in-out;
-		margin-top: 2px;
-		border-top: 1px solid #a5a4a4;
-		padding-top: 10px;
-
-		.content {
-			min-height: 0;
-			transition: visibility 0.5s ease-in-out;
-			visibility: hidden;
-		}
-
-		&.expanded {
-			grid-template-rows: 1fr;
-
-			.content {
-				visibility: visible;
-			}
 		}
 	}
 }

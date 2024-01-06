@@ -13,6 +13,14 @@ export enum HttpMethods {
 	DELETE = 'DELETE',
 }
 
+export enum ChacheOptions {
+	default = 'default',
+	noStore = 'no-store',
+	PUT = 'PUT',
+	DELETE = 'DELETE',
+}
+// CacheStates;
+
 export interface HttpClientBaseHeader {
 	'Content-Type': string;
 	Authorization?: string;
