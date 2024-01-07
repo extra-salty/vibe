@@ -50,6 +50,14 @@ class VibeService extends HttpService {
 	}
 
 	// Animations
+	getAnimation(name: string): Promise<AnimationT> {
+		const methodConfig: MethodConfigT = {
+			endpoint: 'animation',
+			params: { name },
+		};
+		return this.get<AnimationT>(methodConfig);
+	}
+
 	getAnimations(): Promise<AnimationT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: 'animations',

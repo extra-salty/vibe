@@ -1,14 +1,15 @@
 export type AnimationCreatorT = {
-	animations: AnimationT[];
+	selectedAnimations: AnimationT[];
 };
 
 export type AnimationT = {
-	id: string;
 	name: string;
 	description?: string;
-	segments: {
-		type: 'static' | 'dynamic';
-		id: string;
-		repeat: number;
-	}[];
+	effects: AnimationEffectT[];
+};
+
+export type AnimationEffectT = {
+	type: 'static' | 'dynamic';
+	name: string;
+	repeat: number;
 };

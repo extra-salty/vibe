@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import {
@@ -7,58 +8,55 @@ import {
 	DragEndEvent,
 	DragOverlay,
 	DragStartEvent,
-	UniqueIdentifier,
 	rectIntersection,
 } from '@dnd-kit/core';
 import EffectDragOverlay from '../../EffectComps/EffectDragOverlay/EffectDragOverlay';
 import EffectList from '../../EffectComps/EffectList/EffectList';
-import AnimationList from '../AnimationList/AnimationList';
-import styles from './AnimationCreator.module.scss';
 import AnimationSelector from '../AnimationSelector/AnimationSelector';
+import styles from './AnimationCreator.module.scss';
 
-type AnimationCreatorProps = {
+const AnimationCreator = ({
+	effects,
+	animations,
+}: {
 	effects: BaseEffectT[];
 	animations: AnimationT[];
-};
+}) => {
+	const dispatch = useDispatch();
+	const [activeEffect, setActiveEffect] = useState<string | null>(null);
 
-const AnimationCreator = ({ effects, animations }: AnimationCreatorProps) => {
-	const [activeItem, setActiveId] = useState<string | null>(null);
+	const handleDragStart = ({ active }: DragStartEvent) => setActiveEffect(String(active.id));
 
-	const handleDragStart = (event: DragStartEvent) => setActiveId(String(event.active.id));
+	const handleDragCancel = () => setActiveEffect(null);
 
-	const handleDragCancel = () => setActiveId(null);
-
-	const handleDragEnd = (event: DragEndEvent) => {
-		const { active, over } = event;
-
-		if (active.id !== over?.id) {
-			// setItems((items) => {
-			// 	const oldIndex = items.indexOf(Number(active.id));
-			// 	const newIndex = items.indexOf(Number(over?.id));
-			// 	return arrayMove(items, oldIndex, newIndex);
-			// });
+	const handleDragEnd = ({ active, over }: DragEndEvent) => {
+		console.log(over);
+		console.log(active);
+		if (!over) {
+			setActiveEffect(null);
+			return;
 		}
-		setActiveId(null);
+
+		setActiveEffect(null);
 	};
 
 	return (
 		<div className={styles.effectList}>
-			{/* <DndContext
+			<DndContext
 				onDragStart={handleDragStart}
-				// onDragOver={() => {}}
 				onDragCancel={handleDragCancel}
 				onDragEnd={handleDragEnd}
 				collisionDetection={rectIntersection}
-			> */}
-			<div className={styles.columns}>
-				<EffectList effects={effects} />
-				<AnimationSelector animations={animations} />
-			</div>
+			>
+				<div className={styles.columns}>
+					<AnimationSelector animations={animations} />
+					<EffectList effects={effects} />
+				</div>
 
-			{/* <DragOverlay>
-					{activeItem ? <EffectDragOverlay effectName={activeItem} /> : null}
+				<DragOverlay>
+					{activeEffect ? <EffectDragOverlay effectName={activeEffect} /> : null}
 				</DragOverlay>
-			</DndContext> */}
+			</DndContext>
 		</div>
 	);
 };

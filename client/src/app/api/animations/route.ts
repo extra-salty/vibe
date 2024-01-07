@@ -22,18 +22,28 @@ export async function POST(req: NextRequest) {
 		const db = client.db('vibe');
 
 		// const newAnimation = await req.json();
-		const newAnimation: AnimationT = {
-			name: 'name',
+		const newAnimation: Omit<AnimationT, '_id'> = {
+			name: 'animation1',
 			description: 'description',
 			segments: [
 				{
 					type: 'static',
-					id: '658ee3bbeb664cbf828d5e70',
+					name: 'effect1',
 					repeat: 1,
 				},
 				{
 					type: 'static',
-					id: '658ee3d5eb664cbf828d5e71',
+					name: 'effect2',
+					repeat: 1,
+				},
+				{
+					type: 'static',
+					name: 'effect3',
+					repeat: 1,
+				},
+				{
+					type: 'static',
+					name: 'effect4',
 					repeat: 1,
 				},
 			],

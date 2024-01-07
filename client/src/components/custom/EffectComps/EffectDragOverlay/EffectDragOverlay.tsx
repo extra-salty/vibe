@@ -1,10 +1,6 @@
 import styles from './EffectDragOverlay.module.scss';
 
-type Props = {
-	effectName: string;
-};
-
-const EffectDragOverlay = ({ effectName }: Props) => {
+const EffectDragOverlay = ({ effectName }: { effectName: string }) => {
 	return <div className={styles.overlay}>{effectName}</div>;
 };
 

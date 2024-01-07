@@ -1,9 +1,21 @@
-import React from 'react';
+import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
+import { useDroppable } from '@dnd-kit/core';
+import AnimationDetailList from '../AnimationDetailList/AnimationDetailList';
 
-type Props = {};
+export const ANIMATION_DROP_ZONE_ID = 'animationDropZone';
 
-const AnimationDropZone = (props: Props) => {
-	return <div>AnimationDropZone</div>;
+const AnimationDropZone = () => {
+	const { setNodeRef } = useDroppable({
+		id: ANIMATION_DROP_ZONE_ID,
+	});
+
+	const selectedAnimations = useSelectedAnimations();
+
+	return (
+		<div className='flex  border-solid border border-white' ref={setNodeRef}>
+			<AnimationDetailList animations={selectedAnimations} />
+		</div>
+	);
 };
 
 export default AnimationDropZone;

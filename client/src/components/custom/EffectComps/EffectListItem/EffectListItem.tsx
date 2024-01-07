@@ -6,7 +6,7 @@ import styles from './EffectListItem.module.scss';
 
 const EffectListItem = ({ effect }: { effect: BaseEffectT }) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
-		id: effect._id,
+		id: effect.name,
 	});
 
 	return (
