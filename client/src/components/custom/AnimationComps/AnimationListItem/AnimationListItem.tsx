@@ -3,7 +3,6 @@ import { useDraggable } from '@dnd-kit/core';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { CSS } from '@dnd-kit/utilities';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
-import styles from './AnimationListItem.module.scss';
 
 const AnimationListItem = ({ animation }: { animation: AnimationT }) => {
 	const { attributes, listeners, transform, setNodeRef } = useDraggable({
@@ -15,8 +14,8 @@ const AnimationListItem = ({ animation }: { animation: AnimationT }) => {
 	};
 
 	return (
-		<li ref={setNodeRef} className={styles.item} style={style}>
-			<div className={styles.content}>
+		<li ref={setNodeRef} className={'flex border-solid p-0 m-0'} style={style}>
+			<div className={''}>
 				<div>{animation.name}</div>
 			</div>
 			<button {...attributes} {...listeners}>

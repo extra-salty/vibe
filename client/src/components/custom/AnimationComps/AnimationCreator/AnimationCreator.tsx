@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { setSelectedAnimations } from '@/state/features/animation/animationSlice';
 import { AnimationT } from '@/state/features/animation/animation.types';
+import { VibeServiceInstance } from '@/services/vibe/vibeService';
 import {
 	DndContext,
 	DragEndEvent,
@@ -10,51 +11,40 @@ import {
 	DragStartEvent,
 	rectIntersection,
 } from '@dnd-kit/core';
-import EffectDragOverlay from '../../EffectComps/EffectDragOverlay/EffectDragOverlay';
-import EffectList from '../../EffectComps/EffectList/EffectList';
-import AnimationSelector from '../AnimationSelector/AnimationSelector';
-import styles from './AnimationCreator.module.scss';
+import AnimationList from '../AnimationList/AnimationList';
+import AnimationDragOverlay from '../AnimationDragOverlay/AnimationDragOverlay';
+import AnimationDetailList from '../AnimationDetailList/AnimationDetailList';
 
-const AnimationCreator = ({
-	effects,
-	animations,
-}: {
-	effects: BaseEffectT[];
-	animations: AnimationT[];
-}) => {
+const AnimationCreator = ({ animations }: { animations: AnimationT[] }) => {
+	const animationDropZoneId = 'animationDropZone';
+
 	const dispatch = useDispatch();
-	const [activeEffect, setActiveEffect] = useState<string | null>(null);
+	const [activeAnimation, setActiveAnimation] = useState<string | null>(null);
 
-	const handleDragStart = ({ active }: DragStartEvent) => setActiveEffect(String(active.id));
+	const handleDragStart = (event: DragStartEvent) => setActiveAnimation(String(event.active.id));
 
-	const handleDragCancel = () => setActiveEffect(null);
-
-	const handleDragEnd = ({ active, over }: DragEndEvent) => {
-		console.log(over);
-		console.log(active);
-		if (!over) {
-			setActiveEffect(null);
-			return;
+	const handleDragEnd = async ({ active, over }: DragEndEvent) => {
+		if (over?.id === animationDropZoneId) {
+			const animation = await VibeServiceInstance.getAnimation(String(active.id));
+			dispatch(setSelectedAnimations(animation));
 		}
-
-		setActiveEffect(null);
+		setActiveAnimation(null);
 	};
 
+	const handleDragCancel = () => setActiveAnimation(null);
+
 	return (
-		<div className={styles.effectList}>
+		<div className={'flex bg-gray-600'}>
 			<DndContext
 				onDragStart={handleDragStart}
-				onDragCancel={handleDragCancel}
 				onDragEnd={handleDragEnd}
+				onDragCancel={handleDragCancel}
 				collisionDetection={rectIntersection}
 			>
-				<div className={styles.columns}>
-					<AnimationSelector animations={animations} />
-					<EffectList effects={effects} />
-				</div>
-
+				<AnimationList animations={animations} />
+				<AnimationDetailList animationDropZoneId={animationDropZoneId} />
 				<DragOverlay>
-					{activeEffect ? <EffectDragOverlay effectName={activeEffect} /> : null}
+					{activeAnimation ? <AnimationDragOverlay name={activeAnimation} /> : null}
 				</DragOverlay>
 			</DndContext>
 		</div>

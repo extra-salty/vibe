@@ -1,10 +1,9 @@
 import { AnimationT } from '@/state/features/animation/animation.types';
 import AnimationListItem from '../AnimationListItem/AnimationListItem';
-import styles from './AnimationList.module.scss';
 
 const AnimationList = ({ animations }: { animations: AnimationT[] }) => {
 	return (
-		<ul className={styles.list}>
+		<ul className={'m-0 p-0 list-none'}>
 			{animations.map((animation) => (
 				<AnimationListItem key={animation.name} animation={animation} />
 			))}
