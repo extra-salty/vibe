@@ -7,7 +7,7 @@ const uri = process.env.MONGODB_URI;
 const options = {};
 
 let client;
-let clientPromise: Promise<MongoClient>;
+let mongoClientPromise: Promise<MongoClient>;
 
 if (IS_DEVELOPMENT_ENV()) {
 	let globalWithMongo = global as typeof globalThis & {
@@ -18,13 +18,13 @@ if (IS_DEVELOPMENT_ENV()) {
 		client = new MongoClient(uri, options);
 		globalWithMongo._mongoClientPromise = client.connect();
 	}
-	clientPromise = globalWithMongo._mongoClientPromise;
+	mongoClientPromise = globalWithMongo._mongoClientPromise;
 } else {
 	client = new MongoClient(uri, options);
-	clientPromise = client.connect();
+	mongoClientPromise = client.connect();
 }
 
-export default clientPromise;
+export default mongoClientPromise;
 
 // In development mode, use a global variable so that the value
 // is preserved across module reloads caused by HMR (Hot Module Replacement).

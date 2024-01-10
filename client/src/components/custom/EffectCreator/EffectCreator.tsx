@@ -3,9 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useActiveEffect } from '@/state/features/effect/effectSelector';
 import { setEffectDescription, setEffectName } from '@/state/features/effect/effectSlice';
 import { convertDate } from '@/misc/helpers/helpers';
-import { VibeServiceInstance } from '@/services/vibe/vibeService';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { EffectDataUpdateT } from '@/services/vibe/vibeService.types';
 import { Actions } from '@/state/features/effect/effectSlice.enum';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import Frame from '../FrameComps/Frame/Frame';
@@ -16,6 +14,7 @@ import UIInputProps from '@/components/base/UIInput/UIInput.type';
 import style from './EffectCreator.module.scss';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 import UILabel, { UILabelProps } from '@/components/base/UILabel/UILabel';
+import { EffectServiceInstance } from '@/app/api/effect/_service';
 
 const EffectCreator = () => {
 	const dispatch = useDispatch();
@@ -37,8 +36,7 @@ const EffectCreator = () => {
 	};
 
 	const handleEffectSave = async () => {
-		const updatedEffectData: EffectDataUpdateT = {
-			_id: effect._id,
+		const updatedEffectData: Omit<BaseEffectT, 'dateCreated'> = {
 			name: effect.name,
 			description: effect.description,
 			dateModified: new Date(),
@@ -47,7 +45,7 @@ const EffectCreator = () => {
 			}),
 		};
 		try {
-			await VibeServiceInstance.updateStaticEffect(updatedEffectData);
+			await EffectServiceInstance.updateEffect(updatedEffectData);
 		} catch (e) {
 			console.error(e);
 		}

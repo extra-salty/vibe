@@ -1,5 +1,5 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import clientPromise from '@/services/mongodb/mongodbService';
+import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 type ConnectionStatus = {
 	isConnected: boolean;
@@ -7,7 +7,7 @@ type ConnectionStatus = {
 
 export const getServerSideProps: GetServerSideProps<ConnectionStatus> = async () => {
 	try {
-		await clientPromise;
+		await mongoClientPromise;
 
 		return {
 			props: { isConnected: true },

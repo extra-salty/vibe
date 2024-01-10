@@ -29,7 +29,6 @@ export class Color implements ColorT {
 
 // Effect
 export type BaseEffectT = {
-	_id: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
@@ -77,7 +76,6 @@ const DEFAULT_COLOR: ColorT = {
 };
 
 export class Effect implements BaseEffectT {
-	_id: any;
 	name: string;
 	description: string;
 	dateCreated: Date = new Date();

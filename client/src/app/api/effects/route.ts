@@ -4,8 +4,8 @@ import mongoClientPromise from '@/services/MongoDB/mongoClient';
 export async function GET(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const sortOption = searchParams.get('sortOption') || 'name-asc';
-		const filterOption = searchParams.get('filterOption') || 'name';
+		const sortOption = searchParams.get('sortOptionValue') || 'name-asc';
+		const filterOption = searchParams.get('filterOptionValue') || 'name';
 		const filterValue = searchParams.get('filterValue') || '';
 		const [sortBy, sortDirection] = sortOption.split('-');
 
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
 		const staticEffects = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
+			.collection(process.env.EFFECT_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
@@ -33,12 +33,12 @@ export async function DELETE(req: NextRequest) {
 
 		const result = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
+			.collection(process.env.EFFECT_COLLECTION)
 			.deleteMany({ name: { $in: names } });
 
 		if (!(result.deletedCount === names.length)) {
 			throw Error(
-				`Failed animations deletion. Expected delete count ${names.length}, resulted delete count ${result.deletedCount}`,
+				`Failed static effect deletion. Expected delete count ${names.length}, resulted delete count ${result.deletedCount}`,
 			);
 		}
 	} catch (e) {

@@ -1,51 +1,83 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelectedAnimations } from '@/state/features/animation/animationSlice';
-import { AnimationT } from '@/state/features/animation/animation.types';
-import { VibeServiceInstance } from '@/services/vibe/vibeService';
-import {
-	DndContext,
-	DragEndEvent,
-	DragOverlay,
-	DragStartEvent,
-	rectIntersection,
-} from '@dnd-kit/core';
-import AnimationList from '../AnimationList/AnimationList';
-import AnimationDragOverlay from '../AnimationDragOverlay/AnimationDragOverlay';
+import { addEffect, moveEffect } from '@/state/features/animation/animationSlice';
+import { DndContext, DragEndEvent, closestCenter, useDroppable } from '@dnd-kit/core';
+import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import EffectDragOverlay from '../../EffectComps/EffectDragOverlay/EffectDragOverlay';
 import AnimationDetailList from '../AnimationDetailList/AnimationDetailList';
+import EffectTable from '../../EffectComps/EffectTableComps/EffectTable/EffectTable';
 
-const AnimationCreator = ({ animations }: { animations: AnimationT[] }) => {
-	const animationDropZoneId = 'animationDropZone';
-
+const AnimationCreator = ({
+	animationDropZoneId,
+	effects,
+}: {
+	animationDropZoneId: string;
+	effects: BaseEffectT[];
+}) => {
 	const dispatch = useDispatch();
-	const [activeAnimation, setActiveAnimation] = useState<string | null>(null);
+	const [activeEffect, setActiveEffect] = useState<string | null>(null);
 
-	const handleDragStart = (event: DragStartEvent) => setActiveAnimation(String(event.active.id));
+	const handleDragStart = ({ active }: DragEndEvent) => setActiveEffect(String(active.id));
 
-	const handleDragEnd = async ({ active, over }: DragEndEvent) => {
-		if (over?.id === animationDropZoneId) {
-			const animation = await VibeServiceInstance.getAnimation(String(active.id));
-			dispatch(setSelectedAnimations(animation));
-		}
-		setActiveAnimation(null);
-	};
+	const handleDragCancel = () => setActiveEffect(null);
 
-	const handleDragCancel = () => setActiveAnimation(null);
+	const handleDragOver = ({ active, over }: DragEndEvent) => {};
+
+	const handleDragEnd = useCallback(
+		({ active, over }: DragEndEvent) => {
+			// console.log('active', active.id);
+			// console.log('over', over?.id);
+
+			if (!over) {
+				setActiveEffect(null);
+				return;
+			}
+
+			if (active.id !== over?.id) {
+				const [startX, startY] = String(active.id).split('/');
+				const [endX, endY] = String(over.id)
+					.split('/')
+					.map((coordinate) => Number(coordinate));
+
+				if (startX === 'effect') {
+					dispatch(
+						addEffect({
+							effectName: startY,
+							endCoordinate: { x: endX, y: endY },
+						}),
+					);
+				} else {
+					dispatch(
+						moveEffect({
+							startCoordinate: { x: Number(startX), y: Number(startY) },
+							endCoordinate: { x: endX, y: endY },
+						}),
+					);
+				}
+			}
+
+			setActiveEffect(null);
+		},
+		[dispatch],
+	);
+
+	const { setNodeRef } = useDroppable({
+		id: 'animationDropZone',
+	});
 
 	return (
-		<div className={'flex bg-gray-600'}>
+		<div className='flex border-white min-w-60 ' ref={setNodeRef}>
 			<DndContext
+				collisionDetection={closestCenter}
 				onDragStart={handleDragStart}
+				onDragOver={handleDragOver}
 				onDragEnd={handleDragEnd}
 				onDragCancel={handleDragCancel}
-				collisionDetection={rectIntersection}
 			>
-				<AnimationList animations={animations} />
-				<AnimationDetailList animationDropZoneId={animationDropZoneId} />
-				<DragOverlay>
-					{activeAnimation ? <AnimationDragOverlay name={activeAnimation} /> : null}
-				</DragOverlay>
+				<AnimationDetailList />
+				<EffectTable initialEffects={effects} />
+				<EffectDragOverlay activeEffect={activeEffect} />
 			</DndContext>
 		</div>
 	);

@@ -1,8 +1,8 @@
 import { HttpMethods, MethodConfigT } from './HttpClient.types';
 
-export class HttpService {
-	protected baseUrl: string;
-	protected config: Record<string, any>;
+export class HttpClient {
+	private baseUrl: string;
+	private config: Record<string, any>;
 
 	constructor(baseUrl: string, config: Record<string, any>) {
 		this.baseUrl = baseUrl;
@@ -15,6 +15,10 @@ export class HttpService {
 
 	post<ResponseType>(methodConfig: MethodConfigT) {
 		return this.request<ResponseType>(HttpMethods.POST, methodConfig);
+	}
+
+	patch<ResponseType>(methodConfig: MethodConfigT) {
+		return this.request<ResponseType>(HttpMethods.PATCH, methodConfig);
 	}
 
 	put<ResponseType>(methodConfig: MethodConfigT) {

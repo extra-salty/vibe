@@ -13,11 +13,11 @@ import { setActiveEffect } from '@/state/features/effect/effectSlice';
 import { Suspense, useCallback, useEffect } from 'react';
 import { VibeServiceInstance } from '@/services/vibe/vibeService';
 
-const Effect = ({ params: { id } }: { params: { id: string } }) => {
+const Effect = ({ params: { name } }: { params: { name: string } }) => {
 	const dispatch = useDispatch();
 
 	const getStaticEffectData = useCallback(async () => {
-		const effect: BaseEffectT = await VibeServiceInstance.getStaticEffect(id);
+		const effect: BaseEffectT = await VibeServiceInstance.getEffect(name);
 
 		const historyProps: HistoriesT = {
 			undo: [],
@@ -29,7 +29,7 @@ const Effect = ({ params: { id } }: { params: { id: string } }) => {
 		});
 
 		dispatch(setActiveEffect({ effect: { ...effect, frames } }));
-	}, [dispatch, id]);
+	}, [dispatch, name]);
 
 	const firstPanel: UIContainerProps[] = [
 		{

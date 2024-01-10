@@ -1,46 +1,40 @@
-import { useCallback } from 'react';
 import { genericMemo } from '@/misc/helpers/helpers';
-import UITableProps, { UITableHeaderType } from './UITable.type';
+import { UITableProps } from './UITable.types';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
+import UITableOptions from '../UITableOptions/UITableOptions';
 import './UITable.scss';
 
-let UITable = <T, K extends keyof T>({ data, header, hidden, classes }: UITableProps<T, K>) => {
-	const handleRowSelect = useCallback((e: any) => {}, []);
-
-	const renderTableHeader = useCallback(
-		({ header, classes }: UITableHeaderType<T, K>, i: number) => {
-			return (
-				<th key={`headCell-${i}`} className={classes || ''}>
-					{header}
-				</th>
-			);
-		},
-		[],
-	);
-
-	const renderTableBody = useCallback(
-		(row: any, i: number) => {
-			return (
-				<tr key={`row-${i}`} onClick={(e) => handleRowSelect(e)}>
-					{header.map((column, j) => {
-						return <td key={`cell-${j}`}>{row[column.key]}</td>;
-					})}
-				</tr>
-			);
-		},
-		[handleRowSelect, header],
-	);
-
-	const classNames = appendClasses(['uiTable', classes]);
-
+let UITable = <T, _>({ data, header, options, hidden, classes }: UITableProps<T>) => {
 	if (hidden) return null;
 	return (
-		<table className={classNames}>
-			<thead>
-				<tr>{header.map(renderTableHeader)}</tr>
-			</thead>
-			<tbody>{data.map(renderTableBody)}</tbody>
-		</table>
+		<div>
+			{options ? <UITableOptions options={options} /> : null}
+			<table className={appendClasses(['uiTable', classes])}>
+				<thead>
+					<tr>
+						{header.map(({ header, classes }, i) => {
+							return (
+								<th key={`headCell-${i}`} className={classes || ''}>
+									{header}
+								</th>
+							);
+						})}
+					</tr>
+				</thead>
+
+				<tbody>
+					{data.map((row: any, i) => {
+						return (
+							<tr key={`row-${i}`}>
+								{header.map((column, j) => {
+									return <td key={`cell-${j}`}>{row[column.key]}</td>;
+								})}
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		</div>
 	);
 };
 

@@ -1,5 +1,5 @@
-import { memo } from 'react';
 import { useDroppable } from '@dnd-kit/core';
+import { memo } from 'react';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import AnimationEffectListItem from '../AnimationEffectListItem/AnimationEffectListItem';

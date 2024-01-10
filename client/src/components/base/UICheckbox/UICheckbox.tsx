@@ -16,20 +16,18 @@ const UICheckbox = ({
 }: UICheckboxProps) => {
 	const classNames = appendClasses(['uiCheckbox', classes]);
 
-	const elId = id || generateRandomElementId();
-
 	if (hidden) return null;
 	return (
 		<div className={classNames}>
 			<input
-				id={elId}
+				id={id}
 				type='checkbox'
 				checked={isChecked}
 				value={value}
 				disabled={isDisabled}
 				onChange={({ target }) => onChange?.(target.checked)}
 			/>
-			{label && <UILabel label={label} htmlFor={elId} />}
+			{label && <UILabel label={label} htmlFor={id} />}
 		</div>
 	);
 };

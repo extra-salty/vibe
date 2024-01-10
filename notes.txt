@@ -1,24 +1,5 @@
 TODO:
-- focus on modal
-- rename type to types
-- is my http client global instance?
-- window.addEventListener('unhandledrejection', function(event)) needed?
-
-Check out:
-- abort controller
-- environments - dev vs prod
-
-Ask:
+- disable useEffect on initial render
+- services: make class properties private from child class
 - error handling
-- app/pages router, the method matters in app?
-- request inside request - first client and server - for security and auth
-- important header params?
-- error in server side?
-- class vs object, type
-
-
-- create separate async fn for promises like in useEffect, need state every time?
-
-
-https://github.com/bvaughn/react-resizable-panels
-How can I use persistent layouts with SSR?
+- UITableOptions - type - keyof

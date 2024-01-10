@@ -1,7 +1,7 @@
-import styles from './EffectDragOverlay.module.scss';
+import { DragOverlay } from '@dnd-kit/core';
 
-const EffectDragOverlay = ({ effectName }: { effectName: string }) => {
-	return <div className={styles.overlay}>{effectName}</div>;
+const EffectDragOverlay = ({ activeEffect }: { activeEffect: string | null }) => {
+	return <DragOverlay>{activeEffect ? <div>{activeEffect}</div> : null}</DragOverlay>;
 };
 
 export default EffectDragOverlay;

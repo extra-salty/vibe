@@ -1,10 +1,14 @@
 export type AnimationCreatorT = {
-	selectedAnimations: AnimationT[];
+	selectedEffects: string[];
+	selectedAnimations: string[];
+	selectedAnimationsDetails: AnimationT[];
 };
 
 export type AnimationT = {
 	name: string;
 	description?: string;
+	dateCreated: Date;
+	dateModified: Date;
 	effects: AnimationEffectT[];
 };
 

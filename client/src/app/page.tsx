@@ -1,15 +1,18 @@
-import { VibeServiceInstance } from '@/services/vibe/vibeService';
+import { EffectsServiceInstance } from './api/effects/_service';
+import { AnimationsServiceInstance } from './api/animations/_service';
+import AnimationSelector from '@/components/custom/AnimationComps/AnimationSelector/AnimationSelector';
 import StateProvider from '@/state/StateProvider';
-import AnimationCreator from '@/components/custom/AnimationComps/AnimationCreator/AnimationCreator';
 import './page.scss';
 
 const Home = async () => {
-	const effects = await VibeServiceInstance.getStaticEffects();
-	const animations = await VibeServiceInstance.getAnimations();
+	const [animations, effects] = await Promise.all([
+		AnimationsServiceInstance.getAnimations(),
+		EffectsServiceInstance.getEffects(),
+	]);
 
 	return (
 		<StateProvider>
-			<AnimationCreator effects={effects} animations={animations} />
+			<AnimationSelector animations={animations} effects={effects} />
 		</StateProvider>
 	);
 };

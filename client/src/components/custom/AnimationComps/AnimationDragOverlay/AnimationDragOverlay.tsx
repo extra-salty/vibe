@@ -1,9 +1,7 @@
-const AnimationDragOverlay = ({ name }: { name: string }) => {
-	return (
-		<div>
-			<div>{name}</div>
-		</div>
-	);
+import { DragOverlay } from '@dnd-kit/core';
+
+const AnimationDragOverlay = ({ activeAnimation }: { activeAnimation: string | null }) => {
+	return <DragOverlay>{activeAnimation ? <div>activeAnimation</div> : null}</DragOverlay>;
 };
 
 export default AnimationDragOverlay;
