@@ -1,11 +1,12 @@
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { MongoService } from '@/services/MongoDB/MongoService';
 import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { MongoService, SortAndFilterOptionsT } from '@/services/MongoDB/MongoService';
+import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { UITableOptionsValueT } from '@/components/base/UITableOptions/UITableOptions';
 
 class EffectsService extends MongoService {
 	private endpoint: string = 'effects';
 
-	getEffects(options?: SortAndFilterOptionsT): Promise<BaseEffectT[]> {
+	getEffects(options?: UITableOptionsValueT): Promise<BaseEffectT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			params: options,
@@ -13,10 +14,10 @@ class EffectsService extends MongoService {
 		return this.get<BaseEffectT[]>(methodConfig);
 	}
 
-	deleteEffects(selectedStaticEffects: string[]) {
+	deleteEffects(effects: string[]) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: selectedStaticEffects,
+			data: effects,
 		};
 		return this.delete(methodConfig);
 	}

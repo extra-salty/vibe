@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
 import { removeSelectedAnimations } from '@/state/features/animation/animationSlice';
@@ -82,6 +82,10 @@ const AnimationTableActions = ({
 			disabled: true,
 		},
 	];
+
+	useEffect(() => {
+		handleGetAnimations();
+	}, [handleGetAnimations]);
 
 	return (
 		<div>

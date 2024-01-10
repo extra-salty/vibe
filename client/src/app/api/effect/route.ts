@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import {
+	BaseEffectT,
+	BaseFrame,
+	BaseFrameT,
+	Color,
+} from '@/state/features/effect/effectSlice.types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -123,7 +128,7 @@ export async function PUT() {
 			description: '',
 			dateCreated: new Date(),
 			dateModified: new Date(),
-			frames: [],
+			frames: [new BaseFrame(1000, new Color(0, 100, 50))],
 		};
 
 		const result = await client

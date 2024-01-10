@@ -6,6 +6,8 @@ export type AnimationTableDataT = {
 	numbering: number;
 	name: string;
 	description: string;
+	dateCreated: string;
+	dateModified: string;
 	edit: React.ReactNode;
 	drag: React.ReactNode;
 };
@@ -25,7 +27,15 @@ export const animationTableHeader: UITableHeaderProps<AnimationTableDataT>[] = [
 	},
 	{
 		key: 'description',
-		header: '#',
+		header: 'Description',
+	},
+	{
+		key: 'dateCreated',
+		header: 'Date created',
+	},
+	{
+		key: 'dateModified',
+		header: 'Date modified',
 	},
 	{
 		key: 'edit',

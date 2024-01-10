@@ -4,8 +4,8 @@ import mongoClientPromise from '@/services/MongoDB/mongoClient';
 export async function GET(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const sortOption = searchParams.get('sortOption') || 'name-asc';
-		const filterOption = searchParams.get('filterOption') || 'name';
+		const sortOption = searchParams.get('sortOptionValue') || 'name-asc';
+		const filterOption = searchParams.get('filterOptionValue') || 'name';
 		const filterValue = searchParams.get('filterValue') || '';
 		const [sortBy, sortDirection] = sortOption.split('-');
 

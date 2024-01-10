@@ -6,25 +6,27 @@ import AnimationEffectListItem from '../AnimationEffectListItem/AnimationEffectL
 
 export const AnimationDetailListItem = ({
 	animationIndex,
-	animation,
+	animationDetails,
 }: {
 	animationIndex: number;
-	animation: AnimationT;
+	animationDetails: AnimationT;
 }) => {
-	const items = animation.effects.map((_, effectIndex) => `${animationIndex}/${effectIndex}`);
-	const dropZoneId = `${animation.name}_DropZone`;
+	const items = animationDetails.effects.map(
+		(_, effectIndex) => `${animationIndex}/${effectIndex}`,
+	);
+	const dropZoneId = `${animationDetails.name}_DropZone`;
 
 	const { setNodeRef } = useDroppable({
 		id: dropZoneId,
 	});
 
 	return (
-		<li className='border-solid'>
-			{animation.name}
+		<li className='p-0 m-0 border-solid bg-blue-300'>
+			{animationDetails.name}
 			<SortableContext id={dropZoneId} items={items} strategy={verticalListSortingStrategy}>
-				<ul ref={setNodeRef}>
+				<ul className='p-0 m-0' ref={setNodeRef}>
 					{items.map((item, i) => (
-						<AnimationEffectListItem key={item} index={item} effect={animation.effects[i]} />
+						<AnimationEffectListItem key={item} index={item} effect={animationDetails.effects[i]} />
 					))}
 				</ul>
 			</SortableContext>

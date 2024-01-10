@@ -25,7 +25,7 @@ const AnimationSelector = ({
 	const handleDragStart = (event: DragStartEvent) => setActiveAnimation(String(event.active.id));
 
 	const handleDragEnd = async ({ active, over }: DragEndEvent) => {
-		console.log('🚀 ~ handleDragEnd ~ over:', over);
+		console.log('🚀 ~ handleDragEnd ~ over:', over?.id);
 
 		if (over?.id === animationDropZoneId) {
 			const animation = await AnimationServiceInstance.getAnimation(String(active.id));

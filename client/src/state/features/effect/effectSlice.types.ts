@@ -94,7 +94,7 @@ export class BaseFrame implements BaseFrameT {
 
 	constructor(duration: number, color: ColorT) {
 		this.duration = duration;
-		this.data = Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(DEFAULT_COLOR));
+		this.data = Array(NUMBER_OF_COLUMNS).fill(Array(NUMBER_OF_ROWS).fill(color));
 	}
 }
 

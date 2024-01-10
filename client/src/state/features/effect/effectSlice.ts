@@ -34,7 +34,6 @@ const initialState: EffectCreatorT = {
 	},
 	activeFrame: 0,
 	effect: {
-		_id: '',
 		name: '',
 		description: '',
 		frames: [],

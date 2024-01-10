@@ -36,7 +36,7 @@ export const animationCreator = createSlice({
 		// Animations
 		setSelectedAnimations: (state, action: PayloadAction<string>) => {
 			const name = action.payload;
-			const index = state.selectedEffects.indexOf(name);
+			const index = state.selectedAnimations.indexOf(name);
 
 			if (index < 0) {
 				state.selectedAnimations.push(name);

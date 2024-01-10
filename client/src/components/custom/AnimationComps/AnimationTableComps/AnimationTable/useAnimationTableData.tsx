@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
 import { setSelectedAnimations } from '@/state/features/animation/animationSlice';
+import { convertDate } from '@/misc/helpers/helpers';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import { AnimationTableDataT } from './animationTableSettings';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
@@ -18,7 +19,7 @@ const useAnimationTableData = ({
 	const selectedAnimations = useSelectedAnimations();
 
 	return animations.map((animation, i) => {
-		const { name, description } = animation;
+		const { name, description, dateCreated, dateModified, effects } = animation;
 		const isSelected = selectedAnimations.includes(name);
 
 		return {
@@ -28,6 +29,8 @@ const useAnimationTableData = ({
 			numbering: ++i,
 			name,
 			description: description || '-',
+			dateCreated: convertDate(dateCreated),
+			dateModified: convertDate(dateModified),
 			edit: (
 				<Link href={`/effect/${name}`}>
 					<UIIcon name={Icons.edit} width={15} height={15} />

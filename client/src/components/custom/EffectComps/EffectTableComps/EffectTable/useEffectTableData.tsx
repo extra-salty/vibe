@@ -25,10 +25,8 @@ const useEffectTableData = ({ effects }: { effects: BaseEffectT[] }): EffectTabl
 			numbering: ++i,
 			name,
 			description: description || '-',
-			// frames: frames.length,
-			frames: 0,
-			// duration: frames.reduce((duration, frame) => duration + frame.duration, 0) / 1000,
-			duration: 0,
+			frames: frames.length,
+			duration: frames.reduce((duration, frame) => duration + frame.duration, 0) / 1000,
 			dateCreated: convertDate(dateCreated),
 			dateModified: convertDate(dateModified),
 			edit: (

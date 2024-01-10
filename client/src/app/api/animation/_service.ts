@@ -18,7 +18,7 @@ class AnimationService extends MongoService {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 		};
-		return this.post(methodConfig);
+		return this.put(methodConfig);
 	}
 
 	duplicateAnimation(name: string) {
