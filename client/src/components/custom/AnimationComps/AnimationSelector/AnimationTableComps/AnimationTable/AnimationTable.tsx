@@ -1,6 +1,6 @@
 'use client';
 import useAnimationTableData from './useAnimationTableData';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { UITableOptionsValueT } from '@/components/base/UITableOptions/UITableOptions';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import {
@@ -24,19 +24,17 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationT[]
 	return (
 		<div>
 			<AnimationTableActions tableOptions={tableOptions} setAnimations={setAnimations} />
-			<div className={'my-2'}>
-				<UITable
-					data={animationData}
-					header={animationTableHeader}
-					options={{
-						sortOptions: animationTableSortOptions,
-						filterOptions: animationTablefilterOptions,
-						setOptions: setTableOptions,
-					}}
-				/>
-			</div>
+			<UITable
+				data={animationData}
+				header={animationTableHeader}
+				options={{
+					sortOptions: animationTableSortOptions,
+					filterOptions: animationTablefilterOptions,
+					setOptions: setTableOptions,
+				}}
+			/>
 		</div>
 	);
 };
 
-export default AnimationTable;
+export default memo(AnimationTable);

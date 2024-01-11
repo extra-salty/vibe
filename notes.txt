@@ -3,3 +3,4 @@ TODO:
 - services: make class properties private from child class
 - error handling
 - UITableOptions - type - keyof
+- highlight row when Animation is dragged

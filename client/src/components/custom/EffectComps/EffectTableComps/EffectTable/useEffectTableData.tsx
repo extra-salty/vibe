@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useSelectedEffects } from '@/state/features/animation/animationSelector';
-import { setSelectedEffect } from '@/state/features/animation/animationSlice';
+import { addSelectedEffect } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
@@ -20,7 +20,7 @@ const useEffectTableData = ({ effects }: { effects: BaseEffectT[] }): EffectTabl
 
 		return {
 			select: (
-				<UICheckbox isChecked={isSelected} onChange={() => dispatch(setSelectedEffect(name))} />
+				<UICheckbox isChecked={isSelected} onChange={() => dispatch(addSelectedEffect(name))} />
 			),
 			numbering: ++i,
 			name,

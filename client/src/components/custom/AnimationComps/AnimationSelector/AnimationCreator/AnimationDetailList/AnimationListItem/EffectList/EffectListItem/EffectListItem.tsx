@@ -5,13 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { memo } from 'react';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 
-const AnimationEffectListItem = ({
-	index,
-	effect,
-}: {
-	index: string;
-	effect: AnimationEffectT;
-}) => {
+const EffectListItem = ({ index, effect }: { index: string; effect: AnimationEffectT }) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: index,
 	});
@@ -33,4 +27,4 @@ const AnimationEffectListItem = ({
 	);
 };
 
-export default memo(AnimationEffectListItem);
+export default memo(EffectListItem);

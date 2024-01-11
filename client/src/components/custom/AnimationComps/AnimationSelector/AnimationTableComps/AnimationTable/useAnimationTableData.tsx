@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
-import { setSelectedAnimations } from '@/state/features/animation/animationSlice';
+import { addSelectedAnimation } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import { AnimationTableDataT } from './animationTableSettings';
@@ -24,7 +24,7 @@ const useAnimationTableData = ({
 
 		return {
 			select: (
-				<UICheckbox isChecked={isSelected} onChange={() => dispatch(setSelectedAnimations(name))} />
+				<UICheckbox isChecked={isSelected} onChange={() => dispatch(addSelectedAnimation(name))} />
 			),
 			numbering: ++i,
 			name,

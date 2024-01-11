@@ -7,5 +7,5 @@ export const useSelectedEffects = () =>
 export const useSelectedAnimations = () =>
 	useSelector((state: RootState) => state.animationCreator.selectedAnimations);
 
-export const useSelectedAnimationsDetails = () =>
-	useSelector((state: RootState) => state.animationCreator.selectedAnimationsDetails);
+export const useAnimations = () =>
+	useSelector((state: RootState) => state.animationCreator.animations);

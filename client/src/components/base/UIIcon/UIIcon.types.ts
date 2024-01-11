@@ -37,4 +37,5 @@ export enum Icons {
 	undo = 'undo',
 	unlock = 'unlock',
 	unlockRight = 'unlock_right',
+	width = 'width',
 }

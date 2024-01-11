@@ -1,14 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelectedAnimationsDetails } from '@/state/features/animation/animationSlice';
+import { selectAnimation } from '@/state/features/animation/animationSlice';
 import { DndContext, DragEndEvent, DragStartEvent, rectIntersection } from '@dnd-kit/core';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { AnimationT } from '@/state/features/animation/animation.types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import AnimationDragOverlay from '../AnimationDragOverlay/AnimationDragOverlay';
-import AnimationCreator from '../AnimationCreator/AnimationCreator';
-import AnimationTable from '../AnimationTableComps/AnimationTable/AnimationTable';
+import AnimationTableDragOverlay from './AnimationTableDragOverlay/AnimationTableDragOverlay';
+import AnimationCreator from './AnimationCreator/AnimationCreator';
+import AnimationTable from './AnimationTableComps/AnimationTable/AnimationTable';
 
 const AnimationSelector = ({
 	animations,
@@ -17,7 +17,7 @@ const AnimationSelector = ({
 	animations: AnimationT[];
 	effects: BaseEffectT[];
 }) => {
-	const animationDropZoneId = 'animationDropZone';
+	const animationDropZoneId: string = 'animationDropZone';
 
 	const dispatch = useDispatch();
 	const [activeAnimation, setActiveAnimation] = useState<string | null>(null);
@@ -26,10 +26,10 @@ const AnimationSelector = ({
 
 	const handleDragEnd = async ({ active, over }: DragEndEvent) => {
 		console.log('🚀 ~ handleDragEnd ~ over:', over?.id);
-
+		console.log('🚀 ~ handleDragEnd ~ active:', active.id);
 		if (over?.id === animationDropZoneId) {
 			const animation = await AnimationServiceInstance.getAnimation(String(active.id));
-			dispatch(setSelectedAnimationsDetails(animation));
+			dispatch(selectAnimation(animation));
 		}
 		setActiveAnimation(null);
 	};
@@ -45,8 +45,8 @@ const AnimationSelector = ({
 				collisionDetection={rectIntersection}
 			>
 				<AnimationTable initialAnimations={animations} />
+				<AnimationTableDragOverlay animation={activeAnimation} />
 				<AnimationCreator animationDropZoneId={animationDropZoneId} effects={effects} />
-				<AnimationDragOverlay activeAnimation={activeAnimation} />
 			</DndContext>
 		</div>
 	);
