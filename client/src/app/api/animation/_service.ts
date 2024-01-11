@@ -29,7 +29,7 @@ class AnimationService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateAnimation(animationData: Omit<BaseEffectT, 'dateCreated'>) {
+	updateAnimation(animationData: AnimationT) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			data: animationData,

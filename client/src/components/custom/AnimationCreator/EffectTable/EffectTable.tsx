@@ -8,7 +8,7 @@ import {
 	effectTableSortOptions,
 	effectTableFilterOptions,
 } from './effectTableSettings';
-import EffectTableActions from '../EffectTableActions/EffectTableActions';
+import EffectTableActions from './EffectTableActions/EffectTableActions';
 import UITable from '@/components/base/UITable/UITable';
 
 const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
@@ -23,7 +23,10 @@ const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
 
 	return (
 		<div>
-			<EffectTableActions tableOptions={tableOptions} setEffects={setEffects} />
+			<div className='flex'>
+				<div>Effects</div>
+				<EffectTableActions tableOptions={tableOptions} setEffects={setEffects} />
+			</div>
 			<div className={'my-2'}>
 				<UITable
 					data={effectsData}

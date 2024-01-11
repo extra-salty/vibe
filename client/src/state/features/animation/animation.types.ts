@@ -17,3 +17,12 @@ export type AnimationEffectT = {
 	name: string;
 	repeat: number;
 };
+
+export enum DndElements {
+	animationList = 'animationList',
+	animationListItem = 'animationListItem',
+	effectList = 'effectList',
+	effectListItem = 'effectListItem',
+	newEffect = 'newEffect',
+	newAnimation = 'newAnimation',
+}

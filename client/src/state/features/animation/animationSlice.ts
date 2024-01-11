@@ -34,14 +34,19 @@ export const animationCreator = createSlice({
 		},
 
 		// Animations - List
-		selectAnimation: (state, action: PayloadAction<AnimationT>) => {
-			const selectedAnimation = action.payload;
+		selectAnimation: (
+			state,
+			action: PayloadAction<{ selectedAnimation: AnimationT; index?: number }>,
+		) => {
+			const { selectedAnimation, index } = action.payload;
+			const newIndex = index != undefined ? index : state.animations.length;
+
 			const includes = state.animations.find(
-				(animation) => animation.name === selectAnimation.name,
+				(animation) => animation.name === selectedAnimation.name,
 			);
 
 			if (!includes) {
-				state.animations.push(selectedAnimation);
+				state.animations.splice(newIndex, 0, selectedAnimation);
 			}
 		},
 		moveAnimation: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
@@ -51,6 +56,11 @@ export const animationCreator = createSlice({
 			state.animations[startIndex] = state.animations[endIndex];
 			state.animations[endIndex] = temp;
 		},
+		// getAnimation: (state, action: PayloadAction<number>) => {
+		// 	const index = action.payload;
+
+		//   state.animations[]
+		// },
 
 		// Effects - Table
 		addSelectedEffect: (state, action: PayloadAction<string>) => {
@@ -74,6 +84,19 @@ export const animationCreator = createSlice({
 		},
 
 		// Effects - List
+		addEffect: (
+			state,
+			action: PayloadAction<{ effect: AnimationEffectT; coordinate: CoordinateT }>,
+		) => {
+			const {
+				effect,
+				coordinate: { x, y },
+			} = action.payload;
+
+			state.animations[x].effects.push(effect);
+			// state.animations[x].effects.splice(y, 0, effect);
+		},
+		removeEffect: (state, action: PayloadAction<{ startCoordinate: CoordinateT }>) => {},
 		moveEffect: (
 			state,
 			action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
@@ -96,16 +119,6 @@ export const animationCreator = createSlice({
 				// }
 			}
 		},
-		addEffect: (
-			state,
-			action: PayloadAction<{ effectName: string; endCoordinate: CoordinateT }>,
-		) => {
-			const { effectName, endCoordinate: end } = action.payload;
-			const effect: AnimationEffectT = { name: effectName, repeat: 1, type: 'static' };
-
-			state.animations[end.x].effects.splice(end.y, 0, effect);
-		},
-		removeEffect: (state, action: PayloadAction<{ startCoordinate: CoordinateT }>) => {},
 	},
 });
 

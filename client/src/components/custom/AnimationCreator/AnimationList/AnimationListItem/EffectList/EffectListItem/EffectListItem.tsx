@@ -1,5 +1,5 @@
 import { useSortable } from '@dnd-kit/sortable';
-import { AnimationEffectT } from '@/state/features/animation/animation.types';
+import { AnimationEffectT, DndElements } from '@/state/features/animation/animation.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { CSS } from '@dnd-kit/utilities';
 import { memo } from 'react';
@@ -8,6 +8,7 @@ import UIIcon from '@/components/base/UIIcon/UIIcon';
 const EffectListItem = ({ index, effect }: { index: string; effect: AnimationEffectT }) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: index,
+		data: { type: DndElements.effectListItem, index: index },
 	});
 
 	const style = {

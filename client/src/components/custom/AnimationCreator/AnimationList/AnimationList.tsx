@@ -1,27 +1,37 @@
 import { useAnimations } from '@/state/features/animation/animationSelector';
+import { useDroppable } from '@dnd-kit/core';
+import { memo } from 'react';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
+import { DndElements } from '@/state/features/animation/animation.types';
 import AnimationListItem from './AnimationListItem/AnimationListItem';
 
-const AnimationList = ({ animationDropZoneId }: { animationDropZoneId: string }) => {
+const AnimationList = () => {
 	const animations = useAnimations();
-	const items = animations.map((animation, i) => `${animation.name}/${i}`);
+	const items = animations.map((animation, i) => `${animation.name}`);
 
-	// const { setNodeRef } = useDroppable({
-	// 	id: animationDropZoneId,
-	// });
+	const { setNodeRef } = useDroppable({
+		id: DndElements.animationList,
+		data: { type: DndElements.animationList },
+	});
 
 	return (
-		<ul className='min-w-48 h-full flex list-none m-0 p-0 bg-blue-200'>
-			<SortableContext items={items} strategy={horizontalListSortingStrategy}>
-				{animations.map((animation, i) => (
-					<AnimationListItem key={animation.name} index={i} animation={animation} />
-				))}
-			</SortableContext>
-		</ul>
+		<div ref={setNodeRef} className='flex justify-center w-full bg-gray-500'>
+			{animations.length ? (
+				<ul className='h-full flex list-none m-0 p-0'>
+					<SortableContext items={items} strategy={horizontalListSortingStrategy}>
+						{animations.map((animation, i) => (
+							<AnimationListItem key={animation.name} index={i} animation={animation} />
+						))}
+					</SortableContext>
+				</ul>
+			) : (
+				<div className='m-auto'>Drop an animation from the table</div>
+			)}
+		</div>
 	);
 };
 
-export default AnimationList;
+export default memo(AnimationList);
 
 // const dispatch = useDispatch();
 // const [activeEffect, setActiveEffect] = useState<string | null>(null);

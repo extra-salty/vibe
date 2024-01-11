@@ -9,3 +9,6 @@ export const useSelectedAnimations = () =>
 
 export const useAnimations = () =>
 	useSelector((state: RootState) => state.animationCreator.animations);
+
+// export const useAnimation = (index: number) =>
+// 	useSelector((state: RootState) => state.animationCreator.animations[index]);

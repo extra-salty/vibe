@@ -11,14 +11,15 @@ export async function GET(req: NextRequest) {
 
 		const client = await mongoClientPromise;
 
-		const staticEffects = await client
+		const animations = await client
 			.db(process.env.DB_NAME)
 			.collection(process.env.ANIMATION_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
+			.project({ _id: 0 })
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
 
-		return NextResponse.json(staticEffects);
+		return NextResponse.json(animations);
 	} catch (e) {
 		console.log(e);
 		console.error(e);

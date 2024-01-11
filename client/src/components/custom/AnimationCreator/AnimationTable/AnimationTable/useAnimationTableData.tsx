@@ -7,7 +7,7 @@ import { AnimationTableDataT } from './animationTableSettings';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
-import AnimationTableDragButton from '../AnimationTableDragButton/AnimationTableDragButton';
+import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableDragButton';
 import Link from 'next/link';
 
 const useAnimationTableData = ({

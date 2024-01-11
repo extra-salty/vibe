@@ -8,7 +8,7 @@ import {
 	animationTableSortOptions,
 	animationTablefilterOptions,
 } from './animationTableSettings';
-import AnimationTableActions from '../AnimationTableActions/AnimationTableActions';
+import AnimationTableActions from './AnimationTableActions/AnimationTableActions';
 import UITable from '@/components/base/UITable/UITable';
 
 const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationT[] }) => {
@@ -23,7 +23,10 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationT[]
 
 	return (
 		<div>
-			<AnimationTableActions tableOptions={tableOptions} setAnimations={setAnimations} />
+			<div className='flex'>
+				<div>Animations</div>
+				<AnimationTableActions tableOptions={tableOptions} setAnimations={setAnimations} />
+			</div>
 			<UITable
 				data={animationData}
 				header={animationTableHeader}

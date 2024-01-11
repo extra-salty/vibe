@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 			.db(process.env.DB_NAME)
 			.collection(process.env.EFFECT_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
+			.project({ _id: 0 })
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
 

@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 		const result = await client
 			.db(process.env.DB_NAME)
 			.collection(process.env.EFFECT_COLLECTION)
-			.findOne({ name: effectName });
+			.findOne({ name: effectName }, { projection: { _id: false } });
 
 		if (!result) {
 			throw Error('Failed to find static effect');

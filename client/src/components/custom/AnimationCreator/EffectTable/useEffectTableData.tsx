@@ -5,7 +5,7 @@ import { convertDate } from '@/misc/helpers/helpers';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { EffectTableDataT } from './effectTableSettings';
-import EffectTableDragButton from '../EffectTableDragButton/EffectTableDragButton';
+import EffectTableDragButton from './EffectTableDragButton/EffectTableDragButton';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 import Link from 'next/link';
