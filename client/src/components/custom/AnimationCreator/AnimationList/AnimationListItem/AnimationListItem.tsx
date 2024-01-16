@@ -1,53 +1,56 @@
+import useAnimationHeader from './useAnimationHeader';
 import { useSortable } from '@dnd-kit/sortable';
 import { memo } from 'react';
-import { AnimationT, DndElements } from '@/state/features/animation/animation.types';
-import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { DndElements } from '@/state/features/animation/animation.types';
 import { CSS } from '@dnd-kit/utilities';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { BaseAnimationT } from '@/app/api/animation/_types';
 import EffectList from './EffectList/EffectList';
-import UIButton from '@/components/base/UIButton/UIButton';
-import UIInput from '@/components/base/UIInput/UIInput';
 
 export const AnimationListItem = ({
 	index,
 	animation,
 }: {
 	index: number;
-	animation: AnimationT;
+	animation: BaseAnimationT;
 }) => {
-	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-		id: animation.name,
-		data: { type: DndElements.animationListItem, index: index },
-	});
+	const animationHeader = useAnimationHeader({ animation, index });
+
+	const { setNodeRef, attributes, listeners, transform, transition, isDragging, isOver } =
+		useSortable({
+			id: `${animation.name}/${index}`,
+			data: { type: DndElements.animationListItem, index: index },
+		});
 
 	const style = {
+		opacity: isDragging ? 0.5 : undefined,
 		transform: CSS.Transform.toString(transform),
 		transition,
 	};
 
-	const handleAnimationSave = async () => {
-		console.log('🚀 ~ handleAnimationSave ~ animation:', animation);
-		await AnimationServiceInstance.updateAnimation(animation);
-	};
-
 	return (
-		<li className='p-0 m-0 border-solid bg-blue-300' style={style} ref={setNodeRef}>
-			<div className='flex align-center'>
-				<button className='bg-transparent' {...attributes} {...listeners}>
-					<UIIcon name={Icons.width} />
-				</button>
-				<UIButton icon={Icons.save} onClick={() => handleAnimationSave()} />
-				<UIInput value={animation.name} />
-				<div>{animation.name}</div>
+		<li ref={setNodeRef} style={style} className='flex flex-col p-0 m-0 border-solid'>
+			<div className='flex'>
+				{animationHeader.map(({ key, header, classes }) => (
+					<div key={key} className={`${classes}`}>
+						{header}
+					</div>
+				))}
 			</div>
-			<EffectList
+			{/* <EffectList
 				effects={animation.effects}
 				animationIndex={index}
 				animationName={animation.name}
-			/>
+				header={animationHeader}
+			/> */}
 		</li>
 	);
 };
 
 export default memo(AnimationListItem);
+
+// const handleAnimationSave = async () => {
+// 	console.log('🚀 ~ handleAnimationSave ~ animation:', animation);
+// 	await AnimationServiceInstance.updateAnimation(animation);
+// };
+
+// const handleAnimationRemove = async () => {};

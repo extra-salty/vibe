@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AnimationCreatorT, AnimationEffectT, AnimationT } from './animation.types';
+import { AnimationCreatorT, StateAnimationT } from './animation.types';
 import { CoordinateT } from '../effect/effectSlice.types';
 
 const initialState: AnimationCreatorT = {
@@ -36,7 +36,7 @@ export const animationCreator = createSlice({
 		// Animations - List
 		selectAnimation: (
 			state,
-			action: PayloadAction<{ selectedAnimation: AnimationT; index?: number }>,
+			action: PayloadAction<{ selectedAnimation: StateAnimationT | any; index?: number }>,
 		) => {
 			const { selectedAnimation, index } = action.payload;
 			const newIndex = index != undefined ? index : state.animations.length;
@@ -84,41 +84,41 @@ export const animationCreator = createSlice({
 		},
 
 		// Effects - List
-		addEffect: (
-			state,
-			action: PayloadAction<{ effect: AnimationEffectT; coordinate: CoordinateT }>,
-		) => {
-			const {
-				effect,
-				coordinate: { x, y },
-			} = action.payload;
+		// addEffect: (
+		// 	state,
+		// 	action: PayloadAction<{ effect: AnimationEffectT; coordinate: CoordinateT }>,
+		// ) => {
+		// 	const {
+		// 		effect,
+		// 		coordinate: { x, y },
+		// 	} = action.payload;
 
-			state.animations[x].effects.push(effect);
-			// state.animations[x].effects.splice(y, 0, effect);
-		},
-		removeEffect: (state, action: PayloadAction<{ startCoordinate: CoordinateT }>) => {},
-		moveEffect: (
-			state,
-			action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
-		) => {
-			const { startCoordinate: start, endCoordinate: end } = action.payload;
-			const effect = state.animations[start.x].effects[start.y];
+		// 	state.animations[x].effects.push(effect);
+		// 	// state.animations[x].effects.splice(y, 0, effect);
+		// },
+		// removeEffect: (state, action: PayloadAction<{ startCoordinate: CoordinateT }>) => {},
+		// moveEffect: (
+		// 	state,
+		// 	action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
+		// ) => {
+		// 	const { startCoordinate: start, endCoordinate: end } = action.payload;
+		// 	const effect = state.animations[start.x].effects[start.y];
 
-			if (start.x === end.x) {
-				const temp = state.animations[end.x].effects[end.y];
+		// 	if (start.x === end.x) {
+		// 		const temp = state.animations[end.x].effects[end.y];
 
-				state.animations[end.x].effects[end.y] = effect;
-				state.animations[start.x].effects[start.y] = temp;
-			} else {
-				state.animations[start.x].effects.splice(start.y, 1);
+		// 		state.animations[end.x].effects[end.y] = effect;
+		// 		state.animations[start.x].effects[start.y] = temp;
+		// 	} else {
+		// 		state.animations[start.x].effects.splice(start.y, 1);
 
-				state.animations[end.x].effects.splice(end.y, 0, effect);
-				// if (state.selectedAnimationsDetails[end.x]?.effects) {
-				// } else {
-				// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
-				// }
-			}
-		},
+		// 		state.animations[end.x].effects.splice(end.y, 0, effect);
+		// 		// if (state.selectedAnimationsDetails[end.x]?.effects) {
+		// 		// } else {
+		// 		// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
+		// 		// }
+		// 	}
+		// },
 	},
 });
 
@@ -132,9 +132,9 @@ export const {
 	// Animations - List
 	selectAnimation,
 	moveAnimation,
-	moveEffect,
-	addEffect,
-	removeEffect,
+	// moveEffect,
+	// addEffect,
+	// removeEffect,
 } = animationCreator.actions;
 
 export default animationCreator.reducer;

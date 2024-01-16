@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AnimationT } from '@/state/features/animation/animation.types';
+import { BaseAnimationT } from './_types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -50,7 +50,7 @@ export async function PUT() {
 			}
 		}
 
-		const newAnimation: AnimationT = {
+		const newAnimation: BaseAnimationT = {
 			name: `newAnimation${count}`,
 			description: '',
 			dateCreated: new Date(),
@@ -79,7 +79,7 @@ export async function PUT() {
 export async function PATCH(req: NextRequest) {
 	try {
 		const dateModified = new Date();
-		const { name, ...animationData }: AnimationT = await req.json();
+		const { name, ...animationData }: BaseAnimationT = await req.json();
 		console.log('🚀 ~ PATCH ~ animationData:', animationData);
 
 		const client = await mongoClientPromise;

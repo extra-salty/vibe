@@ -7,7 +7,11 @@ module.exports = {
 		'./src/**/*.{js,ts,jsx,tsx,mdx}',
 	],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				'glass-gray': '#50505066',
+			},
+		},
 	},
 	plugins: [],
 };

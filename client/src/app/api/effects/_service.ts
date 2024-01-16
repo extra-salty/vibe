@@ -1,7 +1,7 @@
 import { MongoService } from '@/services/MongoDB/MongoService';
 import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { UITableOptionsValueT } from '@/components/base/UITableOptions/UITableOptions';
+import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
 
 class EffectsService extends MongoService {
 	private endpoint: string = 'effects';

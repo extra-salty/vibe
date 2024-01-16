@@ -1,7 +1,7 @@
 import { MongoService } from '@/services/MongoDB/MongoService';
 import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { AnimationT } from '@/state/features/animation/animation.types';
-import { UITableOptionsValueT } from '@/components/base/UITableOptions/UITableOptions';
+import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
 
 class AnimationsService extends MongoService {
 	private endpoint: string = 'animations';

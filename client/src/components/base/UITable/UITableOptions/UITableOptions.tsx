@@ -1,6 +1,8 @@
-import { UISelectOptionProps } from '../UISelect/UISelect.type';
-import UIInput from '../UIInput/UIInput';
-import UISelect from '../UISelect/UISelect';
+import { UISelectOptionProps } from '../../UISelect/UISelect.type';
+import { Icons } from '../../UIIcon/UIIcon.types';
+import UIIcon from '../../UIIcon/UIIcon';
+import UIInput from '../../UIInput/UIInput';
+import UISelect from '../../UISelect/UISelect';
 
 export type UITableOptionsProps = {
 	sortOptions?: UISelectOptionProps[];
@@ -29,9 +31,9 @@ const UITableOptions = ({ options }: { options: UITableOptionsProps }) => {
 	return (
 		<div className='flex justify-between'>
 			{sortOptions ? (
-				<div>
+				<div className='flex'>
+					<UIIcon name={Icons.sort} />
 					<UISelect
-						label='Sort by:'
 						options={sortOptions}
 						onChange={(value: string) => {
 							handleOptionChange({ sortOptionValue: value });
@@ -41,10 +43,10 @@ const UITableOptions = ({ options }: { options: UITableOptionsProps }) => {
 			) : null}
 			{filterOptions ? (
 				<div className='flex'>
+					<UIIcon name={Icons.filter} />
 					<UISelect
 						options={filterOptions}
 						onChange={(value: string) => handleOptionChange({ filterOptionValue: value })}
-						label='Filter by:'
 					/>
 					<UIInput
 						placeholder='Enter filter value'

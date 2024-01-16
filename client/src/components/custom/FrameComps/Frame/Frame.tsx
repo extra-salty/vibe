@@ -1,8 +1,6 @@
 import { memo } from 'react';
 import { ColorT } from '@/state/features/effect/effectSlice.types';
-import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import FrameCell from '../FrameCell/FrameCell';
-import style from './Frame.module.scss';
 
 type FrameProps = {
 	frameData: ColorT[][];
@@ -13,10 +11,14 @@ type FrameProps = {
 
 const Frame = ({ frameData, frameIndex, isDisabled, showCoordinate }: FrameProps) => {
 	return (
-		<div className={appendClasses([style.frame, isDisabled && 'disabled'])}>
+		<div
+			className={
+				'flex p-2 border-solid flex-grow ' + (isDisabled ? 'pointer-events-none' : 'hidden')
+			}
+		>
 			{frameData.map((frameColumn, x) => {
 				return (
-					<div key={x} className={style.frameColumn}>
+					<div key={x} className={'flex flex-col-reverse flex-grow'}>
 						{frameColumn.map((color, y) => {
 							return (
 								<FrameCell

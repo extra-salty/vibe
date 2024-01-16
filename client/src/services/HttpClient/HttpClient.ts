@@ -38,13 +38,17 @@ export class HttpClient {
 		let result;
 
 		try {
+			// if (data && !JSON.parse(data).result) {
+			// 	throw new Error(`Invalid json format within ${this.baseUrl}/${endpoint}`);
+			// }
+
 			const response = await fetch(url, {
 				...this.config,
 				method: method,
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				// cache: 'default'
+				// cache: 'no-store',
 				body: JSON.stringify(data),
 			});
 
@@ -56,6 +60,7 @@ export class HttpClient {
 			}
 		} catch (e) {
 			console.error(e);
+			console.log(e);
 		}
 
 		return result;

@@ -3,12 +3,24 @@ import { useSelectedAnimations } from '@/state/features/animation/animationSelec
 import { addSelectedAnimation } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { AnimationT } from '@/state/features/animation/animation.types';
-import { AnimationTableDataT } from './animationTableSettings';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableDragButton';
 import Link from 'next/link';
+
+export type AnimationTableDataT = {
+	select: React.ReactNode;
+	numbering: number;
+	name: string;
+	description: string;
+	frames: number;
+	duration: number;
+	dateCreated: string;
+	dateModified: string;
+	edit: React.ReactNode;
+	drag: React.ReactNode;
+};
 
 const useAnimationTableData = ({
 	animations,
@@ -29,6 +41,8 @@ const useAnimationTableData = ({
 			numbering: ++i,
 			name,
 			description: description || '-',
+			frames: 0,
+			duration: 0,
 			dateCreated: convertDate(dateCreated),
 			dateModified: convertDate(dateModified),
 			edit: (

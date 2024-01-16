@@ -1,17 +1,16 @@
 import { MongoService } from '@/services/MongoDB/MongoService';
 import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { AnimationT } from '@/state/features/animation/animation.types';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { BaseAnimationT } from './_types';
 
 class AnimationService extends MongoService {
 	private endpoint: string = 'animation';
 
-	getAnimation(name: string): Promise<AnimationT> {
+	getAnimation(name: string): Promise<BaseAnimationT> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			params: { name },
 		};
-		return this.get<AnimationT>(methodConfig);
+		return this.get<BaseAnimationT>(methodConfig);
 	}
 
 	createAnimation() {
@@ -29,7 +28,7 @@ class AnimationService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateAnimation(animationData: AnimationT) {
+	updateAnimation(animationData: BaseAnimationT) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			data: animationData,

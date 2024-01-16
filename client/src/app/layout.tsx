@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang='en'>
 			<body className={inter.className}>
 				{/* <Header /> */}
-				<main className='page-content'>{children}</main>
+				<main className='p-4 bg-[#50505066] rounded-2xl'>{children}</main>
 			</body>
 		</html>
 	);

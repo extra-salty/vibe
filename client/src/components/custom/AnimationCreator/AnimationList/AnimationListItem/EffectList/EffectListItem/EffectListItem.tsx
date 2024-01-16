@@ -1,11 +1,19 @@
 import { useSortable } from '@dnd-kit/sortable';
-import { AnimationEffectT, DndElements } from '@/state/features/animation/animation.types';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { DndElements } from '@/state/features/animation/animation.types';
 import { CSS } from '@dnd-kit/utilities';
 import { memo } from 'react';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { UITableHeaderProps } from '@/components/base/UITable/UITable.types';
+import { EffectListDataT } from '../useEffectListData';
 
-const EffectListItem = ({ index, effect }: { index: string; effect: AnimationEffectT }) => {
+const EffectListItem = ({
+	index,
+	effect,
+	header,
+}: {
+	index: number;
+	header: UITableHeaderProps<EffectListDataT>[];
+	effect: EffectListDataT;
+}) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: index,
 		data: { type: DndElements.effectListItem, index: index },
@@ -14,16 +22,14 @@ const EffectListItem = ({ index, effect }: { index: string; effect: AnimationEff
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		border: '1px dashed red',
 		opacity: isDragging ? 0.5 : 1,
 	};
 
 	return (
-		<li className='flex' ref={setNodeRef} style={style}>
-			<div>{effect.name}</div>
-			<button {...attributes} {...listeners}>
-				<UIIcon name={Icons.drag} />
-			</button>
+		<li ref={setNodeRef} style={style} className='flex gap-2'>
+			{header.map((column, j) => {
+				return <div key={`cell-${j}`}>{effect[column.key]}</div>;
+			})}
 		</li>
 	);
 };

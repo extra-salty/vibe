@@ -1,21 +1,24 @@
+import { BaseEffectT } from '../effect/effectSlice.types';
+
 export type AnimationCreatorT = {
 	selectedEffects: string[];
 	selectedAnimations: string[];
-	animations: AnimationT[];
+	animations: StateAnimationT[];
 };
 
-export type AnimationT = {
+export type StateAnimationT = {
 	name: string;
 	description?: string;
 	dateCreated: Date;
 	dateModified: Date;
-	effects: AnimationEffectT[];
+	effects: StateAnimationEffectT[];
 };
 
-export type AnimationEffectT = {
+export type StateAnimationEffectT = {
 	type: 'static' | 'dynamic';
 	name: string;
 	repeat: number;
+	effect: BaseEffectT[];
 };
 
 export enum DndElements {

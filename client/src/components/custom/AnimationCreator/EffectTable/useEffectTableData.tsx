@@ -4,11 +4,23 @@ import { addSelectedEffect } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { EffectTableDataT } from './effectTableSettings';
 import EffectTableDragButton from './EffectTableDragButton/EffectTableDragButton';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 import Link from 'next/link';
+
+export type EffectTableDataT = {
+	select: React.ReactNode;
+	numbering: number;
+	name: React.ReactNode;
+	description: React.ReactNode;
+	frames: number;
+	duration: number;
+	dateCreated: string;
+	dateModified: string;
+	edit: React.ReactNode;
+	drag: React.ReactNode;
+};
 
 const useEffectTableData = ({ effects }: { effects: BaseEffectT[] }): EffectTableDataT[] => {
 	const dispatch = useDispatch();

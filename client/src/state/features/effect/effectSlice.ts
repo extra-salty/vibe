@@ -13,14 +13,14 @@ const color: ColorT = {
 	lightness: 50,
 };
 
-const newFrameColor: ColorT = {
+const defaultColor: ColorT = {
 	hue: 0,
 	saturation: 100,
 	lightness: 0,
 };
 
 const newFrame: StateFrameT = {
-	data: Array(24).fill(Array(12).fill(newFrameColor)),
+	data: Array(24).fill(Array(12).fill(defaultColor)),
 	duration: 1000,
 	redo: [],
 	undo: [],

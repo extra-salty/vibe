@@ -69,10 +69,10 @@ export type FrameCellLocationT = {
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;
-const DEFAULT_COLOR: ColorT = {
+export const DEFAULT_COLOR: ColorT = {
 	hue: 0,
-	saturation: 0,
-	lightness: 100,
+	saturation: 100,
+	lightness: 0,
 };
 
 export class Effect implements BaseEffectT {

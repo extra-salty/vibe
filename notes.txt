@@ -4,3 +4,4 @@ TODO:
 - error handling
 - UITableOptions - type - keyof
 - highlight row when Animation is dragged
+- use generic array kind of type instead of UITableHeader for animations

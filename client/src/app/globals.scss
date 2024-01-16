@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 body {
-	display: flex;
-	flex-direction: column;
 	gap: 48px;
 	margin: 20px auto;
 	padding-inline: 5%;
@@ -17,9 +15,6 @@ body {
 	color: #fff;
 	font-size: 16px;
 	font-weight: 400;
-
-	// Variables
-	--border-radius: 5px;
 }
 
 @keyframes gradient {
@@ -33,3 +28,5 @@ body {
 		background-position: left;
 	}
 }
+
+// background-color: rgba(79, 75, 75, 0.4);
