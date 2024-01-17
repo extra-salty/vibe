@@ -11,11 +11,7 @@ type FrameProps = {
 
 const Frame = ({ frameData, frameIndex, isDisabled, showCoordinate }: FrameProps) => {
 	return (
-		<div
-			className={
-				'flex p-2 border-solid flex-grow ' + (isDisabled ? 'pointer-events-none' : 'hidden')
-			}
-		>
+		<div className={'flex p-2 border-solid flex-grow ' + (isDisabled ? 'pointer-events-none' : '')}>
 			{frameData.map((frameColumn, x) => {
 				return (
 					<div key={x} className={'flex flex-col-reverse flex-grow'}>

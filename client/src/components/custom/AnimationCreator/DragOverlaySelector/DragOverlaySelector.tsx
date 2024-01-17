@@ -1,7 +1,7 @@
 import { DndElements } from '@/state/features/animation/animation.types';
 import { DragOverlay, DragStartEvent, Modifiers } from '@dnd-kit/core';
 import { DropAnimationOptions } from '@dnd-kit/core/dist/components/DragOverlay/hooks/useDropAnimation';
-import { restrictToHorizontalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
+import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const DragOverlaySelector = ({ dragEvent }: { dragEvent: DragStartEvent | null }) => {
 	const dropAnimationOptions: DropAnimationOptions = {
@@ -13,12 +13,17 @@ const DragOverlaySelector = ({ dragEvent }: { dragEvent: DragStartEvent | null }
 
 	switch (dragEvent?.active.data.current?.type) {
 		case DndElements.animationListItem: {
-			modifier = [restrictToParentElement, restrictToHorizontalAxis];
-			break;
+			modifier = [restrictToParentElement, restrictToVerticalAxis];
+			dragElement = <div>{dragEvent.active.id}</div>;
 		}
 		case DndElements.newAnimation:
 		case DndElements.newEffect: {
 			dragElement = <div>{dragEvent.active.id}</div>;
+			break;
+		}
+		case DndElements.effectListItem: {
+			dragElement = <div>{dragEvent.active.id}</div>;
+			modifier = [restrictToVerticalAxis];
 			break;
 		}
 	}

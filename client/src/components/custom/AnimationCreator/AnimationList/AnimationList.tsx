@@ -1,4 +1,4 @@
-import useColumns, { DataT, HeaderT } from './useColumns';
+import useColumns, { HeaderT } from './useColumns';
 import { useAnimations } from '@/state/features/animation/animationSelector';
 import { useDroppable } from '@dnd-kit/core';
 import { CSSProperties, memo } from 'react';
@@ -12,18 +12,17 @@ const AnimationList = () => {
 	const animations = useAnimations();
 	const items = animations.map((animation, i) => `${animation.name}/${i}`);
 
-	const data: HeaderT = {
+	const headerData: HeaderT = {
 		numbering: '#',
 		name: 'Name',
 		description: 'Description',
 		frames: <UIIcon name={Icons.stack} width={15} height={15} />,
 		duration: <UIIcon name={Icons.timelapse} width={15} height={15} />,
 		repeat: <UIIcon name={Icons.restart} width={15} height={15} />,
-		edit: 'Edit',
+		play: 'Play',
 		drag: 'Drag',
 	};
-
-	const header = useColumns(data);
+	const header = useColumns(headerData);
 
 	const { setNodeRef, isOver, active } = useDroppable({
 		id: DndElements.animationList,
@@ -36,11 +35,11 @@ const AnimationList = () => {
 	};
 
 	return (
-		<div ref={setNodeRef} style={style} className='justify-center'>
-			<div className='h-6 mb-2 flex items-center border border-solid'>
-				{header.map(({ key, header, classes }) => (
-					<div key={key} className={`${classes} p-1 border border-solid`}>
-						{header}
+		<div ref={setNodeRef} style={style} className='h-full justify-center'>
+			<div className='h-6 mb-2 flex items-center '>
+				{header.map(({ content, classes }, i) => (
+					<div key={i} className={`${classes} `}>
+						{content}
 					</div>
 				))}
 			</div>
@@ -58,42 +57,6 @@ const AnimationList = () => {
 					<div>Drag and drop an animation from the table</div>
 				</div>
 			)}
-
-			<table>
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Frames</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>name</td>
-						<td>decription</td>
-						<td>frames</td>
-					</tr>
-					<tr>
-						<td>name</td>
-						<td>decription</td>
-						<td>frames</td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<td>name</td>
-						<td>decription</td>
-						<td>frames</td>
-					</tr>
-				</tbody>
-				<tbody>
-					<tr>
-						<td>name</td>
-						<td>decription</td>
-						<td>frames</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 	);
 };

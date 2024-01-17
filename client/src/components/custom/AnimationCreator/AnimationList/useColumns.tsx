@@ -1,23 +1,3 @@
-export enum AnimationListHeaderKeys {
-	numbering = 'numbering',
-	name = 'name',
-	description = 'description',
-	frames = 'frames',
-	duration = 'duration',
-	repeat = 'repeat',
-	edit = 'edit',
-}
-
-export enum AnimationListHeaderWidths {
-	numbering = 'w-4',
-	name = 'w-36',
-	description = 'w-36',
-	frames = 'w-8',
-	duration = 'w-8',
-	repeat = 'w-8',
-	edit = 'w-8',
-}
-
 export type HeaderT = {
 	numbering: string;
 	name: string;
@@ -25,23 +5,70 @@ export type HeaderT = {
 	frames: React.ReactNode;
 	duration: React.ReactNode;
 	repeat: React.ReactNode;
-	edit: string;
+	play: string;
 	drag: string;
 };
 
-export type DataT = {
+export type AnimationDataT = {
 	numbering: number;
 	name: string;
-	description: string;
+	description?: string;
 	frames: number;
 	duration: number;
-	repeat: number;
-	edit: React.ReactNode;
+	repeat: null;
+	play: React.ReactNode;
 	drag: React.ReactNode;
 };
 
-const useColumns = (data: any) => {
-	return [];
+export type EffectDataT = {
+	// select: boolean;
+	numbering: React.ReactNode;
+	name: React.ReactNode;
+	description?: string;
+	frames: number;
+	duration: number;
+	repeat: number;
+	play: React.ReactNode;
+	drag: React.ReactNode;
+};
+
+const useColumns = (columns: HeaderT | AnimationDataT | EffectDataT) => {
+	const commonClass = `p-1`;
+
+	return [
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.numbering,
+		},
+		{
+			classes: `${commonClass} w-36`,
+			content: columns.name,
+		},
+		{
+			classes: `${commonClass} w-36`,
+			content: columns.description,
+		},
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.frames,
+		},
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.duration,
+		},
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.repeat,
+		},
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.play,
+		},
+		{
+			classes: `${commonClass} w-8`,
+			content: columns.drag,
+		},
+	];
 };
 
 export default useColumns;

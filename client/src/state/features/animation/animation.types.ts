@@ -6,20 +6,37 @@ export type AnimationCreatorT = {
 	animations: StateAnimationT[];
 };
 
-export type StateAnimationT = {
+export type BaseAnimationT = {
 	name: string;
 	description?: string;
 	dateCreated: Date;
 	dateModified: Date;
-	effects: StateAnimationEffectT[];
+	effects: BaseAnimationEffectT[];
 };
 
-export type StateAnimationEffectT = {
+export type BaseAnimationEffectT = {
 	type: 'static' | 'dynamic';
 	name: string;
 	repeat: number;
-	effect: BaseEffectT[];
 };
+
+export type StateAnimationT = Omit<BaseAnimationT, 'effects'> & {
+	effects: StateAnimationEffectT[];
+};
+
+export type StateAnimationEffectT = Omit<BaseAnimationEffectT, 'name'> & {
+	data: BaseEffectT;
+};
+
+export class StateAnimationEffect implements StateAnimationEffectT {
+	type: 'static' | 'dynamic' = 'static';
+	repeat: number = 1;
+	data: BaseEffectT;
+
+	constructor(effect: BaseEffectT) {
+		this.data = effect;
+	}
+}
 
 export enum DndElements {
 	animationList = 'animationList',

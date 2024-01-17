@@ -64,10 +64,8 @@ export const effectCreator = createSlice({
 		},
 
 		// Effect Actions
-		setActiveEffect: (state, action: PayloadAction<{ effect: StateEffectT }>) => {
-			const { effect } = action.payload;
-
-			state.effect = effect;
+		setEffect: (state, action: PayloadAction<StateEffectT>) => {
+			state.effect = action.payload;
 		},
 		setEffectName: (state, action: PayloadAction<string>) => {
 			state.effect.name = action.payload;
@@ -82,7 +80,7 @@ export const effectCreator = createSlice({
 		},
 		addFrame: (state) => {
 			state.effect.frames.push(newFrame);
-			state.activeFrame++;
+			// state.activeFrame++;
 		},
 		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
@@ -154,7 +152,7 @@ export const {
 	setLightness,
 	resetColor,
 	// Effect actions
-	setActiveEffect,
+	setEffect,
 	setEffectName,
 	setEffectDescription,
 	resetFrame,

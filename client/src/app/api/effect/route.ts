@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-	BaseEffectT,
-	BaseFrame,
-	BaseFrameT,
-	Color,
-} from '@/state/features/effect/effectSlice.types';
+import { BaseEffectT, BaseFrame, Color } from '@/state/features/effect/effectSlice.types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -14,24 +9,24 @@ export async function GET(req: NextRequest) {
 
 		const client = await mongoClientPromise;
 
-		const result = await client
+		const effect = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.EFFECT_COLLECTION)
+			.collection<BaseEffectT>(process.env.EFFECT_COLLECTION)
 			.findOne({ name: effectName }, { projection: { _id: false } });
 
-		if (!result) {
+		if (!effect) {
 			throw Error('Failed to find static effect');
 		}
 
-		return NextResponse.json(result);
+		return NextResponse.json(effect);
 	} catch (e) {
 		console.log(e);
 		console.error(e);
 	}
 
-	return new NextResponse(null, {
-		status: 200,
-	});
+	// return new NextResponse(null, {
+	// 	status: 200,
+	// });
 }
 
 export async function POST(req: NextRequest) {

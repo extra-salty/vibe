@@ -1,9 +1,10 @@
-import useAnimationHeader from './useAnimationHeader';
+import useColumns, { AnimationDataT } from '../useColumns';
 import { useSortable } from '@dnd-kit/sortable';
 import { memo } from 'react';
-import { DndElements } from '@/state/features/animation/animation.types';
+import { DndElements, StateAnimationT } from '@/state/features/animation/animation.types';
 import { CSS } from '@dnd-kit/utilities';
-import { BaseAnimationT } from '@/app/api/animation/_types';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import UIIcon from '@/components/base/UIIcon/UIIcon';
 import EffectList from './EffectList/EffectList';
 
 export const AnimationListItem = ({
@@ -11,14 +12,12 @@ export const AnimationListItem = ({
 	animation,
 }: {
 	index: number;
-	animation: BaseAnimationT;
+	animation: StateAnimationT;
 }) => {
-	const animationHeader = useAnimationHeader({ animation, index });
-
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging, isOver } =
 		useSortable({
 			id: `${animation.name}/${index}`,
-			data: { type: DndElements.animationListItem, index: index },
+			data: { type: DndElements.animationListItem },
 		});
 
 	const style = {
@@ -27,30 +26,41 @@ export const AnimationListItem = ({
 		transition,
 	};
 
+	const animationData: AnimationDataT = {
+		numbering: index + 1,
+		name: animation.name,
+		description: animation.description,
+		frames: animation.effects.reduce((frames, effect) => frames + effect.data.frames.length, 0),
+		duration: animation.effects.reduce(
+			(duration, effect) => duration + effect.data.frames.length,
+			0,
+		),
+		repeat: null,
+		play: '',
+		drag: (
+			<button className='bg-transparent' {...attributes} {...listeners}>
+				<UIIcon name={Icons.width} isRotated height={20} width={20} />
+			</button>
+		),
+	};
+	const animationColumns = useColumns(animationData);
+
 	return (
-		<li ref={setNodeRef} style={style} className='flex flex-col p-0 m-0 border-solid'>
-			<div className='flex'>
-				{animationHeader.map(({ key, header, classes }) => (
-					<div key={key} className={`${classes}`}>
-						{header}
+		<li ref={setNodeRef} style={style} className='flex flex-col p-0 m-0 border border-solid'>
+			<div className='flex items-center'>
+				{animationColumns.map(({ content, classes }, i) => (
+					<div key={i} className={`${classes}`}>
+						{content}
 					</div>
 				))}
 			</div>
-			{/* <EffectList
+			<EffectList
 				effects={animation.effects}
 				animationIndex={index}
 				animationName={animation.name}
-				header={animationHeader}
-			/> */}
+			/>
 		</li>
 	);
 };
 
 export default memo(AnimationListItem);
-
-// const handleAnimationSave = async () => {
-// 	console.log('🚀 ~ handleAnimationSave ~ animation:', animation);
-// 	await AnimationServiceInstance.updateAnimation(animation);
-// };
-
-// const handleAnimationRemove = async () => {};

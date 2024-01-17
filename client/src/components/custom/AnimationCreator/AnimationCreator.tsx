@@ -3,19 +3,24 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DndContext, DragEndEvent, DragStartEvent, rectIntersection } from '@dnd-kit/core';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { BaseAnimationT } from '@/app/api/animation/_types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import {
 	addEffect,
 	moveAnimation,
+	moveEffect,
 	selectAnimation,
 } from '@/state/features/animation/animationSlice';
-import { DndElements } from '@/state/features/animation/animation.types';
+import {
+	BaseAnimationT,
+	DndElements,
+	StateAnimationEffect,
+} from '@/state/features/animation/animation.types';
 import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
 import AnimationTable from './AnimationTable/AnimationTable/AnimationTable';
 import EffectTable from './EffectTable/EffectTable';
 import AnimationList from './AnimationList/AnimationList';
 import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
+import { EffectServiceInstance } from '@/app/api/effect/_service';
 
 const AnimationCreator = ({
 	animations,
@@ -49,6 +54,7 @@ const AnimationCreator = ({
 						const selectedAnimation = await AnimationServiceInstance.getAnimation(
 							String(active.id),
 						);
+
 						dispatch(selectAnimation({ selectedAnimation, index: over.data.current?.index }));
 						break;
 					}
@@ -57,15 +63,30 @@ const AnimationCreator = ({
 			}
 			//
 			case DndElements.newEffect: {
+				const effect = await EffectServiceInstance.getEffect(String(active.id));
+				const animationEffect = new StateAnimationEffect(effect);
+
 				switch (overType) {
 					case DndElements.animationListItem: {
-						// const effect: AnimationEffectT = {
-						// 	type: 'static',
-						// 	name: String(active.id),
-						// 	repeat: 1,
-						// };
-						// dispatch(addEffect({ effect, coordinate: { x: over.data.current?.index, y: 0 } }));
-						// break;
+						dispatch(
+							addEffect({
+								animationEffect,
+								coordinate: { x: over.data.current?.sortable.index, y: 0 },
+							}),
+						);
+						break;
+					}
+					case DndElements.effectListItem: {
+						dispatch(
+							addEffect({
+								animationEffect,
+								coordinate: {
+									x: over.data.current?.animationIndex,
+									y: over.data.current?.sortable.index,
+								},
+							}),
+						);
+						break;
 					}
 				}
 				break;
@@ -76,6 +97,22 @@ const AnimationCreator = ({
 					moveAnimation({
 						startIndex: active.data.current?.sortable.index,
 						endIndex: over.data.current?.sortable.index,
+					}),
+				);
+				break;
+			}
+			//
+			case DndElements.effectListItem: {
+				dispatch(
+					moveEffect({
+						startCoordinate: {
+							x: active.data.current?.animationIndex,
+							y: active.data.current?.sortable.index,
+						},
+						endCoordinate: {
+							x: over.data.current?.animationIndex,
+							y: over.data.current?.sortable.index,
+						},
 					}),
 				);
 				break;

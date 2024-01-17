@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AnimationCreatorT, StateAnimationT } from './animation.types';
+import { AnimationCreatorT, StateAnimationEffectT, StateAnimationT } from './animation.types';
 import { CoordinateT } from '../effect/effectSlice.types';
 
 const initialState: AnimationCreatorT = {
@@ -33,35 +33,6 @@ export const animationCreator = createSlice({
 			});
 		},
 
-		// Animations - List
-		selectAnimation: (
-			state,
-			action: PayloadAction<{ selectedAnimation: StateAnimationT | any; index?: number }>,
-		) => {
-			const { selectedAnimation, index } = action.payload;
-			const newIndex = index != undefined ? index : state.animations.length;
-
-			const includes = state.animations.find(
-				(animation) => animation.name === selectedAnimation.name,
-			);
-
-			if (!includes) {
-				state.animations.splice(newIndex, 0, selectedAnimation);
-			}
-		},
-		moveAnimation: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
-			const { startIndex, endIndex } = action.payload;
-			const temp = state.animations[startIndex];
-
-			state.animations[startIndex] = state.animations[endIndex];
-			state.animations[endIndex] = temp;
-		},
-		// getAnimation: (state, action: PayloadAction<number>) => {
-		// 	const index = action.payload;
-
-		//   state.animations[]
-		// },
-
 		// Effects - Table
 		addSelectedEffect: (state, action: PayloadAction<string>) => {
 			const name = action.payload;
@@ -83,57 +54,84 @@ export const animationCreator = createSlice({
 			});
 		},
 
+		// Animations - List
+		selectAnimation: (
+			state,
+			action: PayloadAction<{ selectedAnimation: StateAnimationT; index?: number }>,
+		) => {
+			const { selectedAnimation, index } = action.payload;
+			const newIndex = index != undefined ? index : state.animations.length;
+			const includes = state.animations.find(
+				(animation) => animation.name === selectedAnimation.name,
+			);
+
+			if (!includes) {
+				state.animations.splice(newIndex, 0, selectedAnimation);
+			}
+		},
+		moveAnimation: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
+			const { startIndex, endIndex } = action.payload;
+			const temp = state.animations[startIndex];
+
+			state.animations[startIndex] = state.animations[endIndex];
+			state.animations[endIndex] = temp;
+		},
+
 		// Effects - List
-		// addEffect: (
-		// 	state,
-		// 	action: PayloadAction<{ effect: AnimationEffectT; coordinate: CoordinateT }>,
-		// ) => {
-		// 	const {
-		// 		effect,
-		// 		coordinate: { x, y },
-		// 	} = action.payload;
+		addEffect: (
+			state,
+			action: PayloadAction<{ animationEffect: StateAnimationEffectT; coordinate: CoordinateT }>,
+		) => {
+			const {
+				animationEffect,
+				coordinate: { x, y },
+			} = action.payload;
 
-		// 	state.animations[x].effects.push(effect);
-		// 	// state.animations[x].effects.splice(y, 0, effect);
-		// },
-		// removeEffect: (state, action: PayloadAction<{ startCoordinate: CoordinateT }>) => {},
-		// moveEffect: (
-		// 	state,
-		// 	action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
-		// ) => {
-		// 	const { startCoordinate: start, endCoordinate: end } = action.payload;
-		// 	const effect = state.animations[start.x].effects[start.y];
+			if (y) {
+				state.animations[x].effects.splice(y, 0, animationEffect);
+			} else {
+				state.animations[x].effects.push(animationEffect);
+			}
+		},
+		moveEffect: (
+			state,
+			action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
+		) => {
+			const { startCoordinate: start, endCoordinate: end } = action.payload;
+			const effect = state.animations[start.x].effects[start.y];
 
-		// 	if (start.x === end.x) {
-		// 		const temp = state.animations[end.x].effects[end.y];
+			if (start.x === end.x) {
+				const temp = state.animations[end.x].effects[end.y];
 
-		// 		state.animations[end.x].effects[end.y] = effect;
-		// 		state.animations[start.x].effects[start.y] = temp;
-		// 	} else {
-		// 		state.animations[start.x].effects.splice(start.y, 1);
+				state.animations[end.x].effects[end.y] = effect;
+				state.animations[start.x].effects[start.y] = temp;
+			} else {
+				state.animations[start.x].effects.splice(start.y, 1);
 
-		// 		state.animations[end.x].effects.splice(end.y, 0, effect);
-		// 		// if (state.selectedAnimationsDetails[end.x]?.effects) {
-		// 		// } else {
-		// 		// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
-		// 		// }
-		// 	}
-		// },
+				state.animations[end.x].effects.splice(end.y, 0, effect);
+				// if (state.selectedAnimationsDetails[end.x]?.effects) {
+				// } else {
+				// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
+				// }
+			}
+		},
 	},
 });
 
 export const {
-	// Effects
-	addSelectedEffect,
-	removeSelectedEffects,
 	// Animations - Table
 	addSelectedAnimation,
 	removeSelectedAnimations,
+	// Effects - Table
+	addSelectedEffect,
+	removeSelectedEffects,
+
 	// Animations - List
 	selectAnimation,
 	moveAnimation,
-	// moveEffect,
-	// addEffect,
+	// Effect - List
+	addEffect,
+	moveEffect,
 	// removeEffect,
 } = animationCreator.actions;
 

@@ -3,11 +3,9 @@ import { useSelectedEffects } from '@/state/features/animation/animationSelector
 import { addSelectedEffect } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import EffectTableDragButton from './EffectTableDragButton/EffectTableDragButton';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
-import Link from 'next/link';
+import UILink from '@/components/base/UILink/UILink';
 
 export type EffectTableDataT = {
 	select: React.ReactNode;
@@ -18,7 +16,6 @@ export type EffectTableDataT = {
 	duration: number;
 	dateCreated: string;
 	dateModified: string;
-	edit: React.ReactNode;
 	drag: React.ReactNode;
 };
 
@@ -35,17 +32,12 @@ const useEffectTableData = ({ effects }: { effects: BaseEffectT[] }): EffectTabl
 				<UICheckbox isChecked={isSelected} onChange={() => dispatch(addSelectedEffect(name))} />
 			),
 			numbering: ++i,
-			name,
+			name: <UILink href={`/effect/${name}`}>{name}</UILink>,
 			description: description || '-',
 			frames: frames.length,
 			duration: frames.reduce((duration, frame) => duration + frame.duration, 0) / 1000,
 			dateCreated: convertDate(dateCreated),
 			dateModified: convertDate(dateModified),
-			edit: (
-				<Link href={`/effect/${name}`}>
-					<UIIcon name={Icons.edit} width={15} height={15} />
-				</Link>
-			),
 			drag: <EffectTableDragButton effectName={name} />,
 		};
 	});

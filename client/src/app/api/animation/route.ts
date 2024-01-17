@@ -1,24 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BaseAnimationT } from './_types';
+import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { BaseAnimationT, StateAnimationT } from '@/state/features/animation/animation.types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const animationName = searchParams.get('name') || undefined;
+		const animationName = searchParams.get('name');
+
+		if (!animationName) {
+			throw Error('Invalid animation name.');
+		}
 
 		const client = await mongoClientPromise;
 
-		const result = await client
+		const animation = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
+			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
 			.findOne({ name: animationName }, { projection: { _id: false } });
 
-		if (!result) {
+		if (!animation) {
 			throw Error('Failed to find animation');
 		}
 
-		return NextResponse.json(result);
+		const effectNames = animation?.effects.map((effect) => effect.name);
+
+		const effects = await client
+			.db(process.env.DB_NAME)
+			.collection<BaseEffectT>(process.env.EFFECT_COLLECTION)
+			.find({ name: { $in: effectNames } }, { projection: { _id: false } })
+			.toArray();
+
+		if (!effects) {
+			throw Error('Failed to find effects');
+		}
+
+		const animationWithEffectsData: StateAnimationT = {
+			...animation,
+			effects: animation.effects.map((effect, i) => ({
+				type: effect.type,
+				repeat: effect.repeat,
+				data: effects[i],
+			})),
+		};
+
+		return NextResponse.json(animationWithEffectsData);
 	} catch (e) {
 		console.log(e);
 		console.error(e);

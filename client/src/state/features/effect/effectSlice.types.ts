@@ -36,13 +36,13 @@ export type BaseEffectT = {
 	frames: BaseFrameT[];
 };
 
-export type StateEffectT = Omit<BaseEffectT, 'frames'> & {
-	frames: StateFrameT[];
-};
-
 export type BaseFrameT = {
 	data: ColorT[][];
 	duration: number;
+};
+
+export type StateEffectT = Omit<BaseEffectT, 'frames'> & {
+	frames: StateFrameT[];
 };
 
 export type StateFrameT = BaseFrameT & HistoriesT;
@@ -62,6 +62,7 @@ export type CoordinateT = {
 	y: number;
 };
 
+// Misc
 export type FrameCellLocationT = {
 	frameIndex: number;
 	coordinate: CoordinateT;
@@ -75,7 +76,7 @@ export const DEFAULT_COLOR: ColorT = {
 	lightness: 0,
 };
 
-export class Effect implements BaseEffectT {
+export class BaseEffect implements BaseEffectT {
 	name: string;
 	description: string;
 	dateCreated: Date = new Date();
