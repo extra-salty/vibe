@@ -3,19 +3,19 @@ import useAnimationTableData from './useAnimationTableData';
 import useAnimationTableHeader from './useAnimationTableHeader';
 import { useDispatch } from 'react-redux';
 import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { removeSelectedAnimations } from '@/state/features/animation/animationSlice';
-import { AnimationT } from '@/state/features/animation/animation.types';
 import { AnimationsServiceInstance } from '@/app/api/animations/_service';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
+import { BaseAnimationT } from '@/state/features/animation/animation.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UITable from '@/components/base/UITable/UITable';
 
-const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationT[] }) => {
+const AnimationTable = ({ initialAnimations }: { initialAnimations: BaseAnimationT[] }) => {
 	const dispatch = useDispatch();
-	const [animations, setAnimations] = useState<AnimationT[]>(initialAnimations);
+	const [animations, setAnimations] = useState<BaseAnimationT[]>(initialAnimations);
 
 	const selectedAnimations = useSelectedAnimations();
 	const animationData = useAnimationTableData({ animations });
@@ -85,8 +85,14 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationT[]
 		},
 	];
 
+	const firstUpdate = useRef(true);
+
 	useEffect(() => {
-		handleGetAnimations();
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+		} else {
+			handleGetAnimations();
+		}
 	}, [handleGetAnimations]);
 
 	return (

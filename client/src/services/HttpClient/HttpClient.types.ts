@@ -2,6 +2,7 @@ export type MethodConfigT = {
 	endpoint: string;
 	params?: Record<string, any>;
 	data?: any;
+	cache?: CacheOptions;
 };
 
 export type KeyValueT<T = any> = { [key: string]: T };
@@ -14,13 +15,14 @@ export enum HttpMethods {
 	DELETE = 'DELETE',
 }
 
-export enum ChacheOptions {
+export enum CacheOptions {
 	default = 'default',
 	noStore = 'no-store',
-	PUT = 'PUT',
-	DELETE = 'DELETE',
+	reload = 'reload',
+	noCache = 'no-cache',
+	forceCache = 'force-cache',
+	onlyIfCached = 'only-if-cached',
 }
-// CacheStates;
 
 export interface HttpClientBaseHeader {
 	'Content-Type': string;

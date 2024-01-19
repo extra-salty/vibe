@@ -1,4 +1,4 @@
-import { HttpMethods, MethodConfigT } from './HttpClient.types';
+import { CacheOptions, HttpMethods, MethodConfigT } from './HttpClient.types';
 
 export class HttpClient {
 	private baseUrl: string;
@@ -31,7 +31,7 @@ export class HttpClient {
 
 	private async request<ResponseType>(
 		method: HttpMethods,
-		{ endpoint, data, params }: MethodConfigT,
+		{ endpoint, data, params, cache }: MethodConfigT,
 	): Promise<ResponseType> {
 		const urlParams = params ? `?${new URLSearchParams(params)}` : '';
 		const url = `${this.baseUrl}/${endpoint}${urlParams}`;
@@ -48,7 +48,7 @@ export class HttpClient {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				// cache: 'no-store',
+				cache: cache || CacheOptions.default,
 				body: JSON.stringify(data),
 			});
 

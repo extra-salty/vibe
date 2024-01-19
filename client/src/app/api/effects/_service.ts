@@ -1,17 +1,18 @@
 import { MongoService } from '@/services/MongoDB/MongoService';
-import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
+import { EffectBaseT } from '@/types/effect.types';
 
 class EffectsService extends MongoService {
 	private endpoint: string = 'effects';
 
-	getEffects(options?: UITableOptionsValueT): Promise<BaseEffectT[]> {
+	getEffects(options?: UITableOptionsValueT): Promise<EffectBaseT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			params: options,
+			cache: CacheOptions.noStore,
 		};
-		return this.get<BaseEffectT[]>(methodConfig);
+		return this.get<EffectBaseT[]>(methodConfig);
 	}
 
 	deleteEffects(effects: string[]) {

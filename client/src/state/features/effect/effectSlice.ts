@@ -1,11 +1,7 @@
+import { ColorT } from '@/types/color.types';
+import { EffectStateT, FrameStateT } from '@/types/effect.types';
+import { FrameCellLocationT } from '@/types/misc.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import {
-	ColorT,
-	EffectCreatorT,
-	FrameCellLocationT,
-	StateEffectT,
-	StateFrameT,
-} from './effectSlice.types';
 
 const color: ColorT = {
 	hue: 0,
@@ -19,14 +15,22 @@ const defaultColor: ColorT = {
 	lightness: 0,
 };
 
-const newFrame: StateFrameT = {
+const newFrame: FrameStateT = {
 	data: Array(24).fill(Array(12).fill(defaultColor)),
 	duration: 1000,
 	redo: [],
 	undo: [],
 };
 
-const initialState: EffectCreatorT = {
+const initialState: {
+	color: {
+		selectedColor: ColorT;
+		colorHistory: ColorT[];
+		colorPresets: ColorT[];
+	};
+	activeFrame: number;
+	effect: EffectStateT;
+} = {
 	color: {
 		selectedColor: color,
 		colorHistory: [],
@@ -64,7 +68,7 @@ export const effectCreator = createSlice({
 		},
 
 		// Effect Actions
-		setEffect: (state, action: PayloadAction<StateEffectT>) => {
+		setEffect: (state, action: PayloadAction<EffectStateT>) => {
 			state.effect = action.payload;
 		},
 		setEffectName: (state, action: PayloadAction<string>) => {

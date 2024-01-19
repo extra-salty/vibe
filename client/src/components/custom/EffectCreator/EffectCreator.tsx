@@ -10,18 +10,17 @@ import FrameGrid from './FrameGrid/FrameGrid';
 const EffectCreator = ({ initialEffect }: { initialEffect: StateEffectT }) => {
 	const dispatch = useDispatch();
 	dispatch(setEffect(initialEffect));
+
 	console.log('setInitial');
-	const effect = useActiveEffect();
+	// const effect = useActiveEffect();
 
 	return (
 		<div className='flex gap-10'>
 			<div className='flex flex-col gap-2'>
-				<EffectPlayer frames={effect.frames} />
-				<EffectDetails effect={effect} />
+				{/* <EffectPlayer frames={effect.frames} /> */}
+				<EffectDetails />
 			</div>
-			<div>
-				<FrameGrid frames={effect.frames} />
-			</div>
+			<div>{/* <FrameGrid frames={effect.frames} /> */}</div>
 		</div>
 	);
 };

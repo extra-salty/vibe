@@ -44,10 +44,7 @@ const useEffectTableHeader = () => {
 			key: 'dateModified',
 			header: 'Date modified',
 		},
-		{
-			key: 'edit',
-			header: 'Edit',
-		},
+
 		{
 			key: 'drag',
 			header: 'Drag',

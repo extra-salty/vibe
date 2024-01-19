@@ -40,10 +40,6 @@ const useAnimationTableHeader = () => {
 			header: 'Date modified',
 		},
 		{
-			key: 'edit',
-			header: 'Edit',
-		},
-		{
 			key: 'drag',
 			header: 'Drag',
 		},

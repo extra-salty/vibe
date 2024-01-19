@@ -20,7 +20,8 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@style/": ["./src/style/*"]
+			"@styles/": ["./src/styles/*"],
+			"@types/": ["./src/types/*"]
 		},
 		"allowSyntheticDefaultImports": true,
 		"checkJs": true,

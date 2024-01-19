@@ -2,7 +2,7 @@
 import useEffectTableData from './useEffectTableData';
 import useEffectTableHeader from './useEffectTableHeader';
 import { useDispatch } from 'react-redux';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelectedEffects } from '@/state/features/animation/animationSelector';
 import { removeSelectedEffects } from '@/state/features/animation/animationSlice';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
@@ -18,6 +18,7 @@ const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
 	const [effects, setEffects] = useState<BaseEffectT[]>(initialEffects);
 
 	const selectedEffects = useSelectedEffects();
+	// const selectedEffects: string[] = [];
 	const effectsData = useEffectTableData({ effects });
 	const { header, sortOptions, filterOptions } = useEffectTableHeader();
 
@@ -85,8 +86,14 @@ const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
 		},
 	];
 
+	const firstUpdate = useRef(true);
+
 	useEffect(() => {
-		handleGetEffects();
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+		} else {
+			handleGetEffects();
+		}
 	}, [handleGetEffects]);
 
 	return (

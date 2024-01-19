@@ -1,8 +1,12 @@
+import { AnimationEffectStateT, AnimationStateT } from '@/types/animation.types';
+import { CoordinateT } from '@/types/misc.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AnimationCreatorT, StateAnimationEffectT, StateAnimationT } from './animation.types';
-import { CoordinateT } from '../effect/effectSlice.types';
 
-const initialState: AnimationCreatorT = {
+const initialState: {
+	selectedEffects: string[];
+	selectedAnimations: string[];
+	animations: AnimationStateT[];
+} = {
 	selectedEffects: [],
 	selectedAnimations: [],
 	animations: [],
@@ -57,7 +61,7 @@ export const animationCreator = createSlice({
 		// Animations - List
 		selectAnimation: (
 			state,
-			action: PayloadAction<{ selectedAnimation: StateAnimationT; index?: number }>,
+			action: PayloadAction<{ selectedAnimation: AnimationStateT; index?: number }>,
 		) => {
 			const { selectedAnimation, index } = action.payload;
 			const newIndex = index != undefined ? index : state.animations.length;
@@ -80,7 +84,7 @@ export const animationCreator = createSlice({
 		// Effects - List
 		addEffect: (
 			state,
-			action: PayloadAction<{ animationEffect: StateAnimationEffectT; coordinate: CoordinateT }>,
+			action: PayloadAction<{ animationEffect: AnimationEffectStateT; coordinate: CoordinateT }>,
 		) => {
 			const {
 				animationEffect,

@@ -5,9 +5,11 @@ import { StateEffectT } from '@/state/features/effect/effectSlice.types';
 import UILabel, { UILabelProps } from '@/components/base/UILabel/UILabel';
 import UIInput from '@/components/base/UIInput/UIInput';
 import UIInputProps from '@/components/base/UIInput/UIInput.type';
+import { useActiveEffect } from '@/state/features/effect/effectSelector';
 
-const EffectDetails = ({ effect }: { effect: StateEffectT }) => {
+const EffectDetails = ({ effecta }: { effecta?: StateEffectT }) => {
 	const dispatch = useDispatch();
+	const effect = useActiveEffect();
 
 	const components: { input: UIInputProps; label: UILabelProps }[] = [
 		{

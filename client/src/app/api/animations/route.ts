@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
+import { BaseAnimationT } from '@/state/features/animation/animation.types';
+import { EffectDataT } from '@/components/custom/AnimationCreator/AnimationList/useColumns';
+
+export type TableAnimationT = {
+	name: string;
+	description?: string;
+	dateCreated: Date;
+	dateModified: Date;
+	effects: {
+		type: 'static' | 'dynamic';
+		name: string;
+		repeat: number;
+		frames: number;
+		duration: number;
+	};
+};
 
 export async function GET(req: NextRequest) {
 	try {
@@ -11,13 +27,31 @@ export async function GET(req: NextRequest) {
 
 		const client = await mongoClientPromise;
 
-		const animations = await client
+		const animations: BaseAnimationT[] = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
+			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
-			.project({ _id: 0 })
+			// .project({ _id: false })
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
+
+		const effectNames: string[] = [];
+
+		animations.map((animation) =>
+			animation.effects.map(
+				(effect) => !effectNames.includes(effect.name) && effectNames.push(effect.name),
+			),
+		);
+
+		const effectsData = new Map();
+
+		const effectCollection = client
+			.db(process.env.DB_NAME)
+			.collection<EffectDataT>(process.env.EFFECT_COLLECTION);
+
+		effectNames.map((effect) => {
+			effectCollection.find({ name: effect });
+		});
 
 		return NextResponse.json(animations);
 	} catch (e) {
@@ -34,7 +68,7 @@ export async function DELETE(req: NextRequest) {
 
 		const result = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
+			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
 			.deleteMany({ name: { $in: names } });
 
 		if (!(result.deletedCount === names.length)) {

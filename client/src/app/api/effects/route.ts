@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
+import { EffectBaseT, EffectTableT } from '@/types/effect.types';
 
 export async function GET(req: NextRequest) {
 	try {
@@ -11,13 +12,22 @@ export async function GET(req: NextRequest) {
 
 		const client = await mongoClientPromise;
 
-		const effects = await client
+		const effects: EffectBaseT[] = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.EFFECT_COLLECTION)
+			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
-			.project({ _id: 0 })
+			// .project({ _id: 0 })
 			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
+
+		const effectDetails: EffectTableT[] = effects.map((effect) => ({
+			name: effect.name,
+			description: effect.description,
+			dateCreated: effect.dateCreated,
+			dateModified: effect.dateModified,
+			framesLength: effect.frames.length,
+			duration: effect.frames.reduce((duration, effect) => duration + effect.duration, 0),
+		}));
 
 		return NextResponse.json(effects);
 	} catch (e) {
