@@ -6,33 +6,36 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelectedEffects } from '@/state/features/animation/animationSelector';
 import { removeSelectedEffects } from '@/state/features/animation/animationSlice';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
+import { EffectTableT } from '@/types/effect.types';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
-import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
+import { SortDirection, UITableOptionsValueT } from '@/components/base/UITable/UITable.types';
 import UITable from '@/components/base/UITable/UITable';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
+import UIButton from '@/components/base/UIButton/UIButton';
+import styles from './EffectTable.module.scss';
 
-const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
+const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => {
 	const dispatch = useDispatch();
-	const [effects, setEffects] = useState<BaseEffectT[]>(initialEffects);
 
-	const selectedEffects = useSelectedEffects();
-	// const selectedEffects: string[] = [];
-	const effectsData = useEffectTableData({ effects });
-	const { header, sortOptions, filterOptions } = useEffectTableHeader();
-
-	const [tableOptions, setTableOptions] = useState<UITableOptionsValueT>({
-		sortOptionValue: 'name-asc',
+	const [effects, setEffects] = useState<EffectTableT[]>(initialEffects);
+	const [selectedOptions, setSelectedOptions] = useState<UITableOptionsValueT>({
+		sortOptionValue: 'name',
+		sortDirection: SortDirection.des,
 		filterOptionValue: 'name',
 		filterValue: '',
 	});
 
+	const effectNames = effects.map((effect) => effect.name);
+	const header = useEffectTableHeader({ effectNames });
+	const selectedEffects = useSelectedEffects();
+	const data = useEffectTableData({ effects, selectedEffects });
+
 	const handleGetEffects = useCallback(async () => {
-		const data = await EffectsServiceInstance.getEffects(tableOptions);
+		const data = await EffectsServiceInstance.getEffects(selectedOptions);
 
 		setEffects(data);
-	}, [setEffects, tableOptions]);
+	}, [setEffects, selectedOptions]);
 
 	const handleCreateEffect = async () => {
 		try {
@@ -98,17 +101,25 @@ const EffectTable = ({ initialEffects }: { initialEffects: BaseEffectT[] }) => {
 
 	return (
 		<div>
-			<div className='m-4 text-xl'>Effects</div>
-			<UITable
-				data={effectsData}
-				header={header}
-				actions={actions}
-				options={{
-					sortOptions,
-					filterOptions,
-					setOptions: setTableOptions,
-				}}
-			/>
+			<div className={styles.header}>
+				<div className={styles.text}>Effects</div>
+				<div className={styles.buttons}>
+					{actions.map((props, i) => (
+						<UIButton key={i} {...props} />
+					))}
+				</div>
+			</div>
+			<div className={styles.table}>
+				<UITable
+					data={data}
+					header={header}
+					actions={actions}
+					options={{
+						selectedOptions,
+						setSelectedOptions,
+					}}
+				/>
+			</div>
 		</div>
 	);
 };

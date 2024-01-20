@@ -1,12 +1,10 @@
-// @tailwind base;
-// @tailwind components;
 @tailwind utilities;
 
 body {
-	gap: 48px;
-	margin: 20px auto;
+	// Size
+	// margin: 20px auto;
 	padding-inline: 5%;
-	// max-width: 1280px;
+	max-width: 1800px;
 	// Background
 	background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 1000%;
@@ -15,6 +13,21 @@ body {
 	color: #fff;
 	font-size: 16px;
 	font-weight: 400;
+
+	main {
+		background-color: rgba(80, 80, 80, 0.4);
+		border-radius: 20px;
+		padding: 20px;
+
+		header {
+			display: flex;
+			justify-content: center;
+
+			.logo {
+				height: 100px;
+			}
+		}
+	}
 }
 
 @keyframes gradient {
@@ -28,5 +41,3 @@ body {
 		background-position: left;
 	}
 }
-
-// background-color: rgba(79, 75, 75, 0.4);

@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
-import { DndElements } from '@/state/features/animation/animation.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { DndElements } from '@/types/misc.types';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 
 const EffectTableDragButton = ({ effectName }: { effectName: string }) => {

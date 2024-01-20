@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BaseEffectT, BaseFrame, Color } from '@/state/features/effect/effectSlice.types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
+import { EffectBaseT, FrameBase } from '@/types/effect.types';
+import { Color } from '@/types/color.types';
 
 export async function GET(req: NextRequest) {
 	try {
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
 
 		const effect = await client
 			.db(process.env.DB_NAME)
-			.collection<BaseEffectT>(process.env.EFFECT_COLLECTION)
+			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
 			.findOne({ name: effectName }, { projection: { _id: false } });
 
 		if (!effect) {
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
 		const client = await mongoClientPromise;
 		const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
 
-		let newEffect: Omit<BaseEffectT, '_id'> | null = null;
+		let newEffect: Omit<EffectBaseT, '_id'> | null = null;
 
 		if (!effectName) {
 			let isFound = false;
@@ -118,12 +119,12 @@ export async function PUT() {
 			}
 		}
 
-		const newEffect: BaseEffectT = {
+		const newEffect: EffectBaseT = {
 			name: `newEffect${count}`,
 			description: '',
 			dateCreated: new Date(),
 			dateModified: new Date(),
-			frames: [new BaseFrame(1000, new Color(0, 100, 50))],
+			frames: [new FrameBase(1000, new Color(0, 100, 50))],
 		};
 
 		const result = await client
@@ -146,7 +147,7 @@ export async function PUT() {
 
 export async function PATCH(req: NextRequest) {
 	try {
-		const { name, ...effectData }: Omit<BaseEffectT, 'dateCreated'> = await req.json();
+		const { name, ...effectData }: Omit<EffectBaseT, 'dateCreated'> = await req.json();
 
 		const client = await mongoClientPromise;
 

@@ -7,31 +7,35 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { removeSelectedAnimations } from '@/state/features/animation/animationSlice';
 import { AnimationsServiceInstance } from '@/app/api/animations/_service';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import { BaseAnimationT } from '@/state/features/animation/animation.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
+import { AnimationBaseT } from '@/types/animation.types';
+import { SortDirection, UITableOptionsValueT } from '@/components/base/UITable/UITable.types';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
 import UITable from '@/components/base/UITable/UITable';
+import UIButton from '@/components/base/UIButton/UIButton';
+import styles from './AnimationTable.module.scss';
 
-const AnimationTable = ({ initialAnimations }: { initialAnimations: BaseAnimationT[] }) => {
+const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBaseT[] }) => {
 	const dispatch = useDispatch();
-	const [animations, setAnimations] = useState<BaseAnimationT[]>(initialAnimations);
 
-	const selectedAnimations = useSelectedAnimations();
-	const animationData = useAnimationTableData({ animations });
-	const { header, sortOptions, filterOptions } = useAnimationTableHeader();
-
-	const [tableOptions, setTableOptions] = useState<UITableOptionsValueT>({
-		sortOptionValue: 'name-asc',
+	const [animations, setAnimations] = useState<AnimationBaseT[]>(initialAnimations);
+	const [selectedOptions, setSelectedOptions] = useState<UITableOptionsValueT>({
+		sortOptionValue: 'name',
+		sortDirection: SortDirection.des,
 		filterOptionValue: 'name',
 		filterValue: '',
 	});
 
+	const animationNames = animations.map((animation) => animation.name);
+	const header = useAnimationTableHeader({ animationNames });
+	const selectedAnimations = useSelectedAnimations();
+	const data = useAnimationTableData({ animations, selectedAnimations });
+
 	const handleGetAnimations = useCallback(async () => {
-		const data = await AnimationsServiceInstance.getAnimations(tableOptions);
+		const data = await AnimationsServiceInstance.getAnimations(selectedOptions);
 
 		setAnimations(data);
-	}, [setAnimations, tableOptions]);
+	}, [setAnimations, selectedOptions]);
 
 	const handleCreateAnimation = async () => {
 		try {
@@ -96,18 +100,26 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: BaseAnimatio
 	}, [handleGetAnimations]);
 
 	return (
-		<div>
-			<div className='m-4 text-xl'>Animations</div>
-			<UITable
-				data={animationData}
-				header={header}
-				actions={actions}
-				options={{
-					sortOptions,
-					filterOptions,
-					setOptions: setTableOptions,
-				}}
-			/>
+		<div className={styles.animationTable}>
+			<div className={styles.header}>
+				<div className={styles.text}>Animations</div>
+				<div className={styles.buttons}>
+					{actions.map((props, i) => (
+						<UIButton key={i} {...props} />
+					))}
+				</div>
+			</div>
+			<div className={styles.table}>
+				<UITable
+					data={data}
+					header={header}
+					actions={actions}
+					options={{
+						selectedOptions,
+						setSelectedOptions,
+					}}
+				/>
+			</div>
 		</div>
 	);
 };

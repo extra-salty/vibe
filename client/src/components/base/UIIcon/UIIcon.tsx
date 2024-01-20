@@ -7,6 +7,7 @@ import './UIIcon.scss';
 const UIIcon = ({
 	name,
 	isRotated,
+	isFlipped,
 	width = 20,
 	height = 20,
 	onClick,
@@ -21,7 +22,7 @@ const UIIcon = ({
 			alt={name}
 			width={width}
 			height={height}
-			className={appendClasses(['uiIcon', classes, isRotated && 'rotated'])}
+			className={appendClasses(['uiIcon', classes, isRotated && 'rotated', isFlipped && 'flipped'])}
 			onClick={onClick}
 			draggable={false}
 		/>

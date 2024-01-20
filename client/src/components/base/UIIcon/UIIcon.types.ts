@@ -5,6 +5,7 @@ type UIIconProps = UIComponentProps & {
 	width?: number;
 	height?: number;
 	isRotated?: boolean;
+	isFlipped?: boolean;
 	onClick?: () => void;
 };
 

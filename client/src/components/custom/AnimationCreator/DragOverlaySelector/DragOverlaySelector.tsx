@@ -1,4 +1,4 @@
-import { DndElements } from '@/state/features/animation/animation.types';
+import { DndElements } from '@/types/misc.types';
 import { DragOverlay, DragStartEvent, Modifiers } from '@dnd-kit/core';
 import { DropAnimationOptions } from '@dnd-kit/core/dist/components/DragOverlay/hooks/useDropAnimation';
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';

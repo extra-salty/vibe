@@ -5,3 +5,5 @@ TODO:
 - UITableOptions - type - keyof
 - highlight row when Animation is dragged
 - use generic array kind of type instead of UITableHeader for animations
+- generic mixin witg input for webkit and so
+- advanced filter options for column, string for strings, min max for numbers

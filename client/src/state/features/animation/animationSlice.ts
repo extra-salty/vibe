@@ -36,6 +36,12 @@ export const animationCreator = createSlice({
 				state.selectedAnimations.splice(index, 1);
 			});
 		},
+		setSelectedAnimations: (state, action: PayloadAction<string[]>) => {
+			state.selectedAnimations = action.payload;
+		},
+		resetSelectedAnimations: (state) => {
+			state.selectedAnimations = [];
+		},
 
 		// Effects - Table
 		addSelectedEffect: (state, action: PayloadAction<string>) => {
@@ -56,6 +62,12 @@ export const animationCreator = createSlice({
 
 				state.selectedEffects.splice(index, 1);
 			});
+		},
+		setSelectedEffects: (state, action: PayloadAction<string[]>) => {
+			state.selectedEffects = action.payload;
+		},
+		resetSelectedEffects: (state) => {
+			state.selectedEffects = [];
 		},
 
 		// Animations - List
@@ -126,9 +138,13 @@ export const {
 	// Animations - Table
 	addSelectedAnimation,
 	removeSelectedAnimations,
+	setSelectedAnimations,
+	resetSelectedAnimations,
 	// Effects - Table
 	addSelectedEffect,
 	removeSelectedEffects,
+	setSelectedEffects,
+	resetSelectedEffects,
 
 	// Animations - List
 	selectAnimation,

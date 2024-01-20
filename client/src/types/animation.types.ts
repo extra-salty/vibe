@@ -22,6 +22,20 @@ export type AnimationEffectStateT = Omit<AnimationEffectBaseT, 'name'> & {
 	data: EffectBaseT;
 };
 
+export type TableAnimationT = {
+	name: string;
+	description?: string;
+	dateCreated: Date;
+	dateModified: Date;
+	effects: {
+		type: 'static' | 'dynamic';
+		name: string;
+		repeat: number;
+		frames: number;
+		duration: number;
+	};
+};
+
 export class AnimationEffectState implements AnimationEffectStateT {
 	type: 'static' | 'dynamic' = 'static';
 	repeat: number = 1;

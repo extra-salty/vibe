@@ -1,5 +1,16 @@
 .uiIcon {
+	transition: ease-in-out 0.5s;
+
 	&.rotated {
+		transition: ease-in-out 0.5s;
 		rotate: 90deg;
+	}
+
+	&.flipped {
+		transition: ease-in-out 0.5s;
+		transform: rotateY(180deg);
+		-moz-transform: rotateY(180deg);
+		-o-transform: rotateY(180deg);
+		-webkit-transform: rotateY(180deg);
 	}
 }

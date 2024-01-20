@@ -36,3 +36,28 @@
 		outline: unset;
 	}
 }
+
+@mixin tableWrapper {
+	.header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.text {
+		font-size: 1.5rem;
+		margin: 1rem;
+	}
+
+	.buttons {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.table {
+		max-height: 350px;
+
+		@include scrollBar();
+		padding-right: 5px;
+	}
+}

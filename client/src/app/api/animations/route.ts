@@ -1,38 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mongoClientPromise from '@/services/MongoDB/mongoClient';
-import { BaseAnimationT } from '@/state/features/animation/animation.types';
 import { EffectDataT } from '@/components/custom/AnimationCreator/AnimationList/useColumns';
-
-export type TableAnimationT = {
-	name: string;
-	description?: string;
-	dateCreated: Date;
-	dateModified: Date;
-	effects: {
-		type: 'static' | 'dynamic';
-		name: string;
-		repeat: number;
-		frames: number;
-		duration: number;
-	};
-};
+import { AnimationBaseT } from '@/types/animation.types';
+import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const sortOption = searchParams.get('sortOptionValue') || 'name-asc';
+		const sortOption = searchParams.get('sortOptionValue') || 'name';
+		const sortDirection = searchParams.get('sortDirection') || 'asc';
 		const filterOption = searchParams.get('filterOptionValue') || 'name';
 		const filterValue = searchParams.get('filterValue') || '';
-		const [sortBy, sortDirection] = sortOption.split('-');
 
 		const client = await mongoClientPromise;
 
-		const animations: BaseAnimationT[] = await client
+		const animations: AnimationBaseT[] = await client
 			.db(process.env.DB_NAME)
-			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
+			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
 			// .project({ _id: false })
-			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
+			.sort({ [sortOption]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
 
 		const effectNames: string[] = [];
@@ -68,7 +54,7 @@ export async function DELETE(req: NextRequest) {
 
 		const result = await client
 			.db(process.env.DB_NAME)
-			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
+			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
 			.deleteMany({ name: { $in: names } });
 
 		if (!(result.deletedCount === names.length)) {

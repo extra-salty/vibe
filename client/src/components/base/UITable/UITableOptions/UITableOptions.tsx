@@ -1,23 +1,9 @@
-import { UISelectOptionProps } from '../../UISelect/UISelect.type';
-import { Icons } from '../../UIIcon/UIIcon.types';
-import UIIcon from '../../UIIcon/UIIcon';
+import { UITableOptionsProps } from '../UITable.types';
 import UIInput from '../../UIInput/UIInput';
 import UISelect from '../../UISelect/UISelect';
 
-export type UITableOptionsProps = {
-	sortOptions?: UISelectOptionProps[];
-	filterOptions?: UISelectOptionProps[];
-	setOptions: React.Dispatch<React.SetStateAction<UITableOptionsValueT>>;
-};
-
-export type UITableOptionsValueT = {
-	sortOptionValue: string;
-	filterOptionValue: string;
-	filterValue: string;
-};
-
 const UITableOptions = ({ options }: { options: UITableOptionsProps }) => {
-	const { sortOptions, filterOptions, setOptions } = options;
+	const { filterOptions, setSelectedOptions: setOptions } = options;
 	// fix - keyof
 	const handleOptionChange = (newOption: { [k: string]: string }) => {
 		setOptions((prevOptions) => {
@@ -30,20 +16,8 @@ const UITableOptions = ({ options }: { options: UITableOptionsProps }) => {
 
 	return (
 		<div className='flex justify-between'>
-			{sortOptions ? (
-				<div className='flex'>
-					<UIIcon name={Icons.sort} />
-					<UISelect
-						options={sortOptions}
-						onChange={(value: string) => {
-							handleOptionChange({ sortOptionValue: value });
-						}}
-					/>
-				</div>
-			) : null}
 			{filterOptions ? (
 				<div className='flex'>
-					<UIIcon name={Icons.filter} />
 					<UISelect
 						options={filterOptions}
 						onChange={(value: string) => handleOptionChange({ filterOptionValue: value })}

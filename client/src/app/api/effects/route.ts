@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mongoClientPromise from '@/services/MongoDB/mongoClient';
 import { EffectBaseT, EffectTableT } from '@/types/effect.types';
+import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const sortOption = searchParams.get('sortOptionValue') || 'name-asc';
+		const sortOption = searchParams.get('sortOptionValue') || 'name';
+		const sortDirection = searchParams.get('sortDirection') || 'asc';
 		const filterOption = searchParams.get('filterOptionValue') || 'name';
 		const filterValue = searchParams.get('filterValue') || '';
-		const [sortBy, sortDirection] = sortOption.split('-');
 
 		const client = await mongoClientPromise;
 
@@ -17,19 +17,19 @@ export async function GET(req: NextRequest) {
 			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
 			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
 			// .project({ _id: 0 })
-			.sort({ [sortBy]: sortDirection === 'asc' ? 1 : -1 })
+			.sort({ [sortOption]: sortDirection === 'asc' ? 1 : -1 })
 			.toArray();
 
-		const effectDetails: EffectTableT[] = effects.map((effect) => ({
+		const effectTableData: EffectTableT[] = effects.map((effect) => ({
 			name: effect.name,
 			description: effect.description,
 			dateCreated: effect.dateCreated,
 			dateModified: effect.dateModified,
 			framesLength: effect.frames.length,
-			duration: effect.frames.reduce((duration, effect) => duration + effect.duration, 0),
+			duration: effect.frames.reduce((duration, effect) => duration + effect.duration, 0) / 1000,
 		}));
 
-		return NextResponse.json(effects);
+		return NextResponse.json(effectTableData);
 	} catch (e) {
 		console.log(e);
 		console.error(e);

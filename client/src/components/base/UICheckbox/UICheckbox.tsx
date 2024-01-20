@@ -1,4 +1,3 @@
-import { generateRandomElementId } from '@/misc/helpers/helpers';
 import UICheckboxProps from './UICheckbox.type';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import UILabel from '../UILabel/UILabel';

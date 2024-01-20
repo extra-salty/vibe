@@ -1,23 +1,25 @@
 @import '../../../styles/mixins.scss';
 
 .uiTable {
-	// position: relative;
+	position: relative;
 	text-align: left;
 	border-collapse: collapse;
 	width: 100%;
 
-	thead {
-		text-wrap: nowrap;
-	}
-
 	th {
-		padding: 5px;
-		// top: 0;
-		// z-index: 10;
-		// position: sticky;
-
+		background-color: rgb(91, 91, 91);
+		top: 0;
+		position: sticky;
 		font-weight: 600;
 		font-size: 14px;
+
+		&.sortable {
+			cursor: pointer;
+
+			&:hover {
+				background-color: rgba(180, 180, 180, 0.4);
+			}
+		}
 	}
 
 	tbody {
@@ -31,13 +33,14 @@
 			}
 
 			&:hover {
-				background-color: rgba(189, 181, 181, 0.404);
+				background-color: rgba(180, 180, 180, 0.4);
 			}
 		}
+	}
 
-		td {
-			padding: 5px 5px;
-			text-wrap: nowrap;
-		}
+	td,
+	th {
+		padding: 5px;
+		text-wrap: nowrap;
 	}
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { BaseAnimationT, StateAnimationT } from '@/state/features/animation/animation.types';
+import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
+import { EffectBaseT } from '@/types/effect.types';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
 		const animation = await client
 			.db(process.env.DB_NAME)
-			.collection<BaseAnimationT>(process.env.ANIMATION_COLLECTION)
+			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
 			.findOne({ name: animationName }, { projection: { _id: false } });
 
 		if (!animation) {
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
 
 		const effects = await client
 			.db(process.env.DB_NAME)
-			.collection<BaseEffectT>(process.env.EFFECT_COLLECTION)
+			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
 			.find({ name: { $in: effectNames } }, { projection: { _id: false } })
 			.toArray();
 
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 			throw Error('Failed to find effects');
 		}
 
-		const animationWithEffectsData: StateAnimationT = {
+		const animationWithEffectsData: AnimationStateT = {
 			...animation,
 			effects: animation.effects.map((effect, i) => ({
 				type: effect.type,
@@ -76,7 +76,7 @@ export async function PUT() {
 			}
 		}
 
-		const newAnimation: BaseAnimationT = {
+		const newAnimation: AnimationBaseT = {
 			name: `newAnimation${count}`,
 			description: '',
 			dateCreated: new Date(),
@@ -105,7 +105,7 @@ export async function PUT() {
 export async function PATCH(req: NextRequest) {
 	try {
 		const dateModified = new Date();
-		const { name, ...animationData }: BaseAnimationT = await req.json();
+		const { name, ...animationData }: AnimationBaseT = await req.json();
 		console.log('🚀 ~ PATCH ~ animationData:', animationData);
 
 		const client = await mongoClientPromise;
