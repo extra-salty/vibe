@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
 	resetSelectedEffects,
@@ -6,8 +7,8 @@ import {
 import { EffectTableDataT } from './useEffectTableData';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { UITableHeaderProps } from '@/components/base/UITable/UITable.types';
+import { Checkbox } from '@mui/material';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
-import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 
 const useEffectTableHeader = ({
 	effectNames,
@@ -15,17 +16,21 @@ const useEffectTableHeader = ({
 	effectNames: string[];
 }): UITableHeaderProps<EffectTableDataT>[] => {
 	const dispatch = useDispatch();
+	const [isChecked, setIsChecked] = useState<boolean>(false);
 
 	return [
 		{
 			id: 'select',
 			header: (
-				<UICheckbox
-					onChange={(isChecked) => {
-						if (isChecked) {
+				<Checkbox
+					checked={isChecked}
+					onChange={({ target }) => {
+						if (target.checked) {
 							dispatch(setSelectedEffects(effectNames));
+							setIsChecked(true);
 						} else {
 							dispatch(resetSelectedEffects());
+							setIsChecked(false);
 						}
 					}}
 				/>
@@ -40,11 +45,6 @@ const useEffectTableHeader = ({
 			header: 'Name',
 			isSortable: true,
 			// classes: 'asd',
-		},
-		{
-			id: 'description',
-			header: 'Description',
-			isSortable: true,
 		},
 		{
 			id: 'frames',

@@ -1,7 +1,7 @@
 import { EffectsServiceInstance } from './api/effects/_service';
 import { AnimationsServiceInstance } from './api/animations/_service';
 import AnimationCreator from '@/components/custom/AnimationCreator/AnimationCreator';
-import StateProvider from '@/state/StateProvider';
+import Providers from '@/state/Providers';
 
 const Home = async () => {
 	const [animations, effects] = await Promise.all([
@@ -10,9 +10,9 @@ const Home = async () => {
 	]);
 
 	return (
-		<StateProvider>
+		<Providers>
 			<AnimationCreator animations={animations} effects={effects} />
-		</StateProvider>
+		</Providers>
 	);
 };
 

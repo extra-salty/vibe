@@ -1,3 +1,5 @@
+@import '@/styles/variables.scss';
+
 @mixin scrollBar {
 	overflow: auto;
 	overflow-x: auto;
@@ -46,7 +48,6 @@
 
 	.text {
 		font-size: 1.5rem;
-		margin: 1rem;
 	}
 
 	.buttons {
@@ -55,9 +56,9 @@
 	}
 
 	.table {
-		max-height: 350px;
+		max-height: 300px;
 
 		@include scrollBar();
-		padding-right: 5px;
+		padding-right: $spacing-s;
 	}
 }

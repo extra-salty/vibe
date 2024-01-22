@@ -76,7 +76,7 @@ export const animationCreator = createSlice({
 			action: PayloadAction<{ selectedAnimation: AnimationStateT; index?: number }>,
 		) => {
 			const { selectedAnimation, index } = action.payload;
-			const newIndex = index != undefined ? index : state.animations.length;
+			const newIndex = index != undefined ? index + 1 : state.animations.length;
 			const includes = state.animations.find(
 				(animation) => animation.name === selectedAnimation.name,
 			);
@@ -91,6 +91,19 @@ export const animationCreator = createSlice({
 
 			state.animations[startIndex] = state.animations[endIndex];
 			state.animations[endIndex] = temp;
+		},
+		overAnimation: (
+			state,
+			action: PayloadAction<{ selectedAnimation: AnimationStateT; index: number }>,
+		) => {
+			const { index, selectedAnimation } = action.payload;
+			const includes = state.animations.find(
+				(animation) => animation.name === selectedAnimation.name,
+			);
+
+			if (!includes) {
+				state.animations.splice(index, 0, selectedAnimation);
+			}
 		},
 
 		// Effects - List
@@ -149,6 +162,7 @@ export const {
 	// Animations - List
 	selectAnimation,
 	moveAnimation,
+	overAnimation,
 	// Effect - List
 	addEffect,
 	moveEffect,

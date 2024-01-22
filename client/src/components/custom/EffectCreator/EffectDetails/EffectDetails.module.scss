@@ -1,0 +1,12 @@
+@import '@/styles/variables.scss';
+
+.column {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-s;
+
+	.dates {
+		display: flex;
+		gap: $spacing-s;
+	}
+}

@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { StateFrameT } from '@/state/features/effect/effectSlice.types';
+import { useFrames } from '@/state/features/effect/effectSelector';
+import { FrameStateT } from '@/types/effect.types';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import Frame from '../../FrameComps/Frame/Frame';
 import UIButton from '@/components/base/UIButton/UIButton';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 
-const EffectPlayer = ({ frames }: { frames: StateFrameT[] }) => {
+const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
+	const frames = useFrames();
+
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [durationTime, setDurationTime] = useState<number>(0);
 	const [overwrriteDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);

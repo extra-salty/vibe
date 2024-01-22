@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { useFrames } from '@/state/features/effect/effectSelector';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, DragStartEvent, DragEndEvent } from '@dnd-kit/core';
-import { StateFrameT } from '@/state/features/effect/effectSlice.types';
+import { FrameStateT } from '@/types/effect.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
-import style from './FrameGrid.module.scss';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
+import style from './FrameGrid.module.scss';
 
-const FrameGrid = ({ frames }: { frames: StateFrameT[] }) => {
+const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
+	const frames = useFrames();
+
 	const items = frames.map((_, i) => i);
 	const [activeEvent, setActiveEvent] = useState<DragStartEvent | null>(null);
 

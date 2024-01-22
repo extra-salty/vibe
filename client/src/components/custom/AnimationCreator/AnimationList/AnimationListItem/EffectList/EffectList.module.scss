@@ -1,0 +1,13 @@
+@import '@/styles/variables.scss';
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 10px;
+	padding: 0;
+
+	background-color: $list-color;
+	// border: 3px solid $border-color;
+	border-radius: $border-radius-m;
+}

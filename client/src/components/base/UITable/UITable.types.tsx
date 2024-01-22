@@ -1,11 +1,9 @@
 import { UIComponentProps } from '@/components/UIComponent.type';
 import { UISelectOptionProps } from '../UISelect/UISelect.type';
-import UIButtonProps from '../UIButton/UIButton.type';
 
 export type UITableProps<T> = UIComponentProps & {
 	data: T[];
 	header: UITableHeaderProps<T>[];
-	actions?: UIButtonProps[];
 	options: UITableOptionsProps;
 };
 

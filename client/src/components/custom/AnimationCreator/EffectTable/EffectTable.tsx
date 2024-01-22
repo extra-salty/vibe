@@ -5,23 +5,30 @@ import { useDispatch } from 'react-redux';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelectedEffects } from '@/state/features/animation/animationSelector';
 import { removeSelectedEffects } from '@/state/features/animation/animationSlice';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { EffectTableT } from '@/types/effect.types';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { SortDirection, UITableOptionsValueT } from '@/components/base/UITable/UITable.types';
+import { LoadingButton, LoadingButtonProps } from '@mui/lab';
+import { AddCircleOutline, ContentCopy, DeleteOutline } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import UITable from '@/components/base/UITable/UITable';
-import UIButtonProps from '@/components/base/UIButton/UIButton.type';
-import UIButton from '@/components/base/UIButton/UIButton';
 import styles from './EffectTable.module.scss';
 
 const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => {
 	const dispatch = useDispatch();
 
 	const [effects, setEffects] = useState<EffectTableT[]>(initialEffects);
+	const [buttonLoadings, setButtonLoadings] = useState<
+		Record<'create' | 'delete' | 'duplicate', boolean>
+	>({
+		create: false,
+		delete: false,
+		duplicate: false,
+	});
 	const [selectedOptions, setSelectedOptions] = useState<UITableOptionsValueT>({
 		sortOptionValue: 'name',
-		sortDirection: SortDirection.des,
+		sortDirection: SortDirection.asc,
 		filterOptionValue: 'name',
 		filterValue: '',
 	});
@@ -38,16 +45,28 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 	}, [setEffects, selectedOptions]);
 
 	const handleCreateEffect = async () => {
+		setButtonLoadings((s) => {
+			return { ...s, create: true };
+		});
+
 		try {
 			await EffectServiceInstance.createEffect();
 
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
+		} finally {
+			setButtonLoadings((s) => {
+				return { ...s, create: false };
+			});
 		}
 	};
 
 	const handleDuplicateEffect = async () => {
+		setButtonLoadings((s) => {
+			return { ...s, duplicate: true };
+		});
+
 		try {
 			await EffectServiceInstance.duplicateEffect(selectedEffects[0]);
 
@@ -55,10 +74,18 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
+		} finally {
+			setButtonLoadings((s) => {
+				return { ...s, duplicate: false };
+			});
 		}
 	};
 
 	const handleDeleteEffects = async () => {
+		setButtonLoadings((s) => {
+			return { ...s, delete: true };
+		});
+
 		try {
 			await EffectsServiceInstance.deleteEffects(selectedEffects);
 
@@ -66,26 +93,33 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
+		} finally {
+			setButtonLoadings((s) => {
+				return { ...s, delete: false };
+			});
 		}
 	};
 
-	const actions: UIButtonProps[] = [
+	const actions: LoadingButtonProps[] = [
 		{
-			text: 'Create',
-			icon: Icons.add,
+			children: 'Create',
+			startIcon: <AddCircleOutline />,
+			loading: buttonLoadings.create,
 			onClick: handleCreateEffect,
 		},
 		{
-			text: 'Delete',
-			icon: Icons.delete,
-			onClick: handleDeleteEffects,
+			children: 'Delete',
+			startIcon: <DeleteOutline />,
+			loading: buttonLoadings.delete,
 			disabled: !selectedEffects.length,
+			onClick: handleDeleteEffects,
 		},
 		{
-			text: 'Duplicate',
-			icon: Icons.duplicate,
-			onClick: handleDuplicateEffect,
+			children: 'Duplicate',
+			startIcon: <ContentCopy />,
+			loading: buttonLoadings.duplicate,
 			disabled: !(selectedEffects.length === 1),
+			onClick: handleDuplicateEffect,
 		},
 	];
 
@@ -102,10 +136,19 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 	return (
 		<div>
 			<div className={styles.header}>
-				<div className={styles.text}>Effects</div>
+				<div className={styles.text}>
+					<Typography variant='h4'>Effects</Typography>
+				</div>
 				<div className={styles.buttons}>
 					{actions.map((props, i) => (
-						<UIButton key={i} {...props} />
+						<LoadingButton
+							key={i}
+							size='small'
+							color='primary'
+							variant='contained'
+							loadingPosition='start'
+							{...props}
+						/>
 					))}
 				</div>
 			</div>
@@ -113,7 +156,6 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 				<UITable
 					data={data}
 					header={header}
-					actions={actions}
 					options={{
 						selectedOptions,
 						setSelectedOptions,

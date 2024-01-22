@@ -1,0 +1,33 @@
+@import '@/styles/variables.scss';
+
+.item {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+
+	background-color: $item-color;
+	border: 3px solid $border-color;
+	border-radius: $border-radius-m;
+
+	&:hover {
+		border-color: $border-hover-color;
+	}
+}
+
+.animation {
+	display: flex;
+	align-items: center;
+}
+
+.expand {
+	display: flex;
+	align-items: center;
+	gap: $spacing-s;
+
+	cursor: pointer;
+
+	&:hover {
+		background-color: rgba(180, 180, 180, 0.4);
+	}
+}

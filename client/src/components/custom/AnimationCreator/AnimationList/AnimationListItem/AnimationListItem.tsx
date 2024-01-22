@@ -1,19 +1,22 @@
 import useColumns, { AnimationDataT } from '../useColumns';
 import { useSortable } from '@dnd-kit/sortable';
-import { memo } from 'react';
-import { DndElements, StateAnimationT } from '@/state/features/animation/animation.types';
+import { memo, useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { AnimationStateT } from '@/types/animation.types';
+import { DndElements } from '@/types/misc.types';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import EffectList from './EffectList/EffectList';
+import styles from './AnimationListItem.module.scss';
 
 export const AnimationListItem = ({
 	index,
 	animation,
 }: {
 	index: number;
-	animation: StateAnimationT;
+	animation: AnimationStateT;
 }) => {
+	const [isEffectsVisible, setIsEffectsHidden] = useState<boolean>(false);
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging, isOver } =
 		useSortable({
 			id: `${animation.name}/${index}`,
@@ -27,7 +30,14 @@ export const AnimationListItem = ({
 	};
 
 	const animationData: AnimationDataT = {
-		numbering: index + 1,
+		numbering: animation.effects.length ? (
+			<div className={styles.expand} onClick={() => setIsEffectsHidden((s) => !s)}>
+				<div>{index + 1}</div>
+				<UIIcon name={Icons.expandMore} width={12} height={12} isFlipped={isEffectsVisible} />
+			</div>
+		) : (
+			index + 1
+		),
 		name: animation.name,
 		description: animation.description,
 		frames: animation.effects.reduce((frames, effect) => frames + effect.data.frames.length, 0),
@@ -46,19 +56,21 @@ export const AnimationListItem = ({
 	const animationColumns = useColumns(animationData);
 
 	return (
-		<li ref={setNodeRef} style={style} className='flex flex-col p-0 m-0 border border-solid'>
-			<div className='flex items-center'>
+		<li ref={setNodeRef} style={style} className={styles.item}>
+			<div className={styles.animation}>
 				{animationColumns.map(({ content, classes }, i) => (
 					<div key={i} className={`${classes}`}>
 						{content}
 					</div>
 				))}
 			</div>
-			<EffectList
-				effects={animation.effects}
-				animationIndex={index}
-				animationName={animation.name}
-			/>
+			{isEffectsVisible && (
+				<EffectList
+					effects={animation.effects}
+					animationIndex={index}
+					animationName={animation.name}
+				/>
+			)}
 		</li>
 	);
 };

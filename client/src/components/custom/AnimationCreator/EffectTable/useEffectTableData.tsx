@@ -1,17 +1,16 @@
 import { useDispatch } from 'react-redux';
-import { useSelectedEffects } from '@/state/features/animation/animationSelector';
 import { addSelectedEffect } from '@/state/features/animation/animationSlice';
 import { convertDate } from '@/misc/helpers/helpers';
 import { EffectTableT } from '@/types/effect.types';
+import { Checkbox } from '@mui/material';
 import EffectTableDragButton from './EffectTableDragButton/EffectTableDragButton';
-import UICheckbox from '@/components/base/UICheckbox/UICheckbox';
 import UILink from '@/components/base/UILink/UILink';
+import { useRouter } from 'next/router';
 
 export type EffectTableDataT = {
 	select: React.ReactNode;
 	numbering: number;
 	name: React.ReactNode;
-	description: React.ReactNode;
 	frames: number;
 	duration: number;
 	dateCreated: string;
@@ -28,17 +27,20 @@ const useEffectTableData = ({
 }): EffectTableDataT[] => {
 	const dispatch = useDispatch();
 
+	const handleEffectRoute = (effectName: string) => {
+		// router.push(`/effect/${effectName}`);
+	};
+
 	return effects.map(
 		({ name, description, dateCreated, dateModified, framesLength, duration }, i) => ({
 			select: (
-				<UICheckbox
-					isChecked={selectedEffects.includes(name)}
+				<Checkbox
+					checked={selectedEffects.includes(name)}
 					onChange={() => dispatch(addSelectedEffect(name))}
 				/>
 			),
 			numbering: ++i,
 			name: <UILink href={`/effect/${name}`}>{name}</UILink>,
-			description: description || '-',
 			frames: framesLength,
 			duration: duration,
 			dateCreated: convertDate(dateCreated),

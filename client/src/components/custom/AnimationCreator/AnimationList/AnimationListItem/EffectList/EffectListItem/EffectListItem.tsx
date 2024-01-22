@@ -1,12 +1,14 @@
 import useColumns, { EffectDataT } from '../../../useColumns';
 import { useSortable } from '@dnd-kit/sortable';
 import { memo } from 'react';
-import { DndElements, StateAnimationEffectT } from '@/state/features/animation/animation.types';
 import { CSS } from '@dnd-kit/utilities';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { AnimationEffectStateT } from '@/types/animation.types';
+import { DndElements } from '@/types/misc.types';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UILink from '@/components/base/UILink/UILink';
+import styles from './EffectListItem.module.scss';
 
 const EffectListItem = ({
 	index,
@@ -15,7 +17,7 @@ const EffectListItem = ({
 }: {
 	index: number;
 	animationIndex: number;
-	effect: StateAnimationEffectT;
+	effect: AnimationEffectStateT;
 }) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
 		id: `${effect.data.name}/${animationIndex}/${index}`,
@@ -29,7 +31,7 @@ const EffectListItem = ({
 	};
 
 	const effectData: EffectDataT = {
-		numbering: <div> - {index + 1}</div>,
+		numbering: <div>{index + 1}</div>,
 		name: <UILink href={`effect/${effect.data.name}`}>{effect.data.name}</UILink>,
 		description: effect.data.description || '-',
 		frames: effect.data.frames.length,
@@ -45,7 +47,7 @@ const EffectListItem = ({
 	const effectColumns = useColumns(effectData);
 
 	return (
-		<li ref={setNodeRef} style={style} className='flex'>
+		<li ref={setNodeRef} style={style} className={styles.item}>
 			{effectColumns.map(({ content, classes }, i) => {
 				return (
 					<div key={i} className={`${classes} text-left`}>

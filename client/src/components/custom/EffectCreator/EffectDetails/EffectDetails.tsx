@@ -1,61 +1,60 @@
 import { useDispatch } from 'react-redux';
 import { setEffectDescription, setEffectName } from '@/state/features/effect/effectSlice';
-import { convertDate } from '@/misc/helpers/helpers';
-import { StateEffectT } from '@/state/features/effect/effectSlice.types';
-import UILabel, { UILabelProps } from '@/components/base/UILabel/UILabel';
-import UIInput from '@/components/base/UIInput/UIInput';
-import UIInputProps from '@/components/base/UIInput/UIInput.type';
 import { useActiveEffect } from '@/state/features/effect/effectSelector';
+import { EffectStateT } from '@/types/effect.types';
+import { TextField, TextFieldProps } from '@mui/material';
+import { DateTimeField, DateTimeFieldProps } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import styles from './EffectDetails.module.scss';
 
-const EffectDetails = ({ effecta }: { effecta?: StateEffectT }) => {
+const EffectDetails = ({ effecta }: { effecta?: EffectStateT }) => {
 	const dispatch = useDispatch();
 	const effect = useActiveEffect();
 
-	const components: { input: UIInputProps; label: UILabelProps }[] = [
+	const texts: TextFieldProps[] = [
 		{
-			input: {
-				value: effect.name,
-				onChange: (value) => dispatch(setEffectName(value)),
-				id: 'effectName',
-				placeholder: 'Enter effect name',
-			},
-			label: { label: 'Name', htmlFor: 'effectName' },
+			id: 'name',
+			label: 'Name',
+			placeholder: 'Enter a name',
+			value: effect.name,
+			required: true,
+			onChange: (event) => dispatch(setEffectName(event.target.value)),
 		},
 		{
-			input: {
-				value: effect.description,
-				onChange: (value) => dispatch(setEffectDescription(value)),
-				id: 'effectDesc',
-				placeholder: 'Enter effect description',
-			},
-			label: { label: 'Description', htmlFor: 'effectDesc' },
+			id: 'description',
+			label: 'Description',
+			placeholder: 'Enter a description',
+			value: effect.description,
+			multiline: true,
+			maxRows: '5',
+			onChange: (event) => dispatch(setEffectDescription(event.target.value)),
+		},
+	];
+
+	// DateTimeFieldProps;
+	const dates = [
+		{
+			id: 'dateCreated',
+			label: 'Date created',
+			value: dayjs(effect.dateCreated),
 		},
 		{
-			input: {
-				value: convertDate(effect.dateCreated),
-				id: 'dateCreated',
-				disabled: true,
-			},
-			label: { label: 'Date Created', htmlFor: 'dateCreated' },
-		},
-		{
-			input: {
-				value: convertDate(effect.dateModified),
-				id: 'dateModified',
-				disabled: true,
-			},
-			label: { label: 'Date Modified', htmlFor: 'dateModified' },
+			id: 'dateModified',
+			label: 'Date mofified',
+			value: dayjs(effect.dateModified),
 		},
 	];
 
 	return (
-		<div className='flex flex-col gap-2'>
-			{components.map((comps, i) => (
-				<div key={i} className='flex gap-1'>
-					<UILabel {...comps.label} classes={['w-40']} />
-					<UIInput {...comps.input} classes={['w-full']} />
-				</div>
+		<div className={styles.column}>
+			{texts.map((props) => (
+				<TextField key={props.id} variant='filled' {...props} />
 			))}
+			<div className={styles.dates}>
+				{dates.map((props) => (
+					<DateTimeField ampm={false} readOnly key={props.id} variant='filled' {...props} />
+				))}
+			</div>
 		</div>
 	);
 };

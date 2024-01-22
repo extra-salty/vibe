@@ -30,7 +30,7 @@ const UISortableTableHeader = ({
 		<div onClick={handleSorting} className={styles.header}>
 			{children}
 			{isSortActive && (
-				<UIIcon name={Icons.next} width={12} height={12} isRotated isFlipped={isFlipped} />
+				<UIIcon name={Icons.expandMore} width={12} height={12} isFlipped={isFlipped} />
 			)}
 		</div>
 	);

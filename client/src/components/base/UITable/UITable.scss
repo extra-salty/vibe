@@ -1,4 +1,4 @@
-@import '../../../styles/mixins.scss';
+@import '@/styles/mixins.scss';
 
 .uiTable {
 	position: relative;
@@ -9,6 +9,7 @@
 	th {
 		background-color: rgb(91, 91, 91);
 		top: 0;
+		z-index: 10;
 		position: sticky;
 		font-weight: 600;
 		font-size: 14px;

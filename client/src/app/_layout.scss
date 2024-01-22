@@ -1,33 +1,36 @@
+@import '@/styles/variables.scss';
 @tailwind utilities;
 
+html,
 body {
-	// Size
-	// margin: 20px auto;
-	padding-inline: 5%;
-	max-width: 1800px;
-	// Background
+	margin: 0;
+	height: 100%;
+}
+
+body {
 	background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 1000%;
 	animation: gradient 30s linear infinite;
-	// Font
+
 	color: #fff;
 	font-size: 16px;
 	font-weight: 400;
+}
 
-	main {
-		background-color: rgba(80, 80, 80, 0.4);
-		border-radius: 20px;
-		padding: 20px;
+header {
+	display: flex;
+	justify-content: center;
+	background-color: gray;
 
-		header {
-			display: flex;
-			justify-content: center;
-
-			.logo {
-				height: 100px;
-			}
-		}
+	.logo {
+		height: 100px;
 	}
+}
+
+main {
+	background-color: rgba(80, 80, 80, 0.4);
+	margin-inline: $spacing-3xl;
+	// padding: $spacing-xl;
 }
 
 @keyframes gradient {

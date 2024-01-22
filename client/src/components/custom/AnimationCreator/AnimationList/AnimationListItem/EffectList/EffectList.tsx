@@ -1,15 +1,17 @@
 import { useDroppable } from '@dnd-kit/core';
 import { memo } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { DndElements, StateAnimationEffectT } from '@/state/features/animation/animation.types';
+import { AnimationEffectStateT } from '@/types/animation.types';
+import { DndElements } from '@/types/misc.types';
 import EffectListItem from './EffectListItem/EffectListItem';
+import styles from './EffectList.module.scss';
 
 const EffectList = ({
 	effects,
 	animationIndex,
 	animationName,
 }: {
-	effects: StateAnimationEffectT[];
+	effects: AnimationEffectStateT[];
 	animationIndex: number;
 	animationName: string;
 }) => {
@@ -21,7 +23,7 @@ const EffectList = ({
 	});
 
 	return (
-		<ul ref={setNodeRef} className='m-0 p-0 list-none'>
+		<ul ref={setNodeRef} className={styles.list}>
 			<SortableContext items={items} strategy={verticalListSortingStrategy}>
 				{effects.map((effect, i) => {
 					return (

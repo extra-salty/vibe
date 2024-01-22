@@ -1,10 +1,13 @@
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import Image from 'next/image';
-import UILink from '@/components/base/UILink/UILink';
+import { Roboto } from 'next/font/google';
+import Header from '@/components/custom/PageComps/Header/Header';
 import './_layout.scss';
 
-const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto({
+	weight: ['300', '400', '500', '700'],
+	subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
 	title: 'Vibe',
@@ -14,16 +17,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>
+			<body className={roboto.className}>
+				<Header />
 				<main>
-					<header>
-						<div>
-							<UILink href='/'>Animations</UILink>
-							<UILink href='/'>Effect</UILink>
-						</div>
-						<Image src={'/vibe.svg'} alt='vibe-logo' width={200} height={80} />
-					</header>
-					{children}
+					<AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+					{/* options={{ enableCssLayer: true } */}
 				</main>
 			</body>
 		</html>

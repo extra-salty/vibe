@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useAnimations } from '@/state/features/animation/animationSelector';
-import { ColorT, DEFAULT_COLOR } from '@/state/features/effect/effectSlice.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { EffectsDataServiceInstance } from '@/app/api/effectsData/_service';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import Frame from '../Frame/Frame';
 import UIButton from '@/components/base/UIButton/UIButton';
+import { ColorT } from '@/types/color.types';
+import { DEFAULT_COLOR } from '@/types/effect.types';
 
 const FramePlayer = ({}: {}) => {
 	const animations = useAnimations();
@@ -15,7 +16,7 @@ const FramePlayer = ({}: {}) => {
 	);
 
 	const selectedEffects = animations.map((animation) =>
-		animation.effects.map((effect) => effect.name),
+		animation.effects.map((effect) => effect.data.name),
 	);
 
 	const handleEffectPlay = async () => {

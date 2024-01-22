@@ -15,4 +15,5 @@ export enum DndElements {
 	effectListItem = 'effectListItem',
 	newEffect = 'newEffect',
 	newAnimation = 'newAnimation',
+	removeDropZone = 'removeDropZone',
 }

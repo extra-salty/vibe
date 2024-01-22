@@ -1,0 +1,19 @@
+@import '@/styles/variables.scss';
+
+.columns {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	border: 3px solid black;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xl;
+}
+
+.tables {
+	> div {
+		border: 2px solid blue;
+	}
+}
