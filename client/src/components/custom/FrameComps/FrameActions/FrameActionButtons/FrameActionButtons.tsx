@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 import { useFramesLength } from '@/state/features/effect/effectSelector';
-import { StateFrameT } from '@/state/features/effect/effectSlice.types';
 import {
 	addFrame,
 	applyRedo,
@@ -10,16 +9,18 @@ import {
 	duplicateFrame,
 	resetFrame,
 } from '@/state/features/effect/effectSlice';
+import { FrameStateT } from '@/types/effect.types';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIButtonProps from '@/components/base/UIButton/UIButton.type';
+import styles from './FrameActionButtons.module.scss';
 
 const FrameActionButtons = ({
 	frame,
 	frameIndex,
 	isDisabled,
 }: {
-	frame: StateFrameT;
+	frame: FrameStateT;
 	frameIndex: number;
 	isDisabled: boolean;
 }) => {
@@ -66,10 +67,10 @@ const FrameActionButtons = ({
 	}, [dispatch, frame.redo.length, frame.undo.length, frameIndex, framesLength, isDisabled]);
 
 	return (
-		<div className='flex flex-col gap-2'>
+		<div className={styles.column}>
 			{actionButtons.map((buttonRow, i) => {
 				return (
-					<div key={i} className='flex gap-1'>
+					<div key={i} className={styles.row}>
 						{buttonRow.map((props, j: number) => {
 							return <UIButton key={`${i}/${j}`} {...props} hasBorder={false} />;
 						})}

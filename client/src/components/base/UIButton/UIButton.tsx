@@ -27,10 +27,6 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 		delay: delay,
 	});
 
-	const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
-		e.buttons === 1 && onHover?.(e);
-	};
-
 	const renderContent = (icon || text) && (
 		<div className={appendClasses(['content', iconPosition])}>
 			{icon && <UIIcon name={icon} width={iconSize} height={iconSize} />}
@@ -51,7 +47,6 @@ const UIButton: React.FC<PropsWithChildren<UIButtonProps>> = ({
 			style={styles}
 			disabled={disabled}
 			{...mouseEvents}
-			onMouseOver={handleMouseOver}
 		>
 			{renderContent}
 		</button>

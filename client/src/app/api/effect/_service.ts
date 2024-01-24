@@ -1,16 +1,17 @@
 import { MongoService } from '@/services/MongoDB/MongoService';
-import { BaseEffectT } from '@/state/features/effect/effectSlice.types';
-import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import { EffectBaseT } from '@/types/effect.types';
 
 class EffectService extends MongoService {
 	private endpoint: string = 'effect';
 
-	getEffect(name: string): Promise<BaseEffectT> {
+	getEffect(name: string): Promise<EffectBaseT> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			params: { name },
+			cache: CacheOptions.noStore,
 		};
-		return this.get<BaseEffectT>(methodConfig);
+		return this.get<EffectBaseT>(methodConfig);
 	}
 
 	createEffect() {
@@ -28,7 +29,7 @@ class EffectService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateEffect(effectData: Omit<BaseEffectT, 'dateCreated'>) {
+	updateEffect(effectData: Omit<EffectBaseT, 'dateCreated'>) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			data: effectData,

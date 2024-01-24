@@ -12,10 +12,9 @@ export type AttributeType = UIComponentProps & {
 };
 
 export enum Attributes {
-	hue = 'Hue',
-	saturation = 'Saturation',
-	lightness = 'Lightness',
-	timing = 'Timing',
+	hue = 'hue',
+	saturation = 'saturation',
+	lightness = 'lightness',
 }
 
 export enum Units {

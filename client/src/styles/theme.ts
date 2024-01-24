@@ -6,6 +6,7 @@ const theme = createTheme({
 		// primary: { main: '#1976d2', light: '#42a5f5', dark: '#1565c0', contrastText: '#fff' },
 		// secondary: { main: '#1976d2', light: '#42a5f5', dark: '#1565c0', contrastText: '#fff' },
 	},
+	spacing: 4,
 });
 
 export default theme;

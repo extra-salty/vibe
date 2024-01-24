@@ -46,7 +46,7 @@ const AnimationCreator = ({
 					<EffectTable initialEffects={effects} />
 				</div>
 				<div className={styles.column}>
-					<AnimationList />
+					{/* <AnimationList /> */}
 					{/* <RemoveDropZone /> */}
 				</div>
 				<div className={styles.column}>

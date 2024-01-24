@@ -1,16 +1,12 @@
 import { useSortable } from '@dnd-kit/sortable';
-import { StateFrameT } from '@/state/features/effect/effectSlice.types';
 import { CSSProperties, memo, useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
+import { FrameStateT } from '@/types/effect.types';
 import Frame from '../../../FrameComps/Frame/Frame';
 import FrameActions from '../../../FrameComps/FrameActions/FrameActions';
+import styles from './FrameGridItem.module.scss';
 
-type FrameGridItemProps = {
-	frame: StateFrameT;
-	frameIndex: number;
-};
-
-const FrameGridItem = ({ frameIndex, frame }: FrameGridItemProps) => {
+const FrameGridItem = ({ frameIndex, frame }: { frame: FrameStateT; frameIndex: number }) => {
 	const { isDragging, setNodeRef, transform, transition } = useSortable({
 		id: frameIndex,
 	});
@@ -29,7 +25,7 @@ const FrameGridItem = ({ frameIndex, frame }: FrameGridItemProps) => {
 	};
 
 	return (
-		<div ref={setNodeRef} style={style} className='flex gap-3 p-2 border h-48'>
+		<div ref={setNodeRef} style={style} className={styles.item}>
 			<FrameActions
 				frame={frame}
 				frameIndex={frameIndex}

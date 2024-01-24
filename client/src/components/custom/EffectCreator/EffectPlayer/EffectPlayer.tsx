@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { useFrames } from '@/state/features/effect/effectSelector';
-import { FrameStateT } from '@/types/effect.types';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { useActiveEffect, useFrames } from '@/state/features/effect/effectSelector';
+import { EffectServiceInstance } from '@/app/api/effect/_service';
+import { EffectBaseT, FrameStateT } from '@/types/effect.types';
+import { LoadingButton, LoadingButtonProps } from '@mui/lab';
+import { PauseCircleOutline, PlayArrowOutlined, SaveOutlined } from '@mui/icons-material';
 import Frame from '../../FrameComps/Frame/Frame';
-import UIButton from '@/components/base/UIButton/UIButton';
+import styles from './EffectPlayer.module.scss';
 
 const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	const frames = useFrames();
+	const effect = useActiveEffect();
 
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [durationTime, setDurationTime] = useState<number>(0);
@@ -24,37 +27,73 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	};
 
 	const handleEffectSave = async () => {
-		// const updatedEffectData: Omit<BaseEffectT, 'dateCreated'> = {
-		// 	name: effect.name,
-		// 	description: effect.description,
-		// 	dateModified: new Date(),
-		// 	frames: effect.frames.map((frame) => {
-		// 		return { data: frame.data, duration: frame.duration };
-		// 	}),
-		// };
-		// try {
-		// 	await EffectServiceInstance.updateEffect(updatedEffectData);
-		// } catch (e) {
-		// 	console.error(e);
-		// }
+		console.log('🚀 ~ EffectPlayer ~ effect:', effect);
+		const updatedEffectData: Omit<EffectBaseT, 'dateCreated'> = {
+			_id: '',
+			name: effect.name,
+			description: effect.description,
+			dateModified: new Date(),
+			frames: effect.frames.map((frame) => {
+				return { data: frame.data, duration: frame.duration };
+			}),
+		};
+		try {
+			// await EffectServiceInstance.updateEffect(updatedEffectData);
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
+	const actions: LoadingButtonProps[] = [
+		{
+			children: 'Save',
+			startIcon: <SaveOutlined />,
+			loading: false,
+			onClick: handleEffectSave,
+		},
+		{
+			children: 'Play',
+			startIcon: <PlayArrowOutlined />,
+			loading: false,
+			onClick: handleEffectPlay,
+		},
+		{
+			children: 'Pause',
+			startIcon: <PauseCircleOutline />,
+			loading: false,
+			onClick: handleEffectPlay,
+		},
+	];
+
 	return (
-		<div className='flex flex-col gap-2 w-96'>
+		<div className={styles.player}>
 			<Frame
 				frameData={frames[activeFrameIndex].data}
 				frameIndex={activeFrameIndex}
 				isDisabled={false}
 				showCoordinate={showCellCoordinate}
 			/>
-			<div className='flex gap-2 justify-around'>
-				<UIButton text='Play' icon={Icons.play} onClick={handleEffectPlay} />
-				<UIButton text='Pause' icon={Icons.pause} onClick={handleEffectSave} />
-				{/* <UICheckbox label='Show cell index' onChange={() => setShowCellCoordinate((s) => !s)} /> */}
-				<div className='framePagination'>{`${activeFrameIndex + 1}/${frames.length}`}</div>
+			<div className={styles.buttons}>
+				<div className={styles.buttons}>
+					{actions.map((props, i) => (
+						<LoadingButton
+							key={i}
+							size='small'
+							color='primary'
+							variant='contained'
+							loadingPosition='start'
+							{...props}
+						/>
+					))}
+				</div>
+				<div className={styles.index}>{`${activeFrameIndex + 1}/${frames.length}`}</div>
 			</div>
 		</div>
 	);
 };
 
 export default EffectPlayer;
+
+{
+	/* <UICheckbox label='Show cell index' onChange={() => setShowCellCoordinate((s) => !s)} /> */
+}

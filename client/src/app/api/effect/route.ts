@@ -119,13 +119,14 @@ export async function PUT() {
 			}
 		}
 
-		const newEffect: EffectBaseT = {
+		const newEffect: Omit<EffectBaseT, '_id'> = {
 			name: `newEffect${count}`,
 			description: '',
 			dateCreated: new Date(),
 			dateModified: new Date(),
-			frames: [new FrameBase(1000, new Color(0, 100, 50))],
+			frames: [new FrameBase(1000, new Color(0, 0, 0))],
 		};
+		console.log('🚀 ~ PUT ~ newEffect:', newEffect);
 
 		const result = await client
 			.db(process.env.DB_NAME)

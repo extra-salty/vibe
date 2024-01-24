@@ -6,6 +6,10 @@ export const useSelectedColor = () =>
 	useSelector((state: RootState) => state.effectCreator.color.selectedColor);
 
 // Frame
+
+export const useFrameWidth = () =>
+	useSelector((state: RootState) => state.effectCreator.frameWidth);
+
 export const useFrames = () => useSelector((state: RootState) => state.effectCreator.effect.frames);
 
 export const useFramesLength = () =>

@@ -1,11 +1,25 @@
-@import '../../../../styles/mixins.scss';
+@import '@/styles/variables.scss';
+@import '@/styles/mixins.scss';
 
-.frameGrid {
-	width: 1000px;
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-	gap: 20px;
-	height: 70vh;
+.slider {
+	display: flex;
+	gap: $spacing-4;
+	align-items: center;
+	margin-inline: 20px;
+}
+
+.gridWrapper {
+	height: 80vh;
+	padding: $spacing-3;
+	border-top: 3px solid $border-color;
 
 	@include scrollBar();
+
+	.grid {
+		width: 100%;
+
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 20px;
+	}
 }

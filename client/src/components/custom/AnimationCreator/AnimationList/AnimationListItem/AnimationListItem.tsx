@@ -1,4 +1,4 @@
-import useColumns, { AnimationDataT } from '../useColumns';
+import { AnimationDataT } from '../useColumns';
 import { useSortable } from '@dnd-kit/sortable';
 import { memo, useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';

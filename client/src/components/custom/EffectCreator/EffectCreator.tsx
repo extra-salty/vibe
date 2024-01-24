@@ -7,8 +7,8 @@ import EffectDetails from './EffectDetails/EffectDetails';
 import EffectPlayer from './EffectPlayer/EffectPlayer';
 import FrameGrid from './FrameGrid/FrameGrid';
 import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
+import Attribute from '../Attribute/Attribute';
 import styles from './EffectCreator.module.scss';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 	const dispatch = useDispatch();
@@ -18,13 +18,11 @@ const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 		<div className='flex gap-10'>
 			<PanelGroup direction='horizontal'>
 				<Panel defaultSize={50}>
-					<div className={styles.empty}>empty</div>
+					<Attribute />
 				</Panel>
 				<ResizeHandle />
-				<Panel defaultSize={50} minSize={40}>
-					<div>
-						<FrameGrid />{' '}
-					</div>
+				<Panel defaultSize={50} minSize={40} className={styles.grid}>
+					<FrameGrid />
 				</Panel>
 			</PanelGroup>
 			<div className='flex flex-col gap-2'>

@@ -1,0 +1,15 @@
+@import '@/styles/variables.scss';
+
+.item {
+	display: flex;
+	gap: $spacing-4;
+	padding: $spacing-2;
+
+	border: 3px solid $border-color;
+	border-radius: $border-radius-m;
+	background-color: $item-color;
+
+	&:hover {
+		border: 3px solid $border-hover-color;
+	}
+}

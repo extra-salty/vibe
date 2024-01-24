@@ -1,5 +1,17 @@
-.attributes {
+@import '@/styles/variables.scss';
+
+.color {
+	display: flex;
+	gap: $spacing-2;
+	border: 3px solid $border-color;
+
+	padding: 10px;
+	height: 70vh;
+}
+
+.slider {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	align-items: center;
+	gap: $spacing-4;
 }

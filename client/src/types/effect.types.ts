@@ -2,6 +2,7 @@ import { ColorT } from './color.types';
 import { CoordinateT } from './misc.types';
 
 export type EffectBaseT = {
+	_id: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
@@ -43,18 +44,18 @@ export const DEFAULT_COLOR: ColorT = {
 	lightness: 0,
 };
 
-export class EffectBase implements EffectBaseT {
-	name: string;
-	description: string;
-	dateCreated: Date = new Date();
-	dateModified: Date = new Date();
-	frames: FrameBaseT[] = [new FrameBase(1000, DEFAULT_COLOR)];
+// export class EffectBase implements EffectBaseT {
+// 	name: string;
+// 	description: string;
+// 	dateCreated: Date = new Date();
+// 	dateModified: Date = new Date();
+// 	frames: FrameBaseT[] = [new FrameBase(1000, DEFAULT_COLOR)];
 
-	constructor(name: string, description: string) {
-		this.name = name;
-		this.description = description;
-	}
-}
+// 	constructor(name: string, description: string) {
+// 		this.name = name;
+// 		this.description = description;
+// 	}
+// }
 
 export class FrameBase implements FrameBaseT {
 	duration: number;

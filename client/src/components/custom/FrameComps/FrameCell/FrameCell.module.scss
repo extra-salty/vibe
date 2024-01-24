@@ -1,10 +1,13 @@
+@import '@/styles/variables.scss';
+
 .frameCell {
 	width: 100%;
 	height: auto;
 	aspect-ratio: 1 / 1;
-
+	border: 1px solid $border-color;
 	padding: 0;
-	font-size: 8px;
-	color: black;
-	border: 1px solid gray;
+
+	&:hover {
+		border: 1px solid $border-hover-color;
+	}
 }

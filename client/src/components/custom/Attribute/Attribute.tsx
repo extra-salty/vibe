@@ -1,70 +1,64 @@
 'use client';
 import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import { useSelectedColor } from '@/state/features/effect/effectSelector';
-import { useBackgroundColor } from './useBackgroundColor';
 import { setHue, setLightness, setSaturation } from '@/state/features/effect/effectSlice';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { AttributeType, Attributes, Units } from './Attribute.type';
-import AttributeSlider from '../AttributeSlider/AttributeSlider';
-import style from './Attribute.module.scss';
+import { Attributes, Units } from './Attribute.type';
+import { SliderProps } from '@mui/material';
+import UIIcon from '@/components/base/UIIcon/UIIcon';
+import ColorSlider from './ColorSlider';
+import { Unstable_NumberInput as NumberInput } from '@mui/base';
+import styles from './Attribute.module.scss';
 
 const Attribute = () => {
 	const dispatch = useDispatch();
 	const color = useSelectedColor();
 	const { hue, saturation, lightness } = color;
 
-	const onChangeHandler = useCallback(
-		(action: any) => {
-			const fn = (value: number) => dispatch(action(value));
-			return fn;
-		},
-		[dispatch],
-	);
-
-	const onChangeHandlerAsd = useCallback(
-		(value: number) => {
-			dispatch(setHue(value));
-		},
-		[dispatch],
-	);
-
-	const attributesSliders: AttributeType[] = [
+	const attributes: { slider: SliderProps; icon: Icons; id: Attributes }[] = [
 		{
-			label: Attributes.hue,
-			value: hue,
-			max: 360,
-			unit: Units.degree,
+			slider: {
+				value: hue,
+				max: 360,
+				onChange: (event: Event, value: number | number[]) => dispatch(setHue(Number(value))),
+			},
+			id: Attributes.hue,
 			icon: Icons.palette,
-			styles: { background: useBackgroundColor(color, Attributes.hue) },
-			// onChange: (value: number) => dispatch(setHue(value)),
-			// onChange: onChangeHandler(setHue),
-			onChange: onChangeHandlerAsd,
+			// unit: Units.degree,
 		},
 		{
-			label: Attributes.saturation,
-			value: saturation,
-			max: 100,
-			unit: Units.percentage,
+			slider: {
+				value: saturation,
+				max: 100,
+				onChange: (event: Event, value: number | number[]) =>
+					dispatch(setSaturation(Number(value))),
+			},
+			id: Attributes.saturation,
 			icon: Icons.gradient,
-			styles: { background: useBackgroundColor(color, Attributes.saturation) },
-			onChange: (value: number) => dispatch(setSaturation(value)),
+			// unit: Units.percentage,
 		},
 		{
-			label: Attributes.lightness,
-			value: lightness,
-			unit: Units.percentage,
-			max: 100,
+			slider: {
+				value: lightness,
+				max: 100,
+				onChange: (event: Event, value: number | number[]) => dispatch(setLightness(Number(value))),
+			},
+			id: Attributes.lightness,
 			icon: Icons.brightness,
-			styles: { background: useBackgroundColor(color, Attributes.lightness) },
-			onChange: (value: number) => dispatch(setLightness(value)),
+			// unit: Units.percentage,
 		},
 	];
 
 	return (
-		<div className={style.attributes}>
-			{attributesSliders.map((attributeProps, i) => {
-				return <AttributeSlider key={i} {...attributeProps} />;
+		<div className={styles.color}>
+			{attributes.map(({ slider, icon, id }) => {
+				return (
+					<div key={slider.id} className={styles.slider}>
+						<UIIcon name={icon} />
+						<ColorSlider sliderProps={slider} color={color} id={id} />
+						{/* <NumberInput /> */}
+					</div>
+				);
 			})}
 		</div>
 	);

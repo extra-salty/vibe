@@ -28,6 +28,7 @@ const initialState: {
 		colorHistory: ColorT[];
 		colorPresets: ColorT[];
 	};
+	frameWidth: number;
 	activeFrame: number;
 	effect: EffectStateT;
 } = {
@@ -36,8 +37,10 @@ const initialState: {
 		colorHistory: [],
 		colorPresets: [],
 	},
+	frameWidth: 50,
 	activeFrame: 0,
 	effect: {
+		_id: '',
 		name: '',
 		description: '',
 		frames: [],
@@ -67,6 +70,11 @@ export const effectCreator = createSlice({
 			state.color = initialState.color;
 		},
 
+		// Frame
+		setFrameWidth: (state, action: PayloadAction<number>) => {
+			state.frameWidth = action.payload;
+		},
+
 		// Effect Actions
 		setEffect: (state, action: PayloadAction<EffectStateT>) => {
 			state.effect = action.payload;
@@ -77,6 +85,9 @@ export const effectCreator = createSlice({
 		setEffectDescription: (state, action: PayloadAction<string>) => {
 			state.effect.description = action.payload;
 		},
+		// saveEffect:
+
+		//
 		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
 			const { frameIndex } = action.payload;
 
@@ -155,6 +166,8 @@ export const {
 	setSaturation,
 	setLightness,
 	resetColor,
+	// Frame
+	setFrameWidth,
 	// Effect actions
 	setEffect,
 	setEffectName,
