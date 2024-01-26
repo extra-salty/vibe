@@ -4,7 +4,7 @@ import { UISelectOptionProps } from '../UISelect/UISelect.type';
 export type UITableProps<T> = UIComponentProps & {
 	data: T[];
 	header: UITableHeaderProps<T>[];
-	options: UITableOptionsProps;
+	options?: UITableOptionsProps;
 };
 
 export type UITableHeaderProps<T> = {

@@ -9,6 +9,7 @@ import FrameGrid from './FrameGrid/FrameGrid';
 import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
 import Attribute from '../Attribute/Attribute';
 import styles from './EffectCreator.module.scss';
+import FrameHistoryTable from '../FrameComps/FrameHistoryTable/FrameHistoryTable';
 
 const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 	const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 			<div className='flex flex-col gap-2'>
 				<EffectPlayer />
 				<EffectDetails />
+				<FrameHistoryTable />
 			</div>
 		</div>
 	);

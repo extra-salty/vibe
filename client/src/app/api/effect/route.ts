@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import mongoClientPromise from '@/services/MongoDB/mongoClient';
 import { EffectBaseT, FrameBase } from '@/types/effect.types';
 import { Color } from '@/types/color.types';
+import { ObjectId } from 'mongodb';
 
 export async function GET(req: NextRequest) {
 	try {
@@ -13,7 +14,7 @@ export async function GET(req: NextRequest) {
 		const effect = await client
 			.db(process.env.DB_NAME)
 			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
-			.findOne({ name: effectName }, { projection: { _id: false } });
+			.findOne({ name: effectName });
 
 		if (!effect) {
 			throw Error('Failed to find static effect');
@@ -148,14 +149,18 @@ export async function PUT() {
 
 export async function PATCH(req: NextRequest) {
 	try {
-		const { name, ...effectData }: Omit<EffectBaseT, 'dateCreated'> = await req.json();
+		const { _id, ...effectData }: Omit<EffectBaseT, 'dateCreated'> = await req.json();
 
 		const client = await mongoClientPromise;
 
-		const result = client
+		const result = await client
 			.db(process.env.DB_NAME)
 			.collection(process.env.EFFECT_COLLECTION)
-			.findOneAndUpdate({ name: name }, { $set: effectData });
+			.findOneAndUpdate({ _id: new ObjectId(_id) }, { $set: effectData });
+
+		if (!result) {
+			throw Error(`Failed to save effect modifications: ${effectData.name}`);
+		}
 	} catch (e) {
 		console.log(e);
 		console.error(e);

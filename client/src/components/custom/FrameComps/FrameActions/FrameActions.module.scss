@@ -1,26 +1,9 @@
+@import '@/styles/variables.scss';
+
 .frameActions {
-	max-width: 60px;
+	// padding: $spacing-2;
+	width: min-content;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-
-	.actionButtons {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	.row {
-		display: flex;
-		gap: 5px;
-	}
-
-	.pagination {
-		input {
-			width: 15px;
-		}
-		div {
-			font-size: 13.33px;
-		}
-	}
 }

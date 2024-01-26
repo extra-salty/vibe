@@ -36,7 +36,6 @@ const FrameCell = ({
 			style={{ backgroundColor: `hsl(${h} ${s}% ${l}% / ${(l / 100) * 2} ` }}
 			onClick={onClickHandler}
 			onMouseOver={handleMouseOver}
-			// onPress={() => {console.log('asd')}}
 		></button>
 	);
 };

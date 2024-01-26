@@ -24,17 +24,28 @@ export type EffectStateT = Omit<EffectBaseT, 'frames'> & {
 	frames: FrameStateT[];
 };
 
-export type FrameStateT = FrameBaseT & HistoriesT;
+export type FrameStateT = FrameBaseT & FrameCellHistoryT;
 
-export type HistoriesT = {
-	undo: HistoryT[];
-	redo: HistoryT[];
+export type FrameCellHistoryT = {
+	undo: FrameCellT[];
+	redo: FrameCellT[];
 };
 
-export type HistoryT = {
+export type FrameCellT = {
 	coordinate: CoordinateT;
 	value: ColorT;
 };
+
+export type FrameHistoryT = {
+	frameIndex: number;
+	type: FrameHistoryTypes;
+	data: FrameStateT;
+};
+
+export enum FrameHistoryTypes {
+	added = 'added',
+	deleted = 'deleted',
+}
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;

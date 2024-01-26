@@ -1,27 +1,38 @@
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector';
-import { setFrameWidth } from '@/state/features/effect/effectSlice';
-import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { DndContext, closestCenter, DragStartEvent, DragEndEvent } from '@dnd-kit/core';
+import { moveFrame, setFrameWidth } from '@/state/features/effect/effectSlice';
+import { SortableContext, rectSortingStrategy, rectSwappingStrategy } from '@dnd-kit/sortable';
+import { DndContext, closestCenter, DragStartEvent, DragEndEvent, Active } from '@dnd-kit/core';
 import { FrameStateT } from '@/types/effect.types';
 import { Slider, Stack } from '@mui/material';
+import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
 import styles from './FrameGrid.module.scss';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 
 const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 	const dispatch = useDispatch();
 	const frameWidth = useFrameWidth();
 	const frames = useFrames();
+	const [activeEvent, setActiveEvent] = useState<Active | null>(null);
 
-	const items = frames.map((_, i) => i);
-	const [activeEvent, setActiveEvent] = useState<DragStartEvent | null>(null);
+	const itemIds = frames.map((_, i) => `frame${i}`);
 
 	const handleDragEnd = ({ active, over }: DragEndEvent) => {
-		if (active.id !== over?.id) {
+		if (!over) {
+			setActiveEvent(null);
+			return;
+		}
+
+		if (active.id !== over.id) {
+			dispatch(
+				moveFrame({
+					startIndex: active.data.current?.sortable.index,
+					endIndex: over.data.current?.sortable.index,
+				}),
+			);
 		}
 
 		setActiveEvent(null);
@@ -31,25 +42,28 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 		dispatch(setFrameWidth(Array.isArray(value) ? 0 : value));
 	};
 
+	const style: CSSProperties = {
+		cursor: activeEvent ? 'grabbing' : 'auto',
+	};
+
 	return (
-		<div>
+		<div style={style}>
 			<div className={styles.slider}>
 				<UIIcon name={Icons.stack} width={12} height={12} />
-				<Slider aria-label='Volume' value={frameWidth} onChange={handleSizeChange} />
+				<Slider aria-label='frame-size' value={frameWidth} onChange={handleSizeChange} marks />
 				<UIIcon name={Icons.stack} width={18} height={18} />
 			</div>
 			<DndContext
 				collisionDetection={closestCenter}
-				onDragStart={(event: DragStartEvent) => setActiveEvent(event)}
+				onDragStart={({ active }: { active: Active }) => setActiveEvent(active)}
 				onDragCancel={() => setActiveEvent(null)}
 				onDragEnd={handleDragEnd}
 			>
-				<SortableContext items={items} strategy={rectSortingStrategy}>
-					{/* strategy={rectSwappingStrategy} */}
+				<SortableContext items={itemIds} strategy={rectSortingStrategy}>
 					<div className={styles.gridWrapper}>
 						<div className={styles.grid}>
-							{items.map((id) => (
-								<FrameGridItem key={id} frameIndex={id} frame={frames[id]} />
+							{itemIds.map((id, i) => (
+								<FrameGridItem key={i} id={id} frameIndex={i} frame={frames[i]} />
 							))}
 						</div>
 					</div>

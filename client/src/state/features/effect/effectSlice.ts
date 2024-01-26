@@ -1,6 +1,6 @@
 import { ColorT } from '@/types/color.types';
-import { EffectStateT, FrameStateT } from '@/types/effect.types';
-import { FrameCellLocationT } from '@/types/misc.types';
+import { EffectStateT, FrameHistoryT, FrameHistoryTypes, FrameStateT } from '@/types/effect.types';
+import { CoordinateT, FrameCellLocationT } from '@/types/misc.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const color: ColorT = {
@@ -30,6 +30,7 @@ const initialState: {
 	};
 	frameWidth: number;
 	activeFrame: number;
+	frameHistory: FrameHistoryT[];
 	effect: EffectStateT;
 } = {
 	color: {
@@ -39,6 +40,7 @@ const initialState: {
 	},
 	frameWidth: 50,
 	activeFrame: 0,
+	frameHistory: [],
 	effect: {
 		_id: '',
 		name: '',
@@ -70,12 +72,12 @@ export const effectCreator = createSlice({
 			state.color = initialState.color;
 		},
 
-		// Frame
+		// Frames
 		setFrameWidth: (state, action: PayloadAction<number>) => {
 			state.frameWidth = action.payload;
 		},
 
-		// Effect Actions
+		// Effect actions
 		setEffect: (state, action: PayloadAction<EffectStateT>) => {
 			state.effect = action.payload;
 		},
@@ -85,29 +87,45 @@ export const effectCreator = createSlice({
 		setEffectDescription: (state, action: PayloadAction<string>) => {
 			state.effect.description = action.payload;
 		},
-		// saveEffect:
 
-		//
-		resetFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
-			const { frameIndex } = action.payload;
-
-			state.effect.frames[frameIndex] = newFrame;
+		// Frame actions
+		resetFrame: (state, action: PayloadAction<number>) => {
+			state.effect.frames[action.payload] = newFrame;
 		},
-		addFrame: (state) => {
-			state.effect.frames.push(newFrame);
-			// state.activeFrame++;
+		addFrame: (state, action: PayloadAction<number>) => {
+			state.effect.frames.splice(++action.payload, 0, newFrame);
 		},
-		duplicateFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
-			const { frameIndex } = action.payload;
-			const newFrame = state.effect.frames[frameIndex];
+		duplicateFrame: (state, action: PayloadAction<number>) => {
+			const newFrame = state.effect.frames[action.payload];
 
-			state.effect.frames.splice(frameIndex, 0, newFrame);
+			state.effect.frames.splice(action.payload, 0, newFrame);
 		},
-		deleteFrame: (state, action: PayloadAction<{ frameIndex: number }>) => {
-			const { frameIndex } = action.payload;
+		deleteFrame: (state, action: PayloadAction<number>) => {
+			state.effect.frames.splice(action.payload, 1);
+		},
+		moveFrame: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
+			const { startIndex, endIndex } = action.payload;
+			const temp = state.effect.frames[startIndex];
 
-			state.activeFrame = 0;
-			state.effect.frames.splice(frameIndex, 1);
+			state.effect.frames[startIndex] = state.effect.frames[endIndex];
+			state.effect.frames[endIndex] = temp;
+		},
+		setFrameDuration: (state, action: PayloadAction<{ frameIndex: number; value: number }>) => {
+			const { frameIndex, value } = action.payload;
+
+			state.effect.frames[frameIndex].duration = value;
+		},
+		addToHistory: (
+			state,
+			action: PayloadAction<{ frameIndex: number; type: FrameHistoryTypes }>,
+		) => {
+			const { frameIndex, type } = action.payload;
+
+			state.frameHistory.push({
+				frameIndex,
+				type,
+				data: state.effect.frames[frameIndex],
+			});
 		},
 		nextFrame: (state) => {
 			state.activeFrame++;
@@ -116,7 +134,7 @@ export const effectCreator = createSlice({
 			state.activeFrame--;
 		},
 
-		// Frame actions
+		// Cell actions
 		setFrameCellColor: (state, action: PayloadAction<FrameCellLocationT>) => {
 			const { frameIndex, coordinate } = action.payload;
 			const { x, y } = coordinate;
@@ -130,8 +148,8 @@ export const effectCreator = createSlice({
 
 			state.effect.frames[frameIndex].undo.push({ value, coordinate });
 		},
-		applyUndo: (state, action: PayloadAction<{ frameIndex: number }>) => {
-			const { frameIndex } = action.payload;
+		applyUndo: (state, action: PayloadAction<number>) => {
+			const frameIndex = action.payload;
 			const undo = state.effect.frames[frameIndex].undo;
 			const { coordinate, value } = undo[undo.length - 1];
 			const { x, y } = coordinate;
@@ -141,8 +159,8 @@ export const effectCreator = createSlice({
 			state.effect.frames[frameIndex].undo.pop();
 			state.effect.frames[frameIndex].data[x][y] = value;
 		},
-		applyRedo: (state, action: PayloadAction<{ frameIndex: number }>) => {
-			const { frameIndex } = action.payload;
+		applyRedo: (state, action: PayloadAction<number>) => {
+			const frameIndex = action.payload;
 			const redo = state.effect.frames[frameIndex].redo;
 			const { coordinate, value } = redo[redo.length - 1];
 			const { x, y } = coordinate;
@@ -152,11 +170,6 @@ export const effectCreator = createSlice({
 			state.effect.frames[frameIndex].redo.pop();
 			state.effect.frames[frameIndex].data[x][y] = value;
 		},
-		setFrameDuration: (state, action: PayloadAction<{ frameIndex: number; value: number }>) => {
-			const { frameIndex, value } = action.payload;
-
-			state.effect.frames[frameIndex].duration = value;
-		},
 	},
 });
 
@@ -165,22 +178,26 @@ export const {
 	setHue,
 	setSaturation,
 	setLightness,
+	setColor,
 	resetColor,
-	// Frame
+	// Frames
 	setFrameWidth,
 	// Effect actions
 	setEffect,
 	setEffectName,
 	setEffectDescription,
+	// Frame actions
 	resetFrame,
 	addFrame,
 	duplicateFrame,
 	deleteFrame,
+	moveFrame,
+	setFrameDuration,
+	addToHistory,
 	nextFrame,
 	prevFrame,
 	// Frame actions
 	setFrameCellColor,
-	setFrameDuration,
 	addtoUndo,
 	applyUndo,
 	applyRedo,

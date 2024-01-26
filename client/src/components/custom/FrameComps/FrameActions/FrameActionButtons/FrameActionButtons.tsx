@@ -3,21 +3,28 @@ import { useMemo } from 'react';
 import { useFramesLength } from '@/state/features/effect/effectSelector';
 import {
 	addFrame,
+	addToHistory,
 	applyRedo,
 	applyUndo,
 	deleteFrame,
 	duplicateFrame,
 	resetFrame,
 } from '@/state/features/effect/effectSlice';
-import { FrameStateT } from '@/types/effect.types';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import UIButton from '@/components/base/UIButton/UIButton';
-import UIButtonProps from '@/components/base/UIButton/UIButton.type';
+import {
+	AddOutlined,
+	ContentCopyOutlined,
+	DeleteOutlined,
+	RedoOutlined,
+	RestartAltOutlined,
+	UndoOutlined,
+} from '@mui/icons-material';
+import { FrameHistoryTypes, FrameStateT } from '@/types/effect.types';
+import { IconButton, IconButtonProps } from '@mui/material';
 import styles from './FrameActionButtons.module.scss';
 
 const FrameActionButtons = ({
-	frame,
 	frameIndex,
+	frame,
 	isDisabled,
 }: {
 	frame: FrameStateT;
@@ -27,55 +34,72 @@ const FrameActionButtons = ({
 	const dispatch = useDispatch();
 	const framesLength = useFramesLength();
 
-	const actionButtons = useMemo((): UIButtonProps[][] => {
+	const actionButtons = useMemo((): IconButtonProps[] => {
 		return [
-			[
-				{
-					icon: Icons.undo,
-					onClick: () => dispatch(applyUndo({ frameIndex: frameIndex })),
-					disabled: !frame.undo.length,
+			{
+				children: <UndoOutlined />,
+				disabled: !frame.undo.length,
+				'aria-label': 'undo',
+				onClick: () => dispatch(applyUndo(frameIndex)),
+			},
+			{
+				children: <RedoOutlined />,
+				disabled: !frame.redo.length,
+				'aria-label': 'redo',
+				onClick: () => dispatch(applyRedo(frameIndex)),
+			},
+			{
+				children: <AddOutlined />,
+				'aria-label': 'add',
+				onClick: () => {
+					dispatch(
+						addToHistory({
+							frameIndex,
+							type: FrameHistoryTypes.added,
+						}),
+					);
+					dispatch(addFrame(frameIndex));
 				},
-				{
-					icon: Icons.redo,
-					onClick: () => dispatch(applyRedo({ frameIndex: frameIndex })),
-					disabled: !frame.redo.length,
+			},
+			{
+				children: <ContentCopyOutlined />,
+				'aria-label': 'duplicate',
+				onClick: () => {
+					dispatch(
+						addToHistory({
+							frameIndex,
+							type: FrameHistoryTypes.added,
+						}),
+					);
+					dispatch(duplicateFrame(frameIndex));
 				},
-			],
-			[
-				{
-					icon: Icons.add,
-					onClick: () => dispatch(addFrame()),
+			},
+			{
+				children: <DeleteOutlined />,
+				disabled: framesLength === 1,
+				'aria-label': 'delete',
+				onClick: () => {
+					dispatch(
+						addToHistory({
+							frameIndex,
+							type: FrameHistoryTypes.deleted,
+						}),
+					);
+					dispatch(deleteFrame(frameIndex));
 				},
-				{
-					icon: Icons.duplicate,
-					onClick: () => dispatch(duplicateFrame({ frameIndex })),
-				},
-			],
-			[
-				{
-					icon: Icons.delete,
-					onClick: () => dispatch(deleteFrame({ frameIndex })),
-					disabled: isDisabled || framesLength === 1,
-				},
-				{
-					icon: Icons.restart,
-					onClick: () => dispatch(resetFrame({ frameIndex })),
-					disabled: isDisabled,
-				},
-			],
+			},
+			{
+				children: <RestartAltOutlined />,
+				'aria-label': 'reset',
+				onClick: () => dispatch(resetFrame(frameIndex)),
+			},
 		];
-	}, [dispatch, frame.redo.length, frame.undo.length, frameIndex, framesLength, isDisabled]);
+	}, [dispatch, frame.redo.length, frame.undo.length, frameIndex, framesLength]);
 
 	return (
-		<div className={styles.column}>
-			{actionButtons.map((buttonRow, i) => {
-				return (
-					<div key={i} className={styles.row}>
-						{buttonRow.map((props, j: number) => {
-							return <UIButton key={`${i}/${j}`} {...props} hasBorder={false} />;
-						})}
-					</div>
-				);
+		<div className={styles.grid}>
+			{actionButtons.map((props, i) => {
+				return <IconButton disabled={isDisabled} key={i} {...props}></IconButton>;
 			})}
 		</div>
 	);

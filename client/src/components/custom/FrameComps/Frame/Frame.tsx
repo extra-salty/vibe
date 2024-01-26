@@ -1,21 +1,25 @@
 import { memo } from 'react';
 import { ColorT } from '@/types/color.types';
 import FrameCell from '../FrameCell/FrameCell';
+import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 import styles from './Frame.module.scss';
 
 const Frame = ({
-	frameData,
 	frameIndex,
+	frameData,
 	isDisabled,
 	showCoordinate,
 }: {
-	frameData: ColorT[][];
 	frameIndex: number;
-	isDisabled?: boolean;
+	frameData: ColorT[][];
+	isDisabled: boolean;
 	showCoordinate?: boolean;
 }) => {
 	return (
-		<div className={styles.matrix}>
+		<div
+			aria-disabled={isDisabled}
+			className={appendClasses([styles.matrix, isDisabled && styles.disabled])}
+		>
 			{frameData.map((frameColumn, x) => {
 				return (
 					<div key={x} className={styles.column}>

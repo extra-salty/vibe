@@ -11,6 +11,7 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	const frames = useFrames();
 	const effect = useActiveEffect();
 
+	const [saveLoading, setSaveLoading] = useState<boolean>(false);
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [durationTime, setDurationTime] = useState<number>(0);
 	const [overwrriteDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
@@ -27,20 +28,21 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	};
 
 	const handleEffectSave = async () => {
-		console.log('🚀 ~ EffectPlayer ~ effect:', effect);
+		setSaveLoading(true);
+
 		const updatedEffectData: Omit<EffectBaseT, 'dateCreated'> = {
-			_id: '',
+			_id: effect._id,
 			name: effect.name,
 			description: effect.description,
 			dateModified: new Date(),
-			frames: effect.frames.map((frame) => {
-				return { data: frame.data, duration: frame.duration };
-			}),
+			frames: effect.frames.map((frame) => ({ data: frame.data, duration: frame.duration })),
 		};
 		try {
-			// await EffectServiceInstance.updateEffect(updatedEffectData);
+			await EffectServiceInstance.updateEffect(updatedEffectData);
 		} catch (e) {
 			console.error(e);
+		} finally {
+			setSaveLoading(false);
 		}
 	};
 
@@ -48,7 +50,7 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 		{
 			children: 'Save',
 			startIcon: <SaveOutlined />,
-			loading: false,
+			loading: saveLoading,
 			onClick: handleEffectSave,
 		},
 		{

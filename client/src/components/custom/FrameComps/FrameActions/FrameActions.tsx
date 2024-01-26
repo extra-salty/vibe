@@ -1,58 +1,28 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { useDispatch } from 'react-redux';
-import { Dispatch, memo, useCallback } from 'react';
-import { setFrameDuration } from '@/state/features/effect/effectSlice';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
+import { CSSProperties, Dispatch, memo, useCallback } from 'react';
 import { FrameStateT } from '@/types/effect.types';
-import UIControl from '@/components/base/UIControl/UIControl';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
 import FrameActionButtons from './FrameActionButtons/FrameActionButtons';
-import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
-import style from './FrameActions.module.scss';
+import styles from './FrameActions.module.scss';
 
 const FrameActions = ({
-	frame,
+	id,
 	frameIndex,
+	frame,
 	isDisabled,
 	setIsDisabled,
 }: {
-	frame: FrameStateT;
+	id: string;
 	frameIndex: number;
+	frame: FrameStateT;
 	isDisabled: boolean;
 	setIsDisabled: Dispatch<boolean>;
 }) => {
-	const { isDragging, attributes, listeners, transform, transition } = useSortable({
-		id: frameIndex,
-	});
-
 	const dispatch = useDispatch();
-
-	const onChangeHandler = useCallback(
-		(value: number) => dispatch(setFrameDuration({ frameIndex, value })),
-		[dispatch, frameIndex],
-	);
+	const { isDragging, isSorting } = useSortable({ id });
 
 	return (
-		<div className={style.frameActions}>
-			<button {...listeners} {...attributes}>
-				<UIIcon name={Icons.drag} width={20} height={20} />
-			</button>
-			{/* <div className={appendClasses([style.row, style.pagination])}>
-				<UIIcon name={Icons.stack} width={15} height={15} />
-				<div>{frameIndex + 1}</div>
-			</div> */}
-			<FrameActionButtons frame={frame} frameIndex={frameIndex} isDisabled={isDisabled} />
-			<div className={style.row}>
-				{/* <UIIcon name={Icons.timelapse} width={15} height={15} /> */}
-				<UIControl
-					value={frame.duration}
-					min={0}
-					max={10000}
-					onChange={onChangeHandler}
-					unit='ms'
-				/>
-			</div>
-		</div>
+
 	);
 };
 

@@ -25,3 +25,6 @@ export const useActiveFrame = () =>
 	useSelector((state: RootState) => state.effectCreator.activeFrame);
 
 export const useActiveEffect = () => useSelector((state: RootState) => state.effectCreator.effect);
+
+export const useFrameHistory = () =>
+	useSelector((state: RootState) => state.effectCreator.frameHistory);

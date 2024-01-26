@@ -12,7 +12,7 @@ let UITable = <T, _>({ data, header, options, hidden, classes }: UITableProps<T>
 				<tr>
 					{header.map(({ id, header, classes, isSortable }) => (
 						<th key={id} className={appendClasses([isSortable && 'sortable', classes])}>
-							{isSortable ? (
+							{isSortable && options ? (
 								<UISortableTableHeader id={id} options={options}>
 									{header}
 								</UISortableTableHeader>
