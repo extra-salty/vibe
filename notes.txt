@@ -8,3 +8,4 @@ TODO:
 - generic mixin witg input for webkit and so
 - advanced filter options for column, string for strings, min max for numbers
 - custom cursor icons
+- debugger setup

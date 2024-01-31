@@ -2,30 +2,19 @@
 
 .item {
 	display: flex;
-	gap: $spacing-4;
-	padding: $spacing-2;
+	flex-direction: column;
+	padding: $spacing-1;
 
 	border: 3px solid $border-color;
 	border-radius: $border-radius-m;
-	background-color: $item-color;
+	// background-color: $item-color;
 
 	&:hover {
 		border: 3px solid $border-hover-color;
 	}
 
-	.rightColumn {
+	.row {
 		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-
-		.duration {
-			display: flex;
-			align-items: center;
-			gap: $spacing-2;
-
-			> * {
-				flex-basis: 50%;
-			}
-		}
+		align-items: center;
 	}
 }

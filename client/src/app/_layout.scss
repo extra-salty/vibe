@@ -27,9 +27,13 @@ header {
 	}
 }
 
+header {
+	height: 10%;
+}
+
 main {
 	background-color: rgba(80, 80, 80, 0.4);
-	margin-inline: $spacing-16;
+	height: 90%;
 }
 
 @keyframes gradient {

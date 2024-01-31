@@ -2,20 +2,26 @@
 import { useDispatch } from 'react-redux';
 import { useSelectedColor } from '@/state/features/effect/effectSelector';
 import { setHue, setLightness, setSaturation } from '@/state/features/effect/effectSlice';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { Attributes, Units } from './Attribute.type';
-import { SliderProps } from '@mui/material';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { Container, SliderProps, Tooltip } from '@mui/material';
+import { Box } from '@mui/material';
+import { Brightness6Outlined, GradientOutlined, PaletteOutlined } from '@mui/icons-material';
+import { ReactElement } from 'react';
 import ColorSlider from './ColorSlider';
-import { Unstable_NumberInput as NumberInput } from '@mui/base';
 import styles from './Attribute.module.scss';
+import NumberInput from '@/components/base/NumberInput/NumberInput';
 
 const Attribute = () => {
 	const dispatch = useDispatch();
 	const color = useSelectedColor();
 	const { hue, saturation, lightness } = color;
 
-	const attributes: { slider: SliderProps; icon: Icons; id: Attributes }[] = [
+	const attributes: {
+		slider: SliderProps;
+		icon: ReactElement<any, any>;
+		id: Attributes;
+		unit: string;
+	}[] = [
 		{
 			slider: {
 				value: hue,
@@ -23,8 +29,8 @@ const Attribute = () => {
 				onChange: (event: Event, value: number | number[]) => dispatch(setHue(Number(value))),
 			},
 			id: Attributes.hue,
-			icon: Icons.palette,
-			// unit: Units.degree,
+			icon: <PaletteOutlined />,
+			unit: Units.degree,
 		},
 		{
 			slider: {
@@ -34,8 +40,8 @@ const Attribute = () => {
 					dispatch(setSaturation(Number(value))),
 			},
 			id: Attributes.saturation,
-			icon: Icons.gradient,
-			// unit: Units.percentage,
+			icon: <GradientOutlined />,
+			unit: Units.percentage,
 		},
 		{
 			slider: {
@@ -44,19 +50,22 @@ const Attribute = () => {
 				onChange: (event: Event, value: number | number[]) => dispatch(setLightness(Number(value))),
 			},
 			id: Attributes.lightness,
-			icon: Icons.brightness,
-			// unit: Units.percentage,
+			icon: <Brightness6Outlined />,
+			unit: Units.percentage,
 		},
 	];
 
 	return (
 		<div className={styles.color}>
-			{attributes.map(({ slider, icon, id }) => {
+			{attributes.map(({ slider, icon, id, unit }, i) => {
 				return (
-					<div key={slider.id} className={styles.slider}>
-						<UIIcon name={icon} />
+					<div key={i} className={styles.slider}>
+						<Tooltip title={id[0].toUpperCase() + id.substring(1)} arrow>
+							{icon}
+						</Tooltip>
 						<ColorSlider sliderProps={slider} color={color} id={id} />
-						{/* <NumberInput /> */}
+						{slider.value}
+						{unit}
 					</div>
 				);
 			})}

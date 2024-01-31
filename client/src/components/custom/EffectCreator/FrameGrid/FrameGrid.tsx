@@ -2,15 +2,15 @@ import { useDispatch } from 'react-redux';
 import { CSSProperties, useState } from 'react';
 import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector';
 import { moveFrame, setFrameWidth } from '@/state/features/effect/effectSlice';
-import { SortableContext, rectSortingStrategy, rectSwappingStrategy } from '@dnd-kit/sortable';
-import { DndContext, closestCenter, DragStartEvent, DragEndEvent, Active } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { DndContext, closestCenter, DragEndEvent, Active } from '@dnd-kit/core';
 import { FrameStateT } from '@/types/effect.types';
-import { Slider, Stack } from '@mui/material';
+import { Container, Slider } from '@mui/material';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
-import styles from './FrameGrid.module.scss';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
+import styles from './FrameGrid.module.scss';
 
 const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 	const dispatch = useDispatch();
@@ -46,11 +46,22 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 		cursor: activeEvent ? 'grabbing' : 'auto',
 	};
 
+	const frameStyle: CSSProperties = {
+		gridTemplateColumns: `repeat(auto-fit, minmax(${frameWidth * 100 + 200}px, 1fr))`,
+	};
+
 	return (
-		<div style={style}>
+		<div style={style} className={styles.panel}>
 			<div className={styles.slider}>
 				<UIIcon name={Icons.stack} width={12} height={12} />
-				<Slider aria-label='frame-size' value={frameWidth} onChange={handleSizeChange} marks />
+				<Slider
+					min={1}
+					max={3}
+					aria-label='frame-size'
+					value={frameWidth}
+					onChange={handleSizeChange}
+					marks
+				/>
 				<UIIcon name={Icons.stack} width={18} height={18} />
 			</div>
 			<DndContext
@@ -61,11 +72,19 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 			>
 				<SortableContext items={itemIds} strategy={rectSortingStrategy}>
 					<div className={styles.gridWrapper}>
-						<div className={styles.grid}>
-							{itemIds.map((id, i) => (
-								<FrameGridItem key={i} id={id} frameIndex={i} frame={frames[i]} />
-							))}
-						</div>
+						<Container>
+							<div className={styles.grid} style={frameStyle}>
+								{itemIds.map((id, i) => (
+									<FrameGridItem
+										key={i}
+										id={id}
+										frameIndex={i}
+										framesLength={frames.length}
+										frame={frames[i]}
+									/>
+								))}
+							</div>
+						</Container>
 					</div>
 				</SortableContext>
 				<FrameDragOverlay activeEvent={activeEvent} />

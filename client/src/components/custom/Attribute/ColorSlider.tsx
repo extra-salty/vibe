@@ -13,22 +13,26 @@ const ColorSlider = ({
 	id: Attributes;
 }) => {
 	const background = useBackgroundColor(color, id);
+	const { hue: h, saturation: s, lightness: l } = color;
 
 	return (
 		<Slider
+			// style={{ backgroundColor: `white` }}
 			{...sliderProps}
 			orientation='vertical'
 			sx={{
 				'& .MuiSlider-rail': {
-					opacity: '1',
 					background: background,
+					opacity: '1',
+					border: '1px solid white',
 					width: '10px',
 				},
 				'& .MuiSlider-track': {
 					display: 'none',
 				},
 				'& .MuiSlider-thumb': {
-					background: color[id],
+					background: `hsl(${h}, ${s}% , ${l}%)`,
+					border: '2px solid white',
 				},
 			}}
 		/>

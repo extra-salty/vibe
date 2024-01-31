@@ -8,30 +8,30 @@ import EffectPlayer from './EffectPlayer/EffectPlayer';
 import FrameGrid from './FrameGrid/FrameGrid';
 import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
 import Attribute from '../Attribute/Attribute';
-import styles from './EffectCreator.module.scss';
 import FrameHistoryTable from '../FrameComps/FrameHistoryTable/FrameHistoryTable';
+import styles from './EffectCreator.module.scss';
 
 const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 	const dispatch = useDispatch();
 	dispatch(setEffect(initialEffect));
 
 	return (
-		<div className='flex gap-10'>
-			<PanelGroup direction='horizontal'>
-				<Panel defaultSize={50}>
-					<Attribute />
-				</Panel>
-				<ResizeHandle />
-				<Panel defaultSize={50} minSize={40} className={styles.grid}>
-					<FrameGrid />
-				</Panel>
-			</PanelGroup>
-			<div className='flex flex-col gap-2'>
-				<EffectPlayer />
-				<EffectDetails />
-				<FrameHistoryTable />
-			</div>
-		</div>
+		<PanelGroup direction='horizontal' className={styles.effect}>
+			<Panel defaultSize={10}>
+				<div>Empty</div>
+			</Panel>
+			<ResizeHandle />
+			<Panel defaultSize={60} minSize={40} className={styles.row}>
+				<Attribute />
+				<FrameGrid />
+			</Panel>
+			{/* <ResizeHandle />
+				<Panel defaultSize={30} minSize={20} className={styles.column}>
+					<EffectPlayer />
+					<EffectDetails />
+					<FrameHistoryTable />
+				</Panel> */}
+		</PanelGroup>
 	);
 };
 
