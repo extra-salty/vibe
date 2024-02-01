@@ -2,7 +2,9 @@
 @import '@/styles/mixins.scss';
 
 .panel {
+	height: 100%;
 	width: 100%;
+	border: 3px solid gray;
 
 	.slider {
 		display: flex;
@@ -11,17 +13,16 @@
 		margin-inline: 20px;
 	}
 
+	// margin: $spacing-3;
 	.gridWrapper {
-		width: 100%;
-		padding: $spacing-3;
-		border-top: 3px solid $border-color;
-
-		// @include scrollBar();
+		height: inherit;
+		overflow: scroll;
+		overflow-x: hidden;
 
 		.grid {
 			display: grid;
 			width: 100%;
-			gap: 20px;
+			// gap: 20px;
 		}
 	}
 }

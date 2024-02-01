@@ -7,7 +7,7 @@ import {
 import { AppDispatch } from '@/state/store';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import { AnimationEffectState } from '@/types/animation.types';
-import { EffectServiceInstance } from '@/app/api/effect/_service';
+import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { DndElements } from '@/types/misc.types';
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 
@@ -52,7 +52,7 @@ const handleDragEnd = async ({
 		}
 		//
 		case DndElements.newEffect: {
-			const effect = await EffectServiceInstance.getEffect(String(active.id));
+			const effect = await EffectsServiceInstance.getEffect(String(active.id));
 			const animationEffect = new AnimationEffectState(effect);
 
 			switch (overType) {

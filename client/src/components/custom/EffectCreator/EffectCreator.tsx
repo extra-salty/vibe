@@ -17,20 +17,18 @@ const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 
 	return (
 		<PanelGroup direction='horizontal' className={styles.effect}>
-			<Panel defaultSize={10}>
-				<div>Empty</div>
-			</Panel>
+			<Panel defaultSize={0}></Panel>
 			<ResizeHandle />
-			<Panel defaultSize={60} minSize={40} className={styles.row}>
+			<Panel defaultSize={75} minSize={40} className={styles.row}>
 				<Attribute />
 				<FrameGrid />
 			</Panel>
-			{/* <ResizeHandle />
-				<Panel defaultSize={30} minSize={20} className={styles.column}>
-					<EffectPlayer />
-					<EffectDetails />
-					<FrameHistoryTable />
-				</Panel> */}
+			<ResizeHandle />
+			<Panel minSize={10} defaultSize={25} maxSize={40} className={styles.column}>
+				<EffectPlayer />
+				<EffectDetails />
+				<FrameHistoryTable />
+			</Panel>
 		</PanelGroup>
 	);
 };

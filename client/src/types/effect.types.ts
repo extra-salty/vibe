@@ -15,7 +15,8 @@ export type FrameBaseT = {
 	duration: number;
 };
 
-export type EffectTableT = Omit<EffectBaseT, 'frames'> & {
+export type EffectTableT = Omit<EffectBaseT, 'frames' | '_id'> & {
+	id: string;
 	framesLength: number;
 	duration: number;
 };

@@ -1,24 +1,18 @@
 'use client';
-import useEffectTableData from './useEffectTableData';
 import useEffectTableHeader from './useEffectTableHeader';
-import { useDispatch } from 'react-redux';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelectedEffects } from '@/state/features/animation/animationSelector';
-import { removeSelectedEffects } from '@/state/features/animation/animationSlice';
 import { EffectTableT } from '@/types/effect.types';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
-import { EffectServiceInstance } from '@/app/api/effect/_service';
-import { SortDirection, UITableOptionsValueT } from '@/components/base/UITable/UITable.types';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { AddCircleOutline, ContentCopy, DeleteOutline } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import UITable from '@/components/base/UITable/UITable';
+import { DataGrid } from '@mui/x-data-grid';
 import styles from './EffectTable.module.scss';
 
 const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => {
-	const dispatch = useDispatch();
-
 	const [effects, setEffects] = useState<EffectTableT[]>(initialEffects);
+	const [selectedEffects, setSelectedEffects] = useState<string[]>([]);
+
 	const [buttonLoadings, setButtonLoadings] = useState<
 		Record<'create' | 'delete' | 'duplicate', boolean>
 	>({
@@ -26,77 +20,55 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 		delete: false,
 		duplicate: false,
 	});
-	const [selectedOptions, setSelectedOptions] = useState<UITableOptionsValueT>({
-		sortOptionValue: 'name',
-		sortDirection: SortDirection.asc,
-		filterOptionValue: 'name',
-		filterValue: '',
-	});
 
-	const effectNames = effects.map((effect) => effect.name);
-	const header = useEffectTableHeader({ effectNames });
-	const selectedEffects = useSelectedEffects();
-	const data = useEffectTableData({ effects, selectedEffects });
+	const header = useEffectTableHeader(effects);
 
 	const handleGetEffects = useCallback(async () => {
-		const data = await EffectsServiceInstance.getEffects(selectedOptions);
+		const data = await EffectsServiceInstance.getEffects();
 
 		setEffects(data);
-	}, [setEffects, selectedOptions]);
+	}, [setEffects]);
 
 	const handleCreateEffect = async () => {
-		setButtonLoadings((s) => {
-			return { ...s, create: true };
-		});
+		setButtonLoadings((s) => ({ ...s, create: true }));
 
 		try {
-			await EffectServiceInstance.createEffect();
+			await EffectsServiceInstance.createEffect();
 
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
 		} finally {
-			setButtonLoadings((s) => {
-				return { ...s, create: false };
-			});
+			setButtonLoadings((s) => ({ ...s, create: false }));
 		}
 	};
 
 	const handleDuplicateEffect = async () => {
-		setButtonLoadings((s) => {
-			return { ...s, duplicate: true };
-		});
+		setButtonLoadings((s) => ({ ...s, duplicate: true }));
 
 		try {
-			await EffectServiceInstance.duplicateEffect(selectedEffects[0]);
+			// await EffectServiceInstance.duplicateEffect(selectedEffects[0]);
 
-			// dispatch(removeSelectedEffects(selectedEffects));
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
 		} finally {
-			setButtonLoadings((s) => {
-				return { ...s, duplicate: false };
-			});
+			setButtonLoadings((s) => ({ ...s, duplicate: false }));
 		}
 	};
 
 	const handleDeleteEffects = async () => {
-		setButtonLoadings((s) => {
-			return { ...s, delete: true };
-		});
+		setButtonLoadings((s) => ({ ...s, delete: true }));
 
 		try {
+			console.log('🚀 ~ handleDeleteEffects ~ selectedEffects:', selectedEffects);
 			await EffectsServiceInstance.deleteEffects(selectedEffects);
 
-			dispatch(removeSelectedEffects(selectedEffects));
 			handleGetEffects();
 		} catch (e) {
 			console.error(e);
 		} finally {
-			setButtonLoadings((s) => {
-				return { ...s, delete: false };
-			});
+			setButtonLoadings((s) => ({ ...s, delete: false }));
 		}
 	};
 
@@ -111,7 +83,7 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 			children: 'Delete',
 			startIcon: <DeleteOutline />,
 			loading: buttonLoadings.delete,
-			disabled: !selectedEffects.length,
+			disabled: selectedEffects.length > 0,
 			onClick: handleDeleteEffects,
 		},
 		{
@@ -134,11 +106,9 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 	}, [handleGetEffects]);
 
 	return (
-		<div>
+		<div className={styles.table}>
 			<div className={styles.header}>
-				<div className={styles.text}>
-					<Typography variant='h4'>Effects</Typography>
-				</div>
+				<Typography variant='h4'>Effects</Typography>
 				<div className={styles.buttons}>
 					{actions.map((props, i) => (
 						<LoadingButton
@@ -152,16 +122,21 @@ const EffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => 
 					))}
 				</div>
 			</div>
-			<div className={styles.table}>
-				<UITable
-					data={data}
-					header={header}
-					options={{
-						selectedOptions,
-						setSelectedOptions,
-					}}
-				/>
-			</div>
+			<DataGrid
+				columns={header}
+				rows={effects}
+				//
+				density='compact'
+				disableColumnSelector
+				hideFooterPagination
+				columnVisibilityModel={{
+					id: false,
+				}}
+				//
+				checkboxSelection
+				disableRowSelectionOnClick
+				onRowSelectionModelChange={(effect) => setSelectedEffects(effect)}
+			/>
 		</div>
 	);
 };

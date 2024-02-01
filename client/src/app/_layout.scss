@@ -1,5 +1,4 @@
 @import '@/styles/variables.scss';
-@tailwind utilities;
 
 html,
 body {
@@ -8,42 +7,30 @@ body {
 }
 
 body {
-	background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 1000%;
-	animation: gradient 30s linear infinite;
-
 	color: #fff;
-	font-size: 16px;
-	font-weight: 400;
-}
-
-header {
-	display: flex;
-	justify-content: center;
-	background-color: gray;
-
-	.logo {
-		height: 100px;
-	}
-}
-
-header {
-	height: 10%;
+	// font-size: 16px;
+	// font-weight: 400;
 }
 
 main {
-	background-color: rgba(80, 80, 80, 0.4);
+	background-color: hsl(240, 10%, 4%);
 	height: 90%;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: left;
-	}
-	50% {
-		background-position: right;
-	}
-	100% {
-		background-position: left;
+header {
+	background-color: hsl(0, 0%, 0%);
+	height: 10%;
+
+	display: flex;
+	justify-content: center;
+
+	.links {
+		display: flex;
+		gap: $spacing-3;
 	}
 }
+
+// hsl(240, 10%, 4%);
+// hsl(240, 10%, 4%);
+// rgb(65, 65, 65)
+// rgb(82, 82, 82)

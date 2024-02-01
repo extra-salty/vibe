@@ -3,11 +3,9 @@ import { CoordinateT } from '@/types/misc.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: {
-	selectedEffects: string[];
 	selectedAnimations: string[];
 	animations: AnimationStateT[];
 } = {
-	selectedEffects: [],
 	selectedAnimations: [],
 	animations: [],
 };
@@ -43,32 +41,32 @@ export const animationCreator = createSlice({
 			state.selectedAnimations = [];
 		},
 
-		// Effects - Table
-		addSelectedEffect: (state, action: PayloadAction<string>) => {
-			const name = action.payload;
-			const index = state.selectedEffects.indexOf(name);
+		// // Effects - Table
+		// addSelectedEffect: (state, action: PayloadAction<string>) => {
+		// 	const name = action.payload;
+		// 	const index = state.selectedEffects.indexOf(name);
 
-			if (index < 0) {
-				state.selectedEffects.push(name);
-			} else {
-				state.selectedEffects.splice(index, 1);
-			}
-		},
-		removeSelectedEffects: (state, action: PayloadAction<string[]>) => {
-			const names = action.payload;
+		// 	if (index < 0) {
+		// 		state.selectedEffects.push(name);
+		// 	} else {
+		// 		state.selectedEffects.splice(index, 1);
+		// 	}
+		// },
+		// removeSelectedEffects: (state, action: PayloadAction<string[]>) => {
+		// 	const names = action.payload;
 
-			names.map((name) => {
-				const index = state.selectedEffects.indexOf(name);
+		// 	names.map((name) => {
+		// 		const index = state.selectedEffects.indexOf(name);
 
-				state.selectedEffects.splice(index, 1);
-			});
-		},
-		setSelectedEffects: (state, action: PayloadAction<string[]>) => {
-			state.selectedEffects = action.payload;
-		},
-		resetSelectedEffects: (state) => {
-			state.selectedEffects = [];
-		},
+		// 		state.selectedEffects.splice(index, 1);
+		// 	});
+		// },
+		// setSelectedEffects: (state, action: PayloadAction<string[]>) => {
+		// 	state.selectedEffects = action.payload;
+		// },
+		// resetSelectedEffects: (state) => {
+		// 	state.selectedEffects = [];
+		// },
 
 		// Animations - List
 		selectAnimation: (
@@ -153,12 +151,6 @@ export const {
 	removeSelectedAnimations,
 	setSelectedAnimations,
 	resetSelectedAnimations,
-	// Effects - Table
-	addSelectedEffect,
-	removeSelectedEffects,
-	setSelectedEffects,
-	resetSelectedEffects,
-
 	// Animations - List
 	selectAnimation,
 	moveAnimation,

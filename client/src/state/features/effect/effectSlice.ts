@@ -38,7 +38,7 @@ const initialState: {
 		colorHistory: [],
 		colorPresets: [],
 	},
-	frameWidth: 50,
+	frameWidth: 1,
 	activeFrame: 0,
 	frameHistory: [],
 	effect: {

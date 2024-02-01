@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
 import { EffectBaseT } from '@/types/effect.types';
-import mongoClientPromise from '@/services/MongoDB/mongoClient';
+import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
 	try {

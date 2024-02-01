@@ -7,8 +7,8 @@ import { DragHandleOutlined } from '@mui/icons-material';
 import FrameMenu from '@/components/custom/EffectCreator/FrameGrid/FrameGridItem/FrameMenu/FrameMenu';
 import FrameDuration from './FrameDuration/FrameDuration';
 import Frame from '../../../FrameComps/Frame/Frame';
-import styles from './FrameGridItem.module.scss';
 import FrameCellHistory from './FrameCellHistory/FrameCellHistory';
+import styles from './FrameGridItem.module.scss';
 
 const FrameGridItem = ({
 	id,

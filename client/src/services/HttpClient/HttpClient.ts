@@ -33,6 +33,7 @@ export class HttpClient {
 		method: HttpMethods,
 		{ endpoint, data, params, cache }: MethodConfigT,
 	): Promise<ResponseType> {
+		console.log('🚀 ~ HttpClient ~ data:', data);
 		const urlParams = params ? `?${new URLSearchParams(params)}` : '';
 		const url = `${this.baseUrl}/${endpoint}${urlParams}`;
 		let result;

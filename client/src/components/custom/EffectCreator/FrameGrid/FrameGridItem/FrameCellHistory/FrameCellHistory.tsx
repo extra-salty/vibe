@@ -36,7 +36,9 @@ const FrameCellHistory = ({
 			{buttons.map((props, i) => {
 				return (
 					<Tooltip key={i} title={props['aria-label']}>
-						<IconButton disabled={isDisabled} {...props}></IconButton>
+						<span>
+							<IconButton disabled={isDisabled} {...props}></IconButton>
+						</span>
 					</Tooltip>
 				);
 			})}

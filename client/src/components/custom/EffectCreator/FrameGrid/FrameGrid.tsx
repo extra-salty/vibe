@@ -1,15 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { CSSProperties, useState } from 'react';
 import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector';
-import { moveFrame, setFrameWidth } from '@/state/features/effect/effectSlice';
+import { moveFrame } from '@/state/features/effect/effectSlice';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, DragEndEvent, Active } from '@dnd-kit/core';
 import { FrameStateT } from '@/types/effect.types';
-import { Container, Slider } from '@mui/material';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
 import styles from './FrameGrid.module.scss';
 
 const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
@@ -38,10 +35,6 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 		setActiveEvent(null);
 	};
 
-	const handleSizeChange = (_: Event, value: number | number[]) => {
-		dispatch(setFrameWidth(Array.isArray(value) ? 0 : value));
-	};
-
 	const style: CSSProperties = {
 		cursor: activeEvent ? 'grabbing' : 'auto',
 	};
@@ -52,18 +45,6 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 
 	return (
 		<div style={style} className={styles.panel}>
-			<div className={styles.slider}>
-				<UIIcon name={Icons.stack} width={12} height={12} />
-				<Slider
-					min={1}
-					max={3}
-					aria-label='frame-size'
-					value={frameWidth}
-					onChange={handleSizeChange}
-					marks
-				/>
-				<UIIcon name={Icons.stack} width={18} height={18} />
-			</div>
 			<DndContext
 				collisionDetection={closestCenter}
 				onDragStart={({ active }: { active: Active }) => setActiveEvent(active)}
@@ -72,19 +53,17 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 			>
 				<SortableContext items={itemIds} strategy={rectSortingStrategy}>
 					<div className={styles.gridWrapper}>
-						<Container>
-							<div className={styles.grid} style={frameStyle}>
-								{itemIds.map((id, i) => (
-									<FrameGridItem
-										key={i}
-										id={id}
-										frameIndex={i}
-										framesLength={frames.length}
-										frame={frames[i]}
-									/>
-								))}
-							</div>
-						</Container>
+						<div className={styles.grid} style={frameStyle}>
+							{itemIds.map((id, i) => (
+								<FrameGridItem
+									key={i}
+									id={id}
+									frameIndex={i}
+									framesLength={frames.length}
+									frame={frames[i]}
+								/>
+							))}
+						</div>
 					</div>
 				</SortableContext>
 				<FrameDragOverlay activeEvent={activeEvent} />
@@ -94,3 +73,22 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 };
 
 export default FrameGrid;
+
+// const handleSizeChange = (_: Event, value: number | number[]) => {
+// 	dispatch(setFrameWidth(Array.isArray(value) ? 0 : value));
+// };
+
+{
+	/* <div className={styles.slider}>
+				<UIIcon name={Icons.stack} width={12} height={12} />
+				<Slider
+					min={1}
+					max={8}
+					aria-label='frame-size'
+					value={frameWidth}
+					onChange={handleSizeChange}
+					marks
+				/>
+				<UIIcon name={Icons.stack} width={18} height={18} />
+			</div> */
+}

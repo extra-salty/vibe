@@ -1,5 +1,5 @@
-import { EffectsServiceInstance } from './api/effects/_service';
 import { AnimationsServiceInstance } from './api/animations/_service';
+import { EffectsServiceInstance } from './api/effects/_service';
 import AnimationCreator from '@/components/custom/AnimationCreator/AnimationCreator';
 import Providers from '@/state/Providers';
 

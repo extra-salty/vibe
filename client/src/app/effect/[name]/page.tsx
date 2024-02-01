@@ -1,4 +1,4 @@
-import { EffectServiceInstance } from '@/app/api/effect/_service';
+import { EffectServiceInstance } from '@/app/api/effects/_service';
 import { EffectStateT } from '@/types/effect.types';
 import Providers from '@/state/Providers';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';

@@ -21,9 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<Header />
 				<main>
 					<AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-					{/* options={{ enableCssLayer: true } */}
 				</main>
 			</body>
 		</html>
 	);
+}
+
+{
+	/* options={{ enableCssLayer: true } */
 }

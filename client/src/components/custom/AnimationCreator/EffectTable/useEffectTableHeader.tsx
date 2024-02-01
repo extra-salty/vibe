@@ -1,72 +1,100 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-	resetSelectedEffects,
-	setSelectedEffects,
-} from '@/state/features/animation/animationSlice';
-import { EffectTableDataT } from './useEffectTableData';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { UITableHeaderProps } from '@/components/base/UITable/UITable.types';
-import { Checkbox } from '@mui/material';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { GridColDef, GridColumnHeaderParams, GridRenderCellParams } from '@mui/x-data-grid';
+import { Bolt, Layers, Timelapse } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
+import { EffectTableT } from '@/types/effect.types';
+import dayjs from 'dayjs';
+import UILink from '@/components/base/UILink/UILink';
 
-const useEffectTableHeader = ({
-	effectNames,
-}: {
-	effectNames: string[];
-}): UITableHeaderProps<EffectTableDataT>[] => {
-	const dispatch = useDispatch();
-	const [isChecked, setIsChecked] = useState<boolean>(false);
-
+const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 	return [
 		{
-			id: 'select',
-			header: (
-				<Checkbox
-					checked={isChecked}
-					onChange={({ target }) => {
-						if (target.checked) {
-							dispatch(setSelectedEffects(effectNames));
-							setIsChecked(true);
-						} else {
-							dispatch(resetSelectedEffects());
-							setIsChecked(false);
-						}
-					}}
-				/>
+			field: 'id',
+			headerName: 'ID',
+		},
+		{
+			field: 'index',
+			headerName: '#',
+			sortable: false,
+			filterable: false,
+			disableColumnMenu: true,
+			width: 1,
+			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row.id) + 1,
+		},
+		{
+			field: 'name',
+			headerName: 'Name',
+			width: 140,
+			renderCell: (params: GridRenderCellParams<any, string>) => (
+				<UILink href={`effect/${params.value}`}>
+					<Tooltip title={'description'}>
+						<span>{params.value}</span>
+					</Tooltip>
+				</UILink>
 			),
 		},
 		{
-			id: 'numbering',
-			header: '#',
+			field: 'frames',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			filterable: true,
+			sortable: false,
+			width: 70,
+			description: 'asdasd',
+			renderHeader: () => (
+				<Tooltip title='Number of frames'>
+					<Layers />
+				</Tooltip>
+			),
 		},
 		{
-			id: 'name',
-			header: 'Name',
-			isSortable: true,
-			// classes: 'asd',
+			field: 'duration',
+			type: 'number',
+			description: 'blablabla',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			width: 70,
+			renderHeader: () => (
+				<Tooltip title='Duration'>
+					<Timelapse />
+				</Tooltip>
+			),
 		},
 		{
-			id: 'frames',
-			header: <UIIcon name={Icons.stack} width={15} height={15} />,
+			field: 'power',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			width: 70,
+			renderHeader: () => (
+				<Tooltip title='Power consumption'>
+					<Bolt />
+				</Tooltip>
+			),
 		},
 		{
-			id: 'duration',
-			header: <UIIcon name={Icons.timelapse} width={15} height={15} />,
+			field: 'dateModified',
+			headerName: 'Date modified',
+			type: 'dateTime',
+			width: 140,
+			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
 		},
 		{
-			id: 'dateCreated',
-			header: 'Date created',
-			isSortable: true,
+			field: 'dateCreated',
+			headerName: 'Date created',
+			type: 'dateTime',
+			width: 140,
+			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
 		},
 		{
-			id: 'dateModified',
-			header: 'Date modified',
-			isSortable: true,
-		},
-		{
-			id: 'drag',
-			header: 'Drag',
+			field: 'drag',
+			headerName: 'Drag',
+			sortable: false,
+			filterable: false,
+			disableColumnMenu: true,
+			width: 60,
 		},
 	];
 };
