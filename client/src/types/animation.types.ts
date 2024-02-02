@@ -1,6 +1,8 @@
+import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
 import { EffectBaseT } from './effect.types';
 
 export type AnimationBaseT = {
+	id: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
@@ -45,3 +47,5 @@ export class AnimationEffectState implements AnimationEffectStateT {
 		this.data = effect;
 	}
 }
+
+export type GridInitialStateT = Pick<GridInitialStateCommunity, 'sorting' | 'filter'>;

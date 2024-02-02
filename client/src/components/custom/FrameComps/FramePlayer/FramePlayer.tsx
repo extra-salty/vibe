@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAnimations } from '@/state/features/animation/animationSelector';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { EffectsDataServiceInstance } from '@/app/api/effectsData/_service';
+import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import Frame from '../Frame/Frame';
 import UIButton from '@/components/base/UIButton/UIButton';
@@ -20,7 +20,7 @@ const FramePlayer = ({}: {}) => {
 	);
 
 	const handleEffectPlay = async () => {
-		const effectsData = await EffectsDataServiceInstance.getEffectsData(selectedEffects);
+		const effectsData = await EffectServiceInstance.getEffectsData(selectedEffects);
 
 		// effect.frames.forEach((frame, i) => {
 		// 	const timer = setTimeout(() => {

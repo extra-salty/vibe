@@ -5,39 +5,32 @@ import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
 	try {
-		const searchParams = req.nextUrl.searchParams;
-		const sortOption = searchParams.get('sortOptionValue') || 'name';
-		const sortDirection = searchParams.get('sortDirection') || 'asc';
-		const filterOption = searchParams.get('filterOptionValue') || 'name';
-		const filterValue = searchParams.get('filterValue') || '';
-
 		const client = await mongoClientPromise;
 
 		const animations: AnimationBaseT[] = await client
 			.db(process.env.DB_NAME)
 			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
-			.find({ [filterOption]: { $regex: filterValue, $options: 'i' } })
-			// .project({ _id: false })
-			.sort({ [sortOption]: sortDirection === 'asc' ? 1 : -1 })
+			.find({})
+			.sort({ name: 1 })
 			.toArray();
 
-		const effectNames: string[] = [];
+		// const effectNames: string[] = [];
 
-		animations.map((animation) =>
-			animation.effects.map(
-				(effect) => !effectNames.includes(effect.name) && effectNames.push(effect.name),
-			),
-		);
+		// animations.map((animation) =>
+		// 	animation.effects.map(
+		// 		(effect) => !effectNames.includes(effect.name) && effectNames.push(effect.name),
+		// 	),
+		// );
 
-		const effectsData = new Map();
+		// const effectsData = new Map();
 
-		const effectCollection = client
-			.db(process.env.DB_NAME)
-			.collection<EffectDataT>(process.env.EFFECT_COLLECTION);
+		// const effectCollection = client
+		// 	.db(process.env.DB_NAME)
+		// 	.collection<EffectDataT>(process.env.EFFECT_COLLECTION);
 
-		effectNames.map((effect) => {
-			effectCollection.find({ name: effect });
-		});
+		// effectNames.map((effect) => {
+		// 	effectCollection.find({ name: effect });
+		// });
 
 		return NextResponse.json(animations);
 	} catch (e) {

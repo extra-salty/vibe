@@ -1,41 +1,32 @@
 'use client';
-import useAnimationTableData from './useAnimationTableData';
 import useAnimationTableHeader from './useAnimationTableHeader';
-import { useDispatch } from 'react-redux';
-import { useSelectedAnimations } from '@/state/features/animation/animationSelector';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { removeSelectedAnimations } from '@/state/features/animation/animationSlice';
 import { AnimationsServiceInstance } from '@/app/api/animations/_service';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { AnimationBaseT } from '@/types/animation.types';
-import { SortDirection, UITableOptionsValueT } from '@/components/base/UITable/UITable.types';
-import UIButtonProps from '@/components/base/UIButton/UIButton.type';
-import UITable from '@/components/base/UITable/UITable';
-import UIButton from '@/components/base/UIButton/UIButton';
+import { DataGrid } from '@mui/x-data-grid';
+import { LoadingButton, LoadingButtonProps } from '@mui/lab';
+import { AddCircleOutline, ContentCopy, DeleteOutline } from '@mui/icons-material';
 import styles from './AnimationTable.module.scss';
 
 const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBaseT[] }) => {
-	const dispatch = useDispatch();
-
 	const [animations, setAnimations] = useState<AnimationBaseT[]>(initialAnimations);
-	const [selectedOptions, setSelectedOptions] = useState<UITableOptionsValueT>({
-		sortOptionValue: 'name',
-		sortDirection: SortDirection.des,
-		filterOptionValue: 'name',
-		filterValue: '',
+
+	const [buttonLoadings, setButtonLoadings] = useState<
+		Record<'create' | 'delete' | 'duplicate', boolean>
+	>({
+		create: false,
+		delete: false,
+		duplicate: false,
 	});
 
-	const animationNames = animations.map((animation) => animation.name);
-	const header = useAnimationTableHeader({ animationNames });
-	const selectedAnimations = useSelectedAnimations();
-	const data = useAnimationTableData({ animations, selectedAnimations });
+	const header = useAnimationTableHeader(animations);
 
 	const handleGetAnimations = useCallback(async () => {
-		const data = await AnimationsServiceInstance.getAnimations(selectedOptions);
+		const data = await AnimationsServiceInstance.getAnimations();
 
 		setAnimations(data);
-	}, [setAnimations, selectedOptions]);
+	}, [setAnimations]);
 
 	const handleCreateAnimation = async () => {
 		try {
@@ -49,7 +40,7 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBas
 
 	const handleDuplicateAnimation = async () => {
 		try {
-			await AnimationServiceInstance.duplicateAnimation(selectedAnimations[0]);
+			// await AnimationServiceInstance.duplicateAnimation(selectedAnimations[0]);
 
 			// dispatch(removeSelectedAnimations(selectedAnimations));
 			handleGetAnimations();
@@ -60,32 +51,35 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBas
 
 	const handleDeleteEffects = async () => {
 		try {
-			await AnimationsServiceInstance.deleteAnimations(selectedAnimations);
+			// await AnimationsServiceInstance.deleteAnimations(selectedAnimations);
 
-			dispatch(removeSelectedAnimations(selectedAnimations));
+			// dispatch(removeSelectedAnimations(selectedAnimations));
 			handleGetAnimations();
 		} catch (e) {
 			console.error(e);
 		}
 	};
 
-	const actions: UIButtonProps[] = [
+	const actions: LoadingButtonProps[] = [
 		{
-			text: 'Create',
-			icon: Icons.add,
+			children: 'Create',
+			startIcon: <AddCircleOutline />,
+			loading: buttonLoadings.create,
 			onClick: handleCreateAnimation,
 		},
 		{
-			text: 'Delete',
-			icon: Icons.delete,
+			children: 'Delete',
+			startIcon: <DeleteOutline />,
+			loading: buttonLoadings.delete,
 			onClick: handleDeleteEffects,
-			disabled: !selectedAnimations.length,
+			// disabled: !selectedAnimations.length,
 		},
 		{
-			text: 'Duplicate',
-			icon: Icons.duplicate,
+			children: 'Duplicate',
+			startIcon: <ContentCopy />,
+			loading: buttonLoadings.duplicate,
 			onClick: handleDuplicateAnimation,
-			disabled: !(selectedAnimations.length === 1),
+			// disabled: !(selectedAnimations.length === 1),
 		},
 	];
 
@@ -100,24 +94,42 @@ const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBas
 	}, [handleGetAnimations]);
 
 	return (
-		<div className={styles.animationTable}>
-			<div className={styles.header}>
-				<div className={styles.text}>Animations</div>
-				<div className={styles.buttons}>
-					{actions.map((props, i) => (
-						<UIButton key={i} {...props} />
-					))}
-				</div>
+		<div className={styles.table}>
+			<div className={styles.buttons}>
+				{actions.map((props, i) => (
+					<LoadingButton
+						key={i}
+						size='small'
+						color='primary'
+						variant='contained'
+						loadingPosition='start'
+						{...props}
+					/>
+				))}
 			</div>
-			<div className={styles.table}>
-				<UITable
-					data={data}
-					header={header}
-					actions={actions}
-					options={{
-						selectedOptions,
-						setSelectedOptions,
+			<div className={styles.dataGrid}>
+				<DataGrid
+					columns={header}
+					rows={animations}
+					getRowId={(row) => row._id}
+					// slots={
+					// noRowsOverlay: CustomNoRowsOverlay,
+					// }
+					//
+					density='compact'
+					disableColumnSelector
+					hideFooterPagination
+					columnVisibilityModel={{
+						id: false,
 					}}
+					loading={false}
+					//
+					checkboxSelection
+					disableRowSelectionOnClick
+					// rowSelectionModel={selectedEffects}
+					// onRowSelectionModelChange={(effects) =>
+					// 	setSelectedEffects(effects.map((effect) => effect as string))
+					// }
 				/>
 			</div>
 		</div>

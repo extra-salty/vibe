@@ -1,11 +1,27 @@
-import { AnimationEffectStateT, AnimationStateT } from '@/types/animation.types';
+import { AnimationEffectStateT, AnimationStateT, GridInitialStateT } from '@/types/animation.types';
 import { CoordinateT } from '@/types/misc.types';
+import { GridLogicOperator } from '@mui/x-data-grid';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: {
+	staticEffects: { initialState: GridInitialStateT; rowSelection: string[] };
 	selectedAnimations: string[];
 	animations: AnimationStateT[];
 } = {
+	staticEffects: {
+		initialState: {
+			sorting: { sortModel: [] },
+			filter: {
+				filterModel: {
+					items: [],
+					logicOperator: GridLogicOperator.And,
+					quickFilterLogicOperator: GridLogicOperator.And,
+					quickFilterValues: [],
+				},
+			},
+		},
+		rowSelection: [],
+	},
 	selectedAnimations: [],
 	animations: [],
 };
@@ -14,6 +30,14 @@ export const animationCreator = createSlice({
 	name: 'animationCreator',
 	initialState,
 	reducers: {
+		// Static Effects - Grid
+		setStaticEffectsInitialState: (state, action: PayloadAction<GridInitialStateT>) => {
+			state.staticEffects.initialState = action.payload;
+		},
+		setStaticEffectsSelection: (state, action: PayloadAction<string[] | any[]>) => {
+			console.log('asd');
+			state.staticEffects.rowSelection = action.payload;
+		},
 		// Animations - Table
 		addSelectedAnimation: (state, action: PayloadAction<string>) => {
 			const name = action.payload;
@@ -40,33 +64,6 @@ export const animationCreator = createSlice({
 		resetSelectedAnimations: (state) => {
 			state.selectedAnimations = [];
 		},
-
-		// // Effects - Table
-		// addSelectedEffect: (state, action: PayloadAction<string>) => {
-		// 	const name = action.payload;
-		// 	const index = state.selectedEffects.indexOf(name);
-
-		// 	if (index < 0) {
-		// 		state.selectedEffects.push(name);
-		// 	} else {
-		// 		state.selectedEffects.splice(index, 1);
-		// 	}
-		// },
-		// removeSelectedEffects: (state, action: PayloadAction<string[]>) => {
-		// 	const names = action.payload;
-
-		// 	names.map((name) => {
-		// 		const index = state.selectedEffects.indexOf(name);
-
-		// 		state.selectedEffects.splice(index, 1);
-		// 	});
-		// },
-		// setSelectedEffects: (state, action: PayloadAction<string[]>) => {
-		// 	state.selectedEffects = action.payload;
-		// },
-		// resetSelectedEffects: (state) => {
-		// 	state.selectedEffects = [];
-		// },
 
 		// Animations - List
 		selectAnimation: (
@@ -146,6 +143,8 @@ export const animationCreator = createSlice({
 });
 
 export const {
+	setStaticEffectsInitialState,
+	setStaticEffectsSelection,
 	// Animations - Table
 	addSelectedAnimation,
 	removeSelectedAnimations,

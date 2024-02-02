@@ -1,16 +1,9 @@
 @import '@/styles/variables.scss';
 
 .table {
-	.header {
-		display: flex;
-		align-items: center;
-	}
-
 	.buttons {
 		display: flex;
 		gap: $spacing-4;
 		justify-content: space-between;
 	}
-
-	// height: 50%;
 }

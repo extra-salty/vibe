@@ -15,14 +15,15 @@ export type FrameBaseT = {
 	duration: number;
 };
 
-export type EffectTableT = Omit<EffectBaseT, 'frames' | '_id'> & {
-	id: string;
+export type EffectTableT = Omit<EffectBaseT, 'frames'> & {
 	framesLength: number;
 	duration: number;
 };
 
-export type EffectStateT = Omit<EffectBaseT, 'frames'> & {
+export type EffectStateT = Omit<EffectBaseT, 'frames' | 'dateCreated' | 'dateModified'> & {
 	frames: FrameStateT[];
+	dateCreated?: Date;
+	dateModified?: Date;
 };
 
 export type FrameStateT = FrameBaseT & FrameCellHistoryT;

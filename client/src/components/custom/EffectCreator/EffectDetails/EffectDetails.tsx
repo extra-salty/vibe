@@ -50,11 +50,11 @@ const EffectDetails = ({ effecta }: { effecta?: EffectStateT }) => {
 			{texts.map((props) => (
 				<TextField key={props.id} variant='filled' {...props} />
 			))}
-			<div className={styles.dates}>
+			{/* <div className={styles.dates}>
 				{dates.map((props) => (
 					<DateTimeField ampm={false} readOnly key={props.id} variant='filled' {...props} />
 				))}
-			</div>
+			</div> */}
 		</div>
 	);
 };

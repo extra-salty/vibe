@@ -46,8 +46,8 @@ const initialState: {
 		name: '',
 		description: '',
 		frames: [],
-		dateCreated: new Date(),
-		dateModified: new Date(),
+		dateCreated: undefined,
+		dateModified: undefined,
 	},
 };
 

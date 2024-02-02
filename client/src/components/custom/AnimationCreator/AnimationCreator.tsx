@@ -13,11 +13,10 @@ import { EffectTableT } from '@/types/effect.types';
 import handleDragEnd from './handleDragEnd';
 import handleDragOver from './handleDragOver';
 import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
-import AnimationTable from './AnimationTable/AnimationTable/AnimationTable';
-import EffectTable from './EffectTable/EffectTable';
 import AnimationList from './AnimationList/AnimationList';
 import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
+import TableTabs from './TableTabs/TableTabs';
 import styles from './AnimationCreator.module.scss';
 
 const AnimationCreator = ({
@@ -41,17 +40,8 @@ const AnimationCreator = ({
 				}
 				collisionDetection={rectIntersection}
 			>
-				<div className={styles.tables}>
-					{/* <AnimationTable initialAnimations={animations} /> */}
-					<EffectTable initialEffects={effects} />
-				</div>
-				<div className={styles.column}>
-					{/* <AnimationList /> */}
-					{/* <RemoveDropZone /> */}
-				</div>
-				<div className={styles.column}>
-					<FramePlayer />
-				</div>
+				<TableTabs animations={animations} effects={effects} />
+				<div className={styles.column}>{/* <FramePlayer /> */}</div>
 				<DragOverlaySelector dragEvent={activeDragEvent} />
 			</DndContext>
 		</div>
@@ -59,3 +49,51 @@ const AnimationCreator = ({
 };
 
 export default AnimationCreator;
+
+// interface TabPanelProps {
+// 	children?: React.ReactNode;
+// 	index: number;
+// 	value: number;
+// }
+
+// const [value, setValue] = useState<number>(0);
+
+// function a11yProps(index: number) {
+//   return {
+//     id: `simple-tab-${index}`,
+//     'aria-controls': `simple-tabpanel-${index}`,
+//   };
+// }
+
+// function CustomTabPanel({ children, value, index }: TabPanelProps) {
+//   return (
+//     <div
+//       role='tabpanel'
+//       style={{
+//         // zIndex: `${index + 1}`,
+//         height: '500px',
+//       }}
+//       // display: value != index ? 'none' : 'block'
+//       hidden={value != index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//     >
+//       {children}
+//     </div>
+//   );
+// }
+
+{
+	/* <div>
+<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+  <Tab label='Animations' {...a11yProps(0)} />
+  <Tab label='Static Effects' {...a11yProps(1)} />
+</Tabs>
+<CustomTabPanel value={value} index={0}>
+  <AnimationTable initialAnimations={animations} />
+</CustomTabPanel>
+<CustomTabPanel value={value} index={1}>
+  <EffectTable initialEffects={effects} />
+</CustomTabPanel>
+</div> */
+}

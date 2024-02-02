@@ -1,4 +1,4 @@
-import { MongoService } from '@/services/MongoDB/MongoService';
+import { MongoService } from '@/services/mongodb/MongoService';
 import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
 

@@ -13,7 +13,7 @@ import styles from './EffectCreator.module.scss';
 
 const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
 	const dispatch = useDispatch();
-	dispatch(setEffect(initialEffect));
+	// dispatch(setEffect(initialEffect));
 
 	return (
 		<PanelGroup direction='horizontal' className={styles.effect}>

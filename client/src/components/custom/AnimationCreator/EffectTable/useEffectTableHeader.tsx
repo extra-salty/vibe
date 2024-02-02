@@ -1,9 +1,10 @@
-import { GridColDef, GridColumnHeaderParams, GridRenderCellParams } from '@mui/x-data-grid';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Bolt, Layers, Timelapse } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { EffectTableT } from '@/types/effect.types';
 import dayjs from 'dayjs';
 import UILink from '@/components/base/UILink/UILink';
+import EffectActions from './EffectActions/EffectActions';
 
 const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 	return [
@@ -18,7 +19,7 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 			filterable: false,
 			disableColumnMenu: true,
 			width: 1,
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row.id) + 1,
+			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
 		},
 		{
 			field: 'name',
@@ -81,13 +82,13 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 			width: 140,
 			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
 		},
-		{
-			field: 'dateCreated',
-			headerName: 'Date created',
-			type: 'dateTime',
-			width: 140,
-			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
-		},
+		// {
+		// 	field: 'dateCreated',
+		// 	headerName: 'Date created',
+		// 	type: 'dateTime',
+		// 	width: 140,
+		// 	valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
+		// },
 		{
 			field: 'drag',
 			headerName: 'Drag',
@@ -95,6 +96,15 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 			filterable: false,
 			disableColumnMenu: true,
 			width: 60,
+		},
+		{
+			field: 'actions',
+			headerName: 'Actions',
+			sortable: false,
+			filterable: false,
+			disableColumnMenu: true,
+			width: 100,
+			renderCell: () => <EffectActions />,
 		},
 	];
 };

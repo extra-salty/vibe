@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useActiveEffect, useFrames } from '@/state/features/effect/effectSelector';
-import { EffectServiceInstance } from '@/app/api/effects/_service';
+import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { EffectBaseT, FrameStateT } from '@/types/effect.types';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { PauseCircleOutline, PlayArrowOutlined, SaveOutlined } from '@mui/icons-material';
@@ -30,15 +30,15 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	const handleEffectSave = async () => {
 		setSaveLoading(true);
 
-		const updatedEffectData: Omit<EffectBaseT, 'dateCreated'> = {
-			_id: effect._id,
-			name: effect.name,
-			description: effect.description,
-			dateModified: new Date(),
-			frames: effect.frames.map((frame) => ({ data: frame.data, duration: frame.duration })),
-		};
+		// const updatedEffectData: Omit<EffectBaseT, 'dateCreated'> = {
+		// 	_id: effect._id,
+		// 	name: effect.name,
+		// 	description: effect.description,
+		// 	dateModified: new Date(),
+		// 	frames: effect.frames.map((frame) => ({ data: frame.data, duration: frame.duration })),
+		// };
 		try {
-			await EffectServiceInstance.updateEffect(updatedEffectData);
+			// await EffectServiceInstance.updateEffect(updatedEffectData);
 		} catch (e) {
 			console.error(e);
 		} finally {

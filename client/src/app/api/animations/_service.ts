@@ -1,18 +1,16 @@
-import { MongoService } from '@/services/MongoDB/MongoService';
+import { MongoService } from '@/services/mongodb/MongoService';
 import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { UITableOptionsValueT } from '@/components/base/UITable/UITableOptions/UITableOptions';
-import { BaseAnimationT } from '@/state/features/animation/animation.types';
+import { AnimationBaseT } from '@/types/animation.types';
 
 class AnimationsService extends MongoService {
 	private endpoint: string = 'animations';
 
-	getAnimations(options?: UITableOptionsValueT): Promise<BaseAnimationT[]> {
+	getAnimations(): Promise<AnimationBaseT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			params: options,
 			cache: CacheOptions.noCache,
 		};
-		return this.get<BaseAnimationT[]>(methodConfig);
+		return this.get<AnimationBaseT[]>(methodConfig);
 	}
 
 	deleteAnimations(animations: string[]) {
