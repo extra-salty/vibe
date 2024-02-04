@@ -8,19 +8,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { AddCircleOutline, ContentCopy, DeleteOutline } from '@mui/icons-material';
 import styles from './AnimationTable.module.scss';
+import { useDispatch } from 'react-redux';
 
 const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBaseT[] }) => {
+	const dispatch = useDispatch();
 	const [animations, setAnimations] = useState<AnimationBaseT[]>(initialAnimations);
 
-	const [buttonLoadings, setButtonLoadings] = useState<
-		Record<'create' | 'delete' | 'duplicate', boolean>
-	>({
-		create: false,
-		delete: false,
-		duplicate: false,
-	});
-
-	const header = useAnimationTableHeader(animations);
+	const header = useAnimationTableHeader();
+	const grid = useStaticEffectTable();
 
 	const handleGetAnimations = useCallback(async () => {
 		const data = await AnimationsServiceInstance.getAnimations();

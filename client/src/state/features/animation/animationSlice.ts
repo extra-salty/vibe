@@ -1,68 +1,59 @@
-import { AnimationEffectStateT, AnimationStateT, GridInitialStateT } from '@/types/animation.types';
+import { AnimationEffectStateT, AnimationStateT, GridStateT, GridT } from '@/types/animation.types';
 import { CoordinateT } from '@/types/misc.types';
-import { GridLogicOperator } from '@mui/x-data-grid';
+import { GridColumnVisibilityModel, GridLogicOperator } from '@mui/x-data-grid';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: {
-	staticEffects: { initialState: GridInitialStateT; rowSelection: string[] };
-	selectedAnimations: string[];
-	animations: AnimationStateT[];
-} = {
-	staticEffects: {
-		initialState: {
-			sorting: { sortModel: [] },
-			filter: {
-				filterModel: {
-					items: [],
-					logicOperator: GridLogicOperator.And,
-					quickFilterLogicOperator: GridLogicOperator.And,
-					quickFilterValues: [],
-				},
+export const initialTableState: GridT = {
+	loading: false,
+	state: {
+		sorting: { sortModel: [] },
+		filter: {
+			filterModel: {
+				items: [],
+				logicOperator: GridLogicOperator.And,
+				quickFilterLogicOperator: GridLogicOperator.And,
+				quickFilterValues: [],
 			},
 		},
-		rowSelection: [],
 	},
-	selectedAnimations: [],
-	animations: [],
+	selection: [],
+	visibility: { id: false, dateCreated: false },
+};
+
+const initialState: {
+	animationTable: GridT;
+	staticEffectTable: GridT;
+	animationPlaylist: AnimationStateT[];
+} = {
+	animationTable: initialTableState,
+	staticEffectTable: initialTableState,
+	animationPlaylist: [],
 };
 
 export const animationCreator = createSlice({
 	name: 'animationCreator',
 	initialState,
 	reducers: {
-		// Static Effects - Grid
-		setStaticEffectsInitialState: (state, action: PayloadAction<GridInitialStateT>) => {
-			state.staticEffects.initialState = action.payload;
+		// Animation - Table
+		setAnimationTableState: (state, action: PayloadAction<GridStateT>) => {
+			state.animationTable.state = action.payload;
 		},
-		setStaticEffectsSelection: (state, action: PayloadAction<string[] | any[]>) => {
-			console.log('asd');
-			state.staticEffects.rowSelection = action.payload;
+		setAnimationTableSelection: (state, action: PayloadAction<string[]>) => {
+			state.staticEffectTable.selection = action.payload;
 		},
-		// Animations - Table
-		addSelectedAnimation: (state, action: PayloadAction<string>) => {
-			const name = action.payload;
-			const index = state.selectedAnimations.indexOf(name);
+		setAnimationTableVisibility: (state, action: PayloadAction<GridColumnVisibilityModel>) => {
+			state.staticEffectTable.visibility = action.payload;
+		},
 
-			if (index < 0) {
-				state.selectedAnimations.push(name);
-			} else {
-				state.selectedAnimations.splice(index, 1);
-			}
+		// Static Effect - Table
+		setStaticEffectTableState: (state, action: PayloadAction<GridStateT>) => {
+			state.staticEffectTable.state = action.payload;
 		},
-		removeSelectedAnimations: (state, action: PayloadAction<string[]>) => {
-			const names = action.payload;
-
-			names.map((name) => {
-				const index = state.selectedAnimations.indexOf(name);
-
-				state.selectedAnimations.splice(index, 1);
-			});
+		setStaticEffectTableSelection: (state, action: PayloadAction<string[]>) => {
+			state.staticEffectTable.selection = action.payload;
 		},
-		setSelectedAnimations: (state, action: PayloadAction<string[]>) => {
-			state.selectedAnimations = action.payload;
-		},
-		resetSelectedAnimations: (state) => {
-			state.selectedAnimations = [];
+		setStaticEffectTableVisibility: (state, action: PayloadAction<GridColumnVisibilityModel>) => {
+			state.staticEffectTable.visibility = action.payload;
 		},
 
 		// Animations - List
@@ -71,33 +62,33 @@ export const animationCreator = createSlice({
 			action: PayloadAction<{ selectedAnimation: AnimationStateT; index?: number }>,
 		) => {
 			const { selectedAnimation, index } = action.payload;
-			const newIndex = index != undefined ? index + 1 : state.animations.length;
-			const includes = state.animations.find(
+			const newIndex = index != undefined ? index + 1 : state.animationPlaylist.length;
+			const includes = state.animationPlaylist.find(
 				(animation) => animation.name === selectedAnimation.name,
 			);
 
 			if (!includes) {
-				state.animations.splice(newIndex, 0, selectedAnimation);
+				state.animationPlaylist.splice(newIndex, 0, selectedAnimation);
 			}
 		},
 		moveAnimation: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
 			const { startIndex, endIndex } = action.payload;
-			const temp = state.animations[startIndex];
+			const temp = state.animationPlaylist[startIndex];
 
-			state.animations[startIndex] = state.animations[endIndex];
-			state.animations[endIndex] = temp;
+			state.animationPlaylist[startIndex] = state.animationPlaylist[endIndex];
+			state.animationPlaylist[endIndex] = temp;
 		},
 		overAnimation: (
 			state,
 			action: PayloadAction<{ selectedAnimation: AnimationStateT; index: number }>,
 		) => {
 			const { index, selectedAnimation } = action.payload;
-			const includes = state.animations.find(
+			const includes = state.animationPlaylist.find(
 				(animation) => animation.name === selectedAnimation.name,
 			);
 
 			if (!includes) {
-				state.animations.splice(index, 0, selectedAnimation);
+				state.animationPlaylist.splice(index, 0, selectedAnimation);
 			}
 		},
 
@@ -112,9 +103,9 @@ export const animationCreator = createSlice({
 			} = action.payload;
 
 			if (y) {
-				state.animations[x].effects.splice(y, 0, animationEffect);
+				state.animationPlaylist[x].effects.splice(y, 0, animationEffect);
 			} else {
-				state.animations[x].effects.push(animationEffect);
+				state.animationPlaylist[x].effects.push(animationEffect);
 			}
 		},
 		moveEffect: (
@@ -122,17 +113,17 @@ export const animationCreator = createSlice({
 			action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
 		) => {
 			const { startCoordinate: start, endCoordinate: end } = action.payload;
-			const effect = state.animations[start.x].effects[start.y];
+			const effect = state.animationPlaylist[start.x].effects[start.y];
 
 			if (start.x === end.x) {
-				const temp = state.animations[end.x].effects[end.y];
+				const temp = state.animationPlaylist[end.x].effects[end.y];
 
-				state.animations[end.x].effects[end.y] = effect;
-				state.animations[start.x].effects[start.y] = temp;
+				state.animationPlaylist[end.x].effects[end.y] = effect;
+				state.animationPlaylist[start.x].effects[start.y] = temp;
 			} else {
-				state.animations[start.x].effects.splice(start.y, 1);
+				state.animationPlaylist[start.x].effects.splice(start.y, 1);
 
-				state.animations[end.x].effects.splice(end.y, 0, effect);
+				state.animationPlaylist[end.x].effects.splice(end.y, 0, effect);
 				// if (state.selectedAnimationsDetails[end.x]?.effects) {
 				// } else {
 				// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
@@ -143,13 +134,14 @@ export const animationCreator = createSlice({
 });
 
 export const {
-	setStaticEffectsInitialState,
-	setStaticEffectsSelection,
-	// Animations - Table
-	addSelectedAnimation,
-	removeSelectedAnimations,
-	setSelectedAnimations,
-	resetSelectedAnimations,
+	// Animation - Table
+	setAnimationTableState,
+	setAnimationTableSelection,
+	setAnimationTableVisibility,
+	// Static Effect - Table
+	setStaticEffectTableState,
+	setStaticEffectTableSelection,
+	setStaticEffectTableVisibility,
 	// Animations - List
 	selectAnimation,
 	moveAnimation,

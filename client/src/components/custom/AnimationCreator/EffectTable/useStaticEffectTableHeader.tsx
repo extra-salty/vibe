@@ -1,24 +1,30 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Bolt, Layers, Timelapse } from '@mui/icons-material';
+import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import { EffectTableT } from '@/types/effect.types';
 import dayjs from 'dayjs';
 import UILink from '@/components/base/UILink/UILink';
-import EffectActions from './EffectActions/EffectActions';
+import StaticEffectActions from './StaticEffectActions/StaticEffectActions';
 
-const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
+const useStaticEffectTableHeader = (): GridColDef[] => {
 	return [
 		{
 			field: 'id',
 			headerName: 'ID',
+			filterable: false,
 		},
 		{
 			field: 'index',
-			headerName: '#',
+			headerName: 'Index',
 			sortable: false,
 			filterable: false,
+			hideable: false,
 			disableColumnMenu: true,
 			width: 1,
+			renderHeader: () => (
+				<Tooltip title='Index'>
+					<Numbers />
+				</Tooltip>
+			),
 			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
 		},
 		{
@@ -35,6 +41,7 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 		},
 		{
 			field: 'frames',
+			headerName: 'Frames',
 			type: 'number',
 			align: 'left',
 			headerAlign: 'left',
@@ -50,6 +57,7 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 		},
 		{
 			field: 'duration',
+			headerName: 'Duration',
 			type: 'number',
 			description: 'blablabla',
 			align: 'left',
@@ -64,6 +72,7 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 		},
 		{
 			field: 'power',
+			headerName: 'Power consumption',
 			type: 'number',
 			align: 'left',
 			headerAlign: 'left',
@@ -82,13 +91,13 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 			width: 140,
 			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
 		},
-		// {
-		// 	field: 'dateCreated',
-		// 	headerName: 'Date created',
-		// 	type: 'dateTime',
-		// 	width: 140,
-		// 	valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
-		// },
+		{
+			field: 'dateCreated',
+			headerName: 'Date created',
+			type: 'dateTime',
+			width: 140,
+			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
+		},
 		{
 			field: 'drag',
 			headerName: 'Drag',
@@ -103,10 +112,11 @@ const useEffectTableHeader = (effects: EffectTableT[]): GridColDef[] => {
 			sortable: false,
 			filterable: false,
 			disableColumnMenu: true,
-			width: 100,
-			renderCell: () => <EffectActions />,
+			width: 1,
+			renderHeader: () => null,
+			renderCell: () => <StaticEffectActions />,
 		},
 	];
 };
 
-export default useEffectTableHeader;
+export default useStaticEffectTableHeader;

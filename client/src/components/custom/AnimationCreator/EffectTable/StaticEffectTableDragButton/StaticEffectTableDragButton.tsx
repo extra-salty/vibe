@@ -3,7 +3,7 @@ import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { DndElements } from '@/types/misc.types';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 
-const EffectTableDragButton = ({ effectName }: { effectName: string }) => {
+const StaticEffectTableDragButton = ({ effectName }: { effectName: string }) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
 		id: effectName,
 		data: { type: DndElements.newEffect },
@@ -16,4 +16,4 @@ const EffectTableDragButton = ({ effectName }: { effectName: string }) => {
 	);
 };
 
-export default EffectTableDragButton;
+export default StaticEffectTableDragButton;

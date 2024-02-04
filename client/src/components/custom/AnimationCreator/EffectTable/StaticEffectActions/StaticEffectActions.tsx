@@ -1,14 +1,45 @@
 import { useState } from 'react';
-import { IconButton, Menu, Tooltip } from '@mui/material';
-import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
+import { useAnimationTableSelection } from '@/state/features/animation/animationSelector';
+import { IconButton, Menu } from '@mui/material';
 import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-material';
+import { EffectsServiceInstance } from '@/app/api/effects/_service';
+import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 
-const EffectActions = () => {
+const StaticEffectActions = () => {
+	const selectedStaticEffects = useAnimationTableSelection();
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const isOpen = Boolean(anchorEl);
 
 	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
+
+	const handleDuplicateEffect = async () => {
+		// setButtonLoadings((s) => ({ ...s, duplicate: true }));
+
+		try {
+			// await EffectServiceInstance.duplicateEffect(selectedEffects[0]);
+			// handleGetEffects();
+		} catch (e) {
+			console.error(e);
+		} finally {
+			// setButtonLoadings((s) => ({ ...s, duplicate: false }));
+		}
+	};
+
+	const handleDeleteEffects = async () => {
+		// setButtonLoadings((s) => ({ ...s, delete: true }));
+
+		try {
+			await EffectsServiceInstance.deleteEffects(selectedStaticEffects);
+
+			// handleGetEffects();
+		} catch (e) {
+			console.error(e);
+		} finally {
+			// setButtonLoadings((s) => ({ ...s, delete: false }));
+		}
+	};
 
 	const effectActions: MenuItemProps[] = [
 		{
@@ -19,12 +50,12 @@ const EffectActions = () => {
 		{
 			icon: <ContentCopyOutlined />,
 			label: 'Duplicate',
-			onClick: () => {},
+			onClick: handleDuplicateEffect,
 		},
 		{
 			icon: <DeleteOutlined />,
 			label: 'Delete',
-			onClick: () => {},
+			onClick: handleDeleteEffects,
 		},
 	];
 
@@ -56,4 +87,4 @@ const EffectActions = () => {
 	);
 };
 
-export default EffectActions;
+export default StaticEffectActions;

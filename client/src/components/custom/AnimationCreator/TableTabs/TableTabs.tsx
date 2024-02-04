@@ -4,8 +4,8 @@ import { Tab } from '@mui/material';
 import { AnimationBaseT } from '@/types/animation.types';
 import { EffectTableT } from '@/types/effect.types';
 import AnimationTable from '../AnimationTable/AnimationTable/AnimationTable';
-import EffectTable from '../EffectTable/EffectTable';
-import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
+import StaticEffectTable from '../EffectTable/StaticEffectTable';
+import { useAnimationTable } from '@/state/features/animation/animationSelector';
 
 const TableTabs = ({
 	animations,
@@ -26,10 +26,10 @@ const TableTabs = ({
 					<Tab label='Static Effects' value='staticEffects' />
 				</TabList>
 				<TabPanel value='animations'>
-					<AnimationTable initialAnimations={animations} />
+					{/* <AnimationTable initialAnimations={animations} /> */}
 				</TabPanel>
 				<TabPanel value='staticEffects'>
-					<EffectTable initialEffects={effects} />
+					<StaticEffectTable initialEffects={effects} />
 					{/* initialState={effectTableState} */}
 				</TabPanel>
 			</TabContext>
