@@ -1,20 +1,17 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
+import StaticEffectTableActions from './StaticEffectTableActions/StaticEffectTableActions';
 import dayjs from 'dayjs';
-import UILink from '@/components/base/UILink/UILink';
-import StaticEffectActions from './StaticEffectActions/StaticEffectActions';
 
 const useStaticEffectTableHeader = (): GridColDef[] => {
 	return [
 		{
-			field: 'id',
-			headerName: 'ID',
-			filterable: false,
-		},
-		{
 			field: 'index',
 			headerName: 'Index',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
 			sortable: false,
 			filterable: false,
 			hideable: false,
@@ -28,16 +25,26 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
 		},
 		{
+			field: '_id',
+			headerName: 'ID',
+			filterable: false,
+			width: 220,
+		},
+		{
 			field: 'name',
 			headerName: 'Name',
 			width: 140,
 			renderCell: (params: GridRenderCellParams<any, string>) => (
-				<UILink href={`effect/${params.value}`}>
-					<Tooltip title={'description'}>
-						<span>{params.value}</span>
-					</Tooltip>
-				</UILink>
+				<Tooltip title={params.row.description}>
+					<span>{params.value}</span>
+				</Tooltip>
 			),
+		},
+		{
+			field: 'description',
+			headerName: 'Description',
+			width: 200,
+			sortable: false,
 		},
 		{
 			field: 'frames',
@@ -48,7 +55,6 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			filterable: true,
 			sortable: false,
 			width: 70,
-			description: 'asdasd',
 			renderHeader: () => (
 				<Tooltip title='Number of frames'>
 					<Layers />
@@ -59,7 +65,6 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			field: 'duration',
 			headerName: 'Duration',
 			type: 'number',
-			description: 'blablabla',
 			align: 'left',
 			headerAlign: 'left',
 			sortable: false,
@@ -114,7 +119,7 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 1,
 			renderHeader: () => null,
-			renderCell: () => <StaticEffectActions />,
+			renderCell: () => <StaticEffectTableActions />,
 		},
 	];
 };

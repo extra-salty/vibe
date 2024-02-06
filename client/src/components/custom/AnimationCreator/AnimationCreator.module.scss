@@ -1,13 +1,5 @@
 @import '@/styles/variables.scss';
 
-.columns {
-	height: 100%;
+.animationCreator {
 	display: flex;
-	justify-content: space-between;
-}
-
-.column {
-	display: flex;
-	flex-direction: column;
-	gap: $spacing-5;
 }

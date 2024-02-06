@@ -4,17 +4,17 @@ html,
 body {
 	margin: 0;
 	height: 100vh;
-}
-
-body {
 	color: #fff;
-	// font-size: 16px;
-	// font-weight: 400;
 }
 
 main {
 	background-color: hsl(240, 10%, 4%);
 	height: 90%;
+	max-height: 90%;
+
+	> div {
+		height: 100%;
+	}
 }
 
 header {
@@ -30,7 +30,6 @@ header {
 	}
 }
 
-// hsl(240, 10%, 4%);
-// hsl(240, 10%, 4%);
-// rgb(65, 65, 65)
-// rgb(82, 82, 82)
+.MuiTabPanel-root {
+	height: 100%;
+}

@@ -2,9 +2,7 @@
 import useStaticEffectTableHeader from './useStaticEffectTableHeader';
 import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
-import { memo, useCallback, useState } from 'react';
-import { EffectTableT } from '@/types/effect.types';
-import { EffectsServiceInstance } from '@/app/api/effects/_service';
+import { memo } from 'react';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
 import { GridStateT } from '@/types/animation.types';
 import {
@@ -14,27 +12,17 @@ import {
 } from '@/state/features/animation/animationSlice';
 import StaticEffectTableToolbar from './StaticEffectTableToolbar/StaticEffectTableToolbar';
 
-const StaticEffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] }) => {
+const StaticEffectTable = () => {
 	const dispatch = useDispatch();
-	const [effects, setEffects] = useState<EffectTableT[]>(initialEffects);
 
 	const header = useStaticEffectTableHeader();
 	const table = useStaticEffectTable();
 
-	const handleGetEffects = useCallback(async () => {
-		const data = await EffectsServiceInstance.getEffects();
-
-		setEffects(data);
-	}, [setEffects]);
-
 	return (
 		<DataGrid
 			columns={header}
-			rows={effects}
+			rows={table.data}
 			loading={table.loading}
-			// footerRowCount: 2
-			// noRowsOverlay: CustomNoRowsOverlay,
-			// loadingOverlay: LinearProgress,
 			getRowId={(row) => row._id}
 			slots={{ toolbar: StaticEffectTableToolbar }}
 			slotProps={{
@@ -68,7 +56,6 @@ const StaticEffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] 
 				};
 
 				if (JSON.stringify(table.state) != JSON.stringify(state)) {
-					console.log('dispatch');
 					dispatch(setStaticEffectTableState(state));
 				}
 			}}
@@ -78,41 +65,6 @@ const StaticEffectTable = ({ initialEffects }: { initialEffects: EffectTableT[] 
 
 export default memo(StaticEffectTable);
 
-// const firstUpdate = useRef(true);
-// useEffect(() => {
-// 	if (firstUpdate.current) {
-// 		firstUpdate.current = false;
-// 	} else {
-// 		handleGetEffects();
-// 	}
-// }, [handleGetEffects]);
-
-// function CustomUserItem(props: GridColumnMenuItemProps) {
-//   const { myCustomHandler, myCustomValue } = props;
-//   return (
-//     <MenuItem onClick={myCustomHandler}>
-//       <ListItemIcon>
-//         <DeleteOutline fontSize='small' />
-//       </ListItemIcon>
-//       <ListItemText>{myCustomValue}</ListItemText>
-//     </MenuItem>
-//   );
-// }
-
-// function CustomColumnMenu(props: GridColumnMenuProps) {
-//   return (
-//     <GridColumnMenu
-//       {...props}
-//       slots={{
-//         columnMenuUserItem: CustomUserItem,
-//       }}
-//       slotProps={{
-//         columnMenuUserItem: {
-//           displayOrder: 15,
-//           myCustomValue: 'Do custom action',
-//           myCustomHandler: () => alert('Custom handler fired'),
-//         },
-//       }}
-//     />
-//   );
-// }
+// footerRowCount: 2
+// noRowsOverlay: CustomNoRowsOverlay,
+// loadingOverlay: LinearProgress,

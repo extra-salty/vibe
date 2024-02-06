@@ -1,8 +1,8 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Header from '@/components/custom/PageComps/Header/Header';
 import './_layout.scss';
+import Providers from '@/state/Providers';
 
 const roboto = Roboto({
 	weight: ['300', '400', '500', '700'],
@@ -20,13 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body className={roboto.className}>
 				<Header />
 				<main>
-					<AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+					<Providers>{children}</Providers>
 				</main>
 			</body>
 		</html>
 	);
-}
-
-{
-	/* options={{ enableCssLayer: true } */
 }

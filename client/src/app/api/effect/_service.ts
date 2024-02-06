@@ -14,9 +14,10 @@ class EffectService extends MongoService {
 		return this.get<EffectStateT>(methodConfig);
 	}
 
-	createEffect(duplicate?: string) {
+	createEffect(effectIdToDuplicate?: string) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
+			params: { effectIdToDuplicate },
 		};
 		return this.post(methodConfig);
 	}

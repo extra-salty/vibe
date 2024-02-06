@@ -34,14 +34,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
 	try {
 		const searchParams = req.nextUrl.searchParams;
-		const effectName = searchParams.get('name');
+		const effectIdToDuplicate = searchParams.get('effectIdToDuplicate');
 
 		const client = await mongoClientPromise;
 		const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
 
 		let newEffect: Omit<EffectBaseT, '_id'> | null = null;
 
-		if (!effectName) {
+		if (!effectIdToDuplicate) {
 			let isFound = false;
 			let count = 1;
 
@@ -63,14 +63,14 @@ export async function POST(req: NextRequest) {
 				description: '',
 				dateCreated: new Date(),
 				dateModified: new Date(),
-				frames: [],
+				frames: [new FrameBase(1000, new Color(0, 0, 0))],
 			};
 		} else {
-			const temp = await collection.findOne({ name: effectName });
+			const temp = await collection.findOne({ _id: new ObjectId(effectIdToDuplicate) });
 
 			if (temp) {
 				newEffect = {
-					name: `${effectName}_Dup`,
+					name: `${temp.name}_Dup`,
 					description: temp?.description,
 					dateCreated: new Date(),
 					dateModified: new Date(),
@@ -88,53 +88,6 @@ export async function POST(req: NextRequest) {
 			if (!result.acknowledged) {
 				throw Error('Failed static effect creation.');
 			}
-		}
-	} catch (e) {
-		console.log(e);
-		console.error(e);
-	}
-
-	return new NextResponse(null, {
-		status: 200,
-	});
-}
-
-export async function PUT() {
-	try {
-		const client = await mongoClientPromise;
-		const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
-
-		let isFound = false;
-		let count = 1;
-
-		while (!isFound) {
-			const effects = await collection
-				.find({ name: { $regex: `newEffect${count}`, $options: 'i' } })
-				.limit(1)
-				.toArray();
-
-			if (effects.length) {
-				count++;
-			} else {
-				isFound = true;
-			}
-		}
-
-		const newEffect: Omit<EffectBaseT, '_id'> = {
-			name: `newEffect${count}`,
-			description: '',
-			dateCreated: new Date(),
-			dateModified: new Date(),
-			frames: [new FrameBase(1000, new Color(0, 0, 0))],
-		};
-
-		const result = await client
-			.db(process.env.DB_NAME)
-			.collection(process.env.EFFECT_COLLECTION)
-			.insertOne(newEffect);
-
-		if (!result.acknowledged) {
-			throw Error('Failed static effect creation.');
 		}
 	} catch (e) {
 		console.log(e);

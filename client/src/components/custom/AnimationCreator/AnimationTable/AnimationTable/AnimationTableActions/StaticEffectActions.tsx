@@ -5,7 +5,7 @@ import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 
-const StaticEffectActions = () => {
+const AnimationTableActions = () => {
 	const selectedStaticEffects = useAnimationTableSelection();
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -87,4 +87,4 @@ const StaticEffectActions = () => {
 	);
 };
 
-export default StaticEffectActions;
+export default AnimationTableActions;

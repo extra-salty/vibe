@@ -1,5 +1,5 @@
 import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
-import { EffectBaseT } from './effect.types';
+import { EffectBaseT, EffectTableT } from './effect.types';
 import { GridColumnVisibilityModel } from '@mui/x-data-grid';
 
 export type AnimationBaseT = {
@@ -49,7 +49,7 @@ export class AnimationEffectState implements AnimationEffectStateT {
 	}
 }
 
-export type GridT = {
+export type TableT = {
 	loading: boolean;
 	state: GridStateT;
 	selection: string[];
@@ -57,3 +57,11 @@ export type GridT = {
 };
 
 export type GridStateT = Pick<GridInitialStateCommunity, 'sorting' | 'filter'>;
+
+export type StaticEffectTableT = TableT & {
+	data: EffectTableT[];
+};
+
+export type AnimationTableT = TableT & {
+	data: AnimationBaseT[];
+};

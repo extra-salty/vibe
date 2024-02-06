@@ -8,8 +8,6 @@ import {
 	DragStartEvent,
 	rectIntersection,
 } from '@dnd-kit/core';
-import { AnimationBaseT } from '@/types/animation.types';
-import { EffectTableT } from '@/types/effect.types';
 import handleDragEnd from './handleDragEnd';
 import handleDragOver from './handleDragOver';
 import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
@@ -18,19 +16,18 @@ import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
 import TableTabs from './TableTabs/TableTabs';
 import styles from './AnimationCreator.module.scss';
+import { getAnimations, getEffects } from '@/state/features/animation/animationSlice';
+import { AppDispatch } from '@/state/store';
 
-const AnimationCreator = ({
-	animations,
-	effects,
-}: {
-	animations: AnimationBaseT[];
-	effects: EffectTableT[];
-}) => {
-	const dispatch = useDispatch();
+const AnimationCreator = () => {
+	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
+	dispatch(getEffects());
+	dispatch(getAnimations());
+
 	return (
-		<div className={styles.columns}>
+		<div className={styles.animationCreator}>
 			<DndContext
 				onDragCancel={() => setActiveDragEvent(null)}
 				onDragStart={(event: DragStartEvent) => setActiveDragEvent(event)}
@@ -40,8 +37,9 @@ const AnimationCreator = ({
 				}
 				collisionDetection={rectIntersection}
 			>
-				<TableTabs animations={animations} effects={effects} />
-				<div className={styles.column}>{/* <FramePlayer /> */}</div>
+				<TableTabs />
+				<AnimationList />
+				{/* <div className={styles.column}><FramePlayer /></div> */}
 				<DragOverlaySelector dragEvent={activeDragEvent} />
 			</DndContext>
 		</div>

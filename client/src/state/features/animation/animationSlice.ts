@@ -1,9 +1,18 @@
-import { AnimationEffectStateT, AnimationStateT, GridStateT, GridT } from '@/types/animation.types';
+import { AnimationsServiceInstance } from '@/app/api/animations/_service';
+import { EffectsServiceInstance } from '@/app/api/effects/_service';
+import {
+	AnimationEffectStateT,
+	AnimationStateT,
+	AnimationTableT,
+	GridStateT,
+	StaticEffectTableT,
+	TableT,
+} from '@/types/animation.types';
 import { CoordinateT } from '@/types/misc.types';
 import { GridColumnVisibilityModel, GridLogicOperator } from '@mui/x-data-grid';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const initialTableState: GridT = {
+export const initialTableState: TableT = {
 	loading: false,
 	state: {
 		sorting: { sortModel: [] },
@@ -17,22 +26,48 @@ export const initialTableState: GridT = {
 		},
 	},
 	selection: [],
-	visibility: { id: false, dateCreated: false },
+	visibility: { _id: false, description: false, dateCreated: false },
 };
 
+export const getEffects = createAsyncThunk(
+	'getEffects',
+	async () => await EffectsServiceInstance.getEffects(),
+);
+
+export const getAnimations = createAsyncThunk(
+	'getAnimations',
+	async () => await AnimationsServiceInstance.getAnimations(),
+);
+
 const initialState: {
-	animationTable: GridT;
-	staticEffectTable: GridT;
+	animationTable: AnimationTableT;
+	staticEffectTable: StaticEffectTableT;
 	animationPlaylist: AnimationStateT[];
 } = {
-	animationTable: initialTableState,
-	staticEffectTable: initialTableState,
+	animationTable: { ...initialTableState, data: [] },
+	staticEffectTable: { ...initialTableState, data: [] },
 	animationPlaylist: [],
 };
 
 export const animationCreator = createSlice({
 	name: 'animationCreator',
 	initialState,
+	extraReducers: (builder) => {
+		builder.addCase(getEffects.pending, (state) => {
+			state.staticEffectTable.loading = true;
+		});
+		builder.addCase(getEffects.fulfilled, (state, action) => {
+			state.staticEffectTable.data = action.payload;
+			state.staticEffectTable.loading = false;
+		});
+		builder.addCase(getAnimations.pending, (state) => {
+			state.animationTable.loading = true;
+		});
+		builder.addCase(getAnimations.fulfilled, (state, action) => {
+			state.animationTable.data = action.payload;
+			state.animationTable.loading = false;
+		});
+	},
 	reducers: {
 		// Animation - Table
 		setAnimationTableState: (state, action: PayloadAction<GridStateT>) => {

@@ -1,7 +1,7 @@
 import { useDraggable } from '@dnd-kit/core';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { DndElements } from '@/types/misc.types';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { DragHandleOutlined } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 const AnimationTableDragButton = ({ animationName }: { animationName: string }) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
@@ -10,9 +10,13 @@ const AnimationTableDragButton = ({ animationName }: { animationName: string }) 
 	});
 
 	return (
-		<button ref={setNodeRef} {...attributes} {...listeners} className='bg-transparent'>
-			<UIIcon name={Icons.drag} />
-		</button>
+		<div ref={setNodeRef} {...attributes} {...listeners}>
+			<IconButton>
+				<DragHandleOutlined />
+			</IconButton>
+		</div>
+		// <button ref={setNodeRef} {...attributes} {...listeners} className='bg-transparent'>
+		// </button>
 	);
 };
 

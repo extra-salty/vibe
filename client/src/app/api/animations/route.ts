@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EffectDataT } from '@/components/custom/AnimationCreator/AnimationList/useColumns';
 import { AnimationBaseT } from '@/types/animation.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
 	try {
 		const client = await mongoClientPromise;
 
@@ -13,24 +12,6 @@ export async function GET(req: NextRequest) {
 			.find({})
 			.sort({ name: 1 })
 			.toArray();
-
-		// const effectNames: string[] = [];
-
-		// animations.map((animation) =>
-		// 	animation.effects.map(
-		// 		(effect) => !effectNames.includes(effect.name) && effectNames.push(effect.name),
-		// 	),
-		// );
-
-		// const effectsData = new Map();
-
-		// const effectCollection = client
-		// 	.db(process.env.DB_NAME)
-		// 	.collection<EffectDataT>(process.env.EFFECT_COLLECTION);
-
-		// effectNames.map((effect) => {
-		// 	effectCollection.find({ name: effect });
-		// });
 
 		return NextResponse.json(animations);
 	} catch (e) {

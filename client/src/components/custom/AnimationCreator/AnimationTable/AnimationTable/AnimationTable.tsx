@@ -1,133 +1,65 @@
 'use client';
 import useAnimationTableHeader from './useAnimationTableHeader';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { AnimationsServiceInstance } from '@/app/api/animations/_service';
-import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import { AnimationBaseT } from '@/types/animation.types';
-import { DataGrid } from '@mui/x-data-grid';
-import { LoadingButton, LoadingButtonProps } from '@mui/lab';
-import { AddCircleOutline, ContentCopy, DeleteOutline } from '@mui/icons-material';
-import styles from './AnimationTable.module.scss';
 import { useDispatch } from 'react-redux';
+import { DataGrid, GridRowId } from '@mui/x-data-grid';
+import { useAnimationTable } from '@/state/features/animation/animationSelector';
+import { memo } from 'react';
+import {
+	setAnimationTableSelection,
+	setAnimationTableState,
+	setAnimationTableVisibility,
+} from '@/state/features/animation/animationSlice';
+import { GridStateT } from '@/types/animation.types';
+import AnimationTableToolbar from './AnimationTableToolbar/AnimationTableToolbar';
 
-const AnimationTable = ({ initialAnimations }: { initialAnimations: AnimationBaseT[] }) => {
+const AnimationTable = () => {
 	const dispatch = useDispatch();
-	const [animations, setAnimations] = useState<AnimationBaseT[]>(initialAnimations);
 
 	const header = useAnimationTableHeader();
-	const grid = useStaticEffectTable();
-
-	const handleGetAnimations = useCallback(async () => {
-		const data = await AnimationsServiceInstance.getAnimations();
-
-		setAnimations(data);
-	}, [setAnimations]);
-
-	const handleCreateAnimation = async () => {
-		try {
-			await AnimationServiceInstance.createAnimation();
-
-			handleGetAnimations();
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	const handleDuplicateAnimation = async () => {
-		try {
-			// await AnimationServiceInstance.duplicateAnimation(selectedAnimations[0]);
-
-			// dispatch(removeSelectedAnimations(selectedAnimations));
-			handleGetAnimations();
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	const handleDeleteEffects = async () => {
-		try {
-			// await AnimationsServiceInstance.deleteAnimations(selectedAnimations);
-
-			// dispatch(removeSelectedAnimations(selectedAnimations));
-			handleGetAnimations();
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	const actions: LoadingButtonProps[] = [
-		{
-			children: 'Create',
-			startIcon: <AddCircleOutline />,
-			loading: buttonLoadings.create,
-			onClick: handleCreateAnimation,
-		},
-		{
-			children: 'Delete',
-			startIcon: <DeleteOutline />,
-			loading: buttonLoadings.delete,
-			onClick: handleDeleteEffects,
-			// disabled: !selectedAnimations.length,
-		},
-		{
-			children: 'Duplicate',
-			startIcon: <ContentCopy />,
-			loading: buttonLoadings.duplicate,
-			onClick: handleDuplicateAnimation,
-			// disabled: !(selectedAnimations.length === 1),
-		},
-	];
-
-	const firstUpdate = useRef(true);
-
-	useEffect(() => {
-		if (firstUpdate.current) {
-			firstUpdate.current = false;
-		} else {
-			handleGetAnimations();
-		}
-	}, [handleGetAnimations]);
+	const table = useAnimationTable();
 
 	return (
-		<div className={styles.table}>
-			<div className={styles.buttons}>
-				{actions.map((props, i) => (
-					<LoadingButton
-						key={i}
-						size='small'
-						color='primary'
-						variant='contained'
-						loadingPosition='start'
-						{...props}
-					/>
-				))}
-			</div>
-			<div className={styles.dataGrid}>
-				<DataGrid
-					columns={header}
-					rows={animations}
-					getRowId={(row) => row._id}
-					// slots={
-					// noRowsOverlay: CustomNoRowsOverlay,
-					// }
-					//
-					density='compact'
-					disableColumnSelector
-					hideFooterPagination
-					columnVisibilityModel={{
-						id: false,
-					}}
-					loading={false}
-					//
-					checkboxSelection
-					disableRowSelectionOnClick
-					// rowSelectionModel={selectedEffects}
-					// onRowSelectionModelChange={(effects) =>
-					// 	setSelectedEffects(effects.map((effect) => effect as string))
-					// }
-				/>
-			</div>
-		</div>
+		<DataGrid
+			columns={header}
+			rows={table.data}
+			loading={table.loading}
+			getRowId={(row) => row._id}
+			slots={{ toolbar: AnimationTableToolbar }}
+			slotProps={{
+				panel: { placement: 'bottom-end' },
+			}}
+			//
+			density='compact'
+			checkboxSelection
+			hideFooterPagination
+			disableRowSelectionOnClick
+			//
+			columnVisibilityModel={table.visibility}
+			onColumnVisibilityModelChange={(columnVisibilityModel) => {
+				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
+					dispatch(setAnimationTableVisibility(columnVisibilityModel));
+				}
+			}}
+			//
+			rowSelectionModel={table.selection}
+			onRowSelectionModelChange={(selection) => {
+				if (JSON.stringify(table.selection) != JSON.stringify(selection)) {
+					dispatch(setAnimationTableSelection(selection.map((id: GridRowId) => id as string)));
+				}
+			}}
+			//
+			initialState={table.state}
+			onStateChange={(wholeState) => {
+				const state: GridStateT = {
+					sorting: { sortModel: wholeState.sorting.sortModel },
+					filter: { filterModel: wholeState.filter.filterModel },
+				};
+
+				if (JSON.stringify(table.state) != JSON.stringify(state)) {
+					dispatch(setAnimationTableState(state));
+				}
+			}}
+		/>
 	);
 };
 

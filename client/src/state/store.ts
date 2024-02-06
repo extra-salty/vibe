@@ -9,6 +9,7 @@ import { createStateSyncMiddleware, initMessageListener } from 'redux-state-sync
 const persistConfig = {
 	key: 'root',
 	storage,
+	blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],
 };
 
 const rootReducer = combineReducers({
@@ -20,16 +21,20 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().prepend(
-			createStateSyncMiddleware({ blacklist: ['persist/PERSIST', 'persist/REHYDRATE'] }),
-		),
+	reducer: {
+		app: appReducer,
+		effectCreator: effectCreatorReducer,
+		animationCreator: animationCreatorReducer,
+	},
+	// middleware: (getDefaultMiddleware) =>
+	// 	getDefaultMiddleware().prepend(
+	// 		createStateSyncMiddleware({ blacklist: ['persist/PERSIST', 'persist/REHYDRATE'] }),
+	// 	),
 });
 
-initMessageListener(store);
+// initMessageListener(store);
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

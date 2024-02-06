@@ -8,7 +8,7 @@ export const useAnimationTable = () =>
 export const useAnimationTableSelection = () =>
 	useSelector((state: RootState) => state.animationCreator.animationTable.selection);
 
-// Effect Table
+// Static Effect Table
 export const useStaticEffectTable = () =>
 	useSelector((state: RootState) => state.animationCreator.staticEffectTable);
 

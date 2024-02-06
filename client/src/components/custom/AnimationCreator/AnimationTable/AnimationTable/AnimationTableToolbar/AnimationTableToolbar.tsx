@@ -13,7 +13,7 @@ import {
 } from '@mui/x-data-grid';
 import { initialTableState } from '@/state/features/animation/animationSlice';
 
-const StaticEffectTableToolbar = () => {
+const AnimationTableToolbar = () => {
 	const apiRef = useGridApiContext();
 	const dispatch = useDispatch<AppDispatch>();
 	const selectedStaticEffects = useAnimationTableSelection();
@@ -61,4 +61,4 @@ const StaticEffectTableToolbar = () => {
 	);
 };
 
-export default StaticEffectTableToolbar;
+export default AnimationTableToolbar;
