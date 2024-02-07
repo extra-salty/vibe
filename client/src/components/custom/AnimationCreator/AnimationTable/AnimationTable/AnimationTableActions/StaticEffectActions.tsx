@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAnimationTableSelection } from '@/state/features/animation/animationSelector';
+import { selectAnimation } from '@/state/features/animation/animationSlice';
 import { IconButton, Menu } from '@mui/material';
 import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-material';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 
-const AnimationTableActions = () => {
+const AnimationTableActions = ({ animationId }: { animationId: string }) => {
+	const dispatch = useDispatch();
 	const selectedStaticEffects = useAnimationTableSelection();
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -14,38 +17,19 @@ const AnimationTableActions = () => {
 	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
-	const handleDuplicateEffect = async () => {
-		// setButtonLoadings((s) => ({ ...s, duplicate: true }));
-
-		try {
-			// await EffectServiceInstance.duplicateEffect(selectedEffects[0]);
-			// handleGetEffects();
-		} catch (e) {
-			console.error(e);
-		} finally {
-			// setButtonLoadings((s) => ({ ...s, duplicate: false }));
-		}
+	const handleEditEffect = () => {
+		// dispatch(selectAnimation());
 	};
 
-	const handleDeleteEffects = async () => {
-		// setButtonLoadings((s) => ({ ...s, delete: true }));
+	const handleDuplicateEffect = async () => {};
 
-		try {
-			await EffectsServiceInstance.deleteEffects(selectedStaticEffects);
-
-			// handleGetEffects();
-		} catch (e) {
-			console.error(e);
-		} finally {
-			// setButtonLoadings((s) => ({ ...s, delete: false }));
-		}
-	};
+	const handleDeleteEffects = async () => {};
 
 	const effectActions: MenuItemProps[] = [
 		{
 			icon: <Edit />,
 			label: 'Edit',
-			onClick: () => {},
+			onClick: handleEditEffect,
 		},
 		{
 			icon: <ContentCopyOutlined />,

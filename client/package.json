@@ -23,6 +23,7 @@
 		"@mui/material-nextjs": "^5.15.5",
 		"@mui/x-data-grid": "^6.19.3",
 		"@mui/x-date-pickers": "^6.19.0",
+		"@mui/x-tree-view": "^6.17.0",
 		"@reduxjs/toolkit": "^1.9.7",
 		"@types/redux-state-sync": "^3.1.9",
 		"dayjs": "^1.11.10",

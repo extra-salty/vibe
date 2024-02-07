@@ -10,13 +10,11 @@ const AnimationTableDragButton = ({ animationName }: { animationName: string }) 
 	});
 
 	return (
-		<div ref={setNodeRef} {...attributes} {...listeners}>
-			<IconButton>
-				<DragHandleOutlined />
-			</IconButton>
-		</div>
-		// <button ref={setNodeRef} {...attributes} {...listeners} className='bg-transparent'>
-		// </button>
+		// <div >
+		<IconButton ref={setNodeRef} {...attributes} {...listeners}>
+			<DragHandleOutlined />
+		</IconButton>
+		// </div>
 	);
 };
 

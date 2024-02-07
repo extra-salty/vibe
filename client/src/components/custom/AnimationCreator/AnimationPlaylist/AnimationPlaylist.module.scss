@@ -1,0 +1,26 @@
+@import '@/styles/variables.scss';
+
+.playlist {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-width: 400px;
+
+	.header {
+		padding: 12px 16px;
+	}
+
+	.content {
+		border: 1px solid rgb(81, 81, 81);
+		margin-top: 16px;
+		margin-bottom: 12px;
+		height: 100%;
+	}
+}
+
+.dropZone {
+	height: 100%;
+	// display: flex;
+	// justify-content: center;
+	// align-items: center;
+}

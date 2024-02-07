@@ -1,33 +1,14 @@
 @import '@/styles/variables.scss';
 
-.item {
+.label {
 	display: flex;
-	flex-direction: column;
-	margin: 0;
-	padding: 0;
-
-	background-color: $item-color;
-	border: 3px solid $border-color;
-	border-radius: $border-radius-m;
-
-	&:hover {
-		border-color: $border-hover-color;
-	}
-}
-
-.animation {
-	display: flex;
+	gap: 4px;
 	align-items: center;
-}
+	justify-content: space-between;
 
-.expand {
-	display: flex;
-	align-items: center;
-	gap: $spacing-2;
-
-	cursor: pointer;
-
-	&:hover {
-		background-color: rgba(180, 180, 180, 0.4);
+	> div {
+		display: flex;
+		gap: $spacing-1;
+		align-items: center;
 	}
 }

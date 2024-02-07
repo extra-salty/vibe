@@ -1,13 +1,14 @@
 @import '@/styles/variables.scss';
 
-.item {
+.label {
 	display: flex;
+	gap: 4px;
+	align-items: center;
+	justify-content: space-between;
 
-	background-color: $item-color;
-	border: 3px solid $border-color;
-	border-radius: $border-radius-m;
-
-	&:hover {
-		border-color: $border-hover-color;
+	> div {
+		display: flex;
+		gap: $spacing-1;
+		align-items: center;
 	}
 }

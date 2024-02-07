@@ -10,7 +10,7 @@ const useAnimationTableHeader = (): GridColDef[] => {
 		{
 			field: 'index',
 			headerName: 'Index',
-			type: 'number',
+			// type: 'number',
 			align: 'left',
 			headerAlign: 'left',
 			sortable: false,
@@ -23,7 +23,10 @@ const useAnimationTableHeader = (): GridColDef[] => {
 					<Numbers />
 				</Tooltip>
 			),
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			renderCell: (params) => {
+				const index = params.api.getRowIndexRelativeToVisibleRows(params.row._id);
+				return !!index ? index + 1 : 0; // hotfix for temp undefined
+			},
 		},
 		{
 			field: '_id',
@@ -126,7 +129,7 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 1,
 			renderHeader: () => null,
-			renderCell: () => <AnimationTableActions />,
+			renderCell: (params) => <AnimationTableActions animationId={params.row._id as string} />,
 		},
 	];
 };

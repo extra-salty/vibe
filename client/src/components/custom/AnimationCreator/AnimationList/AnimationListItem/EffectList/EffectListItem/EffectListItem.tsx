@@ -1,13 +1,16 @@
-import useColumns, { EffectDataT } from '../../../useColumns';
 import { useSortable } from '@dnd-kit/sortable';
+import { EffectDataT } from '../../../useColumns';
 import { memo } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { AnimationEffectStateT } from '@/types/animation.types';
 import { DndElements } from '@/types/misc.types';
+import { TreeItem } from '@mui/x-tree-view';
 import UIButton from '@/components/base/UIButton/UIButton';
 import UIIcon from '@/components/base/UIIcon/UIIcon';
 import UILink from '@/components/base/UILink/UILink';
+import { IconButton, TextField, Tooltip } from '@mui/material';
+import { HeightOutlined } from '@mui/icons-material';
 import styles from './EffectListItem.module.scss';
 
 const EffectListItem = ({
@@ -44,18 +47,39 @@ const EffectListItem = ({
 			</button>
 		),
 	};
-	const effectColumns = useColumns(effectData);
 
 	return (
-		<li ref={setNodeRef} style={style} className={styles.item}>
-			{effectColumns.map(({ content, classes }, i) => {
-				return (
-					<div key={i} className={`${classes} text-left`}>
-						{content}
+		<TreeItem
+			ref={setNodeRef}
+			nodeId={`${animationIndex}/${index}`}
+			style={style}
+			label={
+				<div className={styles.label}>
+					<div>
+						<div>{index + 1}</div>
+						<div>
+							<Tooltip title={effect.data.description}>
+								<TextField
+									sx={{ width: '202px' }}
+									// margin='dense'
+									hiddenLabel
+									size='small'
+									variant='filled'
+									placeholder='Enter a name'
+									value={effect.data.name}
+									required
+								/>
+							</Tooltip>
+						</div>
 					</div>
-				);
-			})}
-		</li>
+					<div>
+						<IconButton {...attributes} {...listeners}>
+							<HeightOutlined />
+						</IconButton>
+					</div>
+				</div>
+			}
+		/>
 	);
 };
 

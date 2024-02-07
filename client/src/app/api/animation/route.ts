@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
 import { EffectBaseT } from '@/types/effect.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
+import { ObjectId } from 'mongodb';
 
 export async function GET(req: NextRequest) {
-	try {
-		const searchParams = req.nextUrl.searchParams;
-		const animationName = searchParams.get('name');
+	const searchParams = req.nextUrl.searchParams;
+	const animationName = searchParams.get('name');
 
+	try {
 		if (!animationName) {
 			throw Error('Invalid animation name.');
 		}
@@ -55,51 +56,83 @@ export async function GET(req: NextRequest) {
 	});
 }
 
-export async function PUT() {
-	try {
-		const client = await mongoClientPromise;
-		const collection = client.db(process.env.DB_NAME).collection(process.env.ANIMATION_COLLECTION);
+export async function POST(req: NextRequest) {
+	const searchParams = req.nextUrl.searchParams;
+	const animationId = searchParams.get('animationToDuplicate');
 
+	const client = await mongoClientPromise;
+	const collection = client.db(process.env.DB_NAME).collection(process.env.ANIMATION_COLLECTION);
+
+	let newAnimation: Omit<AnimationBaseT, '_id'> | undefined = undefined;
+
+	const findAnimationNameSuffix = async (regex: string): Promise<number> => {
 		let isFound = false;
 		let count = 1;
 
 		while (!isFound) {
-			const animations = await collection
-				.find({ name: { $regex: `newAnimation${count}`, $options: 'i' } })
+			const animation = await collection
+				.find<AnimationBaseT>({
+					name: { $regex: `${regex}${count}`, $options: 'i' },
+				})
 				.limit(1)
-				.toArray();
+				.next();
+			// .toArray();
 
-			if (animations.length) {
+			if (animation) {
 				count++;
 			} else {
 				isFound = true;
 			}
 		}
 
-		const newAnimation: AnimationBaseT = {
+		return count;
+	};
+
+	if (animationId) {
+		const animationToDuplicate = await collection
+			.find<AnimationBaseT>({ _id: new ObjectId(animationId) })
+			.limit(1)
+			.next();
+		// .toArray()
+
+		if (!animationToDuplicate) {
+			return new NextResponse(null, {
+				status: 400,
+			});
+		}
+
+		const count = findAnimationNameSuffix(`${animationToDuplicate.name}_Dup`);
+
+		newAnimation = {
+			name: `${animationToDuplicate.name}_Dup${count}`,
+			description: animationToDuplicate.description,
+			effects: animationToDuplicate.effects,
+			dateCreated: new Date(),
+			dateModified: new Date(),
+		};
+	} else {
+		const count = findAnimationNameSuffix(`newAnimation`);
+
+		newAnimation = {
 			name: `newAnimation${count}`,
 			description: '',
 			dateCreated: new Date(),
 			dateModified: new Date(),
 			effects: [],
 		};
-
-		const result = await client
-			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATION_COLLECTION)
-			.insertOne(newAnimation);
-
-		if (!result.acknowledged) {
-			throw Error('Failed animation creation.');
-		}
-	} catch (e) {
-		console.log(e);
-		console.error(e);
 	}
 
-	return new NextResponse(null, {
-		status: 200,
-	});
+	const result = await collection.insertOne(newAnimation);
+
+	if (!result.acknowledged) {
+		return new NextResponse(null, {
+			status: 200,
+		});
+	} else {
+		return new NextResponse(null, {
+			status: 400,
+		});
+	}
 }
 
 export async function PATCH(req: NextRequest) {

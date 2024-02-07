@@ -14,14 +14,14 @@ const TableTabs = () => {
 			<TabContext value={activeTab}>
 				<TabList onChange={handleTabChange} aria-label='tables'>
 					<Tab label='Animations' value='animations' />
-					<Tab label='Static Effects' value='staticEffects' />
+					{/* <Tab label='Static Effects' value='staticEffects' /> */}
 				</TabList>
 				<TabPanel value='animations'>
 					<AnimationTable />
 				</TabPanel>
-				<TabPanel value='staticEffects'>
+				{/* <TabPanel value='staticEffects'>
 					<StaticEffectTable />
-				</TabPanel>
+				</TabPanel> */}
 			</TabContext>
 		</div>
 	);

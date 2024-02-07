@@ -9,3 +9,6 @@ TODO:
 - advanced filter options for column, string for strings, min max for numbers
 - custom cursor icons
 - debugger setup
+
+
+- mongoClient general try catch

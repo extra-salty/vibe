@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/state/store';
+import { getAnimations, getEffects } from '@/state/features/animation/animationApi';
 import {
 	DndContext,
 	DragEndEvent,
@@ -11,13 +13,11 @@ import {
 import handleDragEnd from './handleDragEnd';
 import handleDragOver from './handleDragOver';
 import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
-import AnimationList from './AnimationList/AnimationList';
 import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
 import TableTabs from './TableTabs/TableTabs';
+import AnimationPlaylist from './AnimationPlaylist/AnimationPlaylist';
 import styles from './AnimationCreator.module.scss';
-import { getAnimations, getEffects } from '@/state/features/animation/animationSlice';
-import { AppDispatch } from '@/state/store';
 
 const AnimationCreator = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -38,7 +38,7 @@ const AnimationCreator = () => {
 				collisionDetection={rectIntersection}
 			>
 				<TableTabs />
-				<AnimationList />
+				<AnimationPlaylist />
 				{/* <div className={styles.column}><FramePlayer /></div> */}
 				<DragOverlaySelector dragEvent={activeDragEvent} />
 			</DndContext>

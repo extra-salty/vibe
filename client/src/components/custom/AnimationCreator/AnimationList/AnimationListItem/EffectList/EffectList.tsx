@@ -23,7 +23,7 @@ const EffectList = ({
 	});
 
 	return (
-		<ul ref={setNodeRef} className={styles.list}>
+		<div ref={setNodeRef}>
 			<SortableContext items={items} strategy={verticalListSortingStrategy}>
 				{effects.map((effect, i) => {
 					return (
@@ -31,7 +31,7 @@ const EffectList = ({
 					);
 				})}
 			</SortableContext>
-		</ul>
+		</div>
 	);
 };
 export default memo(EffectList);

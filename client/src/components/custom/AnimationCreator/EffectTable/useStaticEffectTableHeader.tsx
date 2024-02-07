@@ -22,7 +22,8 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 					<Numbers />
 				</Tooltip>
 			),
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			// renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			renderCell: (params) => 1,
 		},
 		{
 			field: '_id',

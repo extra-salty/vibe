@@ -3,7 +3,7 @@ import { EffectBaseT, EffectTableT } from './effect.types';
 import { GridColumnVisibilityModel } from '@mui/x-data-grid';
 
 export type AnimationBaseT = {
-	id: string;
+	_id: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
