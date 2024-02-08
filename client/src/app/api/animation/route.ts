@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
 import { EffectBaseT } from '@/types/effect.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
-import { ObjectId } from 'mongodb';
 
 export async function GET(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
@@ -76,13 +76,9 @@ export async function POST(req: NextRequest) {
 				})
 				.limit(1)
 				.next();
-			// .toArray();
 
-			if (animation) {
-				count++;
-			} else {
-				isFound = true;
-			}
+			if (animation) count++;
+			else isFound = true;
 		}
 
 		return count;
@@ -93,15 +89,14 @@ export async function POST(req: NextRequest) {
 			.find<AnimationBaseT>({ _id: new ObjectId(animationId) })
 			.limit(1)
 			.next();
-		// .toArray()
 
 		if (!animationToDuplicate) {
 			return new NextResponse(null, {
-				status: 400,
+				status: 410,
 			});
 		}
 
-		const count = findAnimationNameSuffix(`${animationToDuplicate.name}_Dup`);
+		const count = await findAnimationNameSuffix(`${animationToDuplicate.name}_Dup`);
 
 		newAnimation = {
 			name: `${animationToDuplicate.name}_Dup${count}`,
@@ -111,8 +106,9 @@ export async function POST(req: NextRequest) {
 			dateModified: new Date(),
 		};
 	} else {
-		const count = findAnimationNameSuffix(`newAnimation`);
+		const count = await findAnimationNameSuffix(`newAnimation`);
 
+		console.log('🚀 ~ POST ~ count:', count);
 		newAnimation = {
 			name: `newAnimation${count}`,
 			description: '',
@@ -124,13 +120,13 @@ export async function POST(req: NextRequest) {
 
 	const result = await collection.insertOne(newAnimation);
 
-	if (!result.acknowledged) {
+	if (result.acknowledged) {
 		return new NextResponse(null, {
-			status: 200,
+			status: 201,
 		});
 	} else {
 		return new NextResponse(null, {
-			status: 400,
+			status: 500,
 		});
 	}
 }

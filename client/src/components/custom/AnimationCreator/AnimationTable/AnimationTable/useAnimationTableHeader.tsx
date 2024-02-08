@@ -8,32 +8,31 @@ import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableD
 const useAnimationTableHeader = (): GridColDef[] => {
 	return [
 		{
-			field: 'index',
-			headerName: 'Index',
-			// type: 'number',
-			align: 'left',
-			headerAlign: 'left',
-			sortable: false,
-			filterable: false,
-			hideable: false,
-			disableColumnMenu: true,
-			width: 1,
-			renderHeader: () => (
-				<Tooltip title='Index'>
-					<Numbers />
-				</Tooltip>
-			),
-			renderCell: (params) => {
-				const index = params.api.getRowIndexRelativeToVisibleRows(params.row._id);
-				return !!index ? index + 1 : 0; // hotfix for temp undefined
-			},
-		},
-		{
 			field: '_id',
 			headerName: 'ID',
 			filterable: false,
 			width: 220,
 		},
+		// {
+		// 	field: 'index',
+		// 	headerName: 'Index',
+		// 	align: 'left',
+		// 	type: 'number',
+		// 	headerAlign: 'left',
+		// 	sortable: false,
+		// 	filterable: false,
+		// 	hideable: false,
+		// 	disableColumnMenu: true,
+		// 	width: 1,
+		// 	renderHeader: () => (
+		// 		<Tooltip title='Index'>
+		// 			<Numbers />
+		// 		</Tooltip>
+		// 	),
+		// 	renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+		// },
+
+		//newly created flag
 		{
 			field: 'name',
 			headerName: 'Name',

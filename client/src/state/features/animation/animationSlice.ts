@@ -1,4 +1,3 @@
-import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import {
 	AnimationEffectStateT,
 	AnimationStateT,
@@ -53,27 +52,30 @@ export const animationCreator = createSlice({
 				state.animationTable.loading = false;
 			});
 		// Create Animation
-		builder.addCase(createAnimation.pending, (state) => {
-			state.animationTable.loading = true;
-		});
-		builder.addCase(createAnimation.fulfilled, (state) => {
-			state.animationTable.loading = false;
-		});
+		builder
+			.addCase(createAnimation.pending, (state) => {
+				state.animationTable.loading = true;
+			})
+			.addCase(createAnimation.fulfilled, (state) => {
+				state.animationTable.loading = false;
+			});
 		// Delete Animations
-		builder.addCase(deleteAnimations.pending, (state) => {
-			state.animationTable.loading = true;
-		});
-		builder.addCase(deleteAnimations.fulfilled, (state) => {
-			state.animationTable.loading = false;
-		});
+		builder
+			.addCase(deleteAnimations.pending, (state) => {
+				state.animationTable.loading = true;
+			})
+			.addCase(deleteAnimations.fulfilled, (state) => {
+				state.animationTable.loading = false;
+			});
 		// Get Effects
-		builder.addCase(getEffects.pending, (state) => {
-			state.staticEffectTable.loading = true;
-		});
-		builder.addCase(getEffects.fulfilled, (state, action) => {
-			state.staticEffectTable.data = action.payload;
-			state.staticEffectTable.loading = false;
-		});
+		builder
+			.addCase(getEffects.pending, (state) => {
+				state.staticEffectTable.loading = true;
+			})
+			.addCase(getEffects.fulfilled, (state, action) => {
+				state.staticEffectTable.data = action.payload;
+				state.staticEffectTable.loading = false;
+			});
 	},
 	reducers: {
 		// Animation - Table
@@ -81,10 +83,10 @@ export const animationCreator = createSlice({
 			state.animationTable.state = action.payload;
 		},
 		setAnimationTableSelection: (state, action: PayloadAction<string[]>) => {
-			state.staticEffectTable.selection = action.payload;
+			state.animationTable.selection = action.payload;
 		},
 		setAnimationTableVisibility: (state, action: PayloadAction<GridColumnVisibilityModel>) => {
-			state.staticEffectTable.visibility = action.payload;
+			state.animationTable.visibility = action.payload;
 		},
 
 		// Static Effect - Table

@@ -10,8 +10,9 @@ export type KeyValueT<T = any> = { [key: string]: T };
 export enum HttpMethods {
 	GET = 'GET',
 	POST = 'POST',
-	PATCH = 'PATCH',
 	PUT = 'PUT',
+	PATCH = 'PATCH',
+	HEAD = 'HEAD',
 	DELETE = 'DELETE',
 }
 

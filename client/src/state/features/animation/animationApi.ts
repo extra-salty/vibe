@@ -17,7 +17,7 @@ export const getAnimations = createAsyncThunk(
 
 export const deleteAnimations = createAsyncThunk(
 	'animations/delete',
-	async (_ids: string[]) => await AnimationsServiceInstance.deleteAnimations(_ids),
+	async (ids: string[]) => await AnimationsServiceInstance.deleteAnimations(ids),
 );
 
 // Effects

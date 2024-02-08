@@ -13,6 +13,15 @@ class AnimationService extends MongoService {
 		return this.get<AnimationStateT>(methodConfig);
 	}
 
+	validateAnimationName(name: string): Promise<boolean> {
+		const methodConfig: MethodConfigT = {
+			endpoint: `${this.endpoint}/name`,
+			params: { name },
+			// cache: CacheOptions.noCache,
+		};
+		return this.head<boolean>(methodConfig);
+	}
+
 	createAnimation(animationToDuplicate?: string) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,

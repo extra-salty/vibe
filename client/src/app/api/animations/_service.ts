@@ -13,10 +13,10 @@ class AnimationsService extends MongoService {
 		return this.get<AnimationBaseT[]>(methodConfig);
 	}
 
-	deleteAnimations(animations: string[]) {
+	deleteAnimations(ids: string[]) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: animations,
+			params: { ids: encodeURIComponent(ids.join('&')) },
 		};
 		return this.delete(methodConfig);
 	}

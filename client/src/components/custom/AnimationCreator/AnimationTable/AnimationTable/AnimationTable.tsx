@@ -1,7 +1,7 @@
 'use client';
 import useAnimationTableHeader from './useAnimationTableHeader';
 import { useDispatch } from 'react-redux';
-import { DataGrid, GridRowId } from '@mui/x-data-grid';
+import { DataGrid, GridRowCount, GridRowId } from '@mui/x-data-grid';
 import { useAnimationTable } from '@/state/features/animation/animationSelector';
 import { memo } from 'react';
 import {
@@ -11,6 +11,10 @@ import {
 } from '@/state/features/animation/animationSlice';
 import { GridStateT } from '@/types/animation.types';
 import AnimationTableToolbar from './AnimationTableToolbar/AnimationTableToolbar';
+
+const rowCOunt = () => {
+	return <div>Asd</div>;
+};
 
 const AnimationTable = () => {
 	const dispatch = useDispatch();
@@ -24,10 +28,11 @@ const AnimationTable = () => {
 			rows={table.data}
 			loading={table.loading}
 			getRowId={(row) => row._id}
-			slots={{ toolbar: AnimationTableToolbar }}
+			slots={{ toolbar: AnimationTableToolbar, footerRowCount: rowCOunt }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
 			}}
+			// rowCount={10}
 			//
 			density='compact'
 			checkboxSelection

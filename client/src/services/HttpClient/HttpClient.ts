@@ -17,12 +17,16 @@ export class HttpClient {
 		return this.request<ResponseType>(HttpMethods.POST, methodConfig);
 	}
 
+	put<ResponseType>(methodConfig: MethodConfigT) {
+		return this.request<ResponseType>(HttpMethods.PUT, methodConfig);
+	}
+
 	patch<ResponseType>(methodConfig: MethodConfigT) {
 		return this.request<ResponseType>(HttpMethods.PATCH, methodConfig);
 	}
 
-	put<ResponseType>(methodConfig: MethodConfigT) {
-		return this.request<ResponseType>(HttpMethods.PUT, methodConfig);
+	head<ResponseType>(methodConfig: MethodConfigT) {
+		return this.request<ResponseType>(HttpMethods.HEAD, methodConfig);
 	}
 
 	delete<ResponseType>(methodConfig: MethodConfigT) {

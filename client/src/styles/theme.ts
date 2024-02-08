@@ -8,15 +8,16 @@ const theme = createTheme({
 	},
 	spacing: 4,
 	components: {
-		// MuiButton: {
-		// 	styleOverrides: {
-		// 		// Name of the slot
-		// 		root: {
-		// 			// Some CSS
-		// 			fontSize: '1rem',
-		// 		},
-		// 	},
-		// },
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					padding: '6px 8px',
+				},
+				startIcon: {
+					marginInline: '4px',
+				},
+			},
+		},
 	},
 });
 
