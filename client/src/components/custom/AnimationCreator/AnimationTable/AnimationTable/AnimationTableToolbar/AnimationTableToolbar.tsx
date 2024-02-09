@@ -31,7 +31,11 @@ const AnimationTableToolbar = () => {
 	return (
 		<>
 			<CreateDialog open={isCreateDialogOpen} setOpen={setIsCreateDialogOpen} />
-			<DeleteDialog open={isDeleteDialogOpen} setOpen={setIsDeleteDialogOpen} />
+			<DeleteDialog
+				selection={selectedAnimations}
+				open={isDeleteDialogOpen}
+				setOpen={setIsDeleteDialogOpen}
+			/>
 			<GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<div>
 					<Button startIcon={<Add />} onClick={() => setIsCreateDialogOpen(true)}>

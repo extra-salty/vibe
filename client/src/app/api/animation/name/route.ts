@@ -2,26 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AnimationBaseT } from '@/types/animation.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
-export async function HEAD(req: NextRequest) {
+export async function GET(req: NextRequest) {
 	const name = req.nextUrl.searchParams.get('name');
-	console.log('🚀 ~ GET ~ name:', name);
 
 	if (name) {
 		const client = await mongoClientPromise;
 
-		const animations = await client
+		const animation = await client
 			.db(process.env.DB_NAME)
 			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
 			.find({ name: name })
 			.limit(1)
-			.toArray();
+			.next();
 
-		console.log('🚀 ~ GET ~ animations:', animations);
-
-		return new NextResponse(null, {
-			status: animations.length ? 204 : 404,
-			headers: {},
-		});
+		return NextResponse.json({ exist: animation ? true : false });
 	} else {
 		return new NextResponse(null, {
 			status: 422,

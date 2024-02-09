@@ -6,7 +6,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // Animation
 export const createAnimation = createAsyncThunk(
 	'animation/create',
-	async () => await AnimationServiceInstance.createAnimation(),
+	async (args: { duplicateId?: string; data: FormData }) => {
+		await AnimationServiceInstance.createAnimation(args);
+	},
 );
 
 // Animations

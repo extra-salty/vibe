@@ -2,7 +2,7 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import dayjs from 'dayjs';
-import AnimationTableActions from './AnimationTableActions/StaticEffectActions';
+import AnimationTableActions from './AnimationTableActions/AnimationTableActions';
 import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableDragButton';
 
 const useAnimationTableHeader = (): GridColDef[] => {
@@ -128,7 +128,15 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 1,
 			renderHeader: () => null,
-			renderCell: (params) => <AnimationTableActions animationId={params.row._id as string} />,
+			renderCell: (params) => (
+				<AnimationTableActions
+					animation={{
+						_id: params.row._id,
+						name: params.row.name,
+						description: params.row.description,
+					}}
+				/>
+			),
 		},
 	];
 };

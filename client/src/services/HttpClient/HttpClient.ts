@@ -1,4 +1,4 @@
-import { CacheOptions, HttpMethods, MethodConfigT } from './HttpClient.types';
+import { CacheOptions, ContentType, HttpMethods, MethodConfigT } from './HttpClient.types';
 
 export class HttpClient {
 	private baseUrl: string;
@@ -25,7 +25,7 @@ export class HttpClient {
 		return this.request<ResponseType>(HttpMethods.PATCH, methodConfig);
 	}
 
-	head<ResponseType>(methodConfig: MethodConfigT) {
+	head<ResponseType>(methodConfig: Omit<MethodConfigT, 'data'>) {
 		return this.request<ResponseType>(HttpMethods.HEAD, methodConfig);
 	}
 
@@ -35,36 +35,32 @@ export class HttpClient {
 
 	private async request<ResponseType>(
 		method: HttpMethods,
-		{ endpoint, data, params, cache }: MethodConfigT,
+		{ endpoint, body, type, params, cache }: MethodConfigT,
 	): Promise<ResponseType> {
 		const urlParams = params ? `?${new URLSearchParams(params)}` : '';
 		const url = `${this.baseUrl}/${endpoint}${urlParams}`;
-		let result;
+		let result = null;
 
 		try {
-			// if (data && !JSON.parse(data).result) {
-			// 	throw new Error(`Invalid json format within ${this.baseUrl}/${endpoint}`);
-			// }
-
 			const response = await fetch(url, {
 				...this.config,
 				method: method,
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				// headers: {
+				// 	'Content-Type': type || ContentType.JSON,
+				// },
 				cache: cache || CacheOptions.default,
-				body: JSON.stringify(data),
+				body: type === ContentType.JSON ? JSON.stringify(body) : body,
 			});
 
 			if (response.ok) {
-				result = await response.json();
-				// console.log(result);
-			} else {
-				throw new Error(`Error occured during ${this.baseUrl}: ${response.status}`);
+				const contentType = response.headers.get('content-type');
+
+				if (contentType && contentType.indexOf('application/json') !== -1) {
+					result = await response.json();
+				}
 			}
 		} catch (e) {
 			console.error(e);
-			console.log(e);
 		}
 
 		return result;

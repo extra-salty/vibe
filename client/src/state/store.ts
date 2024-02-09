@@ -6,11 +6,11 @@ import appReducer from './features/app/appSlice';
 import storage from 'redux-persist/lib/storage';
 import { createStateSyncMiddleware, initMessageListener } from 'redux-state-sync';
 
-const persistConfig = {
-	key: 'root',
-	storage,
-	blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],
-};
+// const persistConfig = {
+// 	key: 'root',
+// 	storage,
+// 	blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],
+// };
 
 const rootReducer = combineReducers({
 	app: appReducer,
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
 	animationCreator: animationCreatorReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
 	reducer: {

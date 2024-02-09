@@ -25,7 +25,7 @@ class EffectService extends MongoService {
 	updateEffect(effectData: Omit<EffectBaseT, 'dateCreated'>) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: effectData,
+			body: effectData,
 		};
 		return this.patch(methodConfig);
 	}
@@ -33,7 +33,7 @@ class EffectService extends MongoService {
 	deleteEffect(effects: string) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: effects,
+			body: effects,
 		};
 		return this.delete(methodConfig);
 	}

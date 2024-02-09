@@ -8,7 +8,7 @@ class AnimationsService extends MongoService {
 	getAnimations(): Promise<AnimationBaseT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			cache: CacheOptions.noCache,
+			cache: CacheOptions.noStore,
 		};
 		return this.get<AnimationBaseT[]>(methodConfig);
 	}

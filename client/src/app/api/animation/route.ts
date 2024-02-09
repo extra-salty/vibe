@@ -58,35 +58,23 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
-	const animationId = searchParams.get('animationToDuplicate');
+	const duplicateId = searchParams.get('duplicateId');
+	const data = await req.formData();
 
 	const client = await mongoClientPromise;
 	const collection = client.db(process.env.DB_NAME).collection(process.env.ANIMATION_COLLECTION);
 
-	let newAnimation: Omit<AnimationBaseT, '_id'> | undefined = undefined;
-
-	const findAnimationNameSuffix = async (regex: string): Promise<number> => {
-		let isFound = false;
-		let count = 1;
-
-		while (!isFound) {
-			const animation = await collection
-				.find<AnimationBaseT>({
-					name: { $regex: `${regex}${count}`, $options: 'i' },
-				})
-				.limit(1)
-				.next();
-
-			if (animation) count++;
-			else isFound = true;
-		}
-
-		return count;
+	let newAnimation: Omit<AnimationBaseT, '_id'> | undefined = {
+		name: data.get('name') as string,
+		description: data.get('description') as string,
+		dateCreated: new Date(),
+		dateModified: new Date(),
+		effects: [],
 	};
 
-	if (animationId) {
+	if (duplicateId) {
 		const animationToDuplicate = await collection
-			.find<AnimationBaseT>({ _id: new ObjectId(animationId) })
+			.find<AnimationBaseT>({ _id: new ObjectId(duplicateId) })
 			.limit(1)
 			.next();
 
@@ -96,26 +84,7 @@ export async function POST(req: NextRequest) {
 			});
 		}
 
-		const count = await findAnimationNameSuffix(`${animationToDuplicate.name}_Dup`);
-
-		newAnimation = {
-			name: `${animationToDuplicate.name}_Dup${count}`,
-			description: animationToDuplicate.description,
-			effects: animationToDuplicate.effects,
-			dateCreated: new Date(),
-			dateModified: new Date(),
-		};
-	} else {
-		const count = await findAnimationNameSuffix(`newAnimation`);
-
-		console.log('🚀 ~ POST ~ count:', count);
-		newAnimation = {
-			name: `newAnimation${count}`,
-			description: '',
-			dateCreated: new Date(),
-			dateModified: new Date(),
-			effects: [],
-		};
+		newAnimation = { ...newAnimation, effects: animationToDuplicate.effects };
 	}
 
 	const result = await collection.insertOne(newAnimation);

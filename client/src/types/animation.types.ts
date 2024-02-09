@@ -65,3 +65,5 @@ export type StaticEffectTableT = TableT & {
 export type AnimationTableT = TableT & {
 	data: AnimationBaseT[];
 };
+
+export type AnimationCreateT = Pick<AnimationBaseT, '_id' | 'name' | 'description'>;

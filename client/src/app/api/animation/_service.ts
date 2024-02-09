@@ -1,6 +1,9 @@
 import { MongoService } from '@/services/mongodb/MongoService';
-import { MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import { ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+// type AnimationBaseT
 
 class AnimationService extends MongoService {
 	private endpoint: string = 'animation';
@@ -13,19 +16,22 @@ class AnimationService extends MongoService {
 		return this.get<AnimationStateT>(methodConfig);
 	}
 
-	validateAnimationName(name: string): Promise<boolean> {
+	validateAnimationName(name: string): Promise<{ exist: boolean }> {
 		const methodConfig: MethodConfigT = {
 			endpoint: `${this.endpoint}/name`,
 			params: { name },
 			// cache: CacheOptions.noCache,
 		};
-		return this.head<boolean>(methodConfig);
+		return this.get<{ exist: boolean }>(methodConfig);
 	}
 
-	createAnimation(animationToDuplicate?: string) {
+	createAnimation(animation: { duplicateId?: string; data: FormData }) {
+		console.log('🚀 ~ AnimationService ~ createAnimation ~ duplicateId:', animation.duplicateId);
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			...(!!animationToDuplicate && { params: { animationToDuplicate } }),
+			params: { duplicateId: animation.duplicateId },
+			body: animation.data,
+			type: ContentType.FormData,
 		};
 		return this.post(methodConfig);
 	}
@@ -33,7 +39,7 @@ class AnimationService extends MongoService {
 	updateAnimation(animationData: AnimationBaseT) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: animationData,
+			body: animationData,
 		};
 		return this.patch(methodConfig);
 	}

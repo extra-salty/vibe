@@ -16,7 +16,7 @@ class EffectsService extends MongoService {
 	deleteEffects(effects: string[]) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			data: effects,
+			body: effects,
 		};
 		return this.delete(methodConfig);
 	}

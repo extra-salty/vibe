@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useAnimationTable } from '@/state/features/animation/animationSelector';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, memo } from 'react';
 import { deleteAnimations, getAnimations } from '@/state/features/animation/animationApi';
 import { AppDispatch } from '@/state/store';
 import {
@@ -13,18 +12,19 @@ import {
 } from '@mui/material';
 
 const DeleteDialog = ({
+	selection,
 	open,
 	setOpen,
 }: {
+	selection: string[];
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const table = useAnimationTable();
 
 	const handleDeleteEffects = async () => {
 		handleClose();
-		dispatch(deleteAnimations(table.selection));
+		dispatch(deleteAnimations(selection));
 		dispatch(getAnimations());
 	};
 
@@ -34,12 +34,16 @@ const DeleteDialog = ({
 		<Dialog open={open} onClose={handleClose}>
 			<DialogTitle>Animations</DialogTitle>
 			<DialogContent dividers>
-				<DialogContentText>Delete the following animations:</DialogContentText>
-				<ul>
-					{table.selection.map((animation, i) => (
-						<li key={i}>{animation}</li>
-					))}
-				</ul>
+				<DialogContentText>{`Delete the following animation(s):`}</DialogContentText>
+				{selection.length > 1 ? (
+					<ul>
+						{selection.map((animation, i) => (
+							<li key={i}>{animation}</li>
+						))}
+					</ul>
+				) : (
+					<span>{selection[0]}</span>
+				)}
 			</DialogContent>
 			<DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Button autoFocus onClick={handleClose}>
@@ -51,4 +55,4 @@ const DeleteDialog = ({
 	);
 };
 
-export default DeleteDialog;
+export default memo(DeleteDialog);
