@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EffectBaseT, FrameBase } from '@/types/effect.types';
+import { EffectBaseT } from '@/types/effect.types';
 import { ObjectId } from 'mongodb';
-import { Color } from '@/types/color.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -32,71 +31,47 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-	try {
-		const searchParams = req.nextUrl.searchParams;
-		const effectIdToDuplicate = searchParams.get('effectIdToDuplicate');
+	const searchParams = req.nextUrl.searchParams;
+	const duplicateId = searchParams.get('duplicateId');
+	const data = await req.formData();
 
-		const client = await mongoClientPromise;
-		const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
+	const client = await mongoClientPromise;
+	const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
 
-		let newEffect: Omit<EffectBaseT, '_id'> | null = null;
+	let newEffect: Omit<EffectBaseT, '_id'> = {
+		name: data.get('name') as string,
+		description: data.get('description') as string,
+		dateCreated: new Date(),
+		dateModified: new Date(),
+		frames: [],
+	};
 
-		if (!effectIdToDuplicate) {
-			let isFound = false;
-			let count = 1;
+	if (duplicateId) {
+		const effectToDuplicate = await collection
+			.find<EffectBaseT>({ _id: new ObjectId(duplicateId) })
+			.limit(1)
+			.next();
 
-			while (!isFound) {
-				const effects = await collection
-					.find({ name: { $regex: `newEffect${count}`, $options: 'i' } })
-					.limit(1)
-					.toArray();
-
-				if (effects.length) {
-					count++;
-				} else {
-					isFound = true;
-				}
-			}
-
-			newEffect = {
-				name: `newEffect${count}`,
-				description: '',
-				dateCreated: new Date(),
-				dateModified: new Date(),
-				frames: [new FrameBase(1000, new Color(0, 0, 0))],
-			};
-		} else {
-			const temp = await collection.findOne({ _id: new ObjectId(effectIdToDuplicate) });
-
-			if (temp) {
-				newEffect = {
-					name: `${temp.name}_Dup`,
-					description: temp?.description,
-					dateCreated: new Date(),
-					dateModified: new Date(),
-					frames: temp?.frames,
-				};
-			}
+		if (!effectToDuplicate) {
+			return new NextResponse(null, {
+				status: 410,
+			});
 		}
 
-		if (newEffect) {
-			const result = await client
-				.db(process.env.DB_NAME)
-				.collection(process.env.EFFECT_COLLECTION)
-				.insertOne(newEffect);
-
-			if (!result.acknowledged) {
-				throw Error('Failed static effect creation.');
-			}
-		}
-	} catch (e) {
-		console.log(e);
-		console.error(e);
+		newEffect = { ...newEffect, frames: effectToDuplicate.frames };
 	}
 
-	return new NextResponse(null, {
-		status: 200,
-	});
+	const result = await collection.insertOne(newEffect);
+
+	if (result.acknowledged) {
+		return new NextResponse(null, {
+			status: 201,
+		});
+	} else {
+		return new NextResponse(null, {
+			status: 500,
+		});
+	}
 }
 
 export async function PATCH(req: NextRequest) {

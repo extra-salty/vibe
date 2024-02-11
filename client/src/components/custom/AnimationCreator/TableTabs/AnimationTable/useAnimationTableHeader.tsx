@@ -1,9 +1,9 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
-import dayjs from 'dayjs';
-import AnimationTableActions from './AnimationTableActions/AnimationTableActions';
+import TableRowMenu from '../../../TableComps/TableRowMenu/TableRowMenu';
 import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableDragButton';
+import dayjs from 'dayjs';
 
 const useAnimationTableHeader = (): GridColDef[] => {
 	return [
@@ -13,26 +13,24 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			filterable: false,
 			width: 220,
 		},
-		// {
-		// 	field: 'index',
-		// 	headerName: 'Index',
-		// 	align: 'left',
-		// 	type: 'number',
-		// 	headerAlign: 'left',
-		// 	sortable: false,
-		// 	filterable: false,
-		// 	hideable: false,
-		// 	disableColumnMenu: true,
-		// 	width: 1,
-		// 	renderHeader: () => (
-		// 		<Tooltip title='Index'>
-		// 			<Numbers />
-		// 		</Tooltip>
-		// 	),
-		// 	renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
-		// },
-
-		//newly created flag
+		{
+			field: 'index',
+			headerName: 'Index',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			filterable: false,
+			hideable: false,
+			disableColumnMenu: true,
+			width: 1,
+			renderHeader: () => (
+				<Tooltip title='Index'>
+					<Numbers />
+				</Tooltip>
+			),
+			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+		},
 		{
 			field: 'name',
 			headerName: 'Name',
@@ -49,49 +47,49 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			width: 200,
 			sortable: false,
 		},
-		// {
-		// 	field: 'frames',
-		// 	headerName: 'Frames',
-		// 	type: 'number',
-		// 	align: 'left',
-		// 	headerAlign: 'left',
-		// 	filterable: true,
-		// 	sortable: false,
-		// 	width: 70,
-		// 	renderHeader: () => (
-		// 		<Tooltip title='Number of frames'>
-		// 			<Layers />
-		// 		</Tooltip>
-		// 	),
-		// },
-		// {
-		// 	field: 'duration',
-		// 	headerName: 'Duration',
-		// 	type: 'number',
-		// 	align: 'left',
-		// 	headerAlign: 'left',
-		// 	sortable: false,
-		// 	width: 70,
-		// 	renderHeader: () => (
-		// 		<Tooltip title='Duration'>
-		// 			<Timelapse />
-		// 		</Tooltip>
-		// 	),
-		// },
-		// {
-		// 	field: 'power',
-		// 	headerName: 'Power consumption',
-		// 	type: 'number',
-		// 	align: 'left',
-		// 	headerAlign: 'left',
-		// 	sortable: false,
-		// 	width: 70,
-		// 	renderHeader: () => (
-		// 		<Tooltip title='Power consumption'>
-		// 			<Bolt />
-		// 		</Tooltip>
-		// 	),
-		// },
+		{
+			field: 'frames',
+			headerName: 'Frames',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			filterable: true,
+			width: 70,
+			renderHeader: () => (
+				<Tooltip title='Number of frames'>
+					<Layers />
+				</Tooltip>
+			),
+		},
+		{
+			field: 'duration',
+			headerName: 'Duration',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			width: 70,
+			renderHeader: () => (
+				<Tooltip title='Duration'>
+					<Timelapse />
+				</Tooltip>
+			),
+		},
+		{
+			field: 'power',
+			headerName: 'Power consumption',
+			type: 'number',
+			align: 'left',
+			headerAlign: 'left',
+			sortable: false,
+			width: 70,
+			renderHeader: () => (
+				<Tooltip title='Power consumption'>
+					<Bolt />
+				</Tooltip>
+			),
+		},
 		{
 			field: 'dateModified',
 			headerName: 'Date modified',
@@ -129,8 +127,9 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			width: 1,
 			renderHeader: () => null,
 			renderCell: (params) => (
-				<AnimationTableActions
-					animation={{
+				<TableRowMenu
+					type='animation'
+					rowParams={{
 						_id: params.row._id,
 						name: params.row.name,
 						description: params.row.description,

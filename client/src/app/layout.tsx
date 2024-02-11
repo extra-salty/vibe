@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Header from '@/components/custom/PageComps/Header/Header';
-import './_layout.scss';
 import Providers from '@/state/Providers';
+import './_layout.scss';
 
 const roboto = Roboto({
 	weight: ['300', '400', '500', '700'],

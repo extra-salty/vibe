@@ -1,6 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { useAnimationTableSelection } from '@/state/features/animation/animationSelector';
-import { AppDispatch } from '@/state/store';
+import { memo, useState } from 'react';
+import { initialTableState } from '@/state/features/animation/animationSlice';
 import {
 	GridToolbarColumnsButton,
 	GridToolbarContainer,
@@ -8,31 +7,41 @@ import {
 	GridToolbarFilterButton,
 	useGridApiContext,
 } from '@mui/x-data-grid';
-import { initialTableState } from '@/state/features/animation/animationSlice';
-import { Button } from '@mui/material';
 import { Add, Delete, RestartAlt } from '@mui/icons-material';
-import { memo, useState } from 'react';
-import CreateDialog from './CreateDialog/CreateDialog';
-import DeleteDialog from './DeleteDialog/DeleteDialog';
+import { Button } from '@mui/material';
+import CreateDialog from '../CreateDialog/CreateDialog';
+import DeleteDialog from '../DeleteDialog/DeleteDialog';
 
-const AnimationTableToolbar = () => {
+const TableToolbar = ({
+	itemType: type,
+	selection = [],
+}: {
+	itemType: 'staticEffect' | 'animation';
+	selection: string[];
+}) => {
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
 	const apiRef = useGridApiContext();
-	const selectedAnimations = useAnimationTableSelection();
 
-	const handleEffectTableReset = () => {
+	const handleTableReset = () => {
 		apiRef.current.restoreState(initialTableState.state);
 		apiRef.current.setRowSelectionModel(initialTableState.selection);
 		apiRef.current.setColumnVisibilityModel(initialTableState.visibility);
 	};
 
+	// function logMapElements(value, key, map) {
+	// 	console.log(`${key} = ${value}`);
+	// 	console.log(value);
+	// }
+
+	// const asd = apiRef.current.getSelectedRows().forEach(logMapElements);
+
 	return (
 		<>
-			<CreateDialog open={isCreateDialogOpen} setOpen={setIsCreateDialogOpen} />
+			<CreateDialog type={type} open={isCreateDialogOpen} setOpen={setIsCreateDialogOpen} />
 			<DeleteDialog
-				selection={selectedAnimations}
+				selection={selection}
 				open={isDeleteDialogOpen}
 				setOpen={setIsDeleteDialogOpen}
 			/>
@@ -43,7 +52,7 @@ const AnimationTableToolbar = () => {
 					</Button>
 					<Button
 						startIcon={<Delete />}
-						disabled={!selectedAnimations.length}
+						disabled={!selection.length}
 						onClick={() => setIsDeleteDialogOpen(true)}
 					>
 						Delete
@@ -56,7 +65,7 @@ const AnimationTableToolbar = () => {
 					<Button
 						startIcon={<RestartAlt />}
 						// disabled={isResetDisabled}
-						onClick={handleEffectTableReset}
+						onClick={handleTableReset}
 					>
 						Reset
 					</Button>
@@ -66,4 +75,4 @@ const AnimationTableToolbar = () => {
 	);
 };
 
-export default memo(AnimationTableToolbar);
+export default memo(TableToolbar);

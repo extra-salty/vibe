@@ -1,11 +1,18 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import StaticEffectTableActions from './StaticEffectTableActions/StaticEffectTableActions';
+import TableRowMenu from '@/components/custom/TableComps/TableRowMenu/TableRowMenu';
 import dayjs from 'dayjs';
+import StaticEffectTableDragButton from './StaticEffectTableDragButton/StaticEffectTableDragButton';
 
 const useStaticEffectTableHeader = (): GridColDef[] => {
 	return [
+		{
+			field: '_id',
+			headerName: 'ID',
+			filterable: false,
+			width: 220,
+		},
 		{
 			field: 'index',
 			headerName: 'Index',
@@ -22,14 +29,7 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 					<Numbers />
 				</Tooltip>
 			),
-			// renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
-			renderCell: (params) => 1,
-		},
-		{
-			field: '_id',
-			headerName: 'ID',
-			filterable: false,
-			width: 220,
+			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
 		},
 		{
 			field: 'name',
@@ -53,8 +53,8 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			type: 'number',
 			align: 'left',
 			headerAlign: 'left',
-			filterable: true,
 			sortable: false,
+			filterable: true,
 			width: 70,
 			renderHeader: () => (
 				<Tooltip title='Number of frames'>
@@ -111,6 +111,12 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			filterable: false,
 			disableColumnMenu: true,
 			width: 60,
+			renderCell: (params: GridRenderCellParams<any, string>) => (
+				<StaticEffectTableDragButton effectName={params.row.name} />
+				// <Tooltip title={params.row.description}>
+				// 	<div>Asd</div>
+				// </Tooltip>
+			),
 		},
 		{
 			field: 'actions',
@@ -120,7 +126,16 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 1,
 			renderHeader: () => null,
-			renderCell: () => <StaticEffectTableActions />,
+			renderCell: (params) => (
+				<TableRowMenu
+					type='staticEffect'
+					rowParams={{
+						_id: params.row._id,
+						name: params.row.name,
+						description: params.row.description,
+					}}
+				/>
+			),
 		},
 	];
 };

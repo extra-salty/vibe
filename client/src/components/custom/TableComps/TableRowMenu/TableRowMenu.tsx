@@ -1,16 +1,18 @@
 import { memo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useAnimationTableSelection } from '@/state/features/animation/animationSelector';
-import { selectAnimation } from '@/state/features/animation/animationSlice';
-import { IconButton, Menu } from '@mui/material';
 import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-material';
-import { EffectsServiceInstance } from '@/app/api/effects/_service';
-import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
-import DeleteDialog from '../AnimationTableToolbar/DeleteDialog/DeleteDialog';
-import CreateDialog from '../AnimationTableToolbar/CreateDialog/CreateDialog';
 import { AnimationCreateT } from '@/types/animation.types';
+import { IconButton, Menu } from '@mui/material';
+import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
+import CreateDialog from '../CreateDialog/CreateDialog';
+import DeleteDialog from '../DeleteDialog/DeleteDialog';
 
-const AnimationTableActions = ({ animation }: { animation: AnimationCreateT }) => {
+const TableRowMenu = ({
+	type,
+	rowParams,
+}: {
+	type: 'staticEffect' | 'animation';
+	rowParams: AnimationCreateT;
+}) => {
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
@@ -20,7 +22,7 @@ const AnimationTableActions = ({ animation }: { animation: AnimationCreateT }) =
 	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
-	const effectActions: MenuItemProps[] = [
+	const actions: MenuItemProps[] = [
 		{
 			icon: <Edit />,
 			label: 'Edit',
@@ -41,7 +43,8 @@ const AnimationTableActions = ({ animation }: { animation: AnimationCreateT }) =
 	return (
 		<>
 			<CreateDialog
-				animation={animation}
+				type={type}
+				rowParams={rowParams}
 				open={isCreateDialogOpen}
 				setOpen={setIsCreateDialogOpen}
 			/>
@@ -65,7 +68,7 @@ const AnimationTableActions = ({ animation }: { animation: AnimationCreateT }) =
 						'aria-labelledby': 'frame-menu-button',
 					}}
 				>
-					{effectActions.map((actionProps, i) => (
+					{actions.map((actionProps, i) => (
 						<UIMenuItem key={i} {...actionProps} onClose={handleClose} />
 					))}
 				</Menu>
@@ -74,4 +77,4 @@ const AnimationTableActions = ({ animation }: { animation: AnimationCreateT }) =
 	);
 };
 
-export default memo(AnimationTableActions);
+export default memo(TableRowMenu);

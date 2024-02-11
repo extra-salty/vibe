@@ -1,4 +1,4 @@
-import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import { CacheOptions, ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { MongoService } from '@/services/mongodb/MongoService';
 import { EffectBaseT, EffectStateT } from '@/types/effect.types';
 
@@ -14,10 +14,21 @@ class EffectService extends MongoService {
 		return this.get<EffectStateT>(methodConfig);
 	}
 
-	createEffect(effectIdToDuplicate?: string) {
+	validateEffectName(name: string): Promise<{ exist: boolean }> {
+		const methodConfig: MethodConfigT = {
+			endpoint: `${this.endpoint}/name`,
+			params: { name },
+			// cache: CacheOptions.noCache,
+		};
+		return this.get<{ exist: boolean }>(methodConfig);
+	}
+
+	createEffect(effect: { duplicateId?: string; data: FormData }) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			params: { effectIdToDuplicate },
+			...(effect.duplicateId && { params: { duplicateId: effect.duplicateId } }),
+			body: effect.data,
+			type: ContentType.FormData,
 		};
 		return this.post(methodConfig);
 	}

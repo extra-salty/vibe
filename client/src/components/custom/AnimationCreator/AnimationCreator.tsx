@@ -23,8 +23,8 @@ const AnimationCreator = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
-	dispatch(getEffects());
-	dispatch(getAnimations());
+	// dispatch(getEffects());
+	// dispatch(getAnimations());
 
 	return (
 		<div className={styles.animationCreator}>
@@ -38,7 +38,7 @@ const AnimationCreator = () => {
 				collisionDetection={rectIntersection}
 			>
 				<TableTabs />
-				<AnimationPlaylist />
+				{/* <AnimationPlaylist /> */}
 				{/* <div className={styles.column}><FramePlayer /></div> */}
 				<DragOverlaySelector dragEvent={activeDragEvent} />
 			</DndContext>
@@ -47,51 +47,3 @@ const AnimationCreator = () => {
 };
 
 export default AnimationCreator;
-
-// interface TabPanelProps {
-// 	children?: React.ReactNode;
-// 	index: number;
-// 	value: number;
-// }
-
-// const [value, setValue] = useState<number>(0);
-
-// function a11yProps(index: number) {
-//   return {
-//     id: `simple-tab-${index}`,
-//     'aria-controls': `simple-tabpanel-${index}`,
-//   };
-// }
-
-// function CustomTabPanel({ children, value, index }: TabPanelProps) {
-//   return (
-//     <div
-//       role='tabpanel'
-//       style={{
-//         // zIndex: `${index + 1}`,
-//         height: '500px',
-//       }}
-//       // display: value != index ? 'none' : 'block'
-//       hidden={value != index}
-//       id={`simple-tabpanel-${index}`}
-//       aria-labelledby={`simple-tab-${index}`}
-//     >
-//       {children}
-//     </div>
-//   );
-// }
-
-{
-	/* <div>
-<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-  <Tab label='Animations' {...a11yProps(0)} />
-  <Tab label='Static Effects' {...a11yProps(1)} />
-</Tabs>
-<CustomTabPanel value={value} index={0}>
-  <AnimationTable initialAnimations={animations} />
-</CustomTabPanel>
-<CustomTabPanel value={value} index={1}>
-  <EffectTable initialEffects={effects} />
-</CustomTabPanel>
-</div> */
-}

@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 	const client = await mongoClientPromise;
 	const collection = client.db(process.env.DB_NAME).collection(process.env.ANIMATION_COLLECTION);
 
-	let newAnimation: Omit<AnimationBaseT, '_id'> | undefined = {
+	let newAnimation: Omit<AnimationBaseT, '_id'> = {
 		name: data.get('name') as string,
 		description: data.get('description') as string,
 		dateCreated: new Date(),

@@ -1,11 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import AppT from './appSlice.types';
+import { AppT } from './appSlice.types';
 
 const initialState: AppT = {
 	isModalOpen: false,
-	// actionsState: {
-	// 	[Actions.reset]: false,
-	// },
 };
 
 export const App = createSlice({

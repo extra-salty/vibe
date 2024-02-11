@@ -51,7 +51,7 @@ const initialState: {
 	},
 };
 
-export const effectCreator = createSlice({
+export const effectCreatorSlice = createSlice({
 	name: 'effectCreator',
 	initialState,
 	reducers: {
@@ -201,6 +201,4 @@ export const {
 	addtoUndo,
 	applyUndo,
 	applyRedo,
-} = effectCreator.actions;
-
-export default effectCreator.reducer;
+} = effectCreatorSlice.actions;

@@ -2,15 +2,11 @@
 import useStaticEffectTableHeader from './useStaticEffectTableHeader';
 import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
+import { animationActions } from '@/state/features/animation/animationSlice';
 import { memo } from 'react';
-import { DataGrid, GridRowId } from '@mui/x-data-grid';
 import { GridStateT } from '@/types/animation.types';
-import {
-	setStaticEffectTableSelection,
-	setStaticEffectTableState,
-	setStaticEffectTableVisibility,
-} from '@/state/features/animation/animationSlice';
-import StaticEffectTableToolbar from './StaticEffectTableToolbar/StaticEffectTableToolbar';
+import { DataGrid, GridRowId } from '@mui/x-data-grid';
+import TableToolbar from '@/components/custom/TableComps/TableToolbar/TableToolbar';
 
 const StaticEffectTable = () => {
 	const dispatch = useDispatch();
@@ -24,9 +20,10 @@ const StaticEffectTable = () => {
 			rows={table.data}
 			loading={table.loading}
 			getRowId={(row) => row._id}
-			slots={{ toolbar: StaticEffectTableToolbar }}
+			slots={{ toolbar: TableToolbar }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
+				toolbar: { itemType: 'staticEffect', selection: [] },
 			}}
 			//
 			density='compact'
@@ -37,14 +34,18 @@ const StaticEffectTable = () => {
 			columnVisibilityModel={table.visibility}
 			onColumnVisibilityModelChange={(columnVisibilityModel) => {
 				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
-					dispatch(setStaticEffectTableVisibility(columnVisibilityModel));
+					dispatch(animationActions.setStaticEffectTableVisibility(columnVisibilityModel));
 				}
 			}}
 			//
 			rowSelectionModel={table.selection}
 			onRowSelectionModelChange={(selection) => {
 				if (JSON.stringify(table.selection) != JSON.stringify(selection)) {
-					dispatch(setStaticEffectTableSelection(selection.map((id: GridRowId) => id as string)));
+					dispatch(
+						animationActions.setStaticEffectTableSelection(
+							selection.map((id: GridRowId) => id as string),
+						),
+					);
 				}
 			}}
 			//
@@ -56,7 +57,7 @@ const StaticEffectTable = () => {
 				};
 
 				if (JSON.stringify(table.state) != JSON.stringify(state)) {
-					dispatch(setStaticEffectTableState(state));
+					dispatch(animationActions.setStaticEffectTableState(state));
 				}
 			}}
 		/>

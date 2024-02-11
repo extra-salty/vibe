@@ -1,7 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { DndElements } from '@/types/misc.types';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { DragHandle } from '@mui/icons-material';
 
 const StaticEffectTableDragButton = ({ effectName }: { effectName: string }) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
@@ -11,7 +10,7 @@ const StaticEffectTableDragButton = ({ effectName }: { effectName: string }) => 
 
 	return (
 		<button ref={setNodeRef} {...attributes} {...listeners} className='bg-transparent'>
-			<UIIcon name={Icons.drag} />
+			<DragHandle />
 		</button>
 	);
 };

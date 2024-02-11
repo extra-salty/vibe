@@ -1,20 +1,11 @@
-'use client';
 import useAnimationTableHeader from './useAnimationTableHeader';
-import { useDispatch } from 'react-redux';
-import { DataGrid, GridRowCount, GridRowId } from '@mui/x-data-grid';
 import { useAnimationTable } from '@/state/features/animation/animationSelector';
+import { useDispatch } from 'react-redux';
+import { animationActions } from '@/state/features/animation/animationSlice';
 import { memo } from 'react';
-import {
-	setAnimationTableSelection,
-	setAnimationTableState,
-	setAnimationTableVisibility,
-} from '@/state/features/animation/animationSlice';
+import { DataGrid, GridRowCount, GridRowId } from '@mui/x-data-grid';
 import { GridStateT } from '@/types/animation.types';
-import AnimationTableToolbar from './AnimationTableToolbar/AnimationTableToolbar';
-
-const rowCOunt = () => {
-	return <div>Asd</div>;
-};
+import TableToolbar from '../../../TableComps/TableToolbar/TableToolbar';
 
 const AnimationTable = () => {
 	const dispatch = useDispatch();
@@ -28,9 +19,10 @@ const AnimationTable = () => {
 			rows={table.data}
 			loading={table.loading}
 			getRowId={(row) => row._id}
-			slots={{ toolbar: AnimationTableToolbar, footerRowCount: rowCOunt }}
+			slots={{ toolbar: TableToolbar, footerRowCount: rowCOunt }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
+				toolbar: { itemType: 'animation', selection: [] },
 			}}
 			// rowCount={10}
 			//
@@ -42,14 +34,18 @@ const AnimationTable = () => {
 			columnVisibilityModel={table.visibility}
 			onColumnVisibilityModelChange={(columnVisibilityModel) => {
 				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
-					dispatch(setAnimationTableVisibility(columnVisibilityModel));
+					dispatch(animationActions.setAnimationTableVisibility(columnVisibilityModel));
 				}
 			}}
 			//
 			rowSelectionModel={table.selection}
 			onRowSelectionModelChange={(selection) => {
 				if (JSON.stringify(table.selection) != JSON.stringify(selection)) {
-					dispatch(setAnimationTableSelection(selection.map((id: GridRowId) => id as string)));
+					dispatch(
+						animationActions.setAnimationTableSelection(
+							selection.map((id: GridRowId) => id as string),
+						),
+					);
 				}
 			}}
 			//
@@ -61,7 +57,7 @@ const AnimationTable = () => {
 				};
 
 				if (JSON.stringify(table.state) != JSON.stringify(state)) {
-					dispatch(setAnimationTableState(state));
+					dispatch(animationActions.setAnimationTableState(state));
 				}
 			}}
 		/>
@@ -69,3 +65,7 @@ const AnimationTable = () => {
 };
 
 export default memo(AnimationTable);
+
+const rowCOunt = () => {
+	return <div>Asd</div>;
+};

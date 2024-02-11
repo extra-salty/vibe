@@ -1,9 +1,6 @@
 import { MongoService } from '@/services/mongodb/MongoService';
 import { ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
 import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-// type AnimationBaseT
 
 class AnimationService extends MongoService {
 	private endpoint: string = 'animation';
@@ -26,10 +23,9 @@ class AnimationService extends MongoService {
 	}
 
 	createAnimation(animation: { duplicateId?: string; data: FormData }) {
-		console.log('🚀 ~ AnimationService ~ createAnimation ~ duplicateId:', animation.duplicateId);
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			params: { duplicateId: animation.duplicateId },
+			...(animation.duplicateId && { params: { duplicateId: animation.duplicateId } }),
 			body: animation.data,
 			type: ContentType.FormData,
 		};

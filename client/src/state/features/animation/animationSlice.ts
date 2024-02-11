@@ -38,7 +38,7 @@ const initialState: {
 	animationPlaylist: { expanded: [], selected: [], data: [] },
 };
 
-export const animationCreator = createSlice({
+export const animationCreatorSlice = createSlice({
 	name: 'animationCreator',
 	initialState,
 	extraReducers: (builder) => {
@@ -185,15 +185,9 @@ export const animationCreator = createSlice({
 	},
 });
 
+export const animationActions = animationCreatorSlice.actions;
+
 export const {
-	// Animation - Table
-	setAnimationTableState,
-	setAnimationTableSelection,
-	setAnimationTableVisibility,
-	// Static Effect - Table
-	setStaticEffectTableState,
-	setStaticEffectTableSelection,
-	setStaticEffectTableVisibility,
 	// Animations - Playlist
 	setAnimationPlaylistSelection,
 	setAnimationPlaylistExpansion,
@@ -205,6 +199,4 @@ export const {
 	addEffect,
 	moveEffect,
 	// removeEffect,
-} = animationCreator.actions;
-
-export default animationCreator.reducer;
+} = animationCreatorSlice.actions;
