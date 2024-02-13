@@ -1,4 +1,5 @@
-import { useAnimations } from '@/state/features/animation/animationSelector';
+import { usePlaylist } from '@/state/features/animation/animationSelector';
+import { useDispatch } from 'react-redux';
 import { memo } from 'react';
 import {
 	setAnimationPlaylistExpansion,
@@ -9,12 +10,12 @@ import { ChevronRightOutlined, ExpandMoreOutlined } from '@mui/icons-material';
 import { TreeView } from '@mui/x-tree-view';
 import AnimationListItem from './AnimationListItem/AnimationListItem';
 import styles from './AnimationList.module.scss';
-import { useDispatch } from 'react-redux';
 
 const AnimationList = () => {
 	const dispatch = useDispatch();
-	const animations = useAnimations();
-	const items = animations.data.map((animation, i) => `${animation.name}/${i}`);
+
+	const playlist = usePlaylist();
+	const items = playlist.data.map((animation, i) => `${animation.name}/${i}`);
 
 	const handleExpansion = (_: React.SyntheticEvent, nodeIds: string[]) => {
 		console.log('expand', nodeIds);
@@ -32,14 +33,14 @@ const AnimationList = () => {
 			defaultCollapseIcon={<ExpandMoreOutlined />}
 			defaultExpandIcon={<ChevronRightOutlined />}
 			multiSelect
-			selected={animations.selected}
-			expanded={animations.expanded}
+			selected={playlist.selection}
+			expanded={playlist.expanded}
 			onNodeToggle={handleExpansion}
 			onNodeSelect={handleSelection}
 		>
 			<SortableContext items={items} strategy={verticalListSortingStrategy}>
-				{animations.data.map((animation, i) => {
-					return <AnimationListItem key={i} index={i} animation={animation} />;
+				{playlist.data.map((_, i) => {
+					return <AnimationListItem key={i} index={i} />;
 				})}
 			</SortableContext>
 		</TreeView>

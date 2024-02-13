@@ -1,55 +1,58 @@
 import { useDispatch } from 'react-redux';
-import { Dispatch, SetStateAction, memo } from 'react';
+import { useGridApiContext } from '@mui/x-data-grid';
 import { deleteAnimations, getAnimations } from '@/state/features/animation/animationApi';
+import { Dispatch, SetStateAction, memo, useState } from 'react';
 import { AppDispatch } from '@/state/store';
-import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import DeleteTable from './DeleteTable/DeleteTable';
 
 const DeleteDialog = ({
-	selection,
+	type,
+	id,
 	open,
 	setOpen,
 }: {
-	selection: string[];
+	type: 'staticEffect' | 'animation';
+	id?: string;
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
+	const apiRef = useGridApiContext();
+
+	// if (id) {
+	// 	const ids = [id];
+	// } else {
+	const rows = apiRef.current.getSelectedRows();
+	const data = Array.from(rows.values());
+	const ids = data.map((row) => row._id);
+	// }
+
+	const [selection, setSelection] = useState<string[]>(ids);
+
+	const typeText = type === 'animation' ? 'animation(s)' : 'static effect(s)';
 
 	const handleDeleteEffects = async () => {
 		handleClose();
-		dispatch(deleteAnimations(selection));
-		dispatch(getAnimations());
+		await dispatch(deleteAnimations(selection));
+		await dispatch(getAnimations());
 	};
 
 	const handleClose = () => setOpen(false);
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>Animations</DialogTitle>
+			<DialogTitle>Delete the following {typeText}:</DialogTitle>
 			<DialogContent dividers>
-				<DialogContentText>{`Delete the following animation(s):`}</DialogContentText>
-				{selection.length > 1 ? (
-					<ul>
-						{selection.map((animation, i) => (
-							<li key={i}>{animation}</li>
-						))}
-					</ul>
-				) : (
-					<span>{selection[0]}</span>
-				)}
+				<DeleteTable data={data} selection={selection} setSelection={setSelection} />
 			</DialogContent>
 			<DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Button autoFocus onClick={handleClose}>
 					Cancel
 				</Button>
-				<Button onClick={handleDeleteEffects}>Accept</Button>
+				<Button disabled={!selection.length} onClick={handleDeleteEffects}>
+					Accept
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

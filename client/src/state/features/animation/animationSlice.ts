@@ -1,4 +1,5 @@
 import {
+	AnimationBaseT,
 	AnimationEffectStateT,
 	AnimationStateT,
 	AnimationTableT,
@@ -9,7 +10,14 @@ import {
 import { CoordinateT } from '@/types/misc.types';
 import { GridColumnVisibilityModel, GridLogicOperator } from '@mui/x-data-grid';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createAnimation, deleteAnimations, getAnimations, getEffects } from './animationApi';
+import {
+	createAnimation,
+	deleteAnimations,
+	getAnimation,
+	getAnimations,
+	getEffects,
+} from './animationApi';
+import { EffectTableT } from '@/types/effect.types';
 
 export const initialTableState: TableT = {
 	loading: false,
@@ -31,11 +39,16 @@ export const initialTableState: TableT = {
 const initialState: {
 	animationTable: AnimationTableT;
 	staticEffectTable: StaticEffectTableT;
-	animationPlaylist: { expanded: string[]; selected: string[]; data: AnimationStateT[] };
+	playlist: {
+		loading: boolean;
+		expanded: string[];
+		selection: string[];
+		data: AnimationStateT[];
+	};
 } = {
 	animationTable: { ...initialTableState, data: [] },
 	staticEffectTable: { ...initialTableState, data: [] },
-	animationPlaylist: { expanded: [], selected: [], data: [] },
+	playlist: { loading: false, expanded: [], selection: [], data: [] },
 };
 
 export const animationCreatorSlice = createSlice({
@@ -76,78 +89,123 @@ export const animationCreatorSlice = createSlice({
 				state.staticEffectTable.data = action.payload;
 				state.staticEffectTable.loading = false;
 			});
+		// Get Animation
+		builder
+			.addCase(getAnimation.pending, (state) => {
+				state.staticEffectTable.loading = true;
+			})
+			.addCase(
+				getAnimation.fulfilled,
+				(
+					state,
+					action: PayloadAction<{ animation: AnimationStateT; index?: number }>,
+				) => {
+					const { animation, index } = action.payload;
+
+					if (animation) {
+						if (index) {
+							state.playlist.data.splice(index, 0, animation);
+						} else {
+							state.playlist.data.push(animation);
+						}
+					}
+					state.staticEffectTable.loading = false;
+				},
+			);
 	},
 	reducers: {
 		// Animation - Table
+		setAnimationTableData: (state, action: PayloadAction<AnimationBaseT[]>) => {
+			state.animationTable.data = action.payload || [];
+		},
 		setAnimationTableState: (state, action: PayloadAction<GridStateT>) => {
 			state.animationTable.state = action.payload;
 		},
 		setAnimationTableSelection: (state, action: PayloadAction<string[]>) => {
 			state.animationTable.selection = action.payload;
 		},
-		setAnimationTableVisibility: (state, action: PayloadAction<GridColumnVisibilityModel>) => {
+		setAnimationTableVisibility: (
+			state,
+			action: PayloadAction<GridColumnVisibilityModel>,
+		) => {
 			state.animationTable.visibility = action.payload;
 		},
 
 		// Static Effect - Table
+		setStaticEffectTableData: (state, action: PayloadAction<EffectTableT[]>) => {
+			state.staticEffectTable.data = action.payload || [];
+		},
 		setStaticEffectTableState: (state, action: PayloadAction<GridStateT>) => {
 			state.staticEffectTable.state = action.payload;
 		},
 		setStaticEffectTableSelection: (state, action: PayloadAction<string[]>) => {
 			state.staticEffectTable.selection = action.payload;
 		},
-		setStaticEffectTableVisibility: (state, action: PayloadAction<GridColumnVisibilityModel>) => {
+		setStaticEffectTableVisibility: (
+			state,
+			action: PayloadAction<GridColumnVisibilityModel>,
+		) => {
 			state.staticEffectTable.visibility = action.payload;
 		},
 
 		// Animations - Playlist
 		setAnimationPlaylistExpansion: (state, action: PayloadAction<string[]>) => {
-			state.animationPlaylist.expanded = action.payload;
+			state.playlist.expanded = action.payload;
 		},
 		setAnimationPlaylistSelection: (state, action: PayloadAction<string[]>) => {
-			state.animationPlaylist.selected = action.payload;
+			state.playlist.selection = action.payload;
 		},
 
 		// Animations - List
-		selectAnimation: (
-			state,
-			action: PayloadAction<{ selectedAnimation: AnimationStateT; index?: number }>,
-		) => {
-			const { selectedAnimation, index } = action.payload;
-			const newIndex = index != undefined ? index + 1 : state.animationPlaylist.data.length;
-			const includes = state.animationPlaylist.data.find(
-				(animation) => animation.name === selectedAnimation.name,
-			);
+		// selectAnimation: (
+		// 	state,
+		// 	action: PayloadAction<{ selectedAnimation: AnimationStateT; index?: number }>,
+		// ) => {
+		// 	const { selectedAnimation, index } = action.payload;
+		// 	const newIndex =
+		// 		index != undefined ? index + 1 : state.animationPlaylist.data.length;
+		// 	const includes = state.animationPlaylist.data.find(
+		// 		(animation) => animation.name === selectedAnimation.name,
+		// 	);
 
-			if (!includes) {
-				state.animationPlaylist.data.splice(newIndex, 0, selectedAnimation);
-			}
+		// 	if (!includes) {
+		// 		state.animationPlaylist.data.splice(newIndex, 0, selectedAnimation);
+		// 	}
+		// },
+		resetPlaylist: (state) => {
+			state.playlist.data = [];
 		},
-		moveAnimation: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
+		moveAnimation: (
+			state,
+			action: PayloadAction<{ startIndex: number; endIndex: number }>,
+		) => {
 			const { startIndex, endIndex } = action.payload;
-			const temp = state.animationPlaylist.data[startIndex];
+			const temp = state.playlist.data[startIndex];
 
-			state.animationPlaylist.data[startIndex] = state.animationPlaylist.data[endIndex];
-			state.animationPlaylist.data[endIndex] = temp;
+			state.playlist.data[startIndex] = state.playlist.data[endIndex];
+			state.playlist.data[endIndex] = temp;
 		},
 		overAnimation: (
 			state,
 			action: PayloadAction<{ selectedAnimation: AnimationStateT; index: number }>,
 		) => {
 			const { index, selectedAnimation } = action.payload;
-			const includes = state.animationPlaylist.data.find(
+			const includes = state.playlist.data.find(
 				(animation) => animation.name === selectedAnimation.name,
 			);
 
 			if (!includes) {
-				state.animationPlaylist.data.splice(index, 0, selectedAnimation);
+				state.playlist.data.splice(index, 0, selectedAnimation);
 			}
 		},
 
 		// Effects - List
 		addEffect: (
 			state,
-			action: PayloadAction<{ animationEffect: AnimationEffectStateT; coordinate: CoordinateT }>,
+			action: PayloadAction<{
+				animationEffect: AnimationEffectStateT;
+				coordinate: CoordinateT;
+			}>,
 		) => {
 			const {
 				animationEffect,
@@ -155,9 +213,9 @@ export const animationCreatorSlice = createSlice({
 			} = action.payload;
 
 			if (y) {
-				state.animationPlaylist.data[x].effects.splice(y, 0, animationEffect);
+				state.playlist.data[x].effects.splice(y, 0, animationEffect);
 			} else {
-				state.animationPlaylist.data[x].effects.push(animationEffect);
+				state.playlist.data[x].effects.push(animationEffect);
 			}
 		},
 		moveEffect: (
@@ -165,17 +223,17 @@ export const animationCreatorSlice = createSlice({
 			action: PayloadAction<{ startCoordinate: CoordinateT; endCoordinate: CoordinateT }>,
 		) => {
 			const { startCoordinate: start, endCoordinate: end } = action.payload;
-			const effect = state.animationPlaylist.data[start.x].effects[start.y];
+			const effect = state.playlist.data[start.x].effects[start.y];
 
 			if (start.x === end.x) {
-				const temp = state.animationPlaylist.data[end.x].effects[end.y];
+				const temp = state.playlist.data[end.x].effects[end.y];
 
-				state.animationPlaylist.data[end.x].effects[end.y] = effect;
-				state.animationPlaylist.data[start.x].effects[start.y] = temp;
+				state.playlist.data[end.x].effects[end.y] = effect;
+				state.playlist.data[start.x].effects[start.y] = temp;
 			} else {
-				state.animationPlaylist.data[start.x].effects.splice(start.y, 1);
+				state.playlist.data[start.x].effects.splice(start.y, 1);
 
-				state.animationPlaylist.data[end.x].effects.splice(end.y, 0, effect);
+				state.playlist.data[end.x].effects.splice(end.y, 0, effect);
 				// if (state.selectedAnimationsDetails[end.x]?.effects) {
 				// } else {
 				// 	state.selectedAnimationsDetails[end.x].effects.push(effect);
@@ -192,7 +250,6 @@ export const {
 	setAnimationPlaylistSelection,
 	setAnimationPlaylistExpansion,
 	// Animations - List
-	selectAnimation,
 	moveAnimation,
 	overAnimation,
 	// Effect - List

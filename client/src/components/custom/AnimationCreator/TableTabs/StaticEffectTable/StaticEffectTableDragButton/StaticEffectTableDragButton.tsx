@@ -1,6 +1,7 @@
 import { useDraggable } from '@dnd-kit/core';
 import { DndElements } from '@/types/misc.types';
 import { DragHandle } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 
 const StaticEffectTableDragButton = ({ effectName }: { effectName: string }) => {
 	const { attributes, listeners, setNodeRef } = useDraggable({
@@ -9,9 +10,9 @@ const StaticEffectTableDragButton = ({ effectName }: { effectName: string }) => 
 	});
 
 	return (
-		<button ref={setNodeRef} {...attributes} {...listeners} className='bg-transparent'>
+		<IconButton ref={setNodeRef} {...attributes} {...listeners}>
 			<DragHandle />
-		</button>
+		</IconButton>
 	);
 };
 

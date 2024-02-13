@@ -13,11 +13,13 @@ import CreateDialog from '../CreateDialog/CreateDialog';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 
 const TableToolbar = ({
-	itemType: type,
-	selection = [],
+	type,
+	isDeleteDisabled,
+	isResetDisabled,
 }: {
-	itemType: 'staticEffect' | 'animation';
-	selection: string[];
+	type: 'staticEffect' | 'animation';
+	isDeleteDisabled: boolean;
+	isResetDisabled: boolean;
 }) => {
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
@@ -30,21 +32,10 @@ const TableToolbar = ({
 		apiRef.current.setColumnVisibilityModel(initialTableState.visibility);
 	};
 
-	// function logMapElements(value, key, map) {
-	// 	console.log(`${key} = ${value}`);
-	// 	console.log(value);
-	// }
-
-	// const asd = apiRef.current.getSelectedRows().forEach(logMapElements);
-
 	return (
 		<>
 			<CreateDialog type={type} open={isCreateDialogOpen} setOpen={setIsCreateDialogOpen} />
-			<DeleteDialog
-				selection={selection}
-				open={isDeleteDialogOpen}
-				setOpen={setIsDeleteDialogOpen}
-			/>
+			<DeleteDialog type={type} open={isDeleteDialogOpen} setOpen={setIsDeleteDialogOpen} />
 			<GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<div>
 					<Button startIcon={<Add />} onClick={() => setIsCreateDialogOpen(true)}>
@@ -52,7 +43,7 @@ const TableToolbar = ({
 					</Button>
 					<Button
 						startIcon={<Delete />}
-						disabled={!selection.length}
+						disabled={isDeleteDisabled}
 						onClick={() => setIsDeleteDialogOpen(true)}
 					>
 						Delete
@@ -62,11 +53,7 @@ const TableToolbar = ({
 					<GridToolbarColumnsButton />
 					<GridToolbarFilterButton />
 					<GridToolbarDensitySelector />
-					<Button
-						startIcon={<RestartAlt />}
-						// disabled={isResetDisabled}
-						onClick={handleTableReset}
-					>
+					<Button startIcon={<RestartAlt />} disabled={isResetDisabled} onClick={handleTableReset}>
 						Reset
 					</Button>
 				</div>

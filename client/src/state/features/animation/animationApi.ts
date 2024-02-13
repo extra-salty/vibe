@@ -37,3 +37,12 @@ export const deleteEffects = createAsyncThunk(
 	'animations/delete',
 	async (ids: string[]) => await EffectsServiceInstance.deleteEffects(ids),
 );
+
+// Playlist
+export const getAnimation = createAsyncThunk(
+	'animation/get',
+	async (args: { id: string; index?: number }) => {
+		const animation = await AnimationServiceInstance.getAnimation(args.id);
+		return { animation, index: args.index };
+	},
+);

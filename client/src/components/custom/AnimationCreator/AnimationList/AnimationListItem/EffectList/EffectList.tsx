@@ -27,7 +27,13 @@ const EffectList = ({
 			<SortableContext items={items} strategy={verticalListSortingStrategy}>
 				{effects.map((effect, i) => {
 					return (
-						<EffectListItem key={i} index={i} animationIndex={animationIndex} effect={effect} />
+						// <div key={i}>{i}</div>
+						<EffectListItem
+							key={i}
+							index={i}
+							animationIndex={animationIndex}
+							effect={effect}
+						/>
 					);
 				})}
 			</SortableContext>

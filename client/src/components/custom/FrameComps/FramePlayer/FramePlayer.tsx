@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAnimations } from '@/state/features/animation/animationSelector';
+import { usePlaylist } from '@/state/features/animation/animationSelector';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
@@ -9,7 +9,7 @@ import { ColorT } from '@/types/color.types';
 import { DEFAULT_COLOR } from '@/types/effect.types';
 
 const FramePlayer = ({}: {}) => {
-	const animations = useAnimations();
+	const animations = usePlaylist();
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
 	const [frameData, setFrameData] = useState<ColorT[][]>(
 		Array(24).fill(Array(12).fill(DEFAULT_COLOR)),

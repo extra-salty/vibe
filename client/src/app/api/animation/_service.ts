@@ -5,10 +5,10 @@ import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
 class AnimationService extends MongoService {
 	private endpoint: string = 'animation';
 
-	getAnimation(name: string): Promise<AnimationStateT> {
+	getAnimation(id: string): Promise<AnimationStateT> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
-			params: { name },
+			params: { id },
 		};
 		return this.get<AnimationStateT>(methodConfig);
 	}

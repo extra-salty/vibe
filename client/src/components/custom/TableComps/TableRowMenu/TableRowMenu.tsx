@@ -1,3 +1,6 @@
+import { useDispatch } from 'react-redux';
+import { getAnimation } from '@/state/features/animation/animationApi';
+import { AppDispatch } from '@/state/store';
 import { memo, useState } from 'react';
 import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-material';
 import { AnimationCreateT } from '@/types/animation.types';
@@ -13,20 +16,22 @@ const TableRowMenu = ({
 	type: 'staticEffect' | 'animation';
 	rowParams: AnimationCreateT;
 }) => {
+	const dispatch = useDispatch<AppDispatch>();
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const isOpen = Boolean(anchorEl);
 
-	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+	const handleOpen = (event: React.MouseEvent<HTMLElement>) =>
+		setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
 	const actions: MenuItemProps[] = [
 		{
 			icon: <Edit />,
-			label: 'Edit',
-			onClick: () => {},
+			label: 'Select',
+			onClick: () => dispatch(getAnimation({ id: rowParams._id })),
 		},
 		{
 			icon: <ContentCopyOutlined />,
@@ -48,7 +53,12 @@ const TableRowMenu = ({
 				open={isCreateDialogOpen}
 				setOpen={setIsCreateDialogOpen}
 			/>
-			{/* <DeleteDialog selection={[id]} open={isDeleteDialogOpen} setOpen={setIsDeleteDialogOpen} /> */}
+			<DeleteDialog
+				type={type}
+				id={rowParams._id}
+				open={isDeleteDialogOpen}
+				setOpen={setIsDeleteDialogOpen}
+			/>
 			<div>
 				<IconButton
 					id='frame-menu-button'

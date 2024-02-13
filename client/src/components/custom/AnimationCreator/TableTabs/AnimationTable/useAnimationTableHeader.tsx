@@ -8,12 +8,6 @@ import dayjs from 'dayjs';
 const useAnimationTableHeader = (): GridColDef[] => {
 	return [
 		{
-			field: '_id',
-			headerName: 'ID',
-			filterable: false,
-			width: 220,
-		},
-		{
 			field: 'index',
 			headerName: 'Index',
 			type: 'number',
@@ -29,7 +23,14 @@ const useAnimationTableHeader = (): GridColDef[] => {
 					<Numbers />
 				</Tooltip>
 			),
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			renderCell: (params) =>
+				params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+		},
+		{
+			field: '_id',
+			headerName: 'ID',
+			filterable: false,
+			width: 220,
 		},
 		{
 			field: 'name',
@@ -48,11 +49,9 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			sortable: false,
 		},
 		{
-			field: 'frames',
+			field: 'framesLength',
 			headerName: 'Frames',
 			type: 'number',
-			align: 'left',
-			headerAlign: 'left',
 			sortable: false,
 			filterable: true,
 			width: 70,
@@ -66,8 +65,6 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			field: 'duration',
 			headerName: 'Duration',
 			type: 'number',
-			align: 'left',
-			headerAlign: 'left',
 			sortable: false,
 			width: 70,
 			renderHeader: () => (
@@ -75,13 +72,12 @@ const useAnimationTableHeader = (): GridColDef[] => {
 					<Timelapse />
 				</Tooltip>
 			),
+			valueFormatter: (params) => Number((params.value / 1000).toFixed(2)),
 		},
 		{
 			field: 'power',
 			headerName: 'Power consumption',
 			type: 'number',
-			align: 'left',
-			headerAlign: 'left',
 			sortable: false,
 			width: 70,
 			renderHeader: () => (
@@ -112,7 +108,7 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 60,
 			renderCell: (params: GridRenderCellParams<any, string>) => (
-				<AnimationTableDragButton animationName={params.row.name} />
+				<AnimationTableDragButton id={params.row._id} />
 				// <Tooltip title={params.row.description}>
 				// 	<div>Asd</div>
 				// </Tooltip>

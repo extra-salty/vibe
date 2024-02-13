@@ -13,7 +13,13 @@ export async function GET() {
 		.sort({ name: 1 })
 		.toArray();
 
-	return NextResponse.json(animations);
+	if (animations) {
+		return NextResponse.json(animations);
+	} else {
+		return new NextResponse(null, {
+			status: 404,
+		});
+	}
 }
 
 export async function DELETE(req: NextRequest) {

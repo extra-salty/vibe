@@ -8,6 +8,9 @@ export type EffectBaseT = {
 	dateCreated: Date;
 	dateModified: Date;
 	frames: FrameBaseT[];
+	framesLength: number;
+	duration: number;
+	power: number;
 };
 
 export type FrameBaseT = {
@@ -15,10 +18,7 @@ export type FrameBaseT = {
 	duration: number;
 };
 
-export type EffectTableT = Omit<EffectBaseT, 'frames'> & {
-	framesLength: number;
-	duration: number;
-};
+export type EffectTableT = Omit<EffectBaseT, 'frames'>;
 
 export type EffectStateT = Omit<EffectBaseT, 'frames' | 'dateCreated' | 'dateModified'> & {
 	frames: FrameStateT[];

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EffectBaseT } from '@/types/effect.types';
+import { DEFAULT_COLOR, EffectBaseT, FrameBase } from '@/types/effect.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
@@ -36,21 +36,27 @@ export async function POST(req: NextRequest) {
 	const data = await req.formData();
 
 	const client = await mongoClientPromise;
-	const collection = client.db(process.env.DB_NAME).collection(process.env.EFFECT_COLLECTION);
+	const collection = client
+		.db(process.env.DB_NAME)
+		.collection(process.env.EFFECT_COLLECTION);
 
 	let newEffect: Omit<EffectBaseT, '_id'> = {
 		name: data.get('name') as string,
 		description: data.get('description') as string,
 		dateCreated: new Date(),
 		dateModified: new Date(),
-		frames: [],
+		frames: [new FrameBase(1000, DEFAULT_COLOR)],
+		framesLength: 1,
+		duration: 1000,
+		power: 0,
 	};
 
 	if (duplicateId) {
-		const effectToDuplicate = await collection
-			.find<EffectBaseT>({ _id: new ObjectId(duplicateId) })
-			.limit(1)
-			.next();
+		const effectToDuplicate = await collection.findOne<EffectBaseT>({
+			_id: new ObjectId(duplicateId),
+		});
+		// .limit(1)
+		// .next();
 
 		if (!effectToDuplicate) {
 			return new NextResponse(null, {

@@ -1,7 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { AppDispatch } from '@/state/store';
-import { createAnimation, getAnimations } from '@/state/features/animation/animationApi';
+import {
+	createAnimation,
+	createEffect,
+	getAnimations,
+	getEffects,
+} from '@/state/features/animation/animationApi';
 import { AnimationCreateT } from '@/types/animation.types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import {
@@ -58,11 +63,11 @@ const CreateDialog = ({
 			handleClose();
 
 			if (type === 'animation') {
-				dispatch(createAnimation({ duplicateId: rowParams?._id, data: formData }));
-				dispatch(getAnimations());
+				await dispatch(createAnimation({ duplicateId: rowParams?._id, data: formData }));
+				await dispatch(getAnimations());
 			} else {
-				dispatch(createAnimation({ duplicateId: rowParams?._id, data: formData }));
-				dispatch(getAnimations());
+				await dispatch(createEffect({ duplicateId: rowParams?._id, data: formData }));
+				await dispatch(getEffects());
 			}
 		}
 

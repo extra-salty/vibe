@@ -1,35 +1,36 @@
 import { DndElements } from '@/types/misc.types';
 import { DragOverlay, DragStartEvent, Modifiers } from '@dnd-kit/core';
-import { DropAnimationOptions } from '@dnd-kit/core/dist/components/DragOverlay/hooks/useDropAnimation';
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import AnimationListItem from '../AnimationList/AnimationListItem/AnimationListItem';
 
 const DragOverlaySelector = ({ dragEvent }: { dragEvent: DragStartEvent | null }) => {
-	const dropAnimationOptions: DropAnimationOptions = {
-		duration: 500,
-	};
-
+	const current = dragEvent?.active.data.current;
 	let dragElement: React.ReactNode = null;
 	let modifier: Modifiers = [];
 
-	switch (dragEvent?.active.data.current?.type) {
+	switch (current?.type) {
+		case DndElements.newAnimation: {
+			dragElement = <div>asd</div>;
+			break;
+		}
+		case DndElements.newEffect: {
+			dragElement = <div>asd</div>;
+			break;
+		}
 		case DndElements.animationListItem: {
 			modifier = [restrictToParentElement, restrictToVerticalAxis];
-			dragElement = <div>{dragEvent.active.id}</div>;
-		}
-		case DndElements.newAnimation:
-		case DndElements.newEffect: {
-			dragElement = <div>{dragEvent.active.id}</div>;
+			dragElement = <AnimationListItem index={current?.sortable.index} />;
 			break;
 		}
 		case DndElements.effectListItem: {
-			dragElement = <div>{dragEvent.active.id}</div>;
+			dragElement = <div>adasd</div>;
 			modifier = [restrictToVerticalAxis];
 			break;
 		}
 	}
 
 	return (
-		<DragOverlay dropAnimation={dropAnimationOptions} modifiers={modifier}>
+		<DragOverlay modifiers={modifier} dropAnimation={null}>
 			{dragEvent ? dragElement : null}
 		</DragOverlay>
 	);

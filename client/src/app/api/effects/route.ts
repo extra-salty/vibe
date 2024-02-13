@@ -4,30 +4,21 @@ import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET() {
-	try {
-		const client = await mongoClientPromise;
+	const client = await mongoClientPromise;
 
-		const effects: EffectBaseT[] = await client
-			.db(process.env.DB_NAME)
-			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
-			.find({})
-			.sort({ name: 1 })
-			.toArray();
+	const effects: EffectTableT[] = await client
+		.db(process.env.DB_NAME)
+		.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
+		.find({}, { projection: { frames: false } })
+		.sort({ name: 1 })
+		.toArray();
 
-		const effectTableData: EffectTableT[] = effects.map((effect) => ({
-			_id: effect._id,
-			name: effect.name,
-			description: effect.description,
-			dateCreated: effect.dateCreated,
-			dateModified: effect.dateModified,
-			framesLength: effect.frames.length,
-			duration: effect.frames.reduce((duration, effect) => duration + effect.duration, 0) / 1000,
-		}));
-
-		return NextResponse.json(effectTableData);
-	} catch (e) {
-		console.log(e);
-		console.error(e);
+	if (effects) {
+		return NextResponse.json(effects);
+	} else {
+		return new NextResponse(null, {
+			status: 404,
+		});
 	}
 }
 

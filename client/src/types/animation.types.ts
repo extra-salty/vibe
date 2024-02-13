@@ -9,12 +9,16 @@ export type AnimationBaseT = {
 	dateCreated: Date;
 	dateModified: Date;
 	effects: AnimationEffectBaseT[];
+	framesLength: number;
+	duration: number;
+	power: number;
 };
 
 export type AnimationEffectBaseT = {
 	type: 'static' | 'dynamic';
 	name: string;
 	repeat: number;
+	// speed: number;
 };
 
 export type AnimationStateT = Omit<AnimationBaseT, 'effects'> & {

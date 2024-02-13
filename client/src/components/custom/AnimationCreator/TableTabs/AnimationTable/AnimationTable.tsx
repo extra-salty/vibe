@@ -1,7 +1,7 @@
 import useAnimationTableHeader from './useAnimationTableHeader';
 import { useAnimationTable } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { animationActions, initialTableState } from '@/state/features/animation/animationSlice';
 import { memo } from 'react';
 import { DataGrid, GridRowCount, GridRowId } from '@mui/x-data-grid';
 import { GridStateT } from '@/types/animation.types';
@@ -13,16 +13,24 @@ const AnimationTable = () => {
 	const header = useAnimationTableHeader();
 	const table = useAnimationTable();
 
+	const { loading: initialLoading, ...initialRest } = initialTableState;
+	const { data, loading, ...rest } = table;
+	const isResetDisabled = JSON.stringify(initialRest) === JSON.stringify(rest);
+
 	return (
 		<DataGrid
 			columns={header}
 			rows={table.data}
 			loading={table.loading}
 			getRowId={(row) => row._id}
-			slots={{ toolbar: TableToolbar, footerRowCount: rowCOunt }}
+			slots={{ toolbar: TableToolbar }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
-				toolbar: { itemType: 'animation', selection: [] },
+				toolbar: {
+					type: 'animation',
+					isDeleteDisabled: !table.selection.length,
+					isResetDisabled: isResetDisabled,
+				},
 			}}
 			// rowCount={10}
 			//
@@ -65,7 +73,3 @@ const AnimationTable = () => {
 };
 
 export default memo(AnimationTable);
-
-const rowCOunt = () => {
-	return <div>Asd</div>;
-};

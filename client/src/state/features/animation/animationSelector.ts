@@ -16,5 +16,8 @@ export const useStaticEffectTableSelection = () =>
 	useSelector((state: RootState) => state.animationCreator.staticEffectTable.selection);
 
 // Animation List
-export const useAnimations = () =>
-	useSelector((state: RootState) => state.animationCreator.animationPlaylist);
+export const usePlaylist = () =>
+	useSelector((state: RootState) => state.animationCreator.playlist);
+
+export const useAnimation = (index: number) =>
+	useSelector((state: RootState) => state.animationCreator.playlist.data[index]);

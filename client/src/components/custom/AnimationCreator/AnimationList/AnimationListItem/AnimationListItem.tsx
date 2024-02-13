@@ -1,42 +1,43 @@
 import { useSortable } from '@dnd-kit/sortable';
-import { memo } from 'react';
+import { CSSProperties, memo } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { AnimationStateT } from '@/types/animation.types';
 import { DndElements } from '@/types/misc.types';
 import { TreeItem } from '@mui/x-tree-view';
-import { IconButton, TextField, Tooltip } from '@mui/material';
+import { IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { HeightOutlined } from '@mui/icons-material';
 import EffectList from './EffectList/EffectList';
 import styles from './AnimationListItem.module.scss';
+import AnimationProperties from './AnimationProperties/AnimationProperties';
+import NumberInput from '@/components/base/NumberInput/NumberInput';
+import { useAnimation } from '@/state/features/animation/animationSelector';
 
-export const AnimationListItem = ({
-	index,
-	animation,
-}: {
-	index: number;
-	animation: AnimationStateT;
-}) => {
+export const AnimationListItem = ({ index }: { index: number }) => {
+	const animation = useAnimation(index);
+
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging, isOver } =
 		useSortable({
 			id: `${animation.name}/${index}`,
 			data: { type: DndElements.animationListItem },
+			animateLayoutChanges: () => false,
 		});
 
-	const style = {
-		opacity: isDragging ? 0.5 : undefined,
+	const style: CSSProperties = {
 		transform: CSS.Transform.toString(transform),
 		transition,
+		opacity: isDragging ? 0 : 1,
+		cursor: isDragging ? 'grabbing' : 'grab',
 	};
 
 	return (
 		<TreeItem
 			ref={setNodeRef}
 			nodeId={String(index)}
-			style={style}
+			// style={style}
+			sx={style}
 			label={
 				<div className={styles.label}>
 					<div>
-						<div>{index + 1}</div>
+						<Typography>{index + 1}</Typography>
 						<div>
 							<Tooltip title={animation.description}>
 								<TextField
@@ -50,6 +51,8 @@ export const AnimationListItem = ({
 								/>
 							</Tooltip>
 						</div>
+						<NumberInput />
+						<AnimationProperties />
 					</div>
 					<div>
 						<IconButton {...attributes} {...listeners}>

@@ -2,7 +2,7 @@
 import useStaticEffectTableHeader from './useStaticEffectTableHeader';
 import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { animationActions, initialTableState } from '@/state/features/animation/animationSlice';
 import { memo } from 'react';
 import { GridStateT } from '@/types/animation.types';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
@@ -14,6 +14,10 @@ const StaticEffectTable = () => {
 	const header = useStaticEffectTableHeader();
 	const table = useStaticEffectTable();
 
+	const { loading: initialLoading, ...initialRest } = initialTableState;
+	const { data, loading, ...rest } = table;
+	const isResetDisabled = JSON.stringify(initialRest) === JSON.stringify(rest);
+
 	return (
 		<DataGrid
 			columns={header}
@@ -23,7 +27,11 @@ const StaticEffectTable = () => {
 			slots={{ toolbar: TableToolbar }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
-				toolbar: { itemType: 'staticEffect', selection: [] },
+				toolbar: {
+					type: 'staticEffect',
+					isDeleteDisabled: !table.selection.length,
+					isResetDisabled: isResetDisabled,
+				},
 			}}
 			//
 			density='compact'
@@ -69,3 +77,7 @@ export default memo(StaticEffectTable);
 // footerRowCount: 2
 // noRowsOverlay: CustomNoRowsOverlay,
 // loadingOverlay: LinearProgress,
+
+// const rowCOunt = () => {
+// 	return <div>Asd</div>;
+// };

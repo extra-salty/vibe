@@ -21,16 +21,24 @@ const persistConfig = {
 	// blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],
 };
 
+const rootReducer = combineReducers({
+	[effectCreatorSlice.name]: effectCreatorSlice.reducer,
+	animationCreator: animationCreatorSlice.reducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
 	// migration
-	reducer: persistReducer(
-		persistConfig,
-		combineReducers({
-			// app: appReducer,
-			[effectCreatorSlice.name]: effectCreatorSlice.reducer,
-			[animationCreatorSlice.name]: animationCreatorSlice.reducer,
-		}),
-	),
+	reducer: persistedReducer,
+	// reducer: persistReducer<RootState>(
+	// 	persistConfig,
+	// 	combineReducers({
+	// 		// app: appReducer,
+	// 		[effectCreatorSlice.name]: effectCreatorSlice.reducer,
+	// 		animationCreator: animationCreatorSlice.reducer,
+	// 	}),
+	// ),
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: {

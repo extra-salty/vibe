@@ -9,10 +9,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
+	// export const useAppStore: () => AppStore = useStore
+	// const storeRef = useRef<AppStore>()
+	// if (!storeRef.current) {
+	//   // Create the store instance the first time this renders
+	//   storeRef.current = makeStore()
+	// storeRef.current.dispatch(initializeCount(count))
+	// }
+
 	return (
 		<StateProvider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				{/* add loading with transitions */}
 				<ThemeProvider theme={theme}>
 					<StyledEngineProvider injectFirst>
 						<AppRouterCacheProvider>
@@ -26,3 +33,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Providers;
+
+{
+	/* add loading with transitions */
+}

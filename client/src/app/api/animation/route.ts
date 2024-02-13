@@ -6,54 +6,47 @@ import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
-	const animationName = searchParams.get('name');
+	const id = searchParams.get('id');
 
-	try {
-		if (!animationName) {
-			throw Error('Invalid animation name.');
-		}
-
-		const client = await mongoClientPromise;
-
-		const animation = await client
-			.db(process.env.DB_NAME)
-			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
-			.findOne({ name: animationName }, { projection: { _id: false } });
-
-		if (!animation) {
-			throw Error('Failed to find animation');
-		}
-
-		const effectNames = animation?.effects.map((effect) => effect.name);
-
-		const effects = await client
-			.db(process.env.DB_NAME)
-			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
-			.find({ name: { $in: effectNames } }, { projection: { _id: false } })
-			.toArray();
-
-		if (!effects) {
-			throw Error('Failed to find effects');
-		}
-
-		const animationWithEffectsData: AnimationStateT = {
-			...animation,
-			effects: animation.effects.map((effect, i) => ({
-				type: effect.type,
-				repeat: effect.repeat,
-				data: effects[i],
-			})),
-		};
-
-		return NextResponse.json(animationWithEffectsData);
-	} catch (e) {
-		console.log(e);
-		console.error(e);
+	if (!id) {
+		return new NextResponse(null, {
+			status: 422,
+			statusText: 'Missing required query parameters',
+		});
 	}
 
-	return new NextResponse(null, {
-		status: 200,
-	});
+	const client = await mongoClientPromise;
+
+	const animation = await client
+		.db(process.env.DB_NAME)
+		.collection(process.env.ANIMATION_COLLECTION)
+		.findOne<AnimationBaseT>({ _id: new ObjectId(id) });
+
+	if (!animation) {
+		return new NextResponse(null, {
+			status: 404,
+			statusText: 'Unable to find animation',
+		});
+	}
+
+	const effectNames = animation.effects.map((effect) => effect.name);
+
+	const effects = await client
+		.db(process.env.DB_NAME)
+		.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
+		.find({ name: { $in: effectNames } })
+		.toArray();
+
+	const animationWithEffectsData: AnimationStateT = {
+		...animation,
+		effects: animation.effects.map((effect, i) => ({
+			type: effect.type,
+			repeat: effect.repeat,
+			data: effects[i],
+		})),
+	};
+
+	return NextResponse.json(animationWithEffectsData);
 }
 
 export async function POST(req: NextRequest) {
@@ -62,7 +55,9 @@ export async function POST(req: NextRequest) {
 	const data = await req.formData();
 
 	const client = await mongoClientPromise;
-	const collection = client.db(process.env.DB_NAME).collection(process.env.ANIMATION_COLLECTION);
+	const collection = client
+		.db(process.env.DB_NAME)
+		.collection(process.env.ANIMATION_COLLECTION);
 
 	let newAnimation: Omit<AnimationBaseT, '_id'> = {
 		name: data.get('name') as string,
@@ -70,6 +65,9 @@ export async function POST(req: NextRequest) {
 		dateCreated: new Date(),
 		dateModified: new Date(),
 		effects: [],
+		duration: 0,
+		framesLength: 0,
+		power: 0,
 	};
 
 	if (duplicateId) {

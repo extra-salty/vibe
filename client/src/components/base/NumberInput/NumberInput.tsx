@@ -57,6 +57,7 @@ const grey = {
 
 const StyledInputRoot = styled('div')(
 	({ theme }) => `
+  width: 50px;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   border-radius: 8px;
@@ -72,8 +73,8 @@ const StyledInputRoot = styled('div')(
   padding: 4px;
 
   &.${numberInputClasses.focused} {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+    // border-color: ${blue[400]};
+    // box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
   }
 
   &:hover {

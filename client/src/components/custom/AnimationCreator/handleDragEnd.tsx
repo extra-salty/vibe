@@ -2,7 +2,6 @@ import {
 	addEffect,
 	moveAnimation,
 	moveEffect,
-	selectAnimation,
 } from '@/state/features/animation/animationSlice';
 import { AppDispatch } from '@/state/store';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
@@ -10,6 +9,7 @@ import { AnimationEffectState } from '@/types/animation.types';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { DndElements } from '@/types/misc.types';
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
+import { getAnimation } from '@/state/features/animation/animationApi';
 
 const handleDragEnd = async ({
 	event,
@@ -40,10 +40,11 @@ const handleDragEnd = async ({
 			switch (overType) {
 				case DndElements.animationList:
 				case DndElements.animationListItem: {
-					const selectedAnimation = await AnimationServiceInstance.getAnimation(String(active.id));
-
 					dispatch(
-						selectAnimation({ selectedAnimation, index: over.data.current?.sortable?.index }),
+						getAnimation({
+							id: String(active.id),
+							index: over.data.current?.sortable?.index,
+						}),
 					);
 					break;
 				}
@@ -51,35 +52,36 @@ const handleDragEnd = async ({
 			break;
 		}
 		//
-		case DndElements.newEffect: {
-			const effect = await EffectsServiceInstance.getEffect(String(active.id));
-			const animationEffect = new AnimationEffectState(effect);
+		// case DndElements.newEffect: {
+		// 	const effect = await EffectsServiceInstance.getEffect(String(active.id));
+		// 	console.log('🚀 ~ effect:', effect);
+		// 	const animationEffect = new AnimationEffectState(effect);
 
-			switch (overType) {
-				case DndElements.animationListItem: {
-					dispatch(
-						addEffect({
-							animationEffect,
-							coordinate: { x: over.data.current?.sortable.index, y: 0 },
-						}),
-					);
-					break;
-				}
-				case DndElements.effectListItem: {
-					dispatch(
-						addEffect({
-							animationEffect,
-							coordinate: {
-								x: over.data.current?.animationIndex,
-								y: over.data.current?.sortable.index,
-							},
-						}),
-					);
-					break;
-				}
-			}
-			break;
-		}
+		// 	switch (overType) {
+		// 		case DndElements.animationListItem: {
+		// 			dispatch(
+		// 				addEffect({
+		// 					animationEffect,
+		// 					coordinate: { x: over.data.current?.sortable.index, y: 0 },
+		// 				}),
+		// 			);
+		// 			break;
+		// 		}
+		// 		case DndElements.effectListItem: {
+		// 			dispatch(
+		// 				addEffect({
+		// 					animationEffect,
+		// 					coordinate: {
+		// 						x: over.data.current?.animationIndex,
+		// 						y: over.data.current?.sortable.index,
+		// 					},
+		// 				}),
+		// 			);
+		// 			break;
+		// 		}
+		// 	}
+		// 	break;
+		// }
 		//
 		case DndElements.animationListItem: {
 			dispatch(

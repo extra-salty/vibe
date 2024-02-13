@@ -1,20 +1,23 @@
 import { useDraggable } from '@dnd-kit/core';
 import { DndElements } from '@/types/misc.types';
-import { DragHandleOutlined } from '@mui/icons-material';
+import { DragHandle } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
-const AnimationTableDragButton = ({ animationName }: { animationName: string }) => {
-	const { attributes, listeners, setNodeRef } = useDraggable({
-		id: `${animationName}`,
+const AnimationTableDragButton = ({ id }: { id: string }) => {
+	const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+		id,
 		data: { type: DndElements.newAnimation },
 	});
 
 	return (
-		// <div >
-		<IconButton ref={setNodeRef} {...attributes} {...listeners}>
-			<DragHandleOutlined />
+		<IconButton
+			ref={setNodeRef}
+			{...attributes}
+			{...listeners}
+			sx={{ cursor: isDragging ? 'grab' : 'grabbing' }}
+		>
+			<DragHandle />
 		</IconButton>
-		// </div>
 	);
 };
 
