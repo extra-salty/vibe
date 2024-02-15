@@ -1,44 +1,20 @@
-import { useDispatch } from 'react-redux';
-import { usePlaylist } from '@/state/features/animation/animationSelector';
-import {
-	CheckBox,
-	CheckBoxOutlineBlank,
-	ExpandLess,
-	ExpandMore,
-} from '@mui/icons-material';
+import { useState } from 'react';
+import { Clear } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import RemoveDialog from './RemoveDialog/RemoveDialog';
 
 const PlaylistToolbar = ({}: {}) => {
-	const dispatch = useDispatch();
-	const playlist = usePlaylist();
-
-	const handleExpand = () => {
-		console.log('expand');
-	};
-
-	const handleSelect = () => {
-		console.log('select');
-	};
+	const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState<boolean>(false);
 
 	return (
-		<div>
-			<Button
-				disabled={!playlist.data.length}
-				startIcon={playlist.expanded.length ? <ExpandMore /> : <ExpandLess />}
-				onClick={handleExpand}
-			>
-				{playlist.expanded.length === 0 ? 'Expand all' : 'Collapse all'}
-			</Button>
-			<Button
-				disabled={!playlist.data.length}
-				startIcon={playlist.expanded.length ? <CheckBoxOutlineBlank /> : <CheckBox />}
-				onClick={handleSelect}
-			>
-				{playlist.selection.length === 0 ? 'Select all' : 'Unselect all'}
-			</Button>
-			<Button onClick={() => dispatch(animationActions.resetPlaylist())}>Remove</Button>
-		</div>
+		<>
+			<RemoveDialog open={isRemoveDialogOpen} setOpen={setIsRemoveDialogOpen} />
+			<div>
+				<Button startIcon={<Clear />} onClick={() => setIsRemoveDialogOpen(true)}>
+					Remove
+				</Button>
+			</div>
+		</>
 	);
 };
 

@@ -1,22 +1,21 @@
+import { useAnimation } from '@/state/features/animation/animationSelector';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSSProperties, memo } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { DndElements } from '@/types/misc.types';
 import { TreeItem } from '@mui/x-tree-view';
-import { IconButton, TextField, Tooltip, Typography } from '@mui/material';
-import { HeightOutlined } from '@mui/icons-material';
 import EffectList from './EffectList/EffectList';
+import AnimationLabel from './AnimationLabel/AnimationLabel';
 import styles from './AnimationListItem.module.scss';
-import AnimationProperties from './AnimationProperties/AnimationProperties';
-import NumberInput from '@/components/base/NumberInput/NumberInput';
-import { useAnimation } from '@/state/features/animation/animationSelector';
 
 export const AnimationListItem = ({ index }: { index: number }) => {
 	const animation = useAnimation(index);
 
-	const { setNodeRef, attributes, listeners, transform, transition, isDragging, isOver } =
+	const id = `${animation.name}/${index}`;
+
+	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
 		useSortable({
-			id: `${animation.name}/${index}`,
+			id,
 			data: { type: DndElements.animationListItem },
 			animateLayoutChanges: () => false,
 		});
@@ -28,38 +27,20 @@ export const AnimationListItem = ({ index }: { index: number }) => {
 		cursor: isDragging ? 'grabbing' : 'grab',
 	};
 
+	const { effects, ...baseAnimation } = animation;
+
 	return (
 		<TreeItem
 			ref={setNodeRef}
-			nodeId={String(index)}
-			// style={style}
+			nodeId={id}
 			sx={style}
 			label={
-				<div className={styles.label}>
-					<div>
-						<Typography>{index + 1}</Typography>
-						<div>
-							<Tooltip title={animation.description}>
-								<TextField
-									// margin='dense'
-									size='small'
-									variant='filled'
-									placeholder='Enter a name'
-									value={animation.name}
-									hiddenLabel
-									required
-								/>
-							</Tooltip>
-						</div>
-						<NumberInput />
-						<AnimationProperties />
-					</div>
-					<div>
-						<IconButton {...attributes} {...listeners}>
-							<HeightOutlined />
-						</IconButton>
-					</div>
-				</div>
+				<AnimationLabel
+					index={index}
+					animation={baseAnimation}
+					attributes={attributes}
+					listeners={listeners}
+				/>
 			}
 		>
 			<EffectList

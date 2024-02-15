@@ -2,11 +2,12 @@ import { useDraggable } from '@dnd-kit/core';
 import { DndElements } from '@/types/misc.types';
 import { DragHandle } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { GridRowModel } from '@mui/x-data-grid';
 
-const AnimationTableDragButton = ({ id }: { id: string }) => {
-	const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-		id,
-		data: { type: DndElements.newAnimation },
+const AnimationTableDragButton = ({ animation }: { animation: GridRowModel }) => {
+	const { setNodeRef, attributes, listeners, isDragging } = useDraggable({
+		id: animation._id,
+		data: { type: DndElements.newAnimation, animation },
 	});
 
 	return (

@@ -108,7 +108,7 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			disableColumnMenu: true,
 			width: 60,
 			renderCell: (params: GridRenderCellParams<any, string>) => (
-				<AnimationTableDragButton id={params.row._id} />
+				<AnimationTableDragButton animation={params.row} />
 				// <Tooltip title={params.row.description}>
 				// 	<div>Asd</div>
 				// </Tooltip>

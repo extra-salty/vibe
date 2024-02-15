@@ -2,6 +2,7 @@ import { DndElements } from '@/types/misc.types';
 import { DragOverlay, DragStartEvent, Modifiers } from '@dnd-kit/core';
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import AnimationListItem from '../AnimationList/AnimationListItem/AnimationListItem';
+import NewAnimationOverlay from './NewAnimationOverlay/NewAnimationOverlay';
 
 const DragOverlaySelector = ({ dragEvent }: { dragEvent: DragStartEvent | null }) => {
 	const current = dragEvent?.active.data.current;
@@ -10,7 +11,7 @@ const DragOverlaySelector = ({ dragEvent }: { dragEvent: DragStartEvent | null }
 
 	switch (current?.type) {
 		case DndElements.newAnimation: {
-			dragElement = <div>asd</div>;
+			dragElement = <NewAnimationOverlay animation={current?.animation} />;
 			break;
 		}
 		case DndElements.newEffect: {

@@ -2,10 +2,14 @@
 import useStaticEffectTableHeader from './useStaticEffectTableHeader';
 import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
-import { animationActions, initialTableState } from '@/state/features/animation/animationSlice';
+import {
+	animationActions,
+	initialTableState,
+} from '@/state/features/animation/animationSlice';
 import { memo } from 'react';
 import { GridStateT } from '@/types/animation.types';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
+import { LinearProgress } from '@mui/material';
 import TableToolbar from '@/components/custom/TableComps/TableToolbar/TableToolbar';
 
 const StaticEffectTable = () => {
@@ -24,7 +28,7 @@ const StaticEffectTable = () => {
 			rows={table.data}
 			loading={table.loading}
 			getRowId={(row) => row._id}
-			slots={{ toolbar: TableToolbar }}
+			slots={{ toolbar: TableToolbar, loadingOverlay: LinearProgress }}
 			slotProps={{
 				panel: { placement: 'bottom-end' },
 				toolbar: {
@@ -42,7 +46,9 @@ const StaticEffectTable = () => {
 			columnVisibilityModel={table.visibility}
 			onColumnVisibilityModelChange={(columnVisibilityModel) => {
 				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
-					dispatch(animationActions.setStaticEffectTableVisibility(columnVisibilityModel));
+					dispatch(
+						animationActions.setStaticEffectTableVisibility(columnVisibilityModel),
+					);
 				}
 			}}
 			//

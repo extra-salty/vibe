@@ -1,12 +1,9 @@
 import { usePlaylist } from '@/state/features/animation/animationSelector';
 import { useDispatch } from 'react-redux';
 import { memo } from 'react';
-import {
-	setAnimationPlaylistExpansion,
-	setAnimationPlaylistSelection,
-} from '@/state/features/animation/animationSlice';
+import { animationActions } from '@/state/features/animation/animationSlice';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { ChevronRightOutlined, ExpandMoreOutlined } from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { TreeView } from '@mui/x-tree-view';
 import AnimationListItem from './AnimationListItem/AnimationListItem';
 import styles from './AnimationList.module.scss';
@@ -17,23 +14,19 @@ const AnimationList = () => {
 	const playlist = usePlaylist();
 	const items = playlist.data.map((animation, i) => `${animation.name}/${i}`);
 
-	const handleExpansion = (_: React.SyntheticEvent, nodeIds: string[]) => {
-		console.log('expand', nodeIds);
-		dispatch(setAnimationPlaylistExpansion(nodeIds));
-	};
+	const handleExpansion = (_: React.SyntheticEvent, nodeIds: string[]) =>
+		dispatch(animationActions.setPlaylistExpansion(nodeIds));
 
-	const handleSelection = (_: React.SyntheticEvent, nodeIds: string[]) => {
-		console.log('select', nodeIds);
-		setAnimationPlaylistSelection(nodeIds);
-	};
+	const handleSelection = (_: React.SyntheticEvent, nodeIds: string[]) =>
+		dispatch(animationActions.setPlaylistSelection(nodeIds));
 
 	return (
 		<TreeView
 			aria-label='animation playlist'
-			defaultCollapseIcon={<ExpandMoreOutlined />}
-			defaultExpandIcon={<ChevronRightOutlined />}
+			defaultCollapseIcon={<ExpandMore />}
+			defaultExpandIcon={<ExpandLess />}
 			multiSelect
-			selected={playlist.selection}
+			selected={playlist.selected}
 			expanded={playlist.expanded}
 			onNodeToggle={handleExpansion}
 			onNodeSelect={handleSelection}

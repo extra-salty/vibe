@@ -17,10 +17,10 @@ import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
 import TableTabs from './TableTabs/TableTabs';
 import Playlist from './AnimationPlaylist/Playlist';
-import styles from './AnimationCreator.module.scss';
 import { AnimationBaseT } from '@/types/animation.types';
 import { EffectTableT } from '@/types/effect.types';
 import { animationActions } from '@/state/features/animation/animationSlice';
+import styles from './AnimationCreator.module.scss';
 
 const AnimationCreator = ({
 	animations,

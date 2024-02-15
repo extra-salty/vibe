@@ -1,11 +1,12 @@
 import { usePlaylist } from '@/state/features/animation/animationSelector';
 import { useDroppable } from '@dnd-kit/core';
-import { Typography } from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import { DndElements } from '@/types/misc.types';
 import { CSSProperties, memo } from 'react';
 import PlaylistToolbar from './PlaylistToolbar/PlaylistToolbar';
-import styles from './Playlist.module.scss';
 import AnimationList from '../AnimationList/AnimationList';
+import styles from './Playlist.module.scss';
+import PlaylistHeader from './PlaylistHeader/PlaylistHeader';
 
 const Playlist = () => {
 	const playlist = usePlaylist();
@@ -28,6 +29,8 @@ const Playlist = () => {
 				PLAYLIST
 			</Typography>
 			<PlaylistToolbar />
+			<PlaylistHeader />
+			{playlist.loading && <LinearProgress />}
 			<div ref={setNodeRef} className={styles.content}>
 				<div style={style} className={styles.dropZone}>
 					{playlist.data.length ? (

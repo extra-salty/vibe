@@ -23,20 +23,21 @@ const handleDragOver = async ({
 	const activeType = active.data.current?.type;
 	const overType = over.data.current?.type;
 
-	console.log('over: ', over);
-	console.log('active: ', active);
-	console.log('overtType:', overType);
-	console.log('activeType:', activeType);
+	// console.log('over: ', over);
+	// console.log('active: ', active);
+	// console.log('overtType:', overType);
+	// console.log('activeType:', activeType);
 
 	switch (activeType) {
 		case DndElements.newAnimation: {
 			switch (overType) {
 				case DndElements.animationListItem: {
-					// const selectedAnimation = await AnimationServiceInstance.getAnimation(String(active.id));
-
-					console.log(over.data.current?.sortable.index);
-
-					// dispatch(overAnimation({ selectedAnimation, index: over.data.current?.sortable.index }));
+					// dispatch(
+					// 	overAnimation({
+					// 		selectedAnimation,
+					// 		index: over.data.current?.sortable.index,
+					// 	}),
+					// );
 					break;
 				}
 			}

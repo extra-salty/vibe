@@ -1,0 +1,19 @@
+@import '@/styles/variables.scss';
+
+.label {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	justify-content: space-between;
+
+	> div {
+		display: flex;
+		gap: $spacing-1;
+		align-items: center;
+	}
+
+	.properties {
+		display: flex;
+		// gap: 15px;
+	}
+}

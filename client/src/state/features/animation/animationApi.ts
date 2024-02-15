@@ -4,6 +4,17 @@ import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+// Table ------------------------------------------------------------------------------
+export const getAnimations = createAsyncThunk(
+	'animations/get',
+	async () => await AnimationsServiceInstance.getAnimations(),
+);
+
+export const getEffects = createAsyncThunk(
+	'effects/get',
+	async () => await EffectsServiceInstance.getEffects(),
+);
+
 export const createAnimation = createAsyncThunk(
 	'animation/post',
 	async (args: { duplicateId?: string; data: FormData }) => {
@@ -18,31 +29,29 @@ export const createEffect = createAsyncThunk(
 	},
 );
 
-export const getAnimations = createAsyncThunk(
-	'animations/get',
-	async () => await AnimationsServiceInstance.getAnimations(),
-);
-
-export const getEffects = createAsyncThunk(
-	'effects/get',
-	async () => await EffectsServiceInstance.getEffects(),
-);
-
 export const deleteAnimations = createAsyncThunk(
 	'animations/delete',
 	async (ids: string[]) => await AnimationsServiceInstance.deleteAnimations(ids),
 );
 
 export const deleteEffects = createAsyncThunk(
-	'animations/delete',
+	'effects/delete',
 	async (ids: string[]) => await EffectsServiceInstance.deleteEffects(ids),
 );
 
-// Playlist
+// Playlist ------------------------------------------------------------------------------
 export const getAnimation = createAsyncThunk(
 	'animation/get',
 	async (args: { id: string; index?: number }) => {
 		const animation = await AnimationServiceInstance.getAnimation(args.id);
+		return { animation, index: args.index };
+	},
+);
+
+export const getEffect = createAsyncThunk(
+	'effect/get',
+	async (args: { id: string; index?: number }) => {
+		const animation = await EffectServiceInstance.getEffectDetails(args.id);
 		return { animation, index: args.index };
 	},
 );
