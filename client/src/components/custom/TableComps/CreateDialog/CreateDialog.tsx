@@ -77,12 +77,12 @@ const CreateDialog = ({
 	return (
 		<Dialog
 			open={open}
-			onClose={handleClose}
 			PaperProps={{
 				component: 'form',
-				onSubmit: handleSubmit,
 				sx: { width: '500px' },
+				onSubmit: handleSubmit,
 			}}
+			onClose={handleClose}
 		>
 			<DialogTitle>Create {typeText}</DialogTitle>
 			<DialogContent
@@ -100,7 +100,6 @@ const CreateDialog = ({
 					defaultValue={rowParams?.name}
 					error={isInvalidName}
 					helperText={isInvalidName ? 'Already exist. Choose a different name.' : ' '}
-					// margin='dense'
 					id='name'
 					name='name'
 					label='Name'
@@ -112,7 +111,6 @@ const CreateDialog = ({
 					multiline
 					rows={5}
 					defaultValue={rowParams?.description || ''}
-					// margin='dense'
 					id='description'
 					name='description'
 					label='Description'
@@ -125,7 +123,6 @@ const CreateDialog = ({
 				<LoadingButton loading={isLoading} type='submit'>
 					<span>Create</span>
 				</LoadingButton>
-				{/* <Button type='submit'>Create</Button> */}
 			</DialogActions>
 		</Dialog>
 	);

@@ -27,6 +27,7 @@
 		"@reduxjs/toolkit": "^1.9.7",
 		"@types/redux-state-sync": "^3.1.9",
 		"dayjs": "^1.11.10",
+		"material-react-table": "^2.11.3",
 		"mongodb": "^6.3.0",
 		"next": "14.0.3",
 		"react": "^18",

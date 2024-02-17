@@ -1,60 +1,72 @@
 import { useDispatch } from 'react-redux';
-import { useGridApiContext } from '@mui/x-data-grid';
-import { deleteAnimations, getAnimations } from '@/state/features/animation/animationApi';
 import { Dispatch, SetStateAction, memo, useState } from 'react';
+import {
+	deleteAnimations,
+	deleteEffects,
+	getAnimations,
+	getEffects,
+} from '@/state/features/animation/animationApi';
 import { AppDispatch } from '@/state/store';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { AnimationBaseT } from '@/types/animation.types';
+import { MRT_RowSelectionState } from 'material-react-table';
 import DeleteTable from './DeleteTable/DeleteTable';
 
 const DeleteDialog = ({
 	type,
 	id,
-	open,
+	selectedRows,
 	setOpen,
 }: {
 	type: 'staticEffect' | 'animation';
 	id?: string;
-	open: boolean;
+	selectedRows: AnimationBaseT[];
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const apiRef = useGridApiContext();
-
-	// if (id) {
-	// 	const ids = [id];
-	// } else {
-	const rows = apiRef.current.getSelectedRows();
-	const data = Array.from(rows.values());
-	const ids = data.map((row) => row._id);
-	// }
-
-	const [selection, setSelection] = useState<string[]>(ids);
 
 	const typeText = type === 'animation' ? 'animation(s)' : 'static effect(s)';
 
-	const handleDeleteEffects = async () => {
-		handleClose();
-		await dispatch(deleteAnimations(selection));
-		await dispatch(getAnimations());
-	};
+	const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+
+	const isAcceptDisabled = !Object.values(rowSelection).includes(true);
 
 	const handleClose = () => setOpen(false);
 
+	const handleDeleteSelected = async () => {
+		const ids = Object.entries(rowSelection)
+			.filter((entries) => entries[1])
+			.map((entries) => entries[0]);
+
+		handleClose();
+		if (typeText === 'animation(s)') {
+			await dispatch(deleteAnimations(ids));
+			await dispatch(getAnimations());
+		} else {
+			await dispatch(deleteEffects(ids));
+			await dispatch(getEffects());
+		}
+	};
+
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<>
 			<DialogTitle>Delete the following {typeText}:</DialogTitle>
 			<DialogContent dividers>
-				<DeleteTable data={data} selection={selection} setSelection={setSelection} />
+				<DeleteTable
+					data={selectedRows}
+					rowSelection={rowSelection}
+					setSelection={setRowSelection}
+				/>
 			</DialogContent>
 			<DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Button autoFocus onClick={handleClose}>
 					Cancel
 				</Button>
-				<Button disabled={!selection.length} onClick={handleDeleteEffects}>
+				<Button disabled={isAcceptDisabled} onClick={handleDeleteSelected}>
 					Accept
 				</Button>
 			</DialogActions>
-		</Dialog>
+		</>
 	);
 };
 

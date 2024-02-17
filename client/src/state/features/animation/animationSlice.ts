@@ -9,7 +9,7 @@ import {
 } from '@/types/animation.types';
 import { CoordinateT } from '@/types/misc.types';
 import { GridColumnVisibilityModel, GridLogicOperator } from '@mui/x-data-grid';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
 	createAnimation,
 	createEffect,
@@ -40,6 +40,16 @@ export const initialTableState: TableT = {
 };
 
 const initialState: {
+	animations: {
+		state: {
+			sorting: { id: string; desc: boolean }[];
+			rowSelection: Record<string, boolean>;
+			columnVisibility: Record<string, boolean>;
+			columnFilters: { id: string; value: unknown }[];
+		};
+		data: AnimationBaseT[];
+		expanded: false;
+	};
 	animationTable: AnimationTableT;
 	staticEffectTable: StaticEffectTableT;
 	playlist: {
@@ -50,6 +60,16 @@ const initialState: {
 		data: AnimationStateT[];
 	};
 } = {
+	animations: {
+		data: [],
+		state: {
+			sorting: [],
+			rowSelection: {},
+			columnVisibility: { _id: false, description: false, dateCreated: false },
+			columnFilters: [],
+		},
+		expanded: false,
+	},
 	animationTable: { ...initialTableState, data: [] },
 	staticEffectTable: { ...initialTableState, data: [] },
 	playlist: { loading: false, expanded: [], selected: [], disabled: [], data: [] },
@@ -61,68 +81,70 @@ export const animationCreatorSlice = createSlice({
 	extraReducers: (builder) => {
 		// Tables
 		builder
-			.addCase(getAnimations.pending, (state) => {
-				state.animationTable.loading = true;
-			})
 			.addCase(getAnimations.fulfilled, (state, action) => {
 				state.animationTable.data = action.payload;
 				state.animationTable.loading = false;
-			})
-			.addCase(getEffects.pending, (state) => {
-				state.staticEffectTable.loading = true;
 			})
 			.addCase(getEffects.fulfilled, (state, action) => {
 				state.staticEffectTable.data = action.payload;
 				state.staticEffectTable.loading = false;
 			})
-			.addCase(createAnimation.pending, (state) => {
-				state.animationTable.loading = true;
-			})
-			.addCase(createAnimation.fulfilled, (state) => {
-				state.animationTable.loading = false;
-			})
-			.addCase(createEffect.pending, (state) => {
-				state.animationTable.loading = true;
-			})
-			.addCase(createEffect.fulfilled, (state) => {
-				state.animationTable.loading = false;
-			})
-			.addCase(deleteAnimations.pending, (state) => {
-				state.animationTable.loading = true;
-			})
-			.addCase(deleteAnimations.fulfilled, (state) => {
-				state.animationTable.loading = false;
-			})
-			.addCase(deleteEffects.pending, (state) => {
-				state.animationTable.loading = true;
-			})
-			.addCase(deleteEffects.fulfilled, (state) => {
-				state.animationTable.loading = false;
-			});
-
-		// Playlist
-		builder
-			.addCase(getAnimation.pending, (state) => {
-				state.staticEffectTable.loading = true;
-			})
-			.addCase(
-				getAnimation.fulfilled,
-				(
-					state,
-					action: PayloadAction<{ animation: AnimationStateT; index?: number }>,
-				) => {
-					const { animation, index } = action.payload;
-
-					if (animation) {
-						if (index) {
-							state.playlist.data.splice(index, 0, animation);
-						} else {
-							state.playlist.data.push(animation);
-						}
-					}
-					state.staticEffectTable.loading = false;
+			.addMatcher(
+				isAnyOf(getAnimations.pending, createAnimation.pending, deleteAnimations.pending),
+				(state) => {
+					state.animationTable.loading = true;
+				},
+			)
+			.addMatcher(
+				isAnyOf(getEffects.pending, createEffect.pending, deleteEffects.pending),
+				(state) => {
+					state.staticEffectTable.loading = true;
+				},
+			)
+			.addMatcher(
+				isAnyOf(
+					getAnimations.rejected,
+					createAnimation.rejected,
+					deleteAnimations.rejected,
+				),
+				(state) => {
+					state.animationTable.loading = false;
+				},
+			)
+			.addMatcher(
+				isAnyOf(
+					getAnimations.rejected,
+					createAnimation.rejected,
+					deleteAnimations.rejected,
+				),
+				(state) => {
+					state.animationTable.loading = false;
 				},
 			);
+
+		// Playlist
+		// builder
+		// 	.addCase(getAnimation.pending, (state) => {
+		// 		state.staticEffectTable.loading = true;
+		// 	})
+		// 	.addCase(
+		// 		getAnimation.fulfilled,
+		// 		(
+		// 			state,
+		// 			action: PayloadAction<{ animation: AnimationStateT; index?: number }>,
+		// 		) => {
+		// 			const { animation, index } = action.payload;
+
+		// 			if (animation) {
+		// 				if (index) {
+		// 					state.playlist.data.splice(index, 0, animation);
+		// 				} else {
+		// 					state.playlist.data.push(animation);
+		// 				}
+		// 			}
+		// 			state.staticEffectTable.loading = false;
+		// 		},
+		// 	);
 		// builder
 		// 	.addCase(getEffect.pending, (state) => {
 		// 		state.staticEffectTable.loading = true;
@@ -147,15 +169,21 @@ export const animationCreatorSlice = createSlice({
 		// 	);
 	},
 	reducers: {
+		setAnimationsData: (state, action: PayloadAction<AnimationBaseT[]>) => {
+			state.animations.data = action.payload || [];
+		},
+		setAnimationsRowSelection: (
+			state,
+			action: PayloadAction<Record<string, boolean>>,
+		) => {
+			state.animations.state.rowSelection = action.payload;
+		},
 		// Animation - Table
 		setAnimationTableData: (state, action: PayloadAction<AnimationBaseT[]>) => {
 			state.animationTable.data = action.payload || [];
 		},
 		setAnimationTableState: (state, action: PayloadAction<GridStateT>) => {
 			state.animationTable.state = action.payload;
-		},
-		setAnimationTableSelection: (state, action: PayloadAction<string[]>) => {
-			state.animationTable.selection = action.payload;
 		},
 		setAnimationTableVisibility: (
 			state,
@@ -267,8 +295,6 @@ export const animationCreatorSlice = createSlice({
 export const animationActions = animationCreatorSlice.actions;
 
 export const {
-	// Animations - Playlist
-
 	// Animations - List
 	moveAnimation,
 	overAnimation,

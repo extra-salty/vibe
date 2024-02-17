@@ -1,84 +1,66 @@
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
-import { Layers, Numbers, Timelapse } from '@mui/icons-material';
+import { Layers, Timelapse } from '@mui/icons-material';
+import { MRT_ColumnDef } from 'material-react-table';
+import { AnimationBaseT } from '@/types/animation.types';
 import dayjs from 'dayjs';
 
-const useDeleteTableHeader = (): GridColDef[] => {
+const useDeleteTableColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 	return [
 		{
-			field: 'index',
-			headerName: 'Index',
-			type: 'number',
-			align: 'left',
-			headerAlign: 'left',
-			sortable: false,
-			filterable: false,
-			hideable: false,
-			disableColumnMenu: true,
-			width: 1,
-			renderHeader: () => (
-				<Tooltip title='Index'>
-					<Numbers />
-				</Tooltip>
-			),
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			accessorKey: '_id',
+			header: 'ID',
+			// filterable: false,
+			// width: 220,
 		},
 		{
-			field: '_id',
-			headerName: 'ID',
-			filterable: false,
-
-			width: 220,
-		},
-		{
-			field: 'name',
-			headerName: 'Name',
-			width: 140,
-			renderCell: (params: GridRenderCellParams<any, string>) => (
-				<Tooltip title={params.row.description}>
-					<span>{params.value}</span>
+			accessorKey: 'name',
+			header: 'Name',
+			size: 100,
+			Cell: ({ row }) => (
+				<Tooltip title={row.original.description}>
+					<span>{row.original.name}</span>
 				</Tooltip>
 			),
 		},
 		{
-			field: 'description',
-			headerName: 'Description',
-			sortable: false,
-			width: 200,
+			accessorKey: 'description',
+			header: 'Description',
+			// width: 200,
+			// sortable: false,
 		},
 		{
-			field: 'framesLength',
-			headerName: 'Frames',
-			type: 'number',
-			sortable: false,
-			width: 50,
-			renderHeader: () => (
+			accessorKey: 'framesLength',
+			header: 'Frames',
+			// type: 'number',
+			// sortable: false,
+			// filterable: true,
+			size: 30,
+			Header: () => (
 				<Tooltip title='Number of frames'>
 					<Layers />
 				</Tooltip>
 			),
 		},
 		{
-			field: 'duration',
-			headerName: 'Duration',
-			type: 'number',
-			sortable: false,
-			width: 50,
-			renderHeader: () => (
+			accessorKey: 'duration',
+			header: 'Duration',
+			visibleInShowHideMenu: false,
+			// sortable: false,
+			size: 30,
+			Header: () => (
 				<Tooltip title='Duration'>
 					<Timelapse />
 				</Tooltip>
 			),
-			valueFormatter: (params) => (params.value / 1000).toFixed(2),
+			Cell: ({ cell }) => Number((cell.getValue<number>() / 1000).toFixed(2)),
 		},
 		{
-			field: 'dateModified',
-			headerName: 'Date modified',
-			type: 'dateTime',
-			width: 140,
-			valueFormatter: (params) => dayjs(params.value).format('YY/MM/DD HH:MM:ss'),
+			accessorKey: 'dateModified',
+			header: 'Date modified',
+			size: 120,
+			Cell: ({ cell }) => dayjs(cell.getValue<Date>()).format('YY/MM/DD HH:MM:ss'),
 		},
 	];
 };
 
-export default useDeleteTableHeader;
+export default useDeleteTableColumns;

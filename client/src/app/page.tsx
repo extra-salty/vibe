@@ -7,9 +7,7 @@ const Home = async () => {
 		AnimationsServiceInstance.getAnimations(),
 		EffectsServiceInstance.getEffects(),
 	]);
-	// console.log('🚀 ~ Home ~ animations:', animations);
 
-	// console.log('🚀 ~ Home ~ effects:', effects);
 	return <AnimationCreator animations={animations || []} effects={effects || []} />;
 };
 

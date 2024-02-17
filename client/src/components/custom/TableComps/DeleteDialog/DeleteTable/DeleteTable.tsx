@@ -1,38 +1,43 @@
 import useDeleteTableHeader from './useDeleteTableHeader';
-import { DataGrid, GridValidRowModel } from '@mui/x-data-grid';
+import { AnimationBaseT } from '@/types/animation.types';
+import {
+	MRT_RowSelectionState,
+	MaterialReactTable,
+	useMaterialReactTable,
+} from 'material-react-table';
 import { Dispatch, SetStateAction } from 'react';
 
 const DeleteTable = ({
 	data,
-	selection,
+	rowSelection,
 	setSelection,
 }: {
-	data: GridValidRowModel[];
-	selection: string[];
-	setSelection: Dispatch<SetStateAction<string[]>>;
+	data: AnimationBaseT[];
+	rowSelection: MRT_RowSelectionState;
+	setSelection: Dispatch<SetStateAction<string[]>> | any;
 }) => {
-	const header = useDeleteTableHeader();
+	const columns = useDeleteTableHeader();
 
-	return (
-		<DataGrid
-			rows={data}
-			columns={header}
-			getRowId={(row) => row._id}
-			//
-			rowSelectionModel={selection}
-			onRowSelectionModelChange={(newSelection) => {
-				console.log('🚀 ~ newSelection:', newSelection);
-				setSelection(newSelection.map((id) => id as string));
-			}}
-			columnVisibilityModel={{ _id: false, description: false }}
-			//
-			checkboxSelection
-			hideFooter
-			disableColumnMenu
-			disableColumnFilter
-			disableColumnSelector
-		></DataGrid>
-	);
+	const table = useMaterialReactTable({
+		columns,
+		data,
+		initialState: { columnVisibility: { _id: false, description: false } },
+		onRowSelectionChange: setSelection,
+		getRowId: (row) => row._id,
+		state: { rowSelection },
+		//
+		rowNumberDisplayMode: 'static',
+		//
+		enablePagination: false,
+		enableTopToolbar: false,
+		enableColumnActions: false,
+		//
+		enableRowNumbers: true,
+		enableRowSelection: true,
+		enableBatchRowSelection: true,
+	});
+
+	return <MaterialReactTable table={table} />;
 };
 
 export default DeleteTable;

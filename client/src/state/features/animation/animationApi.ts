@@ -6,36 +6,36 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Table ------------------------------------------------------------------------------
 export const getAnimations = createAsyncThunk(
-	'animations/get',
+	'tables/animations/get',
 	async () => await AnimationsServiceInstance.getAnimations(),
 );
 
 export const getEffects = createAsyncThunk(
-	'effects/get',
+	'tables/effects/get',
 	async () => await EffectsServiceInstance.getEffects(),
 );
 
 export const createAnimation = createAsyncThunk(
-	'animation/post',
+	'tables/animation/post',
 	async (args: { duplicateId?: string; data: FormData }) => {
 		await AnimationServiceInstance.createAnimation(args);
 	},
 );
 
 export const createEffect = createAsyncThunk(
-	'effect/post',
+	'tables/effect/post',
 	async (args: { duplicateId?: string; data: FormData }) => {
 		await EffectServiceInstance.createEffect(args);
 	},
 );
 
 export const deleteAnimations = createAsyncThunk(
-	'animations/delete',
+	'tables/animations/delete',
 	async (ids: string[]) => await AnimationsServiceInstance.deleteAnimations(ids),
 );
 
 export const deleteEffects = createAsyncThunk(
-	'effects/delete',
+	'tables/effects/delete',
 	async (ids: string[]) => await EffectsServiceInstance.deleteEffects(ids),
 );
 

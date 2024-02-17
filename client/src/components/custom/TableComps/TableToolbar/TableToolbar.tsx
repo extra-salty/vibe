@@ -5,7 +5,6 @@ import {
 	GridToolbarContainer,
 	GridToolbarDensitySelector,
 	GridToolbarFilterButton,
-	useGridApiContext,
 } from '@mui/x-data-grid';
 import { Add, Delete, RestartAlt } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -24,18 +23,26 @@ const TableToolbar = ({
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
-	const apiRef = useGridApiContext();
+	// const apiRef = useGridApiContext();
 
 	const handleTableReset = () => {
-		apiRef.current.restoreState(initialTableState.state);
-		apiRef.current.setRowSelectionModel(initialTableState.selection);
-		apiRef.current.setColumnVisibilityModel(initialTableState.visibility);
+		// apiRef.current.restoreState(initialTableState.state);
+		// apiRef.current.setRowSelectionModel(initialTableState.selection);
+		// apiRef.current.setColumnVisibilityModel(initialTableState.visibility);
 	};
 
 	return (
 		<>
-			<CreateDialog type={type} open={isCreateDialogOpen} setOpen={setIsCreateDialogOpen} />
-			<DeleteDialog type={type} open={isDeleteDialogOpen} setOpen={setIsDeleteDialogOpen} />
+			<CreateDialog
+				type={type}
+				open={isCreateDialogOpen}
+				setOpen={setIsCreateDialogOpen}
+			/>
+			<DeleteDialog
+				type={type}
+				open={isDeleteDialogOpen}
+				setOpen={setIsDeleteDialogOpen}
+			/>
 			<GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<div>
 					<Button startIcon={<Add />} onClick={() => setIsCreateDialogOpen(true)}>
@@ -53,7 +60,11 @@ const TableToolbar = ({
 					<GridToolbarColumnsButton />
 					<GridToolbarFilterButton />
 					<GridToolbarDensitySelector />
-					<Button startIcon={<RestartAlt />} disabled={isResetDisabled} onClick={handleTableReset}>
+					<Button
+						startIcon={<RestartAlt />}
+						disabled={isResetDisabled}
+						onClick={handleTableReset}
+					>
 						Reset
 					</Button>
 				</div>

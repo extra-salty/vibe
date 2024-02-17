@@ -1,6 +1,9 @@
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 
+export const useAnimations = () =>
+	useSelector((state: RootState) => state.animationCreator.animations);
+
 // Animation Table
 export const useAnimationTable = () =>
 	useSelector((state: RootState) => state.animationCreator.animationTable);

@@ -34,6 +34,7 @@ const AnimationCreator = ({
 
 	dispatch(animationActions.setAnimationTableData(animations));
 	dispatch(animationActions.setStaticEffectTableData(effects));
+	dispatch(animationActions.setAnimationsData(animations));
 
 	return (
 		<div className={styles.animationCreator}>
@@ -49,7 +50,7 @@ const AnimationCreator = ({
 				collisionDetection={rectIntersection}
 			>
 				<TableTabs />
-				<Playlist />
+				{/* <Playlist /> */}
 				{/* <div className={styles.column}><FramePlayer /></div> */}
 				<DragOverlaySelector dragEvent={activeDragEvent} />
 			</DndContext>
