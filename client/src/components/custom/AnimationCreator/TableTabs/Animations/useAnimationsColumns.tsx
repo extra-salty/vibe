@@ -67,6 +67,7 @@ const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 			visibleInShowHideMenu: false,
 			// sortable: false,
 			size: 30,
+			filterVariant: 'range',
 			Header: () => (
 				<Tooltip title='Duration'>
 					<Timelapse />
@@ -111,25 +112,29 @@ const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 		// 		// </Tooltip>
 		// 	),
 		// },
-		// {
-		// 	field: 'actions',
-		// 	headerName: 'Actions',
-		// 	sortable: false,
-		// 	filterable: false,
-		// 	disableColumnMenu: true,
-		// 	width: 1,
-		// 	renderHeader: () => null,
-		// 	renderCell: (params) => (
-		// 		<TableRowMenu
-		// 			type='animation'
-		// 			rowParams={{
-		// 				_id: params.row._id,
-		// 				name: params.row.name,
-		// 				description: params.row.description,
-		// 			}}
-		// 		/>
-		// 	),
-		// },
+		{
+			accessorKey: 'actions',
+			header: 'Actions',
+			enableColumnActions: false,
+			enableSorting: false,
+			enablePinning: true,
+			// sortable: false,
+			// filterable: false,
+			// disableColumnMenu: true,
+			// width: 1,
+			// renderHeader: () => null,
+			Cell: ({ row }) => (
+				// <div>asd</div>
+				<TableRowMenu
+					type='animation'
+					rowParams={{
+						_id: row.original._id,
+						name: row.original.name,
+						description: row.original.description,
+					}}
+				/>
+			),
+		},
 	];
 };
 

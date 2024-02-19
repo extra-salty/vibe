@@ -32,7 +32,6 @@ const AnimationCreator = ({
 	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
-	dispatch(animationActions.setAnimationTableData(animations));
 	dispatch(animationActions.setStaticEffectTableData(effects));
 	dispatch(animationActions.setAnimationsData(animations));
 

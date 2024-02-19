@@ -21,6 +21,12 @@ import {
 	getEffects,
 } from './animationApi';
 import { EffectTableT } from '@/types/effect.types';
+import {
+	MRT_ColumnFiltersState,
+	MRT_RowSelectionState,
+	MRT_SortingState,
+	MRT_VisibilityState,
+} from 'material-react-table';
 
 export const initialTableState: TableT = {
 	loading: false,
@@ -41,16 +47,17 @@ export const initialTableState: TableT = {
 
 const initialState: {
 	animations: {
-		state: {
-			sorting: { id: string; desc: boolean }[];
-			rowSelection: Record<string, boolean>;
-			columnVisibility: Record<string, boolean>;
-			columnFilters: { id: string; value: unknown }[];
-		};
 		data: AnimationBaseT[];
+		loading: boolean;
+		state: {
+			sorting: MRT_SortingState;
+			rowSelection: MRT_RowSelectionState;
+			columnVisibility: MRT_VisibilityState;
+			columnFilters: MRT_ColumnFiltersState;
+			globalFilter: any;
+		};
 		expanded: false;
 	};
-	animationTable: AnimationTableT;
 	staticEffectTable: StaticEffectTableT;
 	playlist: {
 		loading: boolean;
@@ -62,15 +69,16 @@ const initialState: {
 } = {
 	animations: {
 		data: [],
+		loading: false,
 		state: {
-			sorting: [],
+			sorting: [{ desc: true, id: 'name' }],
 			rowSelection: {},
 			columnVisibility: { _id: false, description: false, dateCreated: false },
 			columnFilters: [],
+			globalFilter: '',
 		},
 		expanded: false,
 	},
-	animationTable: { ...initialTableState, data: [] },
 	staticEffectTable: { ...initialTableState, data: [] },
 	playlist: { loading: false, expanded: [], selected: [], disabled: [], data: [] },
 };
@@ -82,8 +90,8 @@ export const animationCreatorSlice = createSlice({
 		// Tables
 		builder
 			.addCase(getAnimations.fulfilled, (state, action) => {
-				state.animationTable.data = action.payload;
-				state.animationTable.loading = false;
+				state.animations.data = action.payload;
+				state.animations.loading = false;
 			})
 			.addCase(getEffects.fulfilled, (state, action) => {
 				state.staticEffectTable.data = action.payload;
@@ -92,7 +100,7 @@ export const animationCreatorSlice = createSlice({
 			.addMatcher(
 				isAnyOf(getAnimations.pending, createAnimation.pending, deleteAnimations.pending),
 				(state) => {
-					state.animationTable.loading = true;
+					state.animations.loading = true;
 				},
 			)
 			.addMatcher(
@@ -108,7 +116,7 @@ export const animationCreatorSlice = createSlice({
 					deleteAnimations.rejected,
 				),
 				(state) => {
-					state.animationTable.loading = false;
+					state.animations.loading = false;
 				},
 			)
 			.addMatcher(
@@ -118,7 +126,7 @@ export const animationCreatorSlice = createSlice({
 					deleteAnimations.rejected,
 				),
 				(state) => {
-					state.animationTable.loading = false;
+					state.animations.loading = false;
 				},
 			);
 
@@ -178,18 +186,23 @@ export const animationCreatorSlice = createSlice({
 		) => {
 			state.animations.state.rowSelection = action.payload;
 		},
-		// Animation - Table
-		setAnimationTableData: (state, action: PayloadAction<AnimationBaseT[]>) => {
-			state.animationTable.data = action.payload || [];
+		setAnimationsSorting: (state, action: PayloadAction<MRT_SortingState>) => {
+			state.animations.state.sorting = action.payload;
 		},
-		setAnimationTableState: (state, action: PayloadAction<GridStateT>) => {
-			state.animationTable.state = action.payload;
-		},
-		setAnimationTableVisibility: (
+		setAnimationsColumnFilters: (
 			state,
-			action: PayloadAction<GridColumnVisibilityModel>,
+			action: PayloadAction<MRT_ColumnFiltersState>,
 		) => {
-			state.animationTable.visibility = action.payload;
+			state.animations.state.columnFilters = action.payload;
+		},
+		setAnimationsGlobalFilter: (state, action: PayloadAction<string | number>) => {
+			state.animations.state.globalFilter = action.payload;
+		},
+		setAnimationsColumnVisibility: (
+			state,
+			action: PayloadAction<MRT_VisibilityState>,
+		) => {
+			state.animations.state.columnVisibility = action.payload;
 		},
 
 		// Static Effect - Table

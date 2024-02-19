@@ -1,47 +1,72 @@
-import { useAnimations } from '@/state/features/animation/animationSelector';
-import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import useAnimationsColumns from './useAnimationsColumns';
+import { useAnimations } from '@/state/features/animation/animationSelector';
+import { useDispatch } from 'react-redux';
+import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import { animationActions } from '@/state/features/animation/animationSlice';
 import TopToolbarInternalActions from '../TopToolbarActions/TopToolbarInternalActions/TopToolbarInternalActions';
 import TopToolbarCustomActions from '../TopToolbarActions/TopToolbarCustomActions/TopToolbarCustomActions';
-import { useDispatch } from 'react-redux';
-import { animationActions } from '@/state/features/animation/animationSlice';
 
 const Animations = ({}: {}) => {
 	const dispatch = useDispatch();
 	const animations = useAnimations();
-	console.log('🚀 ~ Animations ~ animations:', animations.state);
 	const columns = useAnimationsColumns();
 
 	const table = useMaterialReactTable({
 		columns,
 		data: animations.data,
-		getRowId: (row) => row._id,
-		// initialState: { ...animations.state },
 		state: animations.state,
-		// onRowSelectionChange: dispatch(animationActions.setAnimationsRowSelection),
-
-		// onRowSelectionChange: (rowSelection) => {
-		// 	const asd = rowSelection(
-		// 		dispatch(animationActions.setAnimationsRowSelection(rowSelection)),
-		// 	);
-		// 	console.log('🚀 ~ Animations ~ rowSelection:', rowSelection);
-		// },
-		// onSortingChange: setSorting,
-		//
-		enableRowNumbers: true,
-		rowNumberDisplayMode: 'static',
-		//
-		muiTableContainerProps: { sx: { height: '700px' } },
 		//
 		enablePagination: false,
+		muiTableContainerProps: { sx: { height: '700px' } },
 		//
-		// state: {rowSelection}
+		// muiTableHeadCellProps: { size: 'small' },
+		// Indexing
+		enableRowNumbers: true,
+		rowNumberDisplayMode: 'static',
+		getRowId: (row) => row._id,
+		// Selection
 		enableRowSelection: true,
-		enableBatchRowSelection: true,
-		//
-		renderToolbarInternalActions: ({ table }) => (
-			<TopToolbarInternalActions table={table} type='animation' isResetDisabled />
-		),
+		positionToolbarAlertBanner: 'bottom',
+		onRowSelectionChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(animations.state.rowSelection);
+
+			dispatch(animationActions.setAnimationsRowSelection(nextState));
+		},
+		// Sorting
+		enableMultiSort: true,
+		enableSortingRemoval: false,
+		onSortingChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(animations.state.sorting);
+
+			dispatch(animationActions.setAnimationsSorting(nextState));
+		},
+		// Filtering
+		onColumnFiltersChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(animations.state.columnFilters);
+
+			dispatch(animationActions.setAnimationsColumnFilters(nextState));
+		},
+		muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
+		onGlobalFilterChange: (updater) => {
+			// if (typeof updater !== 'function') return;
+			const nextState = updater(animations.state.globalFilter);
+
+			dispatch(animationActions.setAnimationsGlobalFilter(nextState));
+		},
+		// Visibility
+		onColumnVisibilityChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(animations.state.columnVisibility);
+
+			dispatch(animationActions.setAnimationsColumnVisibility(nextState));
+		},
+		// Toolbar
+		// renderToolbarInternalActions: ({ table }) => (
+		// 	<TopToolbarInternalActions table={table} type='animation' />
+		// ),
 		renderTopToolbarCustomActions: ({ table }) => (
 			<TopToolbarCustomActions
 				type='animation'
