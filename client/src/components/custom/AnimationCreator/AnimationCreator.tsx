@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/state/store';
-import { getAnimations, getEffects } from '@/state/features/animation/animationApi';
 import {
 	DndContext,
 	DragEndEvent,
@@ -16,10 +15,11 @@ import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
 import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
 import TableTabs from './TableTabs/TableTabs';
-import Playlist from './AnimationPlaylist/Playlist';
 import { AnimationBaseT } from '@/types/animation.types';
 import { EffectTableT } from '@/types/effect.types';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { animationsActions } from '@/state/features/animations/animationSlice';
+import { staticEffectsActions } from '@/state/features/staticEffects/staticEffectsSlice';
+import Playlist from './Playlist/Playlist';
 import styles from './AnimationCreator.module.scss';
 
 const AnimationCreator = ({
@@ -32,8 +32,8 @@ const AnimationCreator = ({
 	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
-	dispatch(animationActions.setStaticEffectTableData(effects));
-	dispatch(animationActions.setAnimationsData(animations));
+	dispatch(staticEffectsActions.setStaticEffectsData(effects));
+	dispatch(animationsActions.setAnimationsData(animations));
 
 	return (
 		<div className={styles.animationCreator}>

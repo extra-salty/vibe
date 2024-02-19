@@ -1,5 +1,6 @@
 import { ColorT } from './color.types';
 import { CoordinateT } from './misc.types';
+import { TableStateT } from './table.types';
 
 export type EffectBaseT = {
 	_id: string;
@@ -20,7 +21,10 @@ export type FrameBaseT = {
 
 export type EffectTableT = Omit<EffectBaseT, 'frames'>;
 
-export type EffectStateT = Omit<EffectBaseT, 'frames' | 'dateCreated' | 'dateModified'> & {
+export type EffectStateT = Omit<
+	EffectBaseT,
+	'frames' | 'dateCreated' | 'dateModified'
+> & {
 	frames: FrameStateT[];
 	dateCreated?: Date;
 	dateModified?: Date;
@@ -84,3 +88,8 @@ export class FrameState extends FrameBase {
 	undo = [];
 	redo = [];
 }
+
+export type StaticEffectsT = {
+	data: EffectTableT[];
+	state: TableStateT;
+};

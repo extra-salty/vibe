@@ -1,5 +1,5 @@
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
-import { overAnimation } from '@/state/features/animation/animationSlice';
+import { overAnimation } from '@/state/features/animations/animationSlice';
 import { AppDispatch } from '@/state/store';
 import { DndElements } from '@/types/misc.types';
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';

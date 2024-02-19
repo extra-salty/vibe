@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { initialTableState } from '@/state/features/animation/animationSlice';
+import { initialTableState } from '@/state/features/animations/animationSlice';
 import {
 	GridToolbarColumnsButton,
 	GridToolbarContainer,

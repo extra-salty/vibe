@@ -5,7 +5,7 @@ import { AnimationBaseT } from '@/types/animation.types';
 import RowActionMenuItems from '../../../TableComps/RowActionMenuItems/RowActionMenuItems';
 import dayjs from 'dayjs';
 
-const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
+const useStaticEffectsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 	return [
 		// {
 		// 	field: 'index',
@@ -126,4 +126,4 @@ const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 	];
 };
 
-export default useAnimationsColumns;
+export default useStaticEffectsColumns;

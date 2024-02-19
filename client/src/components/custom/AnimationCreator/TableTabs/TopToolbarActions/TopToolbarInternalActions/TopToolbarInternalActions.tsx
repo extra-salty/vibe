@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { initialTableState } from '@/state/features/animation/animationSlice';
+import { initialTableState } from '@/state/features/animations/animationSlice';
 import { RestartAlt } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { AnimationBaseT } from '@/types/animation.types';

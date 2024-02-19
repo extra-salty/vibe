@@ -1,7 +1,7 @@
-import { usePlaylist } from '@/state/features/animation/animationSelector';
+import { usePlaylist } from '@/state/features/animations/animationSelector';
 import { useDispatch } from 'react-redux';
 import { memo } from 'react';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { animationsActions } from '@/state/features/animations/animationSlice';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { TreeView } from '@mui/x-tree-view';
@@ -15,10 +15,10 @@ const AnimationList = () => {
 	const items = playlist.data.map((animation, i) => `${animation.name}/${i}`);
 
 	const handleExpansion = (_: React.SyntheticEvent, nodeIds: string[]) =>
-		dispatch(animationActions.setPlaylistExpansion(nodeIds));
+		dispatch(animationsActions.setPlaylistExpansion(nodeIds));
 
 	const handleSelection = (_: React.SyntheticEvent, nodeIds: string[]) =>
-		dispatch(animationActions.setPlaylistSelection(nodeIds));
+		dispatch(animationsActions.setPlaylistSelection(nodeIds));
 
 	return (
 		<TreeView

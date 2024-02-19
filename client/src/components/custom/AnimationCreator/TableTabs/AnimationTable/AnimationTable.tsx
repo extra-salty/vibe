@@ -1,10 +1,10 @@
 import useAnimationTableHeader from './useAnimationTableHeader';
-import { useAnimationTable } from '@/state/features/animation/animationSelector';
+import { useAnimationTable } from '@/state/features/animations/animationSelector';
 import { useDispatch } from 'react-redux';
 import {
-	animationActions,
+	animationsActions,
 	initialTableState,
-} from '@/state/features/animation/animationSlice';
+} from '@/state/features/animations/animationSlice';
 import { memo } from 'react';
 import { DataGrid, GridRowCount, GridRowId } from '@mui/x-data-grid';
 import { GridStateT } from '@/types/animation.types';
@@ -47,7 +47,7 @@ const AnimationTable = () => {
 			columnVisibilityModel={table.visibility}
 			onColumnVisibilityModelChange={(columnVisibilityModel) => {
 				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
-					dispatch(animationActions.setAnimationTableVisibility(columnVisibilityModel));
+					dispatch(animationsActions.setAnimationTableVisibility(columnVisibilityModel));
 				}
 			}}
 			//
@@ -55,7 +55,7 @@ const AnimationTable = () => {
 			onRowSelectionModelChange={(selection) => {
 				if (JSON.stringify(table.selection) != JSON.stringify(selection)) {
 					dispatch(
-						animationActions.setAnimationTableSelection(
+						animationsActions.setAnimationTableSelection(
 							selection.map((id: GridRowId) => id as string),
 						),
 					);
@@ -70,7 +70,7 @@ const AnimationTable = () => {
 				};
 
 				if (JSON.stringify(table.state) != JSON.stringify(state)) {
-					dispatch(animationActions.setAnimationTableState(state));
+					dispatch(animationsActions.setAnimationTableState(state));
 				}
 			}}
 		/>

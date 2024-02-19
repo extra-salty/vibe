@@ -2,14 +2,14 @@ import {
 	addEffect,
 	moveAnimation,
 	moveEffect,
-} from '@/state/features/animation/animationSlice';
+} from '@/state/features/animations/animationSlice';
 import { AppDispatch } from '@/state/store';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import { AnimationEffectState } from '@/types/animation.types';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import { DndElements } from '@/types/misc.types';
 import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
-import { getAnimation } from '@/state/features/animation/animationApi';
+import { getAnimation } from '@/state/features/animations/animationsThunk';
 
 const handleDragEnd = async ({
 	event,

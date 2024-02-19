@@ -21,17 +21,16 @@ const DeleteTable = ({
 	const table = useMaterialReactTable({
 		columns,
 		data,
-		initialState: { columnVisibility: { _id: false, description: false } },
+		state: { columnVisibility: { _id: false, description: false }, rowSelection },
 		onRowSelectionChange: setSelection,
 		getRowId: (row) => row._id,
-		state: { rowSelection },
 		//
 		rowNumberDisplayMode: 'static',
-		//
-		enablePagination: false,
+		positionToolbarAlertBanner: 'bottom',
 		enableTopToolbar: false,
+		enableToolbarInternalActions: false,
+		enablePagination: false,
 		enableColumnActions: false,
-		//
 		enableRowNumbers: true,
 		enableRowSelection: true,
 		enableBatchRowSelection: true,

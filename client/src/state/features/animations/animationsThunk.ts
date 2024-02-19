@@ -10,11 +10,6 @@ export const getAnimations = createAsyncThunk(
 	async () => await AnimationsServiceInstance.getAnimations(),
 );
 
-export const getEffects = createAsyncThunk(
-	'tables/effects/get',
-	async () => await EffectsServiceInstance.getEffects(),
-);
-
 export const createAnimation = createAsyncThunk(
 	'tables/animation/post',
 	async (args: { duplicateId?: string; data: FormData }) => {
@@ -22,21 +17,9 @@ export const createAnimation = createAsyncThunk(
 	},
 );
 
-export const createEffect = createAsyncThunk(
-	'tables/effect/post',
-	async (args: { duplicateId?: string; data: FormData }) => {
-		await EffectServiceInstance.createEffect(args);
-	},
-);
-
 export const deleteAnimations = createAsyncThunk(
 	'tables/animations/delete',
 	async (ids: string[]) => await AnimationsServiceInstance.deleteAnimations(ids),
-);
-
-export const deleteEffects = createAsyncThunk(
-	'tables/effects/delete',
-	async (ids: string[]) => await EffectsServiceInstance.deleteEffects(ids),
 );
 
 // Playlist ------------------------------------------------------------------------------

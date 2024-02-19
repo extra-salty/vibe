@@ -1,4 +1,4 @@
-import { useAnimation } from '@/state/features/animation/animationSelector';
+import { useAnimation } from '@/state/features/animations/animationSelector';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSSProperties, memo } from 'react';
 import { CSS } from '@dnd-kit/utilities';

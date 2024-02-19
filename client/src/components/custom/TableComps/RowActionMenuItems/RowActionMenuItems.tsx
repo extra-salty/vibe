@@ -1,20 +1,20 @@
 import { useDispatch } from 'react-redux';
-import { getAnimation } from '@/state/features/animation/animationApi';
+import { getAnimation } from '@/state/features/animations/animationsThunk';
 import { AppDispatch } from '@/state/store';
 import { memo, useState } from 'react';
 import { ContentCopyOutlined, DeleteOutlined, Edit, MoreVert } from '@mui/icons-material';
-import { AnimationCreateT } from '@/types/animation.types';
-import { IconButton, Menu } from '@mui/material';
+import { Dialog, IconButton, Menu } from '@mui/material';
 import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 import CreateDialog from '../CreateDialog/CreateDialog';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
+import { AnimationBaseT } from '@/types/animation.types';
 
-const TableRowMenu = ({
+const RowActionMenuItems = ({
 	type,
-	rowParams,
+	row,
 }: {
 	type: 'staticEffect' | 'animation';
-	rowParams: AnimationCreateT;
+	row: AnimationBaseT;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const TableRowMenu = ({
 		{
 			icon: <Edit />,
 			label: 'Select',
-			onClick: () => dispatch(getAnimation({ id: rowParams._id })),
+			onClick: () => dispatch(getAnimation({ id: row._id })),
 		},
 		{
 			icon: <ContentCopyOutlined />,
@@ -49,16 +49,13 @@ const TableRowMenu = ({
 		<>
 			<CreateDialog
 				type={type}
-				rowParams={rowParams}
+				rowParams={row}
 				open={isCreateDialogOpen}
 				setOpen={setIsCreateDialogOpen}
 			/>
-			<DeleteDialog
-				type={type}
-				id={rowParams._id}
-				open={isDeleteDialogOpen}
-				setOpen={setIsDeleteDialogOpen}
-			/>
+			<Dialog open={isDeleteDialogOpen} onClose={() => setIsDeleteDialogOpen(false)}>
+				<DeleteDialog type={type} setOpen={setIsDeleteDialogOpen} selectedRows={[row]} />
+			</Dialog>
 			<div>
 				<IconButton
 					id='frame-menu-button'
@@ -87,4 +84,4 @@ const TableRowMenu = ({
 	);
 };
 
-export default memo(TableRowMenu);
+export default memo(RowActionMenuItems);

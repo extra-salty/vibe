@@ -1,5 +1,5 @@
-import { usePlaylist } from '@/state/features/animation/animationSelector';
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { usePlaylist } from '@/state/features/animations/animationSelector';
+import { animationsActions } from '@/state/features/animations/animationSlice';
 import { ChevronRight, ExpandLess, ExpandMore, Numbers } from '@mui/icons-material';
 import { Checkbox } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -19,13 +19,13 @@ const PlaylistHeader = ({}: {}) => {
 		const selectedNodes = isAllSelected
 			? []
 			: playlist.data.map((animation, i) => `${animation.name}/${i}`);
-		dispatch(animationActions.setPlaylistSelection(selectedNodes));
+		dispatch(animationsActions.setPlaylistSelection(selectedNodes));
 	};
 
 	const handleExpand = () => {
 		const expandedNodes = isAllExpanded ? [] : playlist.data.map((_, i) => String(i));
 
-		dispatch(animationActions.setPlaylistExpansion(expandedNodes));
+		dispatch(animationsActions.setPlaylistExpansion(expandedNodes));
 	};
 
 	return (

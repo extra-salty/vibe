@@ -1,7 +1,7 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
-import TableRowMenu from '../../../TableComps/TableRowMenu/TableRowMenu';
+import RowActionMenuItems from '../../../TableComps/RowActionMenuItems/RowActionMenuItems';
 import AnimationTableDragButton from './AnimationTableDragButton/AnimationTableDragButton';
 import dayjs from 'dayjs';
 
@@ -123,7 +123,7 @@ const useAnimationTableHeader = (): GridColDef[] => {
 			width: 1,
 			renderHeader: () => null,
 			renderCell: (params) => (
-				<TableRowMenu
+				<RowActionMenuItems
 					type='animation'
 					rowParams={{
 						_id: params.row._id,

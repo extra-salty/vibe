@@ -1,11 +1,9 @@
 import { Tooltip } from '@mui/material';
-import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
+import { Bolt, Layers, Timelapse } from '@mui/icons-material';
 import { MRT_ColumnDef } from 'material-react-table';
 import { AnimationBaseT } from '@/types/animation.types';
-import RowActionMenuItems from '../../../TableComps/RowActionMenuItems/RowActionMenuItems';
-import dayjs from 'dayjs';
 
-const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
+const usePlaylistColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 	return [
 		// {
 		// 	field: 'index',
@@ -86,18 +84,6 @@ const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 				</Tooltip>
 			),
 		},
-		{
-			accessorKey: 'dateModified',
-			header: 'Date modified',
-			size: 120,
-			Cell: ({ cell }) => dayjs(cell.getValue<Date>()).format('YY/MM/DD HH:MM:ss'),
-		},
-		{
-			accessorKey: 'dateCreated',
-			header: 'Date created',
-			size: 120,
-			Cell: ({ cell }) => dayjs(cell.getValue<Date>()).format('YY/MM/DD HH:MM:ss'),
-		},
 		// {
 		// 	field: 'drag',
 		// 	headerName: 'Drag',
@@ -121,9 +107,9 @@ const useAnimationsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
 			size: 20,
 			// width: 1,
 			Header: () => <div></div>,
-			Cell: ({ row }) => <RowActionMenuItems type='animation' row={row.original} />,
+			Cell: ({ row }) => <div></div>,
 		},
 	];
 };
 
-export default useAnimationsColumns;
+export default usePlaylistColumns;

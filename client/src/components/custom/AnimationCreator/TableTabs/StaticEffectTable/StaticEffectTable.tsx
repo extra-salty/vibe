@@ -1,11 +1,11 @@
 'use client';
 import useStaticEffectTableHeader from './useStaticEffectTableHeader';
-import { useStaticEffectTable } from '@/state/features/animation/animationSelector';
+import { useStaticEffectTable } from '@/state/features/animations/animationSelector';
 import { useDispatch } from 'react-redux';
 import {
-	animationActions,
+	animationsActions,
 	initialTableState,
-} from '@/state/features/animation/animationSlice';
+} from '@/state/features/animations/animationSlice';
 import { memo } from 'react';
 import { GridStateT } from '@/types/animation.types';
 import { DataGrid, GridRowId } from '@mui/x-data-grid';
@@ -47,7 +47,7 @@ const StaticEffectTable = () => {
 			onColumnVisibilityModelChange={(columnVisibilityModel) => {
 				if (JSON.stringify(table.visibility) != JSON.stringify(columnVisibilityModel)) {
 					dispatch(
-						animationActions.setStaticEffectTableVisibility(columnVisibilityModel),
+						animationsActions.setStaticEffectTableVisibility(columnVisibilityModel),
 					);
 				}
 			}}
@@ -56,7 +56,7 @@ const StaticEffectTable = () => {
 			onRowSelectionModelChange={(selection) => {
 				if (JSON.stringify(table.selection) != JSON.stringify(selection)) {
 					dispatch(
-						animationActions.setStaticEffectTableSelection(
+						animationsActions.setStaticEffectTableSelection(
 							selection.map((id: GridRowId) => id as string),
 						),
 					);
@@ -71,7 +71,7 @@ const StaticEffectTable = () => {
 				};
 
 				if (JSON.stringify(table.state) != JSON.stringify(state)) {
-					dispatch(animationActions.setStaticEffectTableState(state));
+					dispatch(animationsActions.setStaticEffectTableState(state));
 				}
 			}}
 		/>

@@ -64,26 +64,85 @@ export async function POST(req: NextRequest) {
 		description: data.get('description') as string,
 		dateCreated: new Date(),
 		dateModified: new Date(),
-		effects: [],
 		duration: 0,
 		framesLength: 0,
 		power: 0,
+		group: [
+			{
+				_id: 'asdasdadasdasdasdasd',
+				name: 'group1',
+				dateCreated: new Date(),
+				dateModified: new Date(),
+				duration: 0,
+				framesLength: 0,
+				power: 0,
+				group: [
+					{
+						_id: 'asdaasdadsdasdasfaad',
+						name: 'group11',
+						dateCreated: new Date(),
+						dateModified: new Date(),
+						duration: 0,
+						framesLength: 0,
+						power: 0,
+					},
+					{
+						_id: 'asdasdasdddddasdadasdad',
+						name: 'group12',
+						dateCreated: new Date(),
+						dateModified: new Date(),
+						duration: 0,
+						framesLength: 0,
+						power: 0,
+					},
+				],
+			},
+			{
+				_id: 'asdasdaaaaasdasfaad',
+				name: 'group2',
+				dateCreated: new Date(),
+				dateModified: new Date(),
+				duration: 0,
+				framesLength: 0,
+				power: 0,
+			},
+			{
+				_id: 'asdasasdasddadasdad',
+				name: 'group3',
+				dateCreated: new Date(),
+				dateModified: new Date(),
+				duration: 0,
+				framesLength: 0,
+				power: 0,
+				group: [
+					{
+						_id: 'asdasdasdaasdadsdasdasfaad',
+						name: 'group31',
+						dateCreated: new Date(),
+						dateModified: new Date(),
+						duration: 0,
+						framesLength: 0,
+						power: 0,
+					},
+				],
+			},
+		],
 	};
 
-	if (duplicateId) {
-		const animationToDuplicate = await collection
-			.find<AnimationBaseT>({ _id: new ObjectId(duplicateId) })
-			.limit(1)
-			.next();
+	// if (duplicateId) {
+	// 	const animationToDuplicate = await collection
+	// 		.find<AnimationBaseT>({ _id: new ObjectId(duplicateId) })
+	// 		.limit(1)
+	// 		.next();
 
-		if (!animationToDuplicate) {
-			return new NextResponse(null, {
-				status: 410,
-			});
-		}
+	// 	if (!animationToDuplicate) {
+	// 		return new NextResponse(null, {
+	// 			status: 410,
+	// 		});
+	// 	}
 
-		newAnimation = { ...newAnimation, effects: animationToDuplicate.effects };
-	}
+	// 	newAnimation = { ...newAnimation, effects: animationToDuplicate.effects };
+	// }
 
 	const result = await collection.insertOne(newAnimation);
 

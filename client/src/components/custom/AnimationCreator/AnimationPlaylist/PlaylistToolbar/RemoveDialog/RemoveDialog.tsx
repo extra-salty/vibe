@@ -1,4 +1,4 @@
-import { animationActions } from '@/state/features/animation/animationSlice';
+import { animationsActions } from '@/state/features/animations/animationSlice';
 import {
 	Button,
 	Dialog,
@@ -22,7 +22,7 @@ const RemoveDialog = ({
 
 	const handleAccept = () => {
 		handleClose();
-		dispatch(animationActions.resetPlaylist([]));
+		dispatch(animationsActions.resetPlaylist([]));
 	};
 
 	return (

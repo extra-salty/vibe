@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePlaylist } from '@/state/features/animation/animationSelector';
+import { usePlaylist } from '@/state/features/animations/animationSelector';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
 import { EffectsServiceInstance } from '@/app/api/effects/_service';

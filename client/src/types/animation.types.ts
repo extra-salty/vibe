@@ -1,6 +1,5 @@
 import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
-import { EffectBaseT, EffectTableT } from './effect.types';
-import { GridColumnVisibilityModel } from '@mui/x-data-grid';
+import { EffectBaseT } from './effect.types';
 
 export type AnimationBaseT = {
 	_id: string;
@@ -8,10 +7,12 @@ export type AnimationBaseT = {
 	description?: string;
 	dateCreated: Date;
 	dateModified: Date;
-	effects: AnimationEffectBaseT[];
 	framesLength: number;
 	duration: number;
 	power: number;
+	repeat?: number;
+	speed?: number;
+	group?: AnimationBaseT[];
 };
 
 export type AnimationEffectBaseT = {
@@ -29,20 +30,6 @@ export type AnimationEffectStateT = Omit<AnimationEffectBaseT, 'name'> & {
 	data: EffectBaseT;
 };
 
-export type TableAnimationT = {
-	name: string;
-	description?: string;
-	dateCreated: Date;
-	dateModified: Date;
-	effects: {
-		type: 'static' | 'dynamic';
-		name: string;
-		repeat: number;
-		frames: number;
-		duration: number;
-	};
-};
-
 export class AnimationEffectState implements AnimationEffectStateT {
 	type: 'static' | 'dynamic' = 'static';
 	repeat: number = 1;
@@ -53,21 +40,4 @@ export class AnimationEffectState implements AnimationEffectStateT {
 	}
 }
 
-export type TableT = {
-	loading: boolean;
-	state: GridStateT;
-	selection: string[];
-	visibility: GridColumnVisibilityModel;
-};
-
 export type GridStateT = Pick<GridInitialStateCommunity, 'sorting' | 'filter'>;
-
-export type StaticEffectTableT = TableT & {
-	data: EffectTableT[];
-};
-
-export type AnimationTableT = TableT & {
-	data: AnimationBaseT[];
-};
-
-export type AnimationCreateT = Pick<AnimationBaseT, '_id' | 'name' | 'description'>;

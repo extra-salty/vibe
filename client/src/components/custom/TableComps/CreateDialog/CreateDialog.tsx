@@ -6,7 +6,7 @@ import {
 	createEffect,
 	getAnimations,
 	getEffects,
-} from '@/state/features/animation/animationApi';
+} from '@/state/features/animations/animationsThunk';
 import { AnimationCreateT } from '@/types/animation.types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import {

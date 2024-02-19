@@ -5,7 +5,7 @@ import {
 	deleteEffects,
 	getAnimations,
 	getEffects,
-} from '@/state/features/animation/animationApi';
+} from '@/state/features/animations/animationsThunk';
 import { AppDispatch } from '@/state/store';
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { AnimationBaseT } from '@/types/animation.types';
@@ -14,12 +14,10 @@ import DeleteTable from './DeleteTable/DeleteTable';
 
 const DeleteDialog = ({
 	type,
-	id,
 	selectedRows,
 	setOpen,
 }: {
 	type: 'staticEffect' | 'animation';
-	id?: string;
 	selectedRows: AnimationBaseT[];
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {

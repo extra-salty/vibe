@@ -1,23 +1,21 @@
-import useAnimationsColumns from './useAnimationsColumns';
-import { useAnimations } from '@/state/features/animations/animationSelector';
+import useStaticEffectsColumns from './useStaticEffectsColumns';
+import { useStaticEffects } from '@/state/features/staticEffects/staticEffectsSelector';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import TopToolbarInternalActions from '../TopToolbarActions/TopToolbarInternalActions/TopToolbarInternalActions';
 import TopToolbarCustomActions from '../TopToolbarActions/TopToolbarCustomActions/TopToolbarCustomActions';
-import useAnimationsStateProps from './useAnimationsStateProps';
-import useAnimationsActionMenuProps from './useAnimationsActionMenuProps';
+import useStaticEffectsStateProps from './useStaticEffectsStateProps';
 
-const Animations = () => {
-	const animations = useAnimations();
-	const columns = useAnimationsColumns();
-	const stateProps = useAnimationsStateProps();
-	const actionMenuProps = useAnimationsActionMenuProps();
+const StaticEffects = () => {
+	const staticEffects = useStaticEffects();
+	const columns = useStaticEffectsColumns();
+	const stateProps = useStaticEffectsStateProps();
+	// const actionMenuProps = useAnimationsActionMenuProps();
 
 	const table = useMaterialReactTable({
 		columns,
-		data: animations.data,
-		state: { ...animations.state, density: 'compact' },
+		data: staticEffects.data,
+		state: { ...staticEffects.state, density: 'compact' },
 		...stateProps,
-		...actionMenuProps,
 		// Dragging
 		enableRowOrdering: true,
 		enableRowDragging: true,
@@ -28,10 +26,6 @@ const Animations = () => {
 				console.log('🚀 ~ Animations ~ draggingRow:', draggingRow);
 			},
 		}),
-		// Expand
-		enableExpandAll: true,
-		enableExpanding: true,
-		getSubRows: (row) => row.group,
 		//
 		enablePagination: false,
 		// Styling
@@ -72,4 +66,4 @@ const Animations = () => {
 	return <MaterialReactTable table={table} />;
 };
 
-export default Animations;
+export default StaticEffects;

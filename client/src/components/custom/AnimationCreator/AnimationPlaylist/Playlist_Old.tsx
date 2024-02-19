@@ -1,14 +1,14 @@
-import { usePlaylist } from '@/state/features/animation/animationSelector';
+import { usePlaylist } from '@/state/features/animations/animationSelector';
 import { useDroppable } from '@dnd-kit/core';
 import { LinearProgress, Typography } from '@mui/material';
 import { DndElements } from '@/types/misc.types';
 import { CSSProperties, memo } from 'react';
 import PlaylistToolbar from './PlaylistToolbar/PlaylistToolbar';
 import AnimationList from '../AnimationList/AnimationList';
-import styles from './Playlist.module.scss';
 import PlaylistHeader from './PlaylistHeader/PlaylistHeader';
+import styles from './Playlist.module.scss';
 
-const Playlist = () => {
+const Playlist_Old = () => {
 	const playlist = usePlaylist();
 
 	const { setNodeRef, isOver, active } = useDroppable({
@@ -44,4 +44,4 @@ const Playlist = () => {
 	);
 };
 
-export default memo(Playlist);
+export default memo(Playlist_Old);

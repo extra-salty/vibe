@@ -10,7 +10,7 @@ const TableToolbarCustomActions = ({
 	selectedRows,
 }: {
 	type: 'staticEffect' | 'animation';
-	selectedRows: AnimationBaseT[];
+	selectedRows: AnimationBaseT[] | any;
 }) => {
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);

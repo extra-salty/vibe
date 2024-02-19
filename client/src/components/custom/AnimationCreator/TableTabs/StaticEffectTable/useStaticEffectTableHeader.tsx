@@ -1,7 +1,7 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import TableRowMenu from '@/components/custom/TableComps/TableRowMenu/TableRowMenu';
+import RowActionMenuItems from '@/components/custom/TableComps/RowActionMenuItems/RowActionMenuItems';
 import dayjs from 'dayjs';
 import StaticEffectTableDragButton from './StaticEffectTableDragButton/StaticEffectTableDragButton';
 
@@ -23,7 +23,8 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 					<Numbers />
 				</Tooltip>
 			),
-			renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
+			renderCell: (params) =>
+				params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
 		},
 		{
 			field: '_id',
@@ -126,7 +127,7 @@ const useStaticEffectTableHeader = (): GridColDef[] => {
 			width: 60,
 			// renderHeader: () => null,
 			renderCell: (params) => (
-				<TableRowMenu
+				<RowActionMenuItems
 					type='staticEffect'
 					rowParams={{
 						_id: params.row._id,
