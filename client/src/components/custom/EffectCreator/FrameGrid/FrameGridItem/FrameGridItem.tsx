@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSSProperties, memo, useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { FrameStateT } from '@/types/effect.types';
+import { FrameStateT } from '@/types/staticAnimation.types';
 import { IconButton, Paper } from '@mui/material';
 import { DragHandleOutlined } from '@mui/icons-material';
 import FrameMenu from '@/components/custom/EffectCreator/FrameGrid/FrameGridItem/FrameMenu/FrameMenu';
@@ -21,10 +21,11 @@ const FrameGridItem = ({
 	framesLength: number;
 	frame: FrameStateT;
 }) => {
-	const { setNodeRef, attributes, listeners, isDragging, transform, transition } = useSortable({
-		id,
-		animateLayoutChanges: () => false,
-	});
+	const { setNodeRef, attributes, listeners, isDragging, transform, transition } =
+		useSortable({
+			id,
+			animateLayoutChanges: () => false,
+		});
 
 	const [isFreezed, setIsFreezed] = useState<boolean>(false);
 	const isDisabled = isFreezed || isDragging || !id;

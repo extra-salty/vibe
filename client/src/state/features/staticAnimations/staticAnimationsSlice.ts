@@ -1,7 +1,10 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { StaticAnimationTableT } from '@/types/effect.types';
-import { TableStateT, initialTableState } from '@/types/table.types';
-import { createEffect, deleteEffects, getEffects } from './staticEffectsThunk';
+import {
+	StaticAnimationTableT,
+	StaticAnimationsTableStateT,
+} from '@/types/staticAnimation.types';
+import { initialTableState } from '@/types/table.types';
+import { createEffect, deleteEffects, getEffects } from './staticAnimationsThunk';
 import {
 	MRT_ColumnFiltersState,
 	MRT_ColumnPinningState,
@@ -11,14 +14,14 @@ import {
 
 const initialState: {
 	data: StaticAnimationTableT[];
-	state: TableStateT;
+	state: StaticAnimationsTableStateT;
 } = {
 	data: [],
 	state: initialTableState,
 };
 
-export const staticEffectsSlice = createSlice({
-	name: 'staticEffects',
+export const staticAnimationsSlice = createSlice({
+	name: 'staticAnimations',
 	initialState,
 	extraReducers: (builder) => {
 		builder
@@ -61,7 +64,10 @@ export const staticEffectsSlice = createSlice({
 		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
 		},
+		resetState: (state) => {
+			state.state = initialTableState;
+		},
 	},
 });
 
-export const staticEffectsActions = staticEffectsSlice.actions;
+export const staticAnimationsActions = staticAnimationsSlice.actions;

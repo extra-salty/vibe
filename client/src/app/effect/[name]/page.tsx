@@ -1,4 +1,4 @@
-import { EffectStateT } from '@/types/effect.types';
+import { EffectStateT } from '@/types/staticAnimation.types';
 import Providers from '@/state/Providers';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
 import { EffectServiceInstance } from '@/app/api/effect/_service';

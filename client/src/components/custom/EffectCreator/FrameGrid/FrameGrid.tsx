@@ -4,7 +4,7 @@ import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector
 import { moveFrame } from '@/state/features/effect/effectSlice';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, DragEndEvent, Active } from '@dnd-kit/core';
-import { FrameStateT } from '@/types/effect.types';
+import { FrameStateT } from '@/types/staticAnimation.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
 import styles from './FrameGrid.module.scss';

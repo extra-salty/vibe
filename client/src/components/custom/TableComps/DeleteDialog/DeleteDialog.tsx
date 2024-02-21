@@ -12,7 +12,7 @@ import DeleteTable from './DeleteTable/DeleteTable';
 import {
 	deleteEffects,
 	getEffects,
-} from '@/state/features/staticEffects/staticEffectsThunk';
+} from '@/state/features/staticAnimations/staticAnimationsThunk';
 
 const DeleteDialog = ({
 	type,

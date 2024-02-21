@@ -1,10 +1,10 @@
 import { memo } from 'react';
-import { initialTableState } from '@/state/features/animations/animationSlice';
 import { RestartAlt } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { AnimationT } from '@/types/animation.types';
 import {
 	MRT_GlobalFilterTextField,
+	MRT_RowData,
 	MRT_ShowHideColumnsButton,
 	MRT_TableInstance,
 	MRT_ToggleDensePaddingButton,
@@ -12,20 +12,17 @@ import {
 	MRT_ToggleFullScreenButton,
 	MRT_ToggleGlobalFilterButton,
 } from 'material-react-table';
+import { initialTableState } from '@/types/table.types';
 
-const TopToolbarInternalActions = ({
+const TopToolbarInternalActions = <Data extends MRT_RowData>({
 	table,
-	type,
+	isResetDisabled,
+	onReset,
 }: {
-	table: MRT_TableInstance<AnimationT>;
-	type: 'staticEffect' | 'animation';
+	table: MRT_TableInstance<Data>;
+	isResetDisabled: boolean;
+	onReset: () => {};
 }) => {
-	// const handleTableReset = () => {
-	// 	apiRef.current.restoreState(initialTableState.state);
-	// 	apiRef.current.setRowSelectionModel(initialTableState.selection);
-	// 	apiRef.current.setColumnVisibilityModel(initialTableState.visibility);
-	// };
-
 	return (
 		<>
 			{/* <MRT_GlobalFilterTextField table={table} /> */}
@@ -34,15 +31,15 @@ const TopToolbarInternalActions = ({
 			<MRT_ShowHideColumnsButton table={table} />
 			<MRT_ToggleDensePaddingButton table={table} />
 			<MRT_ToggleFullScreenButton table={table} />
-			<IconButton
-			// startIcon={}
-			// disabled={isResetDisabled}
-			// onClick={handleTableReset}
-			>
-				<RestartAlt />
-			</IconButton>
+			<Tooltip title='Reset the table'>
+				<span>
+					<IconButton disabled={isResetDisabled} onClick={() => onReset()}>
+						<RestartAlt />
+					</IconButton>
+				</span>
+			</Tooltip>
 		</>
 	);
 };
 
-export default memo(TopToolbarInternalActions);
+export default TopToolbarInternalActions;

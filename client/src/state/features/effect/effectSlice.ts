@@ -1,5 +1,10 @@
 import { ColorT } from '@/types/color.types';
-import { EffectStateT, FrameHistoryT, FrameHistoryTypes, FrameStateT } from '@/types/effect.types';
+import {
+	EffectStateT,
+	FrameHistoryT,
+	FrameHistoryTypes,
+	FrameStateT,
+} from '@/types/staticAnimation.types';
 import { CoordinateT, FrameCellLocationT } from '@/types/misc.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
@@ -103,14 +108,20 @@ export const effectCreatorSlice = createSlice({
 		deleteFrame: (state, action: PayloadAction<number>) => {
 			state.effect.frames.splice(action.payload, 1);
 		},
-		moveFrame: (state, action: PayloadAction<{ startIndex: number; endIndex: number }>) => {
+		moveFrame: (
+			state,
+			action: PayloadAction<{ startIndex: number; endIndex: number }>,
+		) => {
 			const { startIndex, endIndex } = action.payload;
 			const temp = state.effect.frames[startIndex];
 
 			state.effect.frames[startIndex] = state.effect.frames[endIndex];
 			state.effect.frames[endIndex] = temp;
 		},
-		setFrameDuration: (state, action: PayloadAction<{ frameIndex: number; value: number }>) => {
+		setFrameDuration: (
+			state,
+			action: PayloadAction<{ frameIndex: number; value: number }>,
+		) => {
 			const { frameIndex, value } = action.payload;
 
 			state.effect.frames[frameIndex].duration = value;

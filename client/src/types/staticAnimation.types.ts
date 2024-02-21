@@ -1,9 +1,10 @@
 import { MRT_ColumnDef, MRT_TableOptions } from 'material-react-table';
 import { ColorT } from './color.types';
 import { CoordinateT } from './misc.types';
-import { TableStateT } from './table.types';
+import { AnimationTypesT, TableStateT } from './table.types';
 
 export type StaticAnimationBaseT = {
+	type: AnimationTypesT.staticAnimations;
 	_id: string;
 	name: string;
 	description?: string;
@@ -21,8 +22,9 @@ export type FrameBaseT = {
 };
 
 export type StaticAnimationTableT = Omit<StaticAnimationBaseT, 'frames'>;
-export type StaticAnimationTablePropsT = Partial<MRT_TableOptions<StaticAnimationBaseT>>;
-export type StaticAnimationTableColumnsT = MRT_ColumnDef<StaticAnimationBaseT>[];
+export type StaticAnimationTablePropsT = Partial<MRT_TableOptions<StaticAnimationTableT>>;
+export type StaticAnimationTableColumnsT = MRT_ColumnDef<StaticAnimationTableT>[];
+export type StaticAnimationsTableStateT = Omit<TableStateT, 'expanded'>;
 
 export type EffectStateT = Omit<
 	StaticAnimationBaseT,

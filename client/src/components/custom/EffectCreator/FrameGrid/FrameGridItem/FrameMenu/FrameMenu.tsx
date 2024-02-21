@@ -15,18 +15,25 @@ import {
 	List,
 	RestartAltOutlined,
 } from '@mui/icons-material';
-import { FrameHistoryTypes } from '@/types/effect.types';
+import { FrameHistoryTypes } from '@/types/staticAnimation.types';
 import { IconButton, Divider, Menu, Tooltip } from '@mui/material';
 import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 
-const FrameMenu = ({ frameIndex, isDisabled }: { frameIndex: number; isDisabled: boolean }) => {
+const FrameMenu = ({
+	frameIndex,
+	isDisabled,
+}: {
+	frameIndex: number;
+	isDisabled: boolean;
+}) => {
 	const dispatch = useDispatch();
 	const framesLength = useFramesLength();
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const isOpen = Boolean(anchorEl);
 
-	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+	const handleOpen = (event: React.MouseEvent<HTMLElement>) =>
+		setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
 	const additiveItems: MenuItemProps[] = [

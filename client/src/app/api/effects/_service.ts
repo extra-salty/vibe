@@ -1,6 +1,6 @@
 import { MongoService } from '@/services/mongodb/MongoService';
 import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { StaticAnimationTableT } from '@/types/effect.types';
+import { StaticAnimationTableT } from '@/types/staticAnimation.types';
 
 class EffectsService extends MongoService {
 	private endpoint: string = 'effects';

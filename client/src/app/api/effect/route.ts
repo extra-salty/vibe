@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DEFAULT_COLOR, AnimationStaticBaseT, FrameBase } from '@/types/effect.types';
+import {
+	DEFAULT_COLOR,
+	AnimationStaticBaseT,
+	FrameBase,
+} from '@/types/staticAnimation.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 

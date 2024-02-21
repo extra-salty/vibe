@@ -1,7 +1,7 @@
 import UITable from '@/components/base/UITable/UITable';
 import { UITableHeaderProps } from '@/components/base/UITable/UITable.types';
 import { useFrameHistory } from '@/state/features/effect/effectSelector';
-import { FrameHistoryTypes } from '@/types/effect.types';
+import { FrameHistoryTypes } from '@/types/staticAnimation.types';
 import styles from './FrameHistoryTable.module.scss';
 import { IconButton } from '@mui/material';
 import { RedoOutlined, UndoOutlined } from '@mui/icons-material';

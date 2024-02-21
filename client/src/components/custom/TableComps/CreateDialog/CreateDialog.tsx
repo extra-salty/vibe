@@ -20,7 +20,7 @@ import { EffectServiceInstance } from '@/app/api/effect/_service';
 import {
 	createEffect,
 	getEffects,
-} from '@/state/features/staticEffects/staticEffectsThunk';
+} from '@/state/features/staticAnimations/staticAnimationsThunk';
 import { AnimationT } from '@/types/animation.types';
 
 const CreateDialog = ({

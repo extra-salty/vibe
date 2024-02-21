@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { setEffectDescription, setEffectName } from '@/state/features/effect/effectSlice';
 import { useActiveEffect } from '@/state/features/effect/effectSelector';
-import { EffectStateT } from '@/types/effect.types';
+import { EffectStateT } from '@/types/staticAnimation.types';
 import { TextField, TextFieldProps } from '@mui/material';
 import { DateTimeField, DateTimeFieldProps } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';

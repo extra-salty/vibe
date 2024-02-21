@@ -2,7 +2,7 @@
 
 /* React-specific entry point that automatically generates
    hooks corresponding to the defined endpoints */
-import { StaticAnimationTableT } from '@/types/effect.types';
+import { StaticAnimationTableT } from '@/types/staticAnimation.types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Define a service using a base URL and expected endpoints

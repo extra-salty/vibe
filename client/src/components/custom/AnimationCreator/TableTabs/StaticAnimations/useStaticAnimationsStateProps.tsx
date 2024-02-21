@@ -1,25 +1,23 @@
 import { useDispatch } from 'react-redux';
-import { staticEffectsActions } from '@/state/features/staticEffects/staticEffectsSlice';
-import { MRT_TableOptions } from 'material-react-table';
-import { useStaticEffectsState } from '@/state/features/staticEffects/staticEffectsSelector';
-import { StaticAnimationTableT } from '@/types/effect.types';
+import { useStaticAnimationsState } from '@/state/features/staticAnimations/staticAnimationsSelector';
+import { staticAnimationsActions } from '@/state/features/staticAnimations/staticAnimationsSlice';
+import { StaticAnimationTablePropsT } from '@/types/staticAnimation.types';
+import { MRT_RowData, MRT_TableOptions } from 'material-react-table';
 
-const useStaticEffectsStateProps = (): Partial<
-	MRT_TableOptions<StaticAnimationTableT>
-> => {
+const useStaticAnimationsStateProps = (): StaticAnimationTablePropsT => {
 	const dispatch = useDispatch();
-	const state = useStaticEffectsState();
+	const state = useStaticAnimationsState();
 
 	return {
 		// State
-		state: { ...state, density: 'compact' },
+		state: { ...state },
 		// Selection
 		enableRowSelection: true,
 		positionToolbarAlertBanner: 'bottom',
 		onRowSelectionChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.rowSelection);
-			dispatch(staticEffectsActions.setRowSelection(nextState));
+			dispatch(staticAnimationsActions.setRowSelection(nextState));
 		},
 		// Sorting
 		enableMultiSort: true,
@@ -27,34 +25,34 @@ const useStaticEffectsStateProps = (): Partial<
 		onSortingChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.sorting);
-			dispatch(staticEffectsActions.setSorting(nextState));
+			dispatch(staticAnimationsActions.setSorting(nextState));
 		},
 		// Filtering
 		onColumnFiltersChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.columnFilters);
-			dispatch(staticEffectsActions.setColumnFilters(nextState));
+			dispatch(staticAnimationsActions.setColumnFilters(nextState));
 		},
 		muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
 		onGlobalFilterChange: (updater) => {
 			// if (typeof updater !== 'function') return;
 			const nextState = updater(state.globalFilter);
-			dispatch(staticEffectsActions.setGlobalFilter(nextState));
+			dispatch(staticAnimationsActions.setGlobalFilter(nextState));
 		},
 		// Visibility
 		onColumnVisibilityChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.columnVisibility);
-			dispatch(staticEffectsActions.setColumnVisibility(nextState));
+			dispatch(staticAnimationsActions.setColumnVisibility(nextState));
 		},
 		// Pinning
 		enableColumnPinning: true,
 		onColumnPinningChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.columnPinning);
-			dispatch(staticEffectsActions.setColumnPinning(nextState));
+			dispatch(staticAnimationsActions.setColumnPinning(nextState));
 		},
 	};
 };
 
-export default useStaticEffectsStateProps;
+export default useStaticAnimationsStateProps;

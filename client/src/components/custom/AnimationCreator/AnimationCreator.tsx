@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/state/store';
 import { DragStartEvent } from '@dnd-kit/core';
 import { AnimationT } from '@/types/animation.types';
-import { StaticAnimationTableT } from '@/types/effect.types';
+import { StaticAnimationTableT } from '@/types/staticAnimation.types';
 import { animationsActions } from '@/state/features/animations/animationSlice';
-import { staticEffectsActions } from '@/state/features/staticEffects/staticEffectsSlice';
+import { staticAnimationsActions } from '@/state/features/staticAnimations/staticAnimationsSlice';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
 import TableTabs from './TableTabs/TableTabs';
@@ -24,7 +24,7 @@ const AnimationCreator = ({
 	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
-	dispatch(staticEffectsActions.setData(effects));
+	dispatch(staticAnimationsActions.setData(effects));
 	dispatch(animationsActions.setData(animations));
 
 	return (

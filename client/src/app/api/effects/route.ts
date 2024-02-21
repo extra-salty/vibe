@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AnimationStaticBaseT, StaticAnimationTableT } from '@/types/effect.types';
+import {
+	AnimationStaticBaseT,
+	StaticAnimationTableT,
+} from '@/types/staticAnimation.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 

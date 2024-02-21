@@ -13,7 +13,7 @@ const useAnimationsStateProps = (): AnimationsTablePropsT => {
 		// Expand
 		enableExpanding: true,
 		enableExpandAll: true,
-		getSubRows: (row) => row.group,
+		getSubRows: (row) => row.children,
 		onExpandedChange: (updater) => {
 			if (typeof updater !== 'function') return;
 			const nextState = updater(state.expanded);

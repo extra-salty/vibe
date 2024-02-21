@@ -4,7 +4,7 @@ import {
 	MethodConfigT,
 } from '@/services/HttpClient/HttpClient.types';
 import { MongoService } from '@/services/mongodb/MongoService';
-import { AnimationStaticBaseT, EffectStateT } from '@/types/effect.types';
+import { AnimationStaticBaseT, EffectStateT } from '@/types/staticAnimation.types';
 
 class EffectService extends MongoService {
 	private endpoint: string = 'effect';

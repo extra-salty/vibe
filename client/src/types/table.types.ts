@@ -4,9 +4,14 @@ import {
 	MRT_ExpandedState,
 	MRT_RowSelectionState,
 	MRT_SortingState,
-	MRT_TableOptions,
 	MRT_VisibilityState,
 } from 'material-react-table';
+
+export enum AnimationTypesT {
+	animationGroups = 'animationGroups',
+	staticAnimations = 'staticAnimations',
+	dynamicAnimations = 'dynamicAnimations',
+}
 
 export type TableStateT = {
 	isSaving: boolean;
@@ -22,7 +27,7 @@ export type TableStateT = {
 export const initialTableState: TableStateT = {
 	isSaving: false,
 	expanded: {},
-	sorting: [{ desc: true, id: 'name' }],
+	sorting: [{ desc: false, id: 'name' }],
 	rowSelection: {},
 	columnVisibility: { _id: false, description: false, dateCreated: false },
 	columnFilters: [],

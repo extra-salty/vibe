@@ -1,5 +1,5 @@
 import { applyRedo, applyUndo } from '@/state/features/effect/effectSlice';
-import { FrameStateT } from '@/types/effect.types';
+import { FrameStateT } from '@/types/staticAnimation.types';
 import { RedoOutlined, UndoOutlined } from '@mui/icons-material';
 import { IconButton, IconButtonProps, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';

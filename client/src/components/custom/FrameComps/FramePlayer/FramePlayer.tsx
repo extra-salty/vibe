@@ -6,7 +6,7 @@ import { EffectsServiceInstance } from '@/app/api/effects/_service';
 import Frame from '../Frame/Frame';
 import UIButton from '@/components/base/UIButton/UIButton';
 import { ColorT } from '@/types/color.types';
-import { DEFAULT_COLOR } from '@/types/effect.types';
+import { DEFAULT_COLOR } from '@/types/staticAnimation.types';
 
 const FramePlayer = ({}: {}) => {
 	const animations = usePlaylist();

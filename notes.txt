@@ -1,15 +1,12 @@
 TODO:
-- disable useEffect on initial render
 - services: make class properties private from child class
 - error handling
-- UITableOptions - type - keyof
-- highlight row when Animation is dragged
-- use generic array kind of type instead of UITableHeader for animations
-- generic mixin witg input for webkit and so
 - advanced filter options for column, string for strings, min max for numbers
 - custom cursor icons
-- debugger setup
 - table footer: show total frames etc for selected items
+- add back memo() for generic
+- generic types
+- common useDispatch
 https://stackoverflow.com/questions/7667958/clearing-localstorage-in-javascript
 
 
