@@ -2,59 +2,62 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/state/store';
-import {
-	DndContext,
-	DragEndEvent,
-	DragOverEvent,
-	DragStartEvent,
-	rectIntersection,
-} from '@dnd-kit/core';
-import handleDragEnd from './handleDragEnd';
-import handleDragOver from './handleDragOver';
-import DragOverlaySelector from './DragOverlaySelector/DragOverlaySelector';
-import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
-import RemoveDropZone from './RemoveDropZone/RemoveDropZone';
-import TableTabs from './TableTabs/TableTabs';
-import { AnimationBaseT } from '@/types/animation.types';
-import { EffectTableT } from '@/types/effect.types';
+import { DragStartEvent } from '@dnd-kit/core';
+import { AnimationT } from '@/types/animation.types';
+import { StaticAnimationTableT } from '@/types/effect.types';
 import { animationsActions } from '@/state/features/animations/animationSlice';
 import { staticEffectsActions } from '@/state/features/staticEffects/staticEffectsSlice';
+import { Panel, PanelGroup } from 'react-resizable-panels';
+import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
+import TableTabs from './TableTabs/TableTabs';
 import Playlist from './Playlist/Playlist';
+import FramePlayer from '../FrameComps/FramePlayer/FramePlayer';
 import styles from './AnimationCreator.module.scss';
 
 const AnimationCreator = ({
 	animations,
 	effects,
 }: {
-	animations: AnimationBaseT[];
-	effects: EffectTableT[];
+	animations: AnimationT[];
+	effects: StaticAnimationTableT[];
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [activeDragEvent, setActiveDragEvent] = useState<DragStartEvent | null>(null);
 
-	dispatch(staticEffectsActions.setStaticEffectsData(effects));
-	dispatch(animationsActions.setAnimationsData(animations));
+	dispatch(staticEffectsActions.setData(effects));
+	dispatch(animationsActions.setData(animations));
 
 	return (
-		<div className={styles.animationCreator}>
-			<DndContext
-				onDragCancel={() => setActiveDragEvent(null)}
-				onDragStart={(event: DragStartEvent) => setActiveDragEvent(event)}
-				onDragEnd={(event: DragEndEvent) =>
-					handleDragEnd({ event, dispatch, setActiveDragEvent })
-				}
-				onDragOver={(event: DragOverEvent) =>
-					handleDragOver({ event, dispatch, setActiveDragEvent })
-				}
-				collisionDetection={rectIntersection}
-			>
+		<PanelGroup direction='horizontal' className={styles.animationCreator}>
+			<Panel defaultSize={40} minSize={20} className={styles.row}>
 				<TableTabs />
+			</Panel>
+			<ResizeHandle />
+			<Panel defaultSize={40} minSize={20} className={styles.row}>
 				{/* <Playlist /> */}
-				{/* <div className={styles.column}><FramePlayer /></div> */}
-				<DragOverlaySelector dragEvent={activeDragEvent} />
-			</DndContext>
-		</div>
+			</Panel>
+			<ResizeHandle />
+			<Panel defaultSize={20} minSize={10} className={styles.row}>
+				{/* <FramePlayer /> */}
+			</Panel>
+		</PanelGroup>
 	);
 };
 
 export default AnimationCreator;
+
+{
+	/* <DndContext
+onDragCancel={() => setActiveDragEvent(null)}
+onDragStart={(event: DragStartEvent) => setActiveDragEvent(event)}
+// onDragEnd={(event: DragEndEvent) =>
+// 	handleDragEnd({ event, dispatch, setActiveDragEvent })
+// }
+// onDragOver={(event: DragOverEvent) =>
+// 	handleDragOver({ event, dispatch, setActiveDragEvent })
+// }
+collisionDetection={rectIntersection}
+<DragOverlaySelector dragEvent={activeDragEvent} />
+			</DndContext>
+> */
+}

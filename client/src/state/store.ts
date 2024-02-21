@@ -15,6 +15,7 @@ import { animationsSlice } from './features/animations/animationSlice';
 import { staticEffectsSlice } from './features/staticEffects/staticEffectsSlice';
 import appReducer from './features/app/appSlice';
 import storage from 'redux-persist/lib/storage';
+import { playlistSlice } from './features/playlist/playlistSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
 	[animationsSlice.name]: animationsSlice.reducer,
 	[staticEffectsSlice.name]: staticEffectsSlice.reducer,
 	[effectCreatorSlice.name]: effectCreatorSlice.reducer,
+	[playlistSlice.name]: playlistSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

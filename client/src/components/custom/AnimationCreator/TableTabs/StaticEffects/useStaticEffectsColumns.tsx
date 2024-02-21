@@ -1,11 +1,11 @@
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { MRT_ColumnDef } from 'material-react-table';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import RowActionMenuItems from '../../../TableComps/RowActionMenuItems/RowActionMenuItems';
 import dayjs from 'dayjs';
 
-const useStaticEffectsColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
+const useStaticEffectsColumns = (): MRT_ColumnDef<AnimationT>[] => {
 	return [
 		// {
 		// 	field: 'index',

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useActiveEffect, useFrames } from '@/state/features/effect/effectSelector';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
-import { EffectBaseT, FrameStateT } from '@/types/effect.types';
+import { AnimationStaticBaseT, FrameStateT } from '@/types/effect.types';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { PauseCircleOutline, PlayArrowOutlined, SaveOutlined } from '@mui/icons-material';
 import Frame from '../../FrameComps/Frame/Frame';

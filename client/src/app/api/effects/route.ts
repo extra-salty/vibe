@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EffectBaseT, EffectTableT } from '@/types/effect.types';
+import { AnimationStaticBaseT, StaticAnimationTableT } from '@/types/effect.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET() {
 	const client = await mongoClientPromise;
 
-	const effects: EffectTableT[] = await client
+	const effects: StaticAnimationTableT[] = await client
 		.db(process.env.DB_NAME)
-		.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
+		.collection<AnimationStaticBaseT>(process.env.EFFECT_COLLECTION)
 		.find({}, { projection: { frames: false } })
 		.sort({ name: 1 })
 		.toArray();

@@ -1,14 +1,14 @@
 import { useDispatch } from 'react-redux';
 import { useAnimations } from '@/state/features/animations/animationSelector';
 import { animationsActions } from '@/state/features/animations/animationSlice';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import { MRT_TableOptions } from 'material-react-table';
 
-const useAnimationsActionMenuProps = (): Partial<MRT_TableOptions<AnimationBaseT>> => {
+const useAnimationsActionMenuProps = (): Partial<MRT_TableOptions<AnimationT>> => {
 	const dispatch = useDispatch();
 	const animations = useAnimations();
 
-	const stateProps: Partial<MRT_TableOptions<AnimationBaseT>>[] = [{}];
+	const stateProps: Partial<MRT_TableOptions<AnimationT>>[] = [{}];
 
 	return stateProps.reduce((stateProps, props) => ({ ...stateProps, ...props }), {});
 };

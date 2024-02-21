@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { initialTableState } from '@/state/features/animations/animationSlice';
 import { RestartAlt } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import {
 	MRT_GlobalFilterTextField,
 	MRT_ShowHideColumnsButton,
@@ -17,7 +17,7 @@ const TopToolbarInternalActions = ({
 	table,
 	type,
 }: {
-	table: MRT_TableInstance<AnimationBaseT>;
+	table: MRT_TableInstance<AnimationT>;
 	type: 'staticEffect' | 'animation';
 }) => {
 	// const handleTableReset = () => {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
-import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
-import { EffectBaseT } from '@/types/effect.types';
+import { AnimationT, AnimationStateT } from '@/types/animation.types';
+import { AnimationStaticBaseT } from '@/types/effect.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -16,11 +16,13 @@ export async function GET(req: NextRequest) {
 	}
 
 	const client = await mongoClientPromise;
+	const db = client.db(process.env.DB_NAME);
+	const animationCollection = db.collection(process.env.ANIMATION_COLLECTION);
+	const effectCollection = db.collection(process.env.ANIMATION_COLLECTION);
 
-	const animation = await client
-		.db(process.env.DB_NAME)
-		.collection(process.env.ANIMATION_COLLECTION)
-		.findOne<AnimationBaseT>({ _id: new ObjectId(id) });
+	const animation = await animationCollection.findOne<AnimationT>({
+		_id: new ObjectId(id),
+	});
 
 	if (!animation) {
 		return new NextResponse(null, {
@@ -29,11 +31,11 @@ export async function GET(req: NextRequest) {
 		});
 	}
 
-	const effectNames = animation.effects.map((effect) => effect.name);
+	const getEffectGroup = () => {};
 
 	const effects = await client
 		.db(process.env.DB_NAME)
-		.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
+		.collection<AnimationStaticBaseT>(process.env.EFFECT_COLLECTION)
 		.find({ name: { $in: effectNames } })
 		.toArray();
 
@@ -59,90 +61,32 @@ export async function POST(req: NextRequest) {
 		.db(process.env.DB_NAME)
 		.collection(process.env.ANIMATION_COLLECTION);
 
-	let newAnimation: Omit<AnimationBaseT, '_id'> = {
+	let newAnimation: Omit<AnimationT, '_id'> = {
 		name: data.get('name') as string,
+		type: 'group',
 		description: data.get('description') as string,
 		dateCreated: new Date(),
 		dateModified: new Date(),
 		duration: 0,
 		framesLength: 0,
 		power: 0,
-		group: [
-			{
-				_id: 'asdasdadasdasdasdasd',
-				name: 'group1',
-				dateCreated: new Date(),
-				dateModified: new Date(),
-				duration: 0,
-				framesLength: 0,
-				power: 0,
-				group: [
-					{
-						_id: 'asdaasdadsdasdasfaad',
-						name: 'group11',
-						dateCreated: new Date(),
-						dateModified: new Date(),
-						duration: 0,
-						framesLength: 0,
-						power: 0,
-					},
-					{
-						_id: 'asdasdasdddddasdadasdad',
-						name: 'group12',
-						dateCreated: new Date(),
-						dateModified: new Date(),
-						duration: 0,
-						framesLength: 0,
-						power: 0,
-					},
-				],
-			},
-			{
-				_id: 'asdasdaaaaasdasfaad',
-				name: 'group2',
-				dateCreated: new Date(),
-				dateModified: new Date(),
-				duration: 0,
-				framesLength: 0,
-				power: 0,
-			},
-			{
-				_id: 'asdasasdasddadasdad',
-				name: 'group3',
-				dateCreated: new Date(),
-				dateModified: new Date(),
-				duration: 0,
-				framesLength: 0,
-				power: 0,
-				group: [
-					{
-						_id: 'asdasdasdaasdadsdasdasfaad',
-						name: 'group31',
-						dateCreated: new Date(),
-						dateModified: new Date(),
-						duration: 0,
-						framesLength: 0,
-						power: 0,
-					},
-				],
-			},
-		],
+		group: [],
 	};
 
-	// if (duplicateId) {
-	// 	const animationToDuplicate = await collection
-	// 		.find<AnimationBaseT>({ _id: new ObjectId(duplicateId) })
-	// 		.limit(1)
-	// 		.next();
+	if (duplicateId) {
+		const animationToDuplicate = await collection
+			.find<AnimationT>({ _id: new ObjectId(duplicateId) })
+			.limit(1)
+			.next();
 
-	// 	if (!animationToDuplicate) {
-	// 		return new NextResponse(null, {
-	// 			status: 410,
-	// 		});
-	// 	}
+		if (!animationToDuplicate) {
+			return new NextResponse(null, {
+				status: 410,
+			});
+		}
 
-	// 	newAnimation = { ...newAnimation, effects: animationToDuplicate.effects };
-	// }
+		newAnimation = { ...newAnimation, group: animationToDuplicate.group };
+	}
 
 	const result = await collection.insertOne(newAnimation);
 
@@ -160,7 +104,7 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
 	try {
 		const dateModified = new Date();
-		const { name, ...animationData }: AnimationBaseT = await req.json();
+		const { name, ...animationData }: AnimationT = await req.json();
 		console.log('🚀 ~ PATCH ~ animationData:', animationData);
 
 		const client = await mongoClientPromise;

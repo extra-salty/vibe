@@ -1,6 +1,10 @@
-import { CacheOptions, ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import {
+	CacheOptions,
+	ContentType,
+	MethodConfigT,
+} from '@/services/HttpClient/HttpClient.types';
 import { MongoService } from '@/services/mongodb/MongoService';
-import { EffectBaseT, EffectStateT } from '@/types/effect.types';
+import { AnimationStaticBaseT, EffectStateT } from '@/types/effect.types';
 
 class EffectService extends MongoService {
 	private endpoint: string = 'effect';
@@ -33,7 +37,7 @@ class EffectService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateEffect(effectData: Omit<EffectBaseT, 'dateCreated'>) {
+	updateEffect(effectData: Omit<AnimationStaticBaseT, 'dateCreated'>) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			body: effectData,

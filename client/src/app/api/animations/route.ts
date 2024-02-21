@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET() {
 	const client = await mongoClientPromise;
 
-	const animations: AnimationBaseT[] = await client
+	const animations: AnimationT[] = await client
 		.db(process.env.DB_NAME)
-		.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
+		.collection<AnimationT>(process.env.ANIMATION_COLLECTION)
 		.find({})
 		.sort({ name: 1 })
 		.toArray();

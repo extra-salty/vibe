@@ -1,13 +1,16 @@
 import {
 	MRT_ColumnFiltersState,
 	MRT_ColumnPinningState,
+	MRT_ExpandedState,
 	MRT_RowSelectionState,
 	MRT_SortingState,
+	MRT_TableOptions,
 	MRT_VisibilityState,
 } from 'material-react-table';
 
 export type TableStateT = {
 	isSaving: boolean;
+	expanded: MRT_ExpandedState;
 	sorting: MRT_SortingState;
 	rowSelection: MRT_RowSelectionState;
 	columnVisibility: MRT_VisibilityState;
@@ -18,13 +21,14 @@ export type TableStateT = {
 
 export const initialTableState: TableStateT = {
 	isSaving: false,
+	expanded: {},
 	sorting: [{ desc: true, id: 'name' }],
 	rowSelection: {},
 	columnVisibility: { _id: false, description: false, dateCreated: false },
 	columnFilters: [],
 	columnPinning: {
-		left: ['mrt-row-select', 'mrt-row-numbers', 'name'],
-		right: ['actions'],
+		left: ['mrt-row-expand', 'mrt-row-select', 'mrt-row-numbers', 'name'],
+		right: ['mrt-row-drag', 'actions'],
 	},
 	globalFilter: '',
 };

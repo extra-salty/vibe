@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { EffectTableT } from '@/types/effect.types';
+import { StaticAnimationTableT } from '@/types/effect.types';
 import { TableStateT, initialTableState } from '@/types/table.types';
 import { createEffect, deleteEffects, getEffects } from './staticEffectsThunk';
 import {
@@ -10,7 +10,7 @@ import {
 } from 'material-react-table';
 
 const initialState: {
-	data: EffectTableT[];
+	data: StaticAnimationTableT[];
 	state: TableStateT;
 } = {
 	data: [],
@@ -40,37 +40,25 @@ export const staticEffectsSlice = createSlice({
 			);
 	},
 	reducers: {
-		setStaticEffectsData: (state, action: PayloadAction<EffectTableT[]>) => {
+		setData: (state, action: PayloadAction<StaticAnimationTableT[]>) => {
 			state.data = action.payload || [];
 		},
-		setStaticEffectsRowSelection: (
-			state,
-			action: PayloadAction<Record<string, boolean>>,
-		) => {
+		setRowSelection: (state, action: PayloadAction<Record<string, boolean>>) => {
 			state.state.rowSelection = action.payload;
 		},
-		setStaticEffectsSorting: (state, action: PayloadAction<MRT_SortingState>) => {
+		setSorting: (state, action: PayloadAction<MRT_SortingState>) => {
 			state.state.sorting = action.payload;
 		},
-		setStaticEffectsColumnFilters: (
-			state,
-			action: PayloadAction<MRT_ColumnFiltersState>,
-		) => {
+		setColumnFilters: (state, action: PayloadAction<MRT_ColumnFiltersState>) => {
 			state.state.columnFilters = action.payload;
 		},
-		setStaticEffectsGlobalFilter: (state, action: PayloadAction<string | number>) => {
+		setGlobalFilter: (state, action: PayloadAction<string | number>) => {
 			state.state.globalFilter = action.payload;
 		},
-		setStaticEffectsColumnVisibility: (
-			state,
-			action: PayloadAction<MRT_VisibilityState>,
-		) => {
+		setColumnVisibility: (state, action: PayloadAction<MRT_VisibilityState>) => {
 			state.state.columnVisibility = action.payload;
 		},
-		setStaticEffectsColumnPinning: (
-			state,
-			action: PayloadAction<MRT_ColumnPinningState>,
-		) => {
+		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
 		},
 	},

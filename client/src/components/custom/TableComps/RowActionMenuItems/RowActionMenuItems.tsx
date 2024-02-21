@@ -7,14 +7,14 @@ import { Dialog, IconButton, Menu } from '@mui/material';
 import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 import CreateDialog from '../CreateDialog/CreateDialog';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 
 const RowActionMenuItems = ({
 	type,
 	row,
 }: {
 	type: 'staticEffect' | 'animation';
-	row: AnimationBaseT;
+	row: AnimationT;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);

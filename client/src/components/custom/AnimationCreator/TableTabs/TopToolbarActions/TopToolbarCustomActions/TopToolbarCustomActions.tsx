@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { Add, Delete } from '@mui/icons-material';
 import { Box, Button, Dialog } from '@mui/material';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import CreateDialog from '@/components/custom/TableComps/CreateDialog/CreateDialog';
 import DeleteDialog from '@/components/custom/TableComps/DeleteDialog/DeleteDialog';
 
@@ -10,7 +10,7 @@ const TableToolbarCustomActions = ({
 	selectedRows,
 }: {
 	type: 'staticEffect' | 'animation';
-	selectedRows: AnimationBaseT[] | any;
+	selectedRows: AnimationT[] | any;
 }) => {
 	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);

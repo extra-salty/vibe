@@ -1,16 +1,16 @@
 import { MongoService } from '@/services/mongodb/MongoService';
 import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { EffectTableT } from '@/types/effect.types';
+import { StaticAnimationTableT } from '@/types/effect.types';
 
 class EffectsService extends MongoService {
 	private endpoint: string = 'effects';
 
-	getEffects(): Promise<EffectTableT[]> {
+	getEffects(): Promise<StaticAnimationTableT[]> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			cache: CacheOptions.noStore,
 		};
-		return this.get<EffectTableT[]>(methodConfig);
+		return this.get<StaticAnimationTableT[]>(methodConfig);
 	}
 
 	deleteEffects(effects: string[]) {

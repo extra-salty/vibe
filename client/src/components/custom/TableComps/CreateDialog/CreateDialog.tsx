@@ -3,11 +3,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { AppDispatch } from '@/state/store';
 import {
 	createAnimation,
-	createEffect,
 	getAnimations,
-	getEffects,
 } from '@/state/features/animations/animationsThunk';
-import { AnimationCreateT } from '@/types/animation.types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import {
 	Button,
@@ -20,6 +17,11 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { EffectServiceInstance } from '@/app/api/effect/_service';
+import {
+	createEffect,
+	getEffects,
+} from '@/state/features/staticEffects/staticEffectsThunk';
+import { AnimationT } from '@/types/animation.types';
 
 const CreateDialog = ({
 	type,
@@ -28,7 +30,7 @@ const CreateDialog = ({
 	setOpen,
 }: {
 	type: 'staticEffect' | 'animation';
-	rowParams?: AnimationCreateT;
+	rowParams?: AnimationT;
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {

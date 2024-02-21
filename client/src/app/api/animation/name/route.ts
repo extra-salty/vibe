@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
 		const animation = await client
 			.db(process.env.DB_NAME)
-			.collection<AnimationBaseT>(process.env.ANIMATION_COLLECTION)
+			.collection<AnimationT>(process.env.ANIMATION_COLLECTION)
 			.find({ name: name })
 			.limit(1)
 			.next();

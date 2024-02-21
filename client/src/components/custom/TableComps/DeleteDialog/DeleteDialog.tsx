@@ -2,15 +2,17 @@ import { useDispatch } from 'react-redux';
 import { Dispatch, SetStateAction, memo, useState } from 'react';
 import {
 	deleteAnimations,
-	deleteEffects,
 	getAnimations,
-	getEffects,
 } from '@/state/features/animations/animationsThunk';
 import { AppDispatch } from '@/state/store';
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import { MRT_RowSelectionState } from 'material-react-table';
 import DeleteTable from './DeleteTable/DeleteTable';
+import {
+	deleteEffects,
+	getEffects,
+} from '@/state/features/staticEffects/staticEffectsThunk';
 
 const DeleteDialog = ({
 	type,
@@ -18,7 +20,7 @@ const DeleteDialog = ({
 	setOpen,
 }: {
 	type: 'staticEffect' | 'animation';
-	selectedRows: AnimationBaseT[];
+	selectedRows: AnimationT[];
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const dispatch = useDispatch<AppDispatch>();

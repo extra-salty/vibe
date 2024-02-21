@@ -1,4 +1,5 @@
-import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
+import { TableStateT, initialTableState } from '@/types/table.types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
 	MRT_ColumnFiltersState,
@@ -8,61 +9,43 @@ import {
 } from 'material-react-table';
 
 const initialState: {
-	loading: boolean;
-	expanded: string[];
-	selected: string[];
-	disabled: string[];
-	data: AnimationStateT[];
+	data: AnimationT[] | any;
+	state: Omit<TableStateT, 'columnFilters' | 'globalFilter'>;
 } = {
-	loading: false,
-	expanded: [],
-	selected: [],
-	disabled: [],
 	data: [],
+	state: initialTableState,
 };
 
-export const animationCreatorSlice = createSlice({
-	name: 'animationCreator',
+export const playlistSlice = createSlice({
+	name: 'playlist',
 	initialState,
 	extraReducers: (builder) => {},
 	reducers: {
-		setAnimationsData: (state, action: PayloadAction<AnimationBaseT[]>) => {
+		setData: (state, action: PayloadAction<AnimationT[]>) => {
 			state.data = action.payload || [];
 		},
-		setAnimationsRowSelection: (
-			state,
-			action: PayloadAction<Record<string, boolean>>,
-		) => {
+		setRowSelection: (state, action: PayloadAction<Record<string, boolean>>) => {
 			state.state.rowSelection = action.payload;
 		},
-		setAnimationsSorting: (state, action: PayloadAction<MRT_SortingState>) => {
+		setSorting: (state, action: PayloadAction<MRT_SortingState>) => {
 			state.state.sorting = action.payload;
 		},
-		setAnimationsColumnFilters: (
-			state,
-			action: PayloadAction<MRT_ColumnFiltersState>,
-		) => {
-			state.state.columnFilters = action.payload;
-		},
-		setAnimationsGlobalFilter: (state, action: PayloadAction<string | number>) => {
-			state.state.globalFilter = action.payload;
-		},
-		setAnimationsColumnVisibility: (
-			state,
-			action: PayloadAction<MRT_VisibilityState>,
-		) => {
+		// setColumnFilters: (state, action: PayloadAction<MRT_ColumnFiltersState>) => {
+		// 	state.state.columnFilters = action.payload;
+		// },
+		// setGlobalFilter: (state, action: PayloadAction<string | number>) => {
+		// 	state.state.globalFilter = action.payload;
+		// },
+		setColumnVisibility: (state, action: PayloadAction<MRT_VisibilityState>) => {
 			state.state.columnVisibility = action.payload;
 		},
-		setAnimationsColumnPinning: (
-			state,
-			action: PayloadAction<MRT_ColumnPinningState>,
-		) => {
+		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
 		},
 	},
 });
 
-export const playlistAction = animationCreatorSlice.actions;
+export const playlistAction = playlistSlice.actions;
 
 // Animations - List
 // moveAnimation: (

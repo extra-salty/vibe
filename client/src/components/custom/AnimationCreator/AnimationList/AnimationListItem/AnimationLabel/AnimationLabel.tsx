@@ -1,7 +1,7 @@
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import { HeightOutlined } from '@mui/icons-material';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import { Checkbox, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import NumberInput from '@/components/base/NumberInput/NumberInput';
 import AnimationProperties from '../AnimationProperties/AnimationProperties';
@@ -14,7 +14,7 @@ const AnimationLabel = ({
 	listeners,
 }: {
 	index?: number;
-	animation: Omit<AnimationBaseT, 'effects'>;
+	animation: Omit<AnimationT, 'effects'>;
 	attributes?: DraggableAttributes;
 	listeners?: SyntheticListenerMap;
 }) => {

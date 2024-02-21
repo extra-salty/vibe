@@ -1,20 +1,19 @@
 import useStaticEffectsColumns from './useStaticEffectsColumns';
-import { useStaticEffects } from '@/state/features/staticEffects/staticEffectsSelector';
+import { useStaticEffectsData } from '@/state/features/staticEffects/staticEffectsSelector';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import TopToolbarInternalActions from '../TopToolbarActions/TopToolbarInternalActions/TopToolbarInternalActions';
 import TopToolbarCustomActions from '../TopToolbarActions/TopToolbarCustomActions/TopToolbarCustomActions';
 import useStaticEffectsStateProps from './useStaticEffectsStateProps';
 
 const StaticEffects = () => {
-	const staticEffects = useStaticEffects();
+	const data = useStaticEffectsData();
 	const columns = useStaticEffectsColumns();
 	const stateProps = useStaticEffectsStateProps();
 	// const actionMenuProps = useAnimationsActionMenuProps();
 
 	const table = useMaterialReactTable({
+		data,
 		columns,
-		data: staticEffects.data,
-		state: { ...staticEffects.state, density: 'compact' },
 		...stateProps,
 		// Dragging
 		enableRowOrdering: true,

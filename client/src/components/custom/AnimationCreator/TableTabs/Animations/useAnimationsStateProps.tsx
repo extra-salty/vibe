@@ -1,68 +1,66 @@
 import { useDispatch } from 'react-redux';
-import { useAnimations } from '@/state/features/animations/animationSelector';
+import { useAnimationsState } from '@/state/features/animations/animationSelector';
 import { animationsActions } from '@/state/features/animations/animationSlice';
-import { AnimationBaseT } from '@/types/animation.types';
-import { MRT_TableOptions } from 'material-react-table';
+import { AnimationsTablePropsT } from '@/types/animation.types';
 
-const useAnimationsStateProps = (): Partial<MRT_TableOptions<AnimationBaseT>> => {
+const useAnimationsStateProps = (): AnimationsTablePropsT => {
 	const dispatch = useDispatch();
-	const animations = useAnimations();
+	const state = useAnimationsState();
 
-	const stateProps: Partial<MRT_TableOptions<AnimationBaseT>>[] = [
+	return {
+		// State
+		state: { ...state, density: 'compact' },
+		// Expand
+		enableExpanding: true,
+		enableExpandAll: true,
+		getSubRows: (row) => row.group,
+		onExpandedChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.expanded);
+			dispatch(animationsActions.setExpanded(nextState));
+		},
 		// Selection
-		{
-			enableRowSelection: true,
-			positionToolbarAlertBanner: 'bottom',
-			onRowSelectionChange: (updater) => {
-				if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.rowSelection);
-				dispatch(animationsActions.setAnimationsRowSelection(nextState));
-			},
+		enableRowSelection: true,
+		positionToolbarAlertBanner: 'bottom',
+		onRowSelectionChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.rowSelection);
+			dispatch(animationsActions.setRowSelection(nextState));
 		},
 		// Sorting
-		{
-			enableMultiSort: true,
-			enableSortingRemoval: false,
-			onSortingChange: (updater) => {
-				if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.sorting);
-				dispatch(animationsActions.setAnimationsSorting(nextState));
-			},
+		enableMultiSort: true,
+		enableSortingRemoval: false,
+		onSortingChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.sorting);
+			dispatch(animationsActions.setSorting(nextState));
 		},
 		// Filtering
-		{
-			onColumnFiltersChange: (updater) => {
-				if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.columnFilters);
-				dispatch(animationsActions.setAnimationsColumnFilters(nextState));
-			},
-			muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
-			onGlobalFilterChange: (updater) => {
-				// if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.globalFilter);
-				dispatch(animationsActions.setAnimationsGlobalFilter(nextState));
-			},
+		muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
+		onColumnFiltersChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.columnFilters);
+			dispatch(animationsActions.setColumnFilters(nextState));
+		},
+		onGlobalFilterChange: (updater) => {
+			// if (typeof updater !== 'function') return;
+			const nextState = updater(state.globalFilter);
+			dispatch(animationsActions.setGlobalFilter(nextState));
 		},
 		// Visibility
-		{
-			onColumnVisibilityChange: (updater) => {
-				if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.columnVisibility);
-				dispatch(animationsActions.setAnimationsColumnVisibility(nextState));
-			},
+		onColumnVisibilityChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.columnVisibility);
+			dispatch(animationsActions.setColumnVisibility(nextState));
 		},
 		// Pinning
-		{
-			enableColumnPinning: true,
-			onColumnPinningChange: (updater) => {
-				if (typeof updater !== 'function') return;
-				const nextState = updater(animations.state.columnPinning);
-				dispatch(animationsActions.setAnimationsColumnPinning(nextState));
-			},
+		enableColumnPinning: true,
+		onColumnPinningChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.columnPinning);
+			dispatch(animationsActions.setColumnPinning(nextState));
 		},
-	];
-
-	return stateProps.reduce((stateProps, props) => ({ ...stateProps, ...props }), {});
+	};
 };
 
 export default useAnimationsStateProps;

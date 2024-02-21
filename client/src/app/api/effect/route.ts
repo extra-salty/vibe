@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DEFAULT_COLOR, EffectBaseT, FrameBase } from '@/types/effect.types';
+import { DEFAULT_COLOR, AnimationStaticBaseT, FrameBase } from '@/types/effect.types';
 import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
 
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
 		const effect = await client
 			.db(process.env.DB_NAME)
-			.collection<EffectBaseT>(process.env.EFFECT_COLLECTION)
+			.collection<AnimationStaticBaseT>(process.env.EFFECT_COLLECTION)
 			.findOne({ name: effectName });
 
 		if (!effect) {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 		.db(process.env.DB_NAME)
 		.collection(process.env.EFFECT_COLLECTION);
 
-	let newEffect: Omit<EffectBaseT, '_id'> = {
+	let newEffect: Omit<AnimationStaticBaseT, '_id'> = {
 		name: data.get('name') as string,
 		description: data.get('description') as string,
 		dateCreated: new Date(),
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 	};
 
 	if (duplicateId) {
-		const effectToDuplicate = await collection.findOne<EffectBaseT>({
+		const effectToDuplicate = await collection.findOne<AnimationStaticBaseT>({
 			_id: new ObjectId(duplicateId),
 		});
 		// .limit(1)
@@ -82,7 +82,8 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
 	try {
-		const { _id, ...effectData }: Omit<EffectBaseT, 'dateCreated'> = await req.json();
+		const { _id, ...effectData }: Omit<AnimationStaticBaseT, 'dateCreated'> =
+			await req.json();
 
 		const client = await mongoClientPromise;
 

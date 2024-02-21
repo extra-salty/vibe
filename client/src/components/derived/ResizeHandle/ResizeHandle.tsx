@@ -1,6 +1,5 @@
 import { PanelResizeHandle } from 'react-resizable-panels';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import UIIcon from '@/components/base/UIIcon/UIIcon';
+import { DragHandle } from '@mui/icons-material';
 import styles from './ResizeHandle.module.scss';
 import appendClasses from '@/misc/hooks/appendClasses/appendClasses';
 
@@ -14,8 +13,11 @@ const ResizeHandle = ({
 	align?: 'horizontal' | 'vertical';
 }) => {
 	return (
-		<PanelResizeHandle className={appendClasses([styles.ResizeHandleOuter, className])} id={id}>
-			<UIIcon name={Icons.resize} isRotated={align === 'vertical'} />
+		<PanelResizeHandle
+			className={appendClasses([styles.ResizeHandleOuter, className])}
+			id={id}
+		>
+			<DragHandle />
 		</PanelResizeHandle>
 	);
 };

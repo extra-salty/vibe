@@ -1,10 +1,10 @@
 import { Tooltip } from '@mui/material';
 import { Layers, Timelapse } from '@mui/icons-material';
 import { MRT_ColumnDef } from 'material-react-table';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import dayjs from 'dayjs';
 
-const useDeleteTableColumns = (): MRT_ColumnDef<AnimationBaseT>[] => {
+const useDeleteTableColumns = (): MRT_ColumnDef<AnimationT>[] => {
 	return [
 		{
 			accessorKey: '_id',

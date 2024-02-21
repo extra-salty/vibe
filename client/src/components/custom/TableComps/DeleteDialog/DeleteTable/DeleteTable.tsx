@@ -1,5 +1,5 @@
 import useDeleteTableHeader from './useDeleteTableHeader';
-import { AnimationBaseT } from '@/types/animation.types';
+import { AnimationT } from '@/types/animation.types';
 import {
 	MRT_RowSelectionState,
 	MaterialReactTable,
@@ -12,7 +12,7 @@ const DeleteTable = ({
 	rowSelection,
 	setSelection,
 }: {
-	data: AnimationBaseT[];
+	data: AnimationT[];
 	rowSelection: MRT_RowSelectionState;
 	setSelection: Dispatch<SetStateAction<string[]>> | any;
 }) => {

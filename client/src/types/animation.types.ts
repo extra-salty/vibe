@@ -1,43 +1,35 @@
-import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
-import { EffectBaseT } from './effect.types';
+import { MRT_ColumnDef, MRT_TableOptions } from 'material-react-table';
 
-export type AnimationBaseT = {
-	_id: string;
+export type AnimationT = {
+	type: 'animation';
+	_id?: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
 	dateModified: Date;
-	framesLength: number;
-	duration: number;
-	power: number;
+	// framesLength: number;
+	// duration: number;
+	// power: number;
 	repeat?: number;
 	speed?: number;
-	group?: AnimationBaseT[];
+	children?: AnimationT;
 };
 
-export type AnimationEffectBaseT = {
-	type: 'static' | 'dynamic';
-	name: string;
-	repeat: number;
-	// speed: number;
-};
+export type TypesT = 'group' | 'static' | 'dynamic';
 
-export type AnimationStateT = Omit<AnimationBaseT, 'effects'> & {
-	effects: AnimationEffectStateT[];
-};
+// export type AnimationStateT = Omit<AnimationT, 'effects'> & {
+// 	effects: AnimationEffectStateT[];
+// };
 
-export type AnimationEffectStateT = Omit<AnimationEffectBaseT, 'name'> & {
-	data: EffectBaseT;
-};
+export type AnimationsTablePropsT = Partial<MRT_TableOptions<AnimationT>>;
+export type AnimationsTableColumnsT = MRT_ColumnDef<AnimationT>[];
 
-export class AnimationEffectState implements AnimationEffectStateT {
-	type: 'static' | 'dynamic' = 'static';
-	repeat: number = 1;
-	data: EffectBaseT;
+// export class AnimationEffectState implements AnimationEffectStateT {
+// 	type: 'static' | 'dynamic' = 'static';
+// 	repeat: number = 1;
+// 	data: EffectBaseT;
 
-	constructor(effect: EffectBaseT) {
-		this.data = effect;
-	}
-}
-
-export type GridStateT = Pick<GridInitialStateCommunity, 'sorting' | 'filter'>;
+// 	constructor(effect: EffectBaseT) {
+// 		this.data = effect;
+// 	}
+// }

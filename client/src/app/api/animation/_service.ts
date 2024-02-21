@@ -1,6 +1,6 @@
 import { MongoService } from '@/services/mongodb/MongoService';
 import { ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { AnimationBaseT, AnimationStateT } from '@/types/animation.types';
+import { AnimationT, AnimationStateT } from '@/types/animation.types';
 
 class AnimationService extends MongoService {
 	private endpoint: string = 'animation';
@@ -32,7 +32,7 @@ class AnimationService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateAnimation(animationData: AnimationBaseT) {
+	updateAnimation(animationData: AnimationT) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			body: animationData,

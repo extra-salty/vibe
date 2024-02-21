@@ -9,6 +9,8 @@ TODO:
 - advanced filter options for column, string for strings, min max for numbers
 - custom cursor icons
 - debugger setup
+- table footer: show total frames etc for selected items
+https://stackoverflow.com/questions/7667958/clearing-localstorage-in-javascript
 
 
 - mongoClient general try catch

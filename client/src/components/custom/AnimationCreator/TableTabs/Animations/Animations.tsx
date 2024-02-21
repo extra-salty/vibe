@@ -1,4 +1,4 @@
-import useAnimationsColumns from './useAnimationsColumns';
+import useAnimationsColumnsProps from './useAnimationsColumns';
 import { useAnimations } from '@/state/features/animations/animationSelector';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import TopToolbarInternalActions from '../TopToolbarActions/TopToolbarInternalActions/TopToolbarInternalActions';
@@ -8,16 +8,18 @@ import useAnimationsActionMenuProps from './useAnimationsActionMenuProps';
 
 const Animations = () => {
 	const animations = useAnimations();
-	const columns = useAnimationsColumns();
 	const stateProps = useAnimationsStateProps();
+	const { columns, columnProps } = useAnimationsColumnsProps();
 	const actionMenuProps = useAnimationsActionMenuProps();
 
 	const table = useMaterialReactTable({
-		columns,
 		data: animations.data,
-		state: { ...animations.state, density: 'compact' },
+		columns,
+		...columnProps,
 		...stateProps,
 		...actionMenuProps,
+		// Misc
+		enablePagination: false,
 		// Dragging
 		enableRowOrdering: true,
 		enableRowDragging: true,
@@ -28,21 +30,15 @@ const Animations = () => {
 				console.log('🚀 ~ Animations ~ draggingRow:', draggingRow);
 			},
 		}),
-		// Expand
-		enableExpandAll: true,
-		enableExpanding: true,
-		getSubRows: (row) => row.group,
 		//
-		enablePagination: false,
 		// Styling
 		muiTableContainerProps: { sx: { height: '700px' } },
-		// layoutMode: 'semantic',
 		// muiTableHeadCellProps: { size: 'small' },
 		//
 		// Indexing
 		enableRowNumbers: true,
 		rowNumberDisplayMode: 'static',
-		getRowId: (row) => row._id,
+		// getRowId: (row) => row._id,
 		//
 		// Toolbar
 		// renderToolbarInternalActions: ({ table }) => (

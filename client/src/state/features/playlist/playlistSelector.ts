@@ -1,5 +1,8 @@
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 
-export const usePlaylist = () =>
-	useSelector((state: RootState) => state.animationCreator.playlist);
+export const usePlaylistData = () =>
+	useSelector((state: RootState) => state.playlist.data);
+
+export const usePlaylistState = () =>
+	useSelector((state: RootState) => state.playlist.state);

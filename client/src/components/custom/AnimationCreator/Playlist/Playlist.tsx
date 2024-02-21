@@ -1,15 +1,16 @@
-import { usePlaylist } from '@/state/features/animations/animationSelector';
+import usePlaylistColumns from './usePlaylistColumns';
+import { usePlaylistData } from '@/state/features/playlist/playlistSelector';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import { Box, Typography } from '@mui/material';
-import usePlaylistColumns from './usePlaylistColumns';
 
 const Playlist = () => {
-	const playlist = usePlaylist();
-	const columns = usePlaylistColumns();
+	const data = usePlaylistData();
+	const { columns, columnProps } = usePlaylistColumns();
 
 	const table = useMaterialReactTable({
-		data: playlist.data,
+		data,
 		columns,
+		...columnProps,
 		// Styling
 		muiTableContainerProps: { sx: { height: '700px' } },
 		//
@@ -31,7 +32,7 @@ const Playlist = () => {
 	});
 
 	return (
-		<Box sx={{ height: '900px', width: '700px' }}>
+		<Box sx={{ height: '900px' }}>
 			<Typography sx={{ margin: '20px' }} variant='body2'>
 				PLAYLIST
 			</Typography>
