@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { usePlaylistState } from '@/state/features/playlist/playlistSelector';
-import { animationsActions } from '@/state/features/animations/animationSlice';
+import { animationsActions } from '@/state/features/animationGroups/animationSlice';
 import { AnimationT } from '@/types/animation.types';
 import { MRT_TableOptions } from 'material-react-table';
 

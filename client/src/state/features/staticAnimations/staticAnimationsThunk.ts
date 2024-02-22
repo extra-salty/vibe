@@ -1,10 +1,10 @@
-import { EffectServiceInstance } from '@/app/api/effect/_service';
-import { EffectsServiceInstance } from '@/app/api/effects/_service';
+import { EffectServiceInstance } from '@/app/api/staticAnimation/_service';
+import { StaticAnimationsServiceInstance } from '@/app/api/staticAnimations/_service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getEffects = createAsyncThunk(
 	'tables/effects/get',
-	async () => await EffectsServiceInstance.getEffects(),
+	async () => await StaticAnimationsServiceInstance.getStaticAnimations(),
 );
 
 export const createEffect = createAsyncThunk(
@@ -16,5 +16,6 @@ export const createEffect = createAsyncThunk(
 
 export const deleteEffects = createAsyncThunk(
 	'tables/effects/delete',
-	async (ids: string[]) => await EffectsServiceInstance.deleteEffects(ids),
+	async (ids: string[]) =>
+		await StaticAnimationsServiceInstance.deleteStaticAnimations(ids),
 );

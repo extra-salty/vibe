@@ -2,7 +2,7 @@ import { MRT_ColumnDef, MRT_TableOptions } from 'material-react-table';
 
 export type AnimationT = {
 	type: 'animation';
-	_id?: string;
+	_id: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;

@@ -1,20 +1,18 @@
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Timelapse } from '@mui/icons-material';
-import dayjs from 'dayjs';
-import {
-	StaticAnimationTableColumnsT,
-	StaticAnimationTablePropsT,
-} from '@/types/staticAnimation.types';
+import { MRT_ColumnDef } from 'material-react-table';
+import { AnimationsTableColumnsT, AnimationsTablePropsT } from '@/types/animation.types';
 import RowActionMenu from '../TableComps/RowActionMenu/RowActionMenu';
+import dayjs from 'dayjs';
 
-const useStaticAnimationsColumnProps = (): {
-	columnProps: StaticAnimationTablePropsT;
-	columns: StaticAnimationTableColumnsT;
+const useAnimationGroupColumnsProps = (): {
+	columnProps: AnimationsTablePropsT;
+	columns: AnimationsTableColumnsT;
 } => {
 	return {
 		columnProps: {
 			enableColumnResizing: true,
-			// layoutMode: 'grid-no-grow',
+			// layoutMode: 'semantic',
 			columnResizeMode: 'onEnd',
 			defaultColumn: {
 				minSize: 24,
@@ -22,36 +20,36 @@ const useStaticAnimationsColumnProps = (): {
 				maxSize: 200,
 			},
 			displayColumnDefOptions: {
+				'mrt-row-expand': {
+					size: 28,
+					grow: false,
+					enableResizing: false,
+				},
 				'mrt-row-select': {
 					size: 28,
 					grow: false,
 					enableResizing: false,
-					enablePinning: false,
 				},
 				'mrt-row-numbers': {
+					// Header: <Numbers fontSize='small' />,
 					size: 28,
 					grow: false,
 					enableResizing: false,
-					enablePinning: false,
-				},
-				'mrt-row-drag': {
-					header: 'Drag',
-					size: 40,
-					minSize: 40,
-					grow: false,
-					enableResizing: false,
-					enablePinning: false,
 				},
 			},
 		},
 		columns: [
 			{
+				accessorKey: '_id',
+				header: 'ID',
+				// filterable: false,
+				// width: 220,
+			},
+			{
 				accessorKey: 'name',
 				header: 'Name',
-				minSize: 100,
+				minSize: 150,
 				grow: true,
-				enablePinning: false,
-				enableHiding: false,
 				Cell: ({ row }) => (
 					<Tooltip title={row.original.description}>
 						<span>{row.original.name}</span>
@@ -59,23 +57,24 @@ const useStaticAnimationsColumnProps = (): {
 				),
 			},
 			{
-				accessorKey: '_id',
-				header: 'ID',
+				accessorKey: 'type',
+				header: 'Type',
+				size: 80,
 				enableResizing: false,
-				size: 200,
 			},
 			{
 				accessorKey: 'description',
 				header: 'Description',
-				size: 200,
-				enableResizing: true,
+				// width: 200,
+				// sortable: false,
 			},
 			{
 				accessorKey: 'framesLength',
 				header: 'Frames',
-				filterVariant: 'range',
-				size: 60,
-				enableResizing: false,
+				// type: 'number',
+				// sortable: false,
+				// filterable: true,
+				size: 30,
 				Header: () => (
 					<Tooltip title='Number of frames'>
 						<Layers />
@@ -85,8 +84,8 @@ const useStaticAnimationsColumnProps = (): {
 			{
 				accessorKey: 'duration',
 				header: 'Duration',
-				size: 60,
-				enableResizing: false,
+				// sortable: false,
+				size: 30,
 				// filterVariant: 'range',
 				Header: () => (
 					<Tooltip title='Duration'>
@@ -98,8 +97,8 @@ const useStaticAnimationsColumnProps = (): {
 			{
 				accessorKey: 'power',
 				header: 'Power consumption',
-				size: 60,
-				enableResizing: false,
+				// sortable: false,
+				size: 30,
 				Header: () => (
 					<Tooltip title='Power consumption'>
 						<Bolt />
@@ -120,6 +119,20 @@ const useStaticAnimationsColumnProps = (): {
 				enableResizing: false,
 				Cell: ({ cell }) => dayjs(cell.getValue<Date>()).format('YY/MM/DD HH:MM:ss'),
 			},
+			// {
+			// 	field: 'drag',
+			// 	headerName: 'Drag',
+			// 	sortable: false,
+			// 	filterable: false,
+			// 	disableColumnMenu: true,
+			// 	width: 60,
+			// 	renderCell: (params: GridRenderCellParams<any, string>) => (
+			// 		<AnimationTableDragButton animation={params.row} />
+			// 		// <Tooltip title={params.row.description}>
+			// 		// 	<div>Asd</div>
+			// 		// </Tooltip>
+			// 	),
+			// },
 			{
 				accessorKey: 'actions',
 				header: 'Actions',
@@ -136,16 +149,4 @@ const useStaticAnimationsColumnProps = (): {
 	};
 };
 
-export default useStaticAnimationsColumnProps;
-
-// {
-// 	accessorKey: 'actions',
-// 	header: 'Actions',
-// 	enableColumnActions: false,
-// 	enablePinning: true,
-// 	enableSorting: false,
-// 	size: 20,
-// 	// width: 1,
-// 	Header: () => <div></div>,
-// 	Cell: ({ row }) => <RowActionMenuItems type='animation' row={row.original} />,
-// },
+export default useAnimationGroupColumnsProps;

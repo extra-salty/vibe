@@ -1,7 +1,7 @@
 import { EffectStateT } from '@/types/staticAnimation.types';
 import Providers from '@/state/Providers';
 import EffectCreator from '@/components/custom/EffectCreator/EffectCreator';
-import { EffectServiceInstance } from '@/app/api/effect/_service';
+import { EffectServiceInstance } from '@/app/api/staticAnimation/_service';
 
 const Effect = async ({ params: { name } }: { params: { name: string } }) => {
 	// const effect = await EffectServiceInstance.getEffectDetails(name);

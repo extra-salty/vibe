@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { usePlaylist } from '@/state/features/animations/animationSelector';
+import { usePlaylist } from '@/state/features/animationGroups/animationSelector';
 import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-import { EffectServiceInstance } from '@/app/api/effect/_service';
-import { EffectsServiceInstance } from '@/app/api/effects/_service';
+import { EffectServiceInstance } from '@/app/api/staticAnimation/_service';
+import { StaticAnimationsServiceInstance } from '@/app/api/staticAnimations/_service';
 import Frame from '../Frame/Frame';
 import UIButton from '@/components/base/UIButton/UIButton';
 import { ColorT } from '@/types/color.types';

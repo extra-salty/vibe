@@ -25,18 +25,14 @@ const StaticAnimations = <DataT,>() => {
 				console.log('🚀 ~ Animations ~ draggingRow:', draggingRow);
 			},
 		}),
-		//
+		// Misc
 		enablePagination: false,
 		// Styling
 		muiTableContainerProps: { sx: { height: '700px' } },
-		// layoutMode: 'semantic',
-		// muiTableHeadCellProps: { size: 'small' },
-		//
 		// Indexing
 		enableRowNumbers: true,
 		rowNumberDisplayMode: 'static',
 		getRowId: (row) => row._id,
-		//
 	});
 
 	return <MaterialReactTable table={table} />;

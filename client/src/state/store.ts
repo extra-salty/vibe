@@ -11,7 +11,7 @@ import {
 	persistStore,
 } from 'redux-persist';
 import { effectCreatorSlice } from './features/effect/effectSlice';
-import { animationsSlice } from './features/animations/animationSlice';
+import { animationsSlice } from './features/animationGroups/animationSlice';
 import { staticAnimationsSlice } from './features/staticAnimations/staticAnimationsSlice';
 import appReducer from './features/app/appSlice';
 import storage from 'redux-persist/lib/storage';

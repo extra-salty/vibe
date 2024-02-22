@@ -5,7 +5,7 @@ import { AppDispatch } from '@/state/store';
 import { DragStartEvent } from '@dnd-kit/core';
 import { AnimationT } from '@/types/animation.types';
 import { StaticAnimationTableT } from '@/types/staticAnimation.types';
-import { animationsActions } from '@/state/features/animations/animationSlice';
+import { animationsActions } from '@/state/features/animationGroups/animationSlice';
 import { staticAnimationsActions } from '@/state/features/staticAnimations/staticAnimationsSlice';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';

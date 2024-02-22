@@ -3,7 +3,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
 import { AnimationTypesT } from '@/types/table.types';
 import StaticAnimations from './StaticAnimations/StaticAnimations';
-import Animations from './Animations/Animations';
+import AnimationGroups from './AnimationGroups/AnimationGroups';
 import { StaticAnimationTableT } from '@/types/staticAnimation.types';
 import { MRT_RowData } from 'material-react-table';
 
@@ -30,7 +30,7 @@ const TableTabs = () => {
 					<Tab label='Static Animations' value={AnimationTypesT.staticAnimations} />
 				</TabList>
 				<TabPanel value={AnimationTypesT.animationGroups}>
-					<Animations />
+					<AnimationGroups />
 				</TabPanel>
 				<TabPanel value={AnimationTypesT.dynamicAnimations}>
 					<div>Dynamic Animations</div>

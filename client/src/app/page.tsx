@@ -1,11 +1,11 @@
 import AnimationCreator from '@/components/custom/AnimationCreator/AnimationCreator';
-import { AnimationsServiceInstance } from './api/animations/_service';
-import { EffectsServiceInstance } from './api/effects/_service';
+import { AnimationGroupsServiceInstance } from './api/animationGroups/_service';
+import { StaticAnimationsServiceInstance } from './api/staticAnimations/_service';
 
 const Home = async () => {
 	const [animations, effects] = await Promise.all([
-		AnimationsServiceInstance.getAnimations(),
-		EffectsServiceInstance.getEffects(),
+		AnimationGroupsServiceInstance.getAnimationGroups(),
+		StaticAnimationsServiceInstance.getStaticAnimations(),
 	]);
 
 	return <AnimationCreator animations={animations || []} effects={effects || []} />;

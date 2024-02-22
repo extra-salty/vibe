@@ -2,8 +2,9 @@ import { memo, useState } from 'react';
 import { Add, Delete } from '@mui/icons-material';
 import { Box, Button, Dialog } from '@mui/material';
 import { AnimationT } from '@/types/animation.types';
-import CreateDialog from '@/components/custom/TableComps/CreateDialog/CreateDialog';
-import DeleteDialog from '@/components/custom/TableComps/DeleteDialog/DeleteDialog';
+import CreateDialog from '../../TableComps/CreateDialog/CreateDialog';
+import DeleteDialog from '../../TableComps/DeleteDialog/DeleteDialog';
+import { StaticAnimationBaseT } from '@/types/staticAnimation.types';
 
 const TableToolbarCustomActions = ({
 	type,

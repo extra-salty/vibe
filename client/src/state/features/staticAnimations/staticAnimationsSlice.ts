@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
+	StaticAnimationBaseT,
 	StaticAnimationTableT,
 	StaticAnimationsTableStateT,
 } from '@/types/staticAnimation.types';
@@ -11,9 +12,10 @@ import {
 	MRT_SortingState,
 	MRT_VisibilityState,
 } from 'material-react-table';
+import { getStaticAnimation } from '../playlist/playlistThunk';
 
 const initialState: {
-	data: StaticAnimationTableT[];
+	data: StaticAnimationBaseT[];
 	state: StaticAnimationsTableStateT;
 } = {
 	data: [],
@@ -25,18 +27,22 @@ export const staticAnimationsSlice = createSlice({
 	initialState,
 	extraReducers: (builder) => {
 		builder
-			.addCase(getEffects.fulfilled, (state, action) => {
+			.addCase(getStaticAnimation.fulfilled, (state, action) => {
 				state.data = action.payload;
 				state.state.isSaving = false;
 			})
 			.addMatcher(
-				isAnyOf(getEffects.pending, createEffect.pending, deleteEffects.pending),
+				isAnyOf(getStaticAnimation.pending, createEffect.pending, deleteEffects.pending),
 				(state) => {
 					state.state.isSaving = true;
 				},
 			)
 			.addMatcher(
-				isAnyOf(getEffects.rejected, createEffect.rejected, deleteEffects.rejected),
+				isAnyOf(
+					getStaticAnimation.rejected,
+					createEffect.rejected,
+					deleteEffects.rejected,
+				),
 				(state) => {
 					state.state.isSaving = false;
 				},
@@ -64,7 +70,7 @@ export const staticAnimationsSlice = createSlice({
 		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
 		},
-		resetState: (state) => {
+		resetState: (state, action: PayloadAction<>) => {
 			state.state = initialTableState;
 		},
 	},
