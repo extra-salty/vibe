@@ -1,25 +1,55 @@
 import { AnimationT } from '@/types/animation.types';
-import { TableStateT, initialTableState } from '@/types/table.types';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PlaylistStateT } from '@/types/playlist.types';
+import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
-	MRT_ColumnFiltersState,
 	MRT_ColumnPinningState,
-	MRT_SortingState,
+	MRT_DensityState,
+	MRT_ExpandedState,
 	MRT_VisibilityState,
 } from 'material-react-table';
+import { getAnimationsDetail } from './playlistThunk';
+
+export const initialPlaylistState: PlaylistStateT = {
+	isSaving: false,
+	expanded: {},
+	rowSelection: {},
+	columnVisibility: { _id: false, description: false, dateCreated: false },
+	columnFilters: [],
+	columnPinning: {
+		left: ['mrt-row-expand', 'mrt-row-select', 'mrt-row-numbers', 'name'],
+		right: ['mrt-row-drag', 'actions'],
+	},
+	globalFilter: '',
+	density: 'compact',
+};
 
 const initialState: {
-	data: AnimationT[] | any;
-	state: Omit<TableStateT, 'columnFilters' | 'globalFilter'>;
+	data: AnimationT[];
+	state: PlaylistStateT;
 } = {
 	data: [],
-	state: initialTableState,
+	state: initialPlaylistState,
 };
 
 export const playlistSlice = createSlice({
 	name: 'playlist',
 	initialState,
-	extraReducers: (builder) => {},
+	extraReducers: (builder) => {
+		builder
+			.addCase(getAnimationsDetail.fulfilled, (state, action) => {
+				const length = state.data.length;
+				const { animations, index } = action.payload;
+
+				state.data.splice(index || length, 0, ...animations);
+				state.state.isSaving = false;
+			})
+			.addMatcher(isAnyOf(getAnimationsDetail.pending), (state) => {
+				state.state.isSaving = true;
+			})
+			.addMatcher(isAnyOf(getAnimationsDetail.rejected), (state) => {
+				state.state.isSaving = false;
+			});
+	},
 	reducers: {
 		setData: (state, action: PayloadAction<AnimationT[]>) => {
 			state.data = action.payload || [];
@@ -27,8 +57,8 @@ export const playlistSlice = createSlice({
 		setRowSelection: (state, action: PayloadAction<Record<string, boolean>>) => {
 			state.state.rowSelection = action.payload;
 		},
-		setSorting: (state, action: PayloadAction<MRT_SortingState>) => {
-			state.state.sorting = action.payload;
+		setExpanded: (state, action: PayloadAction<MRT_ExpandedState>) => {
+			state.state.expanded = action.payload;
 		},
 		// setColumnFilters: (state, action: PayloadAction<MRT_ColumnFiltersState>) => {
 		// 	state.state.columnFilters = action.payload;
@@ -42,10 +72,16 @@ export const playlistSlice = createSlice({
 		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
 		},
+		setDensity: (state, action: PayloadAction<MRT_DensityState>) => {
+			state.state.density = action.payload;
+		},
+		resetState: (state) => {
+			state.state = initialPlaylistState;
+		},
 	},
 });
 
-export const playlistAction = playlistSlice.actions;
+export const playlistActions = playlistSlice.actions;
 
 // Animations - List
 // moveAnimation: (

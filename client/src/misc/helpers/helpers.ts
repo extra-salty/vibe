@@ -9,3 +9,7 @@ export const genericMemo: <T>(component: T) => T = memo;
 // 		.join('&');
 // 	return asString;
 // };
+
+export const formDataToObj = (formData: FormData) => {
+	return Object.fromEntries(formData.entries());
+};

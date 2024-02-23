@@ -1,5 +1,20 @@
-import { MRT_ColumnDef, MRT_TableOptions } from 'material-react-table';
-import { AnimationStateT } from './animation.types';
+import {
+	MRT_ColumnFiltersState,
+	MRT_ColumnPinningState,
+	MRT_DensityState,
+	MRT_ExpandedState,
+	MRT_RowSelectionState,
+	MRT_VisibilityState,
+} from 'material-react-table';
 
-export type PlaylistTablePropsT = Partial<MRT_TableOptions<AnimationStateT>>;
-export type PlaylistColumnsT = MRT_ColumnDef<AnimationStateT>[];
+export type PlaylistStateT = {
+	isSaving: boolean;
+	expanded: MRT_ExpandedState;
+	// sorting: MRT_SortingState;
+	rowSelection: MRT_RowSelectionState;
+	columnVisibility: MRT_VisibilityState;
+	columnPinning: MRT_ColumnPinningState;
+	columnFilters: MRT_ColumnFiltersState;
+	globalFilter: any;
+	density: MRT_DensityState;
+};

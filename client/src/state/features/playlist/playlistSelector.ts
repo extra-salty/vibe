@@ -6,3 +6,6 @@ export const usePlaylistData = () =>
 
 export const usePlaylistState = () =>
 	useSelector((state: RootState) => state.playlist.state);
+
+export const usePlaylistRowSelection = () =>
+	useSelector((state: RootState) => state.playlist.state.rowSelection);

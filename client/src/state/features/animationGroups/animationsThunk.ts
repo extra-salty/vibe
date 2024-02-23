@@ -1,21 +1,20 @@
-import { AnimationServiceInstance } from '@/app/api/animationGroup/_service';
-import { AnimationGroupsServiceInstance } from '@/app/api/animationGroups/_service';
+import { AnimationServiceInstance } from '@/app/api/animation/_service';
+import { AnimationsServiceInstance } from '@/app/api/animations/_service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getAnimations = createAsyncThunk(
 	'tables/animations/get',
-	async () => await AnimationGroupsServiceInstance.getAnimationGroups(),
+	async () => await AnimationsServiceInstance.getAnimations(),
 );
 
 export const createAnimation = createAsyncThunk(
 	'tables/animation/post',
 	async (args: { duplicateId?: string; data: FormData }) => {
-		await AnimationServiceInstance.createAnimationGroup(args);
+		await AnimationServiceInstance.createAnimation(args);
 	},
 );
 
 export const deleteAnimations = createAsyncThunk(
 	'tables/animations/delete',
-	async (ids: string[]) =>
-		await AnimationGroupsServiceInstance.deleteAnimationGroups(ids),
+	async (ids: string[]) => await AnimationsServiceInstance.deleteAnimations(ids),
 );

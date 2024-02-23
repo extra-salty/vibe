@@ -1,16 +1,21 @@
-import usePlaylistColumns from './usePlaylistColumns';
+import usePlaylistColumns from './usePlaylistProps/usePlaylistColumnProps';
+import usePlaylistStateProps from './usePlaylistProps/usePlaylistStateProps';
+import usePlaylistComponentProps from './usePlaylistProps/usePlaylistComponentProps';
 import { usePlaylistData } from '@/state/features/playlist/playlistSelector';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
-import { Box, Typography } from '@mui/material';
 
 const Playlist = () => {
 	const data = usePlaylistData();
 	const { columns, columnProps } = usePlaylistColumns();
+	const stateProps = usePlaylistStateProps();
+	const componentProps = usePlaylistComponentProps();
 
 	const table = useMaterialReactTable({
 		data,
 		columns,
 		...columnProps,
+		...stateProps,
+		...componentProps,
 		// Styling
 		muiTableContainerProps: { sx: { height: '700px' } },
 		//
@@ -27,18 +32,11 @@ const Playlist = () => {
 		// Expand
 		enableExpandAll: true,
 		enableExpanding: true,
-		getSubRows: (row) => row.group,
+		getSubRows: (row) => row.children,
 		//
 	});
 
-	return (
-		<Box sx={{ height: '900px' }}>
-			<Typography sx={{ margin: '20px' }} variant='body2'>
-				PLAYLIST
-			</Typography>
-			<MaterialReactTable table={table} />
-		</Box>
-	);
+	return <MaterialReactTable table={table} />;
 };
 
 export default Playlist;

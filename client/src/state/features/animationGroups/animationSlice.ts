@@ -1,21 +1,39 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { AnimationT } from '@/types/animation.types';
+import { AnimationStateT, AnimationT } from '@/types/animation.types';
 import { createAnimation, deleteAnimations, getAnimations } from './animationsThunk';
-import { TableStateT, initialTableState } from '@/types/table.types';
 import {
 	MRT_ColumnFiltersState,
 	MRT_ColumnPinningState,
+	MRT_DensityState,
 	MRT_ExpandedState,
 	MRT_SortingState,
 	MRT_VisibilityState,
 } from 'material-react-table';
 
+export const initialAnimationsState: AnimationStateT = {
+	isSaving: false,
+	expanded: {},
+	sorting: [
+		{ id: 'type', desc: true },
+		{ id: 'name', desc: false },
+	],
+	rowSelection: {},
+	columnVisibility: { _id: false, description: false, dateCreated: false },
+	columnFilters: [],
+	columnPinning: {
+		left: ['mrt-row-expand', 'mrt-row-select', 'mrt-row-numbers', 'name'],
+		right: ['mrt-row-drag', 'actions'],
+	},
+	globalFilter: '',
+	density: 'compact',
+};
+
 const initialState: {
 	data: AnimationT[];
-	state: TableStateT;
+	state: AnimationStateT;
 } = {
 	data: [],
-	state: initialTableState,
+	state: initialAnimationsState,
 };
 
 export const animationsSlice = createSlice({
@@ -68,6 +86,12 @@ export const animationsSlice = createSlice({
 		},
 		setColumnPinning: (state, action: PayloadAction<MRT_ColumnPinningState>) => {
 			state.state.columnPinning = action.payload;
+		},
+		setDensity: (state, action: PayloadAction<MRT_DensityState>) => {
+			state.state.density = action.payload;
+		},
+		resetState: (state) => {
+			state.state = initialAnimationsState;
 		},
 	},
 });
