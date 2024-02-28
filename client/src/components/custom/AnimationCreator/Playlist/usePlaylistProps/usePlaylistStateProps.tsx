@@ -23,6 +23,8 @@ const usePlaylistStateProps = (): AnimationsTablePropsT => {
 		state,
 		// Internal actions
 		onDensityChange: setDensity,
+		// Sorting
+		enableSorting: false,
 		// Expand
 		enableExpanding: true,
 		enableExpandAll: true,
@@ -41,13 +43,12 @@ const usePlaylistStateProps = (): AnimationsTablePropsT => {
 			dispatch(playlistActions.setRowSelection(nextState));
 		},
 		// // Filtering
-		// {
-		// 	muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
-		// 	onColumnFiltersChange: (updater) => {
-		// 		if (typeof updater !== 'function') return;
-		// 		const nextState = updater(state.columnFilters);
-		// 		dispatch(playlistActions.setColumnFilters(nextState));
-		// 	},
+		muiSearchTextFieldProps: { sx: { backgroundColor: 'red' } },
+		onColumnFiltersChange: (updater) => {
+			if (typeof updater !== 'function') return;
+			const nextState = updater(state.columnFilters);
+			dispatch(playlistActions.setColumnFilters(nextState));
+		},
 		// 	onGlobalFilterChange: (updater) => {
 		// 		// if (typeof updater !== 'function') return;
 		// 		const nextState = updater(state.globalFilter);

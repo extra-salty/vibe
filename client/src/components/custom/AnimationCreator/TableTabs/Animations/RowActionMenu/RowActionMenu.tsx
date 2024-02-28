@@ -48,7 +48,7 @@ const RowActionMenu = ({ row }: { row: AnimationT }) => {
 					}}
 				>
 					<RowActionMenuItems
-						id={row._id}
+						row={row}
 						setIsCreateDialogOpen={setIsDuplicateDialogOpen}
 						setIsDeleteDialogOpen={setIsDeleteDialogOpen}
 					/>

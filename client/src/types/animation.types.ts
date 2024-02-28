@@ -4,6 +4,7 @@ import {
 	MRT_ColumnPinningState,
 	MRT_DensityState,
 	MRT_ExpandedState,
+	MRT_Row,
 	MRT_RowSelectionState,
 	MRT_SortingState,
 	MRT_TableInstance,
@@ -12,6 +13,7 @@ import {
 } from 'material-react-table';
 import { ColorT } from './color.types';
 import { CoordinateT } from './misc.types';
+import { DEFAULT_COLOR } from '@/state/features/color/colorSlice';
 
 export enum AnimationTypesT {
 	group = 'group',
@@ -21,7 +23,7 @@ export enum AnimationTypesT {
 
 export type AnimationT = {
 	type: AnimationTypesT;
-	_id: string;
+	_id?: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
@@ -31,13 +33,17 @@ export type AnimationT = {
 	power: number;
 	repeat?: number;
 	speed?: number;
+	children: AnimationT[];
 	frames?: FrameBaseT[];
-	children?: AnimationT[];
 };
 
 export type FrameBaseT = {
 	data: ColorT[][];
 	duration: number;
+};
+
+export type AnimationStateT = Omit<AnimationT, 'frames'> & {
+	frames?: FrameStateT[];
 };
 
 export type FrameStateT = FrameBaseT & FrameCellHistoryT;
@@ -63,10 +69,11 @@ export enum FrameHistoryTypes {
 	deleted = 'deleted',
 }
 
+export type AnimationRowT = MRT_Row<AnimationT>;
 export type AnimationsTablePropsT = Partial<MRT_TableOptions<AnimationT>>;
 export type AnimationsTableColumnsT = MRT_ColumnDef<AnimationT>[];
 export type AnimationsTableInstanceT = MRT_TableInstance<AnimationT>;
-export type AnimationStateT = {
+export type AnimationTableStateT = {
 	isSaving: boolean;
 	expanded: MRT_ExpandedState;
 	sorting: MRT_SortingState;
@@ -76,6 +83,13 @@ export type AnimationStateT = {
 	columnPinning: MRT_ColumnPinningState;
 	globalFilter: any;
 	density: MRT_DensityState;
+};
+
+const newFrame: FrameStateT = {
+	data: Array(24).fill(Array(12).fill(DEFAULT_COLOR)),
+	duration: 1000,
+	redo: [],
+	undo: [],
 };
 
 export class FrameBase implements FrameBaseT {
@@ -95,8 +109,3 @@ export class FrameState extends FrameBase {
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;
-export const DEFAULT_COLOR: ColorT = {
-	hue: 0,
-	saturation: 100,
-	lightness: 0,
-};

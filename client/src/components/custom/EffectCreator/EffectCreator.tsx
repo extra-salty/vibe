@@ -1,8 +1,7 @@
 'use client';
 import { useDispatch } from 'react-redux';
-import { setEffect } from '@/state/features/effect/effectSlice';
 import { Panel, PanelGroup } from 'react-resizable-panels';
-import { EffectStateT } from '@/types/staticAnimation.types';
+import { StaticAnimationT } from '@/types/animation.types';
 import EffectDetails from './EffectDetails/EffectDetails';
 import EffectPlayer from './EffectPlayer/EffectPlayer';
 import FrameGrid from './FrameGrid/FrameGrid';
@@ -11,7 +10,7 @@ import Attribute from '../Attribute/Attribute';
 import FrameHistoryTable from '../FrameComps/FrameHistoryTable/FrameHistoryTable';
 import styles from './EffectCreator.module.scss';
 
-const EffectCreator = ({ initialEffect }: { initialEffect: EffectStateT }) => {
+const EffectCreator = ({ initialEffect }: { initialEffect: StaticAnimationT }) => {
 	const dispatch = useDispatch();
 	// dispatch(setEffect(initialEffect));
 

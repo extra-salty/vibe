@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { AnimationStateT, AnimationT } from '@/types/animation.types';
+import { AnimationTableStateT, AnimationT } from '@/types/animation.types';
 import { createAnimation, deleteAnimations, getAnimations } from './animationsThunk';
 import {
 	MRT_ColumnFiltersState,
@@ -10,7 +10,7 @@ import {
 	MRT_VisibilityState,
 } from 'material-react-table';
 
-export const initialAnimationsState: AnimationStateT = {
+export const initialAnimationsState: AnimationTableStateT = {
 	isSaving: false,
 	expanded: {},
 	sorting: [
@@ -21,7 +21,7 @@ export const initialAnimationsState: AnimationStateT = {
 	columnVisibility: { _id: false, description: false, dateCreated: false },
 	columnFilters: [],
 	columnPinning: {
-		left: ['mrt-row-expand', 'mrt-row-select', 'mrt-row-numbers', 'name'],
+		left: ['mrt-row-expand', 'mrt-row-numbers', 'mrt-row-select', 'name'],
 		right: ['mrt-row-drag', 'actions'],
 	},
 	globalFilter: '',
@@ -30,7 +30,7 @@ export const initialAnimationsState: AnimationStateT = {
 
 const initialState: {
 	data: AnimationT[];
-	state: AnimationStateT;
+	state: AnimationTableStateT;
 } = {
 	data: [],
 	state: initialAnimationsState,

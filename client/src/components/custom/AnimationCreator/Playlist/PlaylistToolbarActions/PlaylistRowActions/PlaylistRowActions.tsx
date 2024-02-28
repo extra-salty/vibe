@@ -1,10 +1,10 @@
 import { memo, useState } from 'react';
 import { MoreVert } from '@mui/icons-material';
 import { Dialog, IconButton, Menu } from '@mui/material';
-import { AnimationT } from '@/types/animation.types';
 import PlaylistRowActionItems from './PlaylistRowActionItems/PlaylistRowActionItems';
+import { AnimationRowT } from '@/types/animation.types';
 
-const PlaylistRowActions = ({ row }: { row: AnimationT }) => {
+const PlaylistRowActions = ({ row }: { row: AnimationRowT }) => {
 	const [isDuplicateDialogOpen, setIsDuplicateDialogOpen] = useState<boolean>(false);
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
@@ -38,9 +38,9 @@ const PlaylistRowActions = ({ row }: { row: AnimationT }) => {
 					}}
 				>
 					<PlaylistRowActionItems
-						id={row._id}
-						setIsCreateDialogOpen={setIsDuplicateDialogOpen}
-						setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+						row={row}
+						// setIsCreateDialogOpen={setIsDuplicateDialogOpen}
+						// setIsDeleteDialogOpen={setIsDeleteDialogOpen}
 					/>
 				</Menu>
 			</div>

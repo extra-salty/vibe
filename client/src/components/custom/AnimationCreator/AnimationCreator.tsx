@@ -24,10 +24,10 @@ const AnimationCreator = ({ animations }: { animations: AnimationT[] }) => {
 			<Panel defaultSize={40} minSize={20} className={styles.row}>
 				<Playlist />
 			</Panel>
-			<ResizeHandle />
+			{/* <ResizeHandle />
 			<Panel defaultSize={20} minSize={10} className={styles.row}>
-				{/* <FramePlayer /> */}
-			</Panel>
+				<FramePlayer />
+			</Panel> */}
 		</PanelGroup>
 	);
 };

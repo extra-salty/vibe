@@ -1,5 +1,5 @@
 import { Tooltip } from '@mui/material';
-import { Bolt, Layers, Timelapse } from '@mui/icons-material';
+import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
 import { AnimationsTableColumnsT, AnimationsTablePropsT } from '@/types/animation.types';
 import PlaylistRowActions from '../PlaylistToolbarActions/PlaylistRowActions/PlaylistRowActions';
 
@@ -19,7 +19,7 @@ const usePlaylistColumns = (): {
 			},
 			displayColumnDefOptions: {
 				'mrt-row-expand': {
-					size: 28,
+					size: 48,
 					grow: false,
 					enableResizing: false,
 					enablePinning: false,
@@ -35,6 +35,16 @@ const usePlaylistColumns = (): {
 					grow: false,
 					enableResizing: false,
 					enablePinning: false,
+					// Cell: ({ row }) => {
+					// 	const parentIds = row
+					// 		.getParentRow()
+					// 		?.id.split('.')
+					// 		.map((id) => Number(id) + 1)
+					// 		.join('.');
+					// 	const index = row.index + 1;
+
+					// 	return row.depth ? `${parentIds}.${index}` : index;
+					// },
 				},
 				'mrt-row-drag': {
 					header: 'Drag',
@@ -47,25 +57,26 @@ const usePlaylistColumns = (): {
 			},
 		},
 		columns: [
-			// {
-			// 	field: 'index',
-			// 	headerName: 'Index',
-			// 	type: 'number',
-			// 	align: 'left',
-			// 	headerAlign: 'left',
-			// 	sortable: false,
-			// 	filterable: false,
-			// 	hideable: false,
-			// 	disableColumnMenu: true,
-			// 	width: 1,
-			// 	renderHeader: () => (
-			// 		<Tooltip title='Index'>
-			// 			<Numbers />
-			// 		</Tooltip>
-			// 	),
-			// 	renderCell: (params) =>
-			// 		params.api.getRowIndexRelativeToVisibleRows(params.row._id) + 1,
-			// },
+			{
+				accessorKey: 'index',
+				header: 'Index',
+				size: 60,
+				Header: () => (
+					<Tooltip title='Index'>
+						<Numbers />
+					</Tooltip>
+				),
+				Cell: ({ row }) => {
+					const parentIds = row
+						.getParentRow()
+						?.id.split('.')
+						.map((id) => Number(id) + 1)
+						.join('.');
+					const index = row.index + 1;
+
+					return row.depth ? `${parentIds}.${index}` : index;
+				},
+			},
 			{
 				accessorKey: 'name',
 				header: 'Name',
@@ -90,7 +101,7 @@ const usePlaylistColumns = (): {
 				header: 'Type',
 				filterVariant: 'select',
 				filterSelectOptions: ['static', 'group'],
-				size: 100,
+				size: 110,
 				enableResizing: false,
 			},
 			{
@@ -160,7 +171,9 @@ const usePlaylistColumns = (): {
 				enableResizing: false,
 				size: 36,
 				Header: () => <div></div>,
-				Cell: ({ row }) => <PlaylistRowActions row={row.original} />,
+				Cell: ({ row }) => {
+					return <PlaylistRowActions row={row} />;
+				},
 			},
 		],
 	};

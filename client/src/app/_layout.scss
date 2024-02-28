@@ -19,18 +19,10 @@ main {
 }
 
 header {
-	background-color: hsl(0, 0%, 0%);
 	height: 10vh;
-
-	display: flex;
-	justify-content: center;
 
 	.links {
 		display: flex;
 		gap: $spacing-3;
 	}
-}
-
-.MuiTabPanel-root {
-	height: 82vh;
 }

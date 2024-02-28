@@ -9,6 +9,7 @@ import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material
 import { AnimationT } from '@/types/animation.types';
 import { MRT_RowSelectionState } from 'material-react-table';
 import DeleteTable from './DeleteTable/DeleteTable';
+import { animationsActions } from '@/state/features/animationGroups/animationSlice';
 
 const DeleteDialog = ({
 	selectedRows,
@@ -34,6 +35,7 @@ const DeleteDialog = ({
 
 		await dispatch(deleteAnimations(ids));
 		await dispatch(getAnimations());
+		dispatch(animationsActions.setRowSelection({}));
 	};
 
 	return (

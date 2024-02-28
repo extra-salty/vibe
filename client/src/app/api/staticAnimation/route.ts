@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { AnimationT, AnimationTypesT, FrameBase } from '@/types/animation.types';
-import mongoClientPromise from '@/services/mongodb/mongoClient';
 import { DEFAULT_COLOR } from '@/state/features/color/colorSlice';
+import mongoClientPromise from '@/services/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
 		power: 0,
 		dateCreated: new Date(),
 		dateModified: new Date(),
-		children: [],
 	};
 
 	if (duplicateId) {
@@ -87,7 +86,7 @@ export async function POST(req: NextRequest) {
 		newAnimation = {
 			...newAnimation,
 			...(isAnimationStatic && {
-				frames: [],
+				frames: [new FrameBase(1000, DEFAULT_COLOR)],
 				framesLength: 0,
 				duration: 0,
 				power: 0,

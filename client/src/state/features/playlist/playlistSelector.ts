@@ -2,7 +2,7 @@ import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 
 export const usePlaylistData = () =>
-	useSelector((state: RootState) => state.playlist.data);
+	useSelector((state: RootState) => state.playlist.children);
 
 export const usePlaylistState = () =>
 	useSelector((state: RootState) => state.playlist.state);

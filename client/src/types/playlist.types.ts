@@ -18,3 +18,8 @@ export type PlaylistStateT = {
 	globalFilter: any;
 	density: MRT_DensityState;
 };
+
+export type PlaylistIndex = {
+	parentIndexes?: number[];
+	childIndex: number;
+};

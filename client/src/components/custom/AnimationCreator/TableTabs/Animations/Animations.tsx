@@ -30,7 +30,7 @@ const Animations = () => {
 		}),
 		//
 		// Styling
-		muiTableContainerProps: { sx: { height: '700px' } },
+		muiTableContainerProps: { sx: { height: '80vh' } },
 		// muiTableHeadCellProps: { size: 'small' },
 		//
 		// Indexing
