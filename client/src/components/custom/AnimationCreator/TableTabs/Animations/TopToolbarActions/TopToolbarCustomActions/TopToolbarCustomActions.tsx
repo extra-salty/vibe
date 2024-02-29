@@ -1,7 +1,7 @@
 import { useAnimationsRowSelection } from '@/state/features/animationGroups/animationSelector';
 import { useDispatch } from 'react-redux';
 import { memo, useState } from 'react';
-import { Add, Delete, PlaylistAdd } from '@mui/icons-material';
+import { Add, Delete, Merge, PlaylistAdd } from '@mui/icons-material';
 import { Box, Dialog, IconButton, Tooltip, Typography } from '@mui/material';
 import { AnimationsTableInstanceT } from '@/types/animation.types';
 import CreateDialog from '../../Dialogs/CreateDialog/CreateDialog';
@@ -15,7 +15,7 @@ const TableToolbarCustomActions = ({ table }: { table: AnimationsTableInstanceT 
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
 
 	const selectedRows = table.getSelectedRowModel().rows.map((row) => row.original);
-	const selectedRowIds = selectedRows.map((row) => row._id);
+	const selectedRowIds = selectedRows.map((row) => row._id as string);
 	const isSelectionEmpty = !Object.keys(useAnimationsRowSelection()).length;
 
 	const handlePlaylistChange = () => {
@@ -29,9 +29,6 @@ const TableToolbarCustomActions = ({ table }: { table: AnimationsTableInstanceT 
 				<DeleteDialog selectedRows={selectedRows} setOpen={setIsDeleteDialogOpen} />
 			</Dialog>
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
-				<Typography variant='h6' sx={{ marginInline: '10px' }}>
-					Animations:
-				</Typography>
 				<Tooltip title='Create'>
 					<IconButton onClick={() => setIsCreateDialogOpen(true)}>
 						<Add />
@@ -51,6 +48,13 @@ const TableToolbarCustomActions = ({ table }: { table: AnimationsTableInstanceT 
 					<span>
 						<IconButton disabled={isSelectionEmpty} onClick={handlePlaylistChange}>
 							<PlaylistAdd />
+						</IconButton>
+					</span>
+				</Tooltip>
+				<Tooltip title='Merge'>
+					<span>
+						<IconButton disabled={isSelectionEmpty} onClick={() => {}}>
+							<Merge />
 						</IconButton>
 					</span>
 				</Tooltip>

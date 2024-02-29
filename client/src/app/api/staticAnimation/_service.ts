@@ -1,28 +1,28 @@
 import { MongoService } from '@/services/mongodb/MongoService';
 import { ContentType, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
-import { AnimationT } from '@/types/animation.types';
+import { AnimationT, StaticAnimationT } from '@/types/animation.types';
 
 class StaticAnimationService extends MongoService {
-	private endpoint: string = 'animation';
+	private endpoint: string = 'staticAnimation';
 
-	getAnimationDetails(ids: string[]): Promise<AnimationT[]> {
+	load(ids: string[]): Promise<StaticAnimationT> {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			params: { ids: encodeURIComponent(ids.join('&')) },
 		};
-		return this.get<AnimationT[]>(methodConfig);
+		return this.get<StaticAnimationT>(methodConfig);
 	}
 
-	validateAnimationName(name: string): Promise<{ exist: boolean }> {
+	validateName(name: string) {
 		const methodConfig: MethodConfigT = {
 			endpoint: `${this.endpoint}/name`,
 			params: { name },
 			// cache: CacheOptions.noCache,
 		};
-		return this.get<{ exist: boolean }>(methodConfig);
+		return this.get(methodConfig);
 	}
 
-	createAnimation(animation: { duplicateId?: string; data: FormData }) {
+	create(animation: { duplicateId?: string; data: FormData }) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			...(animation.duplicateId && { params: { duplicateId: animation.duplicateId } }),
@@ -32,7 +32,7 @@ class StaticAnimationService extends MongoService {
 		return this.post(methodConfig);
 	}
 
-	updateAnimationGroup(animationData: AnimationT) {
+	update(animationData: AnimationT) {
 		const methodConfig: MethodConfigT = {
 			endpoint: this.endpoint,
 			body: animationData,
@@ -41,4 +41,4 @@ class StaticAnimationService extends MongoService {
 	}
 }
 
-export const StatucAnimationServiceInstance = new StaticAnimationService();
+export const StaticAnimationApi = new StaticAnimationService();

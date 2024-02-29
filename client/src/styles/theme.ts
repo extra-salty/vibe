@@ -19,6 +19,12 @@ const theme = createTheme({
 				},
 			},
 		},
+		// MuiTab
+		MuiTab: {
+			styleOverrides: {
+				root: { height: '100%' },
+			},
+		},
 	},
 });
 

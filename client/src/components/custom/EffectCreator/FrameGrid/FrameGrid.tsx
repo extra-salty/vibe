@@ -1,13 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { CSSProperties, useState } from 'react';
 import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector';
-import { moveFrame } from '@/state/features/effect/effectSlice';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, DragEndEvent, Active } from '@dnd-kit/core';
-import { FrameStateT } from '@/types/staticAnimation.types';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
 import FrameDragOverlay from './FrameDragOverlay/FrameDragOverlay';
 import styles from './FrameGrid.module.scss';
+import { FrameStateT } from '@/types/animation.types';
 
 const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 	const dispatch = useDispatch();
@@ -18,21 +17,19 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 	const itemIds = frames.map((_, i) => `frame${i}`);
 
 	const handleDragEnd = ({ active, over }: DragEndEvent) => {
-		if (!over) {
-			setActiveEvent(null);
-			return;
-		}
-
-		if (active.id !== over.id) {
-			dispatch(
-				moveFrame({
-					startIndex: active.data.current?.sortable.index,
-					endIndex: over.data.current?.sortable.index,
-				}),
-			);
-		}
-
-		setActiveEvent(null);
+		// if (!over) {
+		// 	setActiveEvent(null);
+		// 	return;
+		// }
+		// if (active.id !== over.id) {
+		// 	dispatch(
+		// 		moveFrame({
+		// 			startIndex: active.data.current?.sortable.index,
+		// 			endIndex: over.data.current?.sortable.index,
+		// 		}),
+		// 	);
+		// }
+		// setActiveEvent(null);
 	};
 
 	const style: CSSProperties = {
@@ -54,7 +51,7 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 				<SortableContext items={itemIds} strategy={rectSortingStrategy}>
 					<div className={styles.gridWrapper}>
 						<div className={styles.grid} style={frameStyle}>
-							{itemIds.map((id, i) => (
+							{/* {itemIds.map((id, i) => (
 								<FrameGridItem
 									key={i}
 									id={id}
@@ -62,7 +59,7 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 									framesLength={frames.length}
 									frame={frames[i]}
 								/>
-							))}
+							))} */}
 						</div>
 					</div>
 				</SortableContext>

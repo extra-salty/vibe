@@ -4,7 +4,7 @@ import { AppDispatch } from '@/state/store';
 import { AnimationT } from '@/types/animation.types';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import {
-	createAnimation,
+	createStaticAnimation,
 	getAnimations,
 } from '@/state/features/animationGroups/animationsThunk';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
@@ -41,7 +41,7 @@ const DuplicateDialog = ({
 		} else {
 			handleClose();
 
-			await dispatch(createAnimation({ data: formData }));
+			await dispatch(createStaticAnimation({ data: formData }));
 			await dispatch(getAnimations());
 		}
 

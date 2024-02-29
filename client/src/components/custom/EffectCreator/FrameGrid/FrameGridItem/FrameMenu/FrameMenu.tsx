@@ -2,22 +2,13 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useFramesLength } from '@/state/features/effect/effectSelector';
 import {
-	addFrame,
-	addToHistory,
-	deleteFrame,
-	duplicateFrame,
-	resetFrame,
-} from '@/state/features/effect/effectSlice';
-import {
 	ContentCopyOutlined,
 	ControlPointDuplicateOutlined,
 	DeleteOutlined,
 	List,
 	RestartAltOutlined,
 } from '@mui/icons-material';
-import { FrameHistoryTypes } from '@/types/staticAnimation.types';
 import { IconButton, Divider, Menu, Tooltip } from '@mui/material';
-import UIMenuItem, { MenuItemProps } from '@/components/base/UIMenuItem/UIMenuItem';
 
 const FrameMenu = ({
 	frameIndex,

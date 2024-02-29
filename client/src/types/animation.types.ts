@@ -22,24 +22,34 @@ export enum AnimationTypesT {
 }
 
 export type AnimationT = {
+	_id: string;
 	type: AnimationTypesT;
-	_id?: string;
 	name: string;
 	description?: string;
 	dateCreated: Date;
 	dateModified: Date;
-	framesLength: number;
-	duration: number;
-	power: number;
+	framesLength?: number;
+	duration?: number;
+	power?: number;
 	repeat?: number;
 	speed?: number;
-	children: AnimationT[];
+	children?: AnimationT[];
 	frames?: FrameBaseT[];
 };
 
 export type FrameBaseT = {
 	data: ColorT[][];
 	duration: number;
+};
+
+export type StaticAnimationT = {
+	_id: string;
+	type: AnimationTypesT;
+	name: string;
+	description?: string;
+	dateCreated: Date;
+	dateModified: Date;
+	frames: FrameBaseT[];
 };
 
 export type AnimationStateT = Omit<AnimationT, 'frames'> & {
@@ -109,3 +119,72 @@ export class FrameState extends FrameBase {
 
 const NUMBER_OF_COLUMNS = 24;
 const NUMBER_OF_ROWS = 12;
+
+// export type AnimationNormalizedT = {
+// 	_id: string;
+// 	// type: AnimationTypesT;
+// 	name: string;
+// 	description?: string;
+// 	dateCreated: Date;
+// 	dateModified: Date;
+// 	// framesLength: number;
+// 	// duration: number;
+// 	// power: number;
+// 	frames?: FrameBaseT[];
+// 	children?: string[];
+// };
+
+// type NormalizedChildrenT = {
+// 	id: string;
+// 	name: string;
+// 	description: string;
+// 	children: string[];
+// 	repeat?: number;
+// 	speed?: number;
+// };
+
+const animation = {
+	parent: {
+		_id: '1541646',
+		name: 'animation1',
+		description: 'description',
+		dateCreated: new Date(),
+		dateModified: new Date(),
+		frames: [],
+		children: ['1,2'],
+	},
+	groups: {
+		'group-1': {
+			id: '1.1',
+			name: 'group1',
+			description: 'desc1',
+			repeat: 2,
+			speed: 1,
+			children: ['1.1.1', '1.1.2'],
+		},
+		'2': {
+			id: '1.2',
+			name: 'group2',
+			description: 'desc2',
+			repeat: 2,
+			speed: 1,
+			children: ['1.2.1', '1.2.2'],
+		},
+	},
+	static: {
+		'1': {
+			id: '1',
+			name: 'frames1',
+			description: 'desc2',
+			data: [],
+			duration: 100,
+		},
+		'2': {
+			id: '1',
+			name: 'frames2',
+			description: 'desc2',
+			data: [],
+			duration: 100,
+		},
+	},
+};

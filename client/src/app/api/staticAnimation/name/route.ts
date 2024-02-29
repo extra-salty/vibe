@@ -15,7 +15,17 @@ export async function GET(req: NextRequest) {
 			.limit(1)
 			.next();
 
-		return NextResponse.json({ exist: animation ? true : false });
+		if (animation) {
+			return new NextResponse(null, {
+				status: 404,
+				statusText: 'Static animation already exist.',
+			});
+		} else {
+			return new NextResponse(null, {
+				status: 200,
+				statusText: 'Static animation name is valid.',
+			});
+		}
 	} else {
 		return new NextResponse(null, {
 			status: 422,

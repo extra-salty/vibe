@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
-import { AnimationT, AnimationTypesT, FrameBase } from '@/types/animation.types';
-import { DEFAULT_COLOR } from '@/state/features/color/colorSlice';
+import { AnimationT, AnimationTypesT, StaticAnimationT } from '@/types/animation.types';
 import mongoClientPromise from '@/services/mongodb/mongoClient';
+import { DEFAULT_COLOR } from '@/state/features/color/colorSlice';
 
 export async function GET(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
@@ -44,29 +44,24 @@ export async function POST(req: NextRequest) {
 	const duplicateId = searchParams.get('duplicateId');
 
 	const formData = await req.formData();
-	const data = {
-		type: formData.get('type') as AnimationTypesT,
-		name: formData.get('name') as string,
-		description: formData.get('description') as string,
-	};
 
 	const client = await mongoClientPromise;
 	const collection = client
 		.db(process.env.DB_NAME)
-		.collection(process.env.ANIMATIONS_COLLECTION);
+		.collection(process.env.STATIC_ANIMATION_COLLECTION);
 
-	let newAnimation: Omit<AnimationT, '_id'> = {
-		...data,
-		framesLength: 0,
-		duration: 0,
-		power: 0,
+	let newAnimation: Omit<StaticAnimationT, '_id'> = {
+		type: AnimationTypesT.static,
+		name: formData.get('name') as string,
+		description: formData.get('description') as string,
 		dateCreated: new Date(),
 		dateModified: new Date(),
+		frames: [],
 	};
 
 	if (duplicateId) {
 		const animationToDuplicate = await collection
-			.find<AnimationT>({ _id: new ObjectId(duplicateId) })
+			.find<StaticAnimationT>({ _id: new ObjectId(duplicateId) })
 			.limit(1)
 			.next();
 
@@ -79,18 +74,6 @@ export async function POST(req: NextRequest) {
 		newAnimation = {
 			...animationToDuplicate,
 			...newAnimation,
-		};
-	} else {
-		const isAnimationStatic = data.type === AnimationTypesT.static;
-
-		newAnimation = {
-			...newAnimation,
-			...(isAnimationStatic && {
-				frames: [new FrameBase(1000, DEFAULT_COLOR)],
-				framesLength: 0,
-				duration: 0,
-				power: 0,
-			}),
 		};
 	}
 

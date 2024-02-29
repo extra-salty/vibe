@@ -20,8 +20,8 @@ const Playlist = () => {
 		muiTableContainerProps: { sx: { height: '80vh' } },
 		// Misc
 		enablePagination: false,
-		enableRowNumbers: true,
-		rowNumberDisplayMode: 'original',
+		// enableRowNumbers: true,
+		// rowNumberDisplayMode: 'original',
 		// Dragging
 		enableRowOrdering: true,
 		muiRowDragHandleProps: ({ table }) => ({

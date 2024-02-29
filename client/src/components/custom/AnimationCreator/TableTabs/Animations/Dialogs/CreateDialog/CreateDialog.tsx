@@ -3,12 +3,14 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { AppDispatch } from '@/state/store';
 import {
 	getAnimations,
-	createAnimation,
+	createStaticAnimation,
+	getStaticAnimations,
 } from '@/state/features/animationGroups/animationsThunk';
 import { AnimationServiceInstance } from '@/app/api/animation/_service';
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import CreateDialogContent from './CreateDialogContent/CreateDialogContent';
+import { StaticAnimationApi } from '@/app/api/staticAnimation/_service';
 
 const CreateDialog = ({
 	open,
@@ -28,21 +30,24 @@ const CreateDialog = ({
 		setIsLoading(true);
 
 		const formData = new FormData(event.currentTarget);
+		const name = formData.get('name') as string;
 
-		const nameValidation = await AnimationServiceInstance.validateAnimationName(
-			formData.get('name') as string,
-		);
-
-		if (nameValidation.exist) {
+		try {
+			if (formData.get('type') === 'static') {
+				await StaticAnimationApi.validateName(name);
+			} else {
+				await AnimationServiceInstance.validateAnimationName(name);
+			}
+		} catch {
 			setIsInvalidName(true);
-		} else {
-			handleClose();
-
-			await dispatch(createAnimation({ data: formData }));
-			await dispatch(getAnimations());
+		} finally {
+			setIsLoading(false);
 		}
 
-		setIsLoading(false);
+		handleClose();
+
+		await dispatch(createStaticAnimation({ data: formData }));
+		await dispatch(getStaticAnimations());
 	};
 
 	return (

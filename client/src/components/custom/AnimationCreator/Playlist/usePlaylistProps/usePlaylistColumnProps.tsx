@@ -1,12 +1,25 @@
 import { Tooltip } from '@mui/material';
 import { Bolt, Layers, Numbers, Timelapse } from '@mui/icons-material';
-import { AnimationsTableColumnsT, AnimationsTablePropsT } from '@/types/animation.types';
+import {
+	AnimationT,
+	AnimationsTableColumnsT,
+	AnimationsTablePropsT,
+} from '@/types/animation.types';
 import PlaylistRowActions from '../PlaylistToolbarActions/PlaylistRowActions/PlaylistRowActions';
+import { MRT_ColumnDef } from 'material-react-table';
 
 const usePlaylistColumns = (): {
 	columnProps: AnimationsTablePropsT;
 	columns: AnimationsTableColumnsT;
 } => {
+	const staticProps: Partial<MRT_ColumnDef<AnimationT>> = {
+		enableColumnActions: false,
+		enableResizing: false,
+		enablePinning: false,
+		enableHiding: false,
+		visibleInShowHideMenu: false,
+	};
+
 	return {
 		columnProps: {
 			enableColumnResizing: true,
@@ -30,22 +43,12 @@ const usePlaylistColumns = (): {
 					enableResizing: false,
 					enablePinning: false,
 				},
-				'mrt-row-numbers': {
-					size: 28,
-					grow: false,
-					enableResizing: false,
-					enablePinning: false,
-					// Cell: ({ row }) => {
-					// 	const parentIds = row
-					// 		.getParentRow()
-					// 		?.id.split('.')
-					// 		.map((id) => Number(id) + 1)
-					// 		.join('.');
-					// 	const index = row.index + 1;
-
-					// 	return row.depth ? `${parentIds}.${index}` : index;
-					// },
-				},
+				// 'mrt-row-numbers': {
+				// 	size: 28,
+				// 	grow: false,
+				// 	enableResizing: false,
+				// 	enablePinning: false,
+				// },
 				'mrt-row-drag': {
 					header: 'Drag',
 					size: 40,
@@ -61,6 +64,7 @@ const usePlaylistColumns = (): {
 				accessorKey: 'index',
 				header: 'Index',
 				size: 60,
+				...staticProps,
 				Header: () => (
 					<Tooltip title='Index'>
 						<Numbers />
@@ -164,11 +168,7 @@ const usePlaylistColumns = (): {
 			{
 				accessorKey: 'actions',
 				header: 'Actions',
-				enableColumnActions: false,
-				enablePinning: true,
-				enableSorting: false,
-				visibleInShowHideMenu: false,
-				enableResizing: false,
+				...staticProps,
 				size: 36,
 				Header: () => <div></div>,
 				Cell: ({ row }) => {

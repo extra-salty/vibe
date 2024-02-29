@@ -1,10 +1,10 @@
-import { AnimationsServiceInstance } from './api/animations/_service';
+import { StaticAnimationsApi } from './api/staticAnimations/_service';
 import AnimationCreator from '@/components/custom/AnimationCreator/AnimationCreator';
 
 const Home = async () => {
-	const animations = await AnimationsServiceInstance.getAnimations();
+	const staticAnimations = await StaticAnimationsApi.getAnimations();
 
-	return <AnimationCreator animations={animations || []} />;
+	return <AnimationCreator staticAnimations={staticAnimations || []} animations={[]} />;
 };
 
 export default Home;

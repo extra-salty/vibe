@@ -1,15 +1,13 @@
-'use client';
+import { useSelectedColor } from '@/state/features/color/colorSelector';
 import { useDispatch } from 'react-redux';
-import { useSelectedColor } from '@/state/features/effect/effectSelector';
-import { setHue, setLightness, setSaturation } from '@/state/features/effect/effectSlice';
 import { Attributes, Units } from './Attribute.type';
-import { Container, SliderProps, Tooltip } from '@mui/material';
-import { Box } from '@mui/material';
-import { Brightness6Outlined, GradientOutlined, PaletteOutlined } from '@mui/icons-material';
+import { SliderProps, Tooltip } from '@mui/material';
+import { Brightness6, Gradient, Palette } from '@mui/icons-material';
 import { ReactElement } from 'react';
+import { colorActions } from '@/state/features/color/colorSlice';
 import ColorSlider from './ColorSlider';
-import styles from './Attribute.module.scss';
 import NumberInput from '@/components/base/NumberInput/NumberInput';
+import styles from './Attribute.module.scss';
 
 const Attribute = () => {
 	const dispatch = useDispatch();
@@ -26,10 +24,11 @@ const Attribute = () => {
 			slider: {
 				value: hue,
 				max: 360,
-				onChange: (event: Event, value: number | number[]) => dispatch(setHue(Number(value))),
+				onChange: (event: Event, value: number | number[]) =>
+					dispatch(colorActions.setHue(Number(value))),
 			},
 			id: Attributes.hue,
-			icon: <PaletteOutlined />,
+			icon: <Palette />,
 			unit: Units.degree,
 		},
 		{
@@ -37,20 +36,21 @@ const Attribute = () => {
 				value: saturation,
 				max: 100,
 				onChange: (event: Event, value: number | number[]) =>
-					dispatch(setSaturation(Number(value))),
+					dispatch(colorActions.setSaturation(Number(value))),
 			},
 			id: Attributes.saturation,
-			icon: <GradientOutlined />,
+			icon: <Gradient />,
 			unit: Units.percentage,
 		},
 		{
 			slider: {
 				value: lightness,
 				max: 100,
-				onChange: (event: Event, value: number | number[]) => dispatch(setLightness(Number(value))),
+				onChange: (event: Event, value: number | number[]) =>
+					dispatch(colorActions.setLightness(Number(value))),
 			},
 			id: Attributes.lightness,
-			icon: <Brightness6Outlined />,
+			icon: <Brightness6 />,
 			unit: Units.percentage,
 		},
 	];

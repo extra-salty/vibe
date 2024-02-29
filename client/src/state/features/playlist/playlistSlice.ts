@@ -45,7 +45,7 @@ export const initialPlaylistState: PlaylistStateT = {
 	columnVisibility: { _id: false, description: false, dateCreated: false },
 	columnFilters: [],
 	columnPinning: {
-		left: ['mrt-row-expand', 'index', 'mrt-row-numbers', 'mrt-row-select', 'name'],
+		left: ['mrt-row-expand', 'index', 'mrt-row-select', 'name'],
 		right: ['mrt-row-drag', 'actions'],
 	},
 	globalFilter: '',

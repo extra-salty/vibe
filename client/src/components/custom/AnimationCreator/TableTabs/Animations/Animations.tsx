@@ -11,7 +11,7 @@ const Animations = () => {
 	const componentProps = useAnimationsComponentProps();
 
 	const table = useMaterialReactTable({
-		data,
+		data: data.static,
 		columns,
 		...columnProps,
 		...stateProps,
@@ -30,7 +30,7 @@ const Animations = () => {
 		}),
 		//
 		// Styling
-		muiTableContainerProps: { sx: { height: '80vh' } },
+		muiTableContainerProps: { sx: { height: '74vh' } },
 		// muiTableHeadCellProps: { size: 'small' },
 		//
 		// Indexing

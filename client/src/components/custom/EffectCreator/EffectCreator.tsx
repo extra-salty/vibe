@@ -10,24 +10,21 @@ import Attribute from '../Attribute/Attribute';
 import FrameHistoryTable from '../FrameComps/FrameHistoryTable/FrameHistoryTable';
 import styles from './EffectCreator.module.scss';
 
-const EffectCreator = ({ initialEffect }: { initialEffect: StaticAnimationT }) => {
+const EffectCreator = () => {
 	const dispatch = useDispatch();
 	// dispatch(setEffect(initialEffect));
 
 	return (
 		<PanelGroup direction='horizontal' className={styles.effect}>
-			<Panel defaultSize={0}></Panel>
-			<ResizeHandle />
 			<Panel defaultSize={75} minSize={40} className={styles.row}>
-				<Attribute />
-				<FrameGrid />
+				{/* <FrameGrid /> */}
 			</Panel>
-			<ResizeHandle />
-			<Panel minSize={10} defaultSize={25} maxSize={40} className={styles.column}>
+			{/* <ResizeHandle /> */}
+			{/* <Panel minSize={10} defaultSize={25} maxSize={40} className={styles.column}>
 				<EffectPlayer />
 				<EffectDetails />
 				<FrameHistoryTable />
-			</Panel>
+			</Panel> */}
 		</PanelGroup>
 	);
 };

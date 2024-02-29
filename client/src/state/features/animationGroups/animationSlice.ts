@@ -1,6 +1,16 @@
 import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { AnimationTableStateT, AnimationT } from '@/types/animation.types';
-import { createAnimation, deleteAnimations, getAnimations } from './animationsThunk';
+import {
+	AnimationTableStateT,
+	AnimationT,
+	StaticAnimationT,
+} from '@/types/animation.types';
+import {
+	createStaticAnimation,
+	deleteAnimations,
+	deleteStaticAnimations,
+	getAnimations,
+	getStaticAnimations,
+} from './animationsThunk';
 import {
 	MRT_ColumnFiltersState,
 	MRT_ColumnPinningState,
@@ -29,10 +39,13 @@ export const initialAnimationsState: AnimationTableStateT = {
 };
 
 const initialState: {
-	data: AnimationT[];
+	data: { static: StaticAnimationT[]; group: AnimationT[] };
 	state: AnimationTableStateT;
 } = {
-	data: [],
+	data: {
+		static: [],
+		group: [],
+	},
 	state: initialAnimationsState,
 };
 
@@ -42,11 +55,23 @@ export const animationsSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(getAnimations.fulfilled, (state, action) => {
-				state.data = action.payload;
+				state.data.group = action.payload;
+				state.state.isSaving = false;
+			})
+			.addCase(createStaticAnimation.fulfilled, (state, action) => {
+				state.state.isSaving = false;
+			})
+			.addCase(getStaticAnimations.fulfilled, (state, action) => {
+				state.data.static = action.payload;
 				state.state.isSaving = false;
 			})
 			.addMatcher(
-				isAnyOf(getAnimations.pending, createAnimation.pending, deleteAnimations.pending),
+				isAnyOf(
+					getAnimations.pending,
+					createStaticAnimation.pending,
+					deleteAnimations.pending,
+					deleteStaticAnimations.pending,
+				),
 				(state) => {
 					state.state.isSaving = true;
 				},
@@ -54,7 +79,7 @@ export const animationsSlice = createSlice({
 			.addMatcher(
 				isAnyOf(
 					getAnimations.rejected,
-					createAnimation.rejected,
+					createStaticAnimation.rejected,
 					deleteAnimations.rejected,
 				),
 				(state) => {
@@ -63,8 +88,11 @@ export const animationsSlice = createSlice({
 			);
 	},
 	reducers: {
-		setData: (state, action: PayloadAction<AnimationT[]>) => {
-			state.data = action.payload || [];
+		setAnimationsData: (state, action: PayloadAction<AnimationT[]>) => {
+			state.data.group = action.payload || [];
+		},
+		setStaticData: (state, action: PayloadAction<StaticAnimationT[]>) => {
+			state.data.static = action.payload || [];
 		},
 		setExpanded: (state, action: PayloadAction<MRT_ExpandedState>) => {
 			state.state.expanded = action.payload;
