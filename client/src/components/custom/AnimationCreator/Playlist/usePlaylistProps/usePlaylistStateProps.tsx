@@ -28,6 +28,7 @@ const usePlaylistStateProps = (): AnimationsTablePropsT => {
 		// Expand
 		enableExpanding: true,
 		enableExpandAll: true,
+		getSubRows: (row) => row.children,
 		// getSubRows: (row) => row.group,
 		onExpandedChange: (updater) => {
 			if (typeof updater !== 'function') return;

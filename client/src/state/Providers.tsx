@@ -23,7 +23,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 				<ThemeProvider theme={theme}>
 					<StyledEngineProvider injectFirst>
 						<AppRouterCacheProvider>
-							<LocalizationProvider dateAdapter={AdapterDayjs}>{children}</LocalizationProvider>
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								{children}
+							</LocalizationProvider>
 						</AppRouterCacheProvider>
 					</StyledEngineProvider>
 				</ThemeProvider>

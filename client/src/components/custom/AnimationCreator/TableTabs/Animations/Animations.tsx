@@ -18,6 +18,9 @@ const Animations = () => {
 		...componentProps,
 		// Misc
 		enablePagination: false,
+		enableRowNumbers: true,
+		rowNumberDisplayMode: 'static',
+		// getRowId: (row) => row._id,
 		// Dragging
 		enableRowOrdering: true,
 		enableRowDragging: true,
@@ -28,15 +31,6 @@ const Animations = () => {
 				console.log('🚀 ~ Animations ~ draggingRow:', draggingRow);
 			},
 		}),
-		//
-		// Styling
-		muiTableContainerProps: { sx: { height: '74vh' } },
-		// muiTableHeadCellProps: { size: 'small' },
-		//
-		// Indexing
-		enableRowNumbers: true,
-		rowNumberDisplayMode: 'static',
-		// getRowId: (row) => row._id,
 	});
 
 	return <MaterialReactTable table={table} />;

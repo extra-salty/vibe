@@ -16,8 +16,6 @@ const Playlist = () => {
 		...columnProps,
 		...stateProps,
 		...componentProps,
-		// Styling
-		muiTableContainerProps: { sx: { height: '80vh' } },
 		// Misc
 		enablePagination: false,
 		// enableRowNumbers: true,
@@ -31,11 +29,6 @@ const Playlist = () => {
 				console.log('🚀 ~ Animations ~ draggingRow:', draggingRow);
 			},
 		}),
-		// Expand
-		enableExpandAll: true,
-		enableExpanding: true,
-		getSubRows: (row) => row.children,
-		//
 	});
 
 	return <MaterialReactTable table={table} />;

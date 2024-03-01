@@ -16,26 +16,18 @@ const RightTabs = () => {
 		setActiveTab(newValue as Tabs);
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				height: '100%',
-			}}
-		>
-			<TabContext value={activeTab}>
-				<TabList onChange={handleTabChange} aria-label='tables'>
-					<Tab label='Playlist' value={Tabs.playlist} />
-					<Tab label='Color' value={Tabs.color} />
-				</TabList>
-				<TabPanel value={Tabs.playlist}>
-					<Playlist />
-				</TabPanel>
-				<TabPanel value={Tabs.color}>
-					<Color />
-				</TabPanel>
-			</TabContext>
-		</Box>
+		<TabContext value={activeTab}>
+			<TabList onChange={handleTabChange} aria-label='tables'>
+				<Tab label='Playlist' value={Tabs.playlist} />
+				<Tab label='Color' value={Tabs.color} />
+			</TabList>
+			<TabPanel value={Tabs.playlist}>
+				<Playlist />
+			</TabPanel>
+			<TabPanel value={Tabs.color}>
+				<Color />
+			</TabPanel>
+		</TabContext>
 	);
 };
 

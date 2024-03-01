@@ -9,6 +9,24 @@ const usePlaylistComponentProps = (): AnimationsTablePropsT => {
 		renderToolbarInternalActions: ({ table }) => (
 			<PlaylistInternalActions table={table} />
 		),
+		// Styling
+		muiTablePaperProps: {
+			sx: {
+				height: '100%',
+			},
+		},
+		muiTableContainerProps: ({ table }) => {
+			const tabsHeight = 48;
+			const topToolbarHeight = table.refs.topToolbarRef.current?.offsetHeight || 0;
+			const bottomToolbarHeight = table.refs.bottomToolbarRef.current?.offsetHeight || 0;
+			const overallHeight = tabsHeight + topToolbarHeight + bottomToolbarHeight;
+
+			return {
+				sx: {
+					height: `calc(100% - ${overallHeight}px)`,
+				},
+			};
+		},
 		// Actions
 		// enableRowActions: true,
 		// positionActionsColumn: 'last',

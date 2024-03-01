@@ -1,32 +1,19 @@
-@import '@/styles/variables.scss';
-
 html,
 body {
-	margin: 0;
 	height: 100vh;
-	color: rgba(255, 255, 255, 0.7);
-	overflow: hidden;
+	max-height: 100vh;
+	color: red;
+	margin: 0;
+	padding: 0;
 }
 
 main {
-	background-color: hsl(240, 10%, 4%);
-	height: 90vh;
-	max-height: 90vh;
-
-	> div {
-		height: 100%;
-	}
+	height: calc(100% - 100px);
+	// max-height: calc(100% - 100px);
 }
 
-header {
-	height: 10vh;
-
-	.links {
-		display: flex;
-		gap: $spacing-3;
-	}
-}
-
+// TabPanel is not included in the theme overrides currently
 .MuiTabPanel-root {
-	height: 80vh;
+	height: 100%;
+	padding: 0 !important;
 }
