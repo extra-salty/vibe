@@ -2,8 +2,9 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
 import Image from 'next/image';
 import UILink from '@/components/base/UILink/UILink';
-import ColorMode from './ColorMode/ColorMode';
 import Account from './Account/Account';
+import ThemeToggle from './Themes/ThemeToggle';
+import Device from './Device/Device';
 
 const Header = () => {
 	return (
@@ -26,7 +27,8 @@ const Header = () => {
 				<Image src={'/vibe.svg'} alt='vibe-logo' width={200} height={80} />
 			</Box>
 			<Toolbar>
-				<ColorMode />
+				<Device />
+				<ThemeToggle />
 				<Account />
 			</Toolbar>
 		</AppBar>

@@ -4,12 +4,12 @@ import {
 	getAnimations,
 	deleteAnimations,
 } from '@/state/features/animationGroups/animationsThunk';
+import { animationsActions } from '@/state/features/animationGroups/animationSlice';
 import { AppDispatch } from '@/state/store';
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { AnimationT } from '@/types/animation.types';
 import { MRT_RowSelectionState } from 'material-react-table';
 import DeleteTable from './DeleteTable/DeleteTable';
-import { animationsActions } from '@/state/features/animationGroups/animationSlice';
 
 const DeleteDialog = ({
 	selectedRows,

@@ -1,3 +1,5 @@
 export type AppT = {
-	isModalOpen: boolean;
+	themeMode: ThemeModeT;
 };
+
+export type ThemeModeT = 'dark' | 'light';
