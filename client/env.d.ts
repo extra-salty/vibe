@@ -5,5 +5,7 @@ namespace NodeJS {
 		STATIC_ANIMATION_COLLECTION: string;
 		ANIMATIONS_COLLECTION: string;
 		NEXT_PUBLIC_BASE_API_URL: string;
+		NEXT_PUBLIC_APP_ID: string;
+		NEXT_PUBLIC_REDIRECT_URI: string;
 	}
 }

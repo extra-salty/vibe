@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Box, Button, Drawer, Typography } from '@mui/material';
+import { Box, Divider, Drawer, Typography } from '@mui/material';
 import Image from 'next/image';
-import LoginInputs from './LoginInputs/LoginInputs';
-import LoginButtons from './LoginButtons/LoginButtons';
+import ExternalLoginProviders from './ExternalLoginProviders/ExternalLoginProviders';
+import InternalLoginProvider from './InternalLoginProvider/InternalLoginProvider';
+import AccountCreator from './AccountCreator/AccountCreator';
 
 const LoginDrawer = ({
 	open,
@@ -23,19 +24,15 @@ const LoginDrawer = ({
 				},
 			}}
 		>
-			<Image src={'/vibe.svg'} alt='vibe-logo' width={200} height={80} />
-			<LoginInputs />
-			<LoginButtons setOpen={setOpen} />
+			<Image src={'/vibe.svg'} priority alt='vibe-logo' width={200} height={80} />
 			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					marginTop: '20px',
-				}}
+				sx={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '30px' }}
 			>
-				<Typography>Don`t have an account?</Typography>
-				<Button>Sign Up</Button>
+				<Typography variant='h4'>Log in to your account</Typography>
+				<ExternalLoginProviders />
+				<Divider>Or with email and password</Divider>
+				<InternalLoginProvider setOpen={setOpen} />
+				<AccountCreator />
 			</Box>
 		</Drawer>
 	);

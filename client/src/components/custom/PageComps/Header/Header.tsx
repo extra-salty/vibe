@@ -24,7 +24,7 @@ const Header = () => {
 				<UILink href='/'>Effect</UILink>
 			</Toolbar>
 			<Box>
-				<Image src={'/vibe.svg'} alt='vibe-logo' width={200} height={80} />
+				<Image src={'/vibe.svg'} priority alt='vibe-logo' width={200} height={80} />
 			</Box>
 			<Toolbar>
 				<Device />
