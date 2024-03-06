@@ -15,14 +15,14 @@ const LeftTabs = () => {
 		<TabContext value={activeTab}>
 			<TabList onChange={handleTabChange} aria-label='tables'>
 				<Tab label='Animation Groups' value={AnimationTypesT.group} />
-				<Tab label='Dynamic Animations' value={AnimationTypesT.static} />
+				{/* <Tab label='Dynamic Animations' value={AnimationTypesT.static} /> */}
 			</TabList>
 			<TabPanel value={AnimationTypesT.group}>
 				<Animations />
 			</TabPanel>
-			<TabPanel value={AnimationTypesT.static}>
+			{/* <TabPanel value={AnimationTypesT.static}>
 				<EffectCreator />
-			</TabPanel>
+			</TabPanel> */}
 		</TabContext>
 	);
 };
