@@ -2,14 +2,12 @@ html,
 body {
 	height: 100vh;
 	max-height: 100vh;
-	color: red;
 	margin: 0;
 	padding: 0;
 }
 
 main {
 	height: calc(100% - 100px);
-	// max-height: calc(100% - 100px);
 }
 
 // TabPanel is not included in the theme overrides currently
