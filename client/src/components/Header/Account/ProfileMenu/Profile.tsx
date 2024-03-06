@@ -22,10 +22,11 @@ const ProfileMenu = () => {
 					aria-haspopup='true'
 					aria-controls={isOpen ? 'profile-menu' : undefined}
 					aria-expanded={isOpen ? 'true' : undefined}
-					alt={data?.user?.name as string | undefined}
+					alt={data?.user?.name || 'profile picture'}
 					src={data?.user?.image as string | undefined}
 					onClick={handleOpen}
 					sx={{ width: 32, height: 32 }}
+					imgProps={{ referrerPolicy: 'no-referrer' }}
 				/>
 			</Tooltip>
 			<Menu

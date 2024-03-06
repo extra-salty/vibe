@@ -1,5 +1,6 @@
 import { useThemeMode } from '@/state/features/app/appSelector';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { createTheme } from '@mui/material';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
 const AppThemeProvider = ({ children }: { children: React.ReactNode }) => {
 	const themeMode = useThemeMode();

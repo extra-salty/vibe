@@ -1,4 +1,9 @@
-import { CacheOptions, ContentType, HttpMethods, MethodConfigT } from './HttpClient.types';
+import {
+	CacheOptions,
+	ContentType,
+	HttpMethods,
+	MethodConfigT,
+} from './HttpClient.types';
 
 export class HttpClient {
 	private baseUrl: string;
@@ -48,7 +53,8 @@ export class HttpClient {
 				// headers: {
 				// 	'Content-Type': type || ContentType.JSON,
 				// },
-				cache: cache || CacheOptions.default,
+				// cache: cache || CacheOptions.default,
+				cache: CacheOptions.default,
 				body: type === ContentType.JSON ? JSON.stringify(body) : body,
 			});
 

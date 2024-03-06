@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Avatar, Box, Button, Drawer, TextField, Typography } from '@mui/material';
 import ProfileDeletionDialog from './ProfileDeletionDialog/ProfileDeletionDialog';
+import Image from 'next/image';
 
 const ProfileDrawer = ({
 	open,
@@ -17,7 +18,6 @@ const ProfileDrawer = ({
 	return (
 		<>
 			<ProfileDeletionDialog open={isDialogOpen} setOpen={setIsDialogOpen} />
-
 			<Drawer
 				anchor='right'
 				open={open}
@@ -52,10 +52,12 @@ const ProfileDrawer = ({
 						<Typography variant='h4' sx={{ marginBottom: '25px' }}>
 							User Profile
 						</Typography>
+
 						<Avatar
-							alt={data?.user?.name as string | undefined}
+							alt={data?.user?.name || 'profile picture'}
 							src={data?.user?.image as string | undefined}
-							sx={{ width: 128, height: 128 }}
+							sx={{ width: 128, height: 128, fontSize: '32px' }}
+							imgProps={{ referrerPolicy: 'no-referrer' }}
 						/>
 						<TextField
 							fullWidth

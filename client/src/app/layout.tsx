@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Paper } from '@mui/material';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/libs/auth/Auth';
 import Header from '@/components/Header/Header';
 import Providers from '@/state/Providers';
 import './_layout.scss';
-import { authOptions } from '@/libs/auth/Auth';
 
 const roboto = Roboto({
 	weight: ['300', '400', '500', '700'],

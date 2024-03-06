@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@/state/store';
 import { SessionProvider } from 'next-auth/react';
 import AppThemeProvider from '@/components/Header/Themes/AppThemeProvider';
-import { StyledEngineProvider } from '@mui/material';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

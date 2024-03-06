@@ -17,10 +17,10 @@ const DurationInput = ({
 			max={10000}
 			aria-label='duration-input'
 			placeholder='Set duration'
-			onChange={(
-				_: React.FocusEvent | React.PointerEvent | React.KeyboardEvent,
-				value: number | undefined,
-			) => {}}
+			// onChange={(
+			// 	_: React.FocusEvent | React.PointerEvent | React.KeyboardEvent,
+			// 	value: number | undefined,
+			// ) => {}}
 			//  dispatch(setFrameDuration({ frameIndex, value: Number(value) }))}
 		/>
 	);
