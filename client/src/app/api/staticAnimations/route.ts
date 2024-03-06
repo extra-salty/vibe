@@ -8,7 +8,7 @@ export async function GET() {
 
 	const staticAnimations: StaticAnimationT[] = await client
 		.db(process.env.DB_NAME)
-		.collection<StaticAnimationT>(process.env.STATIC_ANIMATION_COLLECTION)
+		.collection<StaticAnimationT>(process.env.DB_STATIC_ANIMATION_COLLECTION)
 		.find({})
 		.sort({ name: 1 })
 		.toArray();
@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest) {
 
 		const result = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.STATIC_ANIMATION_COLLECTION)
+			.collection(process.env.DB_STATIC_ANIMATION_COLLECTION)
 			.deleteMany({ _id: { $in: objectIds } });
 
 		if (result.deletedCount === objectIds.length) {

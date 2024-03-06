@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
 		const animations = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.ANIMATIONS_COLLECTION)
+			.collection(process.env.DB_ANIMATIONS_COLLECTION)
 			.find<AnimationT>({
 				_id: { $in: objectIds },
 			})
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 	const client = await mongoClientPromise;
 	const collection = client
 		.db(process.env.DB_NAME)
-		.collection(process.env.ANIMATIONS_COLLECTION);
+		.collection(process.env.DB_ANIMATIONS_COLLECTION);
 
 	let newAnimation: Omit<AnimationT, '_id'> = {
 		...data,

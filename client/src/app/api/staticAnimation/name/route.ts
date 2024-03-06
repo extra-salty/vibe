@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 
 		const animation = await client
 			.db(process.env.DB_NAME)
-			.collection<AnimationT>(process.env.ANIMATIONS_COLLECTION)
+			.collection<AnimationT>(process.env.DB_ANIMATIONS_COLLECTION)
 			.find({ name: name })
 			.limit(1)
 			.next();

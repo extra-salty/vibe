@@ -50,7 +50,7 @@ const Account = () => {
 			{session && (
 				<Snackbar
 					open={isSuccessOpen}
-					autoHideDuration={3000}
+					autoHideDuration={5000}
 					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 					onClose={handleSuccessClose}
 				>
