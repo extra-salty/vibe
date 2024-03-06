@@ -1,12 +1,9 @@
-import UIComponentProps from '@/components/UIComponent.type';
-import { Icons } from '@/components/base/UIIcon/UIIcon.types';
-
-export type AttributeType = UIComponentProps & {
+export type AttributeType = {
 	label: Attributes;
 	value: number;
 	max: number;
 	unit: string;
-	icon: Icons;
+	icon: any;
 	background?: string;
 	onChange: (value: number) => void;
 };

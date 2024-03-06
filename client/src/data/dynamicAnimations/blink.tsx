@@ -1,1 +1,1 @@
-export const blink = ()
+export const blink = () => {};

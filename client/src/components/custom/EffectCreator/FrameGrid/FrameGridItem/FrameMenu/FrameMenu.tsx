@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { useFramesLength } from '@/state/features/effect/effectSelector';
 import {
 	ContentCopyOutlined,
 	ControlPointDuplicateOutlined,
@@ -18,7 +17,8 @@ const FrameMenu = ({
 	isDisabled: boolean;
 }) => {
 	const dispatch = useDispatch();
-	const framesLength = useFramesLength();
+	// const framesLength = useFramesLength()
+	const framesLength = 0;
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const isOpen = Boolean(anchorEl);
@@ -27,69 +27,69 @@ const FrameMenu = ({
 		setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
-	const additiveItems: MenuItemProps[] = [
-		{
-			icon: <ControlPointDuplicateOutlined />,
-			label: 'Add before',
-			onClick: () => {
-				dispatch(
-					addToHistory({
-						frameIndex: frameIndex - 1,
-						type: FrameHistoryTypes.added,
-					}),
-				);
-				dispatch(addFrame(frameIndex - 1));
-			},
-		},
-		{
-			icon: <ControlPointDuplicateOutlined sx={{ rotate: '180deg' }} />,
-			label: 'Add after',
-			onClick: () => {
-				dispatch(
-					addToHistory({
-						frameIndex,
-						type: FrameHistoryTypes.added,
-					}),
-				);
-				dispatch(addFrame(frameIndex));
-			},
-		},
-		{
-			icon: <ContentCopyOutlined />,
-			label: 'Duplicate',
-			onClick: () => {
-				dispatch(
-					addToHistory({
-						frameIndex,
-						type: FrameHistoryTypes.added,
-					}),
-				);
-				dispatch(duplicateFrame(frameIndex));
-			},
-		},
-	];
+	// const additiveItems: MenuItemProps[] = [
+	// 	{
+	// 		icon: <ControlPointDuplicateOutlined />,
+	// 		label: 'Add before',
+	// 		onClick: () => {
+	// 			dispatch(
+	// 				addToHistory({
+	// 					frameIndex: frameIndex - 1,
+	// 					type: FrameHistoryTypes.added,
+	// 				}),
+	// 			);
+	// 			dispatch(addFrame(frameIndex - 1));
+	// 		},
+	// 	},
+	// 	{
+	// 		icon: <ControlPointDuplicateOutlined sx={{ rotate: '180deg' }} />,
+	// 		label: 'Add after',
+	// 		onClick: () => {
+	// 			dispatch(
+	// 				addToHistory({
+	// 					frameIndex,
+	// 					type: FrameHistoryTypes.added,
+	// 				}),
+	// 			);
+	// 			dispatch(addFrame(frameIndex));
+	// 		},
+	// 	},
+	// 	{
+	// 		icon: <ContentCopyOutlined />,
+	// 		label: 'Duplicate',
+	// 		onClick: () => {
+	// 			dispatch(
+	// 				addToHistory({
+	// 					frameIndex,
+	// 					type: FrameHistoryTypes.added,
+	// 				}),
+	// 			);
+	// 			dispatch(duplicateFrame(frameIndex));
+	// 		},
+	// 	},
+	// ];
 
-	const destructiveItems: MenuItemProps[] = [
-		{
-			icon: <RestartAltOutlined />,
-			label: 'Reset',
-			onClick: () => dispatch(resetFrame(frameIndex)),
-		},
-		{
-			icon: <DeleteOutlined />,
-			label: 'Delete',
-			disabled: framesLength === 1,
-			onClick: () => {
-				dispatch(
-					addToHistory({
-						frameIndex,
-						type: FrameHistoryTypes.deleted,
-					}),
-				);
-				dispatch(deleteFrame(frameIndex));
-			},
-		},
-	];
+	// const destructiveItems: MenuItemProps[] = [
+	// 	{
+	// 		icon: <RestartAltOutlined />,
+	// 		label: 'Reset',
+	// 		onClick: () => dispatch(resetFrame(frameIndex)),
+	// 	},
+	// 	{
+	// 		icon: <DeleteOutlined />,
+	// 		label: 'Delete',
+	// 		disabled: framesLength === 1,
+	// 		onClick: () => {
+	// 			dispatch(
+	// 				addToHistory({
+	// 					frameIndex,
+	// 					type: FrameHistoryTypes.deleted,
+	// 				}),
+	// 			);
+	// 			dispatch(deleteFrame(frameIndex));
+	// 		},
+	// 	},
+	// ];
 
 	return (
 		<>
@@ -113,13 +113,13 @@ const FrameMenu = ({
 					'aria-labelledby': 'frame-menu-button',
 				}}
 			>
-				{additiveItems.map((itemProps, i) => (
+				{/* {additiveItems.map((itemProps, i) => (
 					<UIMenuItem key={i} {...itemProps} onClose={handleClose} />
 				))}
 				<Divider />
 				{destructiveItems.map((itemProps, i) => (
 					<UIMenuItem key={i} {...itemProps} onClose={handleClose} />
-				))}
+				))} */}
 			</Menu>
 		</>
 	);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AnimationT } from '@/types/animation.types';
-import mongoClientPromise from '@/services/mongodb/mongoClient';
+import mongoClientPromise from '@/libs/mongodb/mongoClient';
 
 export async function GET(req: NextRequest) {
 	const name = req.nextUrl.searchParams.get('name');

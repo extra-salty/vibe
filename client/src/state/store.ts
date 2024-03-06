@@ -12,7 +12,7 @@ import {
 	persistStore,
 } from 'redux-persist';
 import { appSlice } from './features/app/appSlice';
-import { effectCreatorSlice } from './features/effect/effectSlice';
+// import { effectCreatorSlice } from './features/effect/effectSlice';
 import { animationsSlice } from './features/animationGroups/animationSlice';
 import { playlistSlice } from './features/playlist/playlistSlice';
 import { colorSlice } from './features/color/colorSlice';
@@ -49,7 +49,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	[appSlice.name]: appSlice.reducer,
 	[animationsSlice.name]: animationsSlice.reducer,
-	[effectCreatorSlice.name]: effectCreatorSlice.reducer,
+	// [effectCreatorSlice.name]: effectCreatorSlice.reducer,
 	[playlistSlice.name]: playlistSlice.reducer,
 	[colorSlice.name]: colorSlice.reducer,
 });

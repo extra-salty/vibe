@@ -1,8 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { setFrameDuration } from '@/state/features/effect/effectSlice';
-import NumberInput from '@/components/base/NumberInput/NumberInput';
+import NumberInput from '@/components/misc/NumberInput/NumberInput';
 
-const DurationInput = ({ frameIndex, duration }: { frameIndex: number; duration: number }) => {
+const DurationInput = ({
+	frameIndex,
+	duration,
+}: {
+	frameIndex: number;
+	duration: number;
+}) => {
 	const dispatch = useDispatch();
 
 	return (
@@ -15,7 +20,8 @@ const DurationInput = ({ frameIndex, duration }: { frameIndex: number; duration:
 			onChange={(
 				_: React.FocusEvent | React.PointerEvent | React.KeyboardEvent,
 				value: number | undefined,
-			) => dispatch(setFrameDuration({ frameIndex, value: Number(value) }))}
+			) => {}}
+			//  dispatch(setFrameDuration({ frameIndex, value: Number(value) }))}
 		/>
 	);
 };

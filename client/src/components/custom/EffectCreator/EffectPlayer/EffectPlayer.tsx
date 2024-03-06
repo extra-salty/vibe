@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { useActiveEffect, useFrames } from '@/state/features/effect/effectSelector';
-import { StaticAnimationServiceInstance } from '@/app/api/staticAnimation/_service';
-import { AnimationStaticBaseT, FrameStateT } from '@/types/staticAnimation.types';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { PauseCircleOutline, PlayArrowOutlined, SaveOutlined } from '@mui/icons-material';
 import Frame from '../../FrameComps/Frame/Frame';
 import styles from './EffectPlayer.module.scss';
+import { FrameStateT } from '@/types/animation.types';
 
 const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
-	const frames = useFrames();
-	const effect = useActiveEffect();
+	// const frames = useFrames();
+	// const effect = useActiveEffect();
 
 	const [saveLoading, setSaveLoading] = useState<boolean>(false);
 	const [activeFrameIndex, setActiveFrameIndex] = useState<number>(0);
@@ -17,15 +15,15 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 	const [overwrriteDurationActive, setOverwrtieDurationActive] = useState<boolean>(false);
 	const [showCellCoordinate, setShowCellCoordinate] = useState<boolean>(false);
 
-	const handleEffectPlay = () => {
-		frames.forEach((_, i) => {
-			const timer = setTimeout(() => {
-				setActiveFrameIndex(i);
-			}, i * 1000);
+	// const handleEffectPlay = () => {
+	// 	frames.forEach((_: any, i: number) => {
+	// 		const timer = setTimeout(() => {
+	// 			setActiveFrameIndex(i);
+	// 		}, i * 1000);
 
-			return () => clearTimeout(timer);
-		});
-	};
+	// 		return () => clearTimeout(timer);
+	// 	});
+	// };
 
 	const handleEffectSave = async () => {
 		setSaveLoading(true);
@@ -46,30 +44,30 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 		}
 	};
 
-	const actions: LoadingButtonProps[] = [
-		{
-			children: 'Save',
-			startIcon: <SaveOutlined />,
-			loading: saveLoading,
-			onClick: handleEffectSave,
-		},
-		{
-			children: 'Play',
-			startIcon: <PlayArrowOutlined />,
-			loading: false,
-			onClick: handleEffectPlay,
-		},
-		{
-			children: 'Pause',
-			startIcon: <PauseCircleOutline />,
-			loading: false,
-			onClick: handleEffectPlay,
-		},
-	];
+	// const actions: LoadingButtonProps[] = [
+	// 	{
+	// 		children: 'Save',
+	// 		startIcon: <SaveOutlined />,
+	// 		loading: saveLoading,
+	// 		onClick: handleEffectSave,
+	// 	},
+	// 	{
+	// 		children: 'Play',
+	// 		startIcon: <PlayArrowOutlined />,
+	// 		loading: false,
+	// 		onClick: handleEffectPlay,
+	// 	},
+	// 	{
+	// 		children: 'Pause',
+	// 		startIcon: <PauseCircleOutline />,
+	// 		loading: false,
+	// 		onClick: handleEffectPlay,
+	// 	},
+	// ];
 
 	return (
 		<div className={styles.player}>
-			<Frame
+			{/* <Frame
 				frameData={frames[activeFrameIndex].data}
 				frameIndex={activeFrameIndex}
 				isDisabled={false}
@@ -89,7 +87,7 @@ const EffectPlayer = ({ framesasd }: { framesasd?: FrameStateT[] }) => {
 					))}
 				</div>
 				<div className={styles.index}>{`${activeFrameIndex + 1}/${frames.length}`}</div>
-			</div>
+			</div> */}
 		</div>
 	);
 };

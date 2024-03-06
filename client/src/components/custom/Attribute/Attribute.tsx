@@ -6,7 +6,7 @@ import { Brightness6, Gradient, Palette } from '@mui/icons-material';
 import { ReactElement } from 'react';
 import { colorActions } from '@/state/features/color/colorSlice';
 import ColorSlider from './ColorSlider';
-import NumberInput from '@/components/base/NumberInput/NumberInput';
+import NumberInput from '@/components/misc/NumberInput/NumberInput';
 import styles from './Attribute.module.scss';
 
 const Attribute = () => {

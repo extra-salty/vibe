@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StaticAnimationT } from '@/types/animation.types';
 import { ObjectId } from 'mongodb';
-import mongoClientPromise from '@/services/mongodb/mongoClient';
+import mongoClientPromise from '@/libs/mongodb/mongoClient';
 
 export async function GET() {
 	const client = await mongoClientPromise;

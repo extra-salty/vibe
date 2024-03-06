@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
 import { CSSProperties, useState } from 'react';
-import { useFrameWidth, useFrames } from '@/state/features/effect/effectSelector';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext, closestCenter, DragEndEvent, Active } from '@dnd-kit/core';
 import FrameGridItem from './FrameGridItem/FrameGridItem';
@@ -9,12 +8,12 @@ import styles from './FrameGrid.module.scss';
 import { FrameStateT } from '@/types/animation.types';
 
 const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
-	const dispatch = useDispatch();
-	const frameWidth = useFrameWidth();
-	const frames = useFrames();
-	const [activeEvent, setActiveEvent] = useState<Active | null>(null);
+	// const dispatch = useDispatch();
+	// const frameWidth = useFrameWidth();
+	// const frames = useFrames();
+	// const [activeEvent, setActiveEvent] = useState<Active | null>(null);
 
-	const itemIds = frames.map((_, i) => `frame${i}`);
+	// const itemIds = frames.map((_: any, i: number) => `frame${i}`);
 
 	const handleDragEnd = ({ active, over }: DragEndEvent) => {
 		// if (!over) {
@@ -32,17 +31,17 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 		// setActiveEvent(null);
 	};
 
-	const style: CSSProperties = {
-		cursor: activeEvent ? 'grabbing' : 'auto',
-	};
+	// const style: CSSProperties = {
+	// 	cursor: activeEvent ? 'grabbing' : 'auto',
+	// };
 
-	const frameStyle: CSSProperties = {
-		gridTemplateColumns: `repeat(auto-fit, minmax(${frameWidth * 100 + 200}px, 1fr))`,
-	};
+	// const frameStyle: CSSProperties = {
+	// 	gridTemplateColumns: `repeat(auto-fit, minmax(${frameWidth * 100 + 200}px, 1fr))`,
+	// };
 
 	return (
-		<div style={style} className={styles.panel}>
-			<DndContext
+		<div style={{}} className={styles.panel}>
+			{/* <DndContext
 				collisionDetection={closestCenter}
 				onDragStart={({ active }: { active: Active }) => setActiveEvent(active)}
 				onDragCancel={() => setActiveEvent(null)}
@@ -59,12 +58,12 @@ const FrameGrid = ({ framesAsd }: { framesAsd?: FrameStateT[] }) => {
 									framesLength={frames.length}
 									frame={frames[i]}
 								/>
-							))} */}
+							))} 
 						</div>
 					</div>
 				</SortableContext>
 				<FrameDragOverlay activeEvent={activeEvent} />
-			</DndContext>
+			</DndContext> */}
 		</div>
 	);
 };

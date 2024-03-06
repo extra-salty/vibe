@@ -5,7 +5,6 @@ import { StaticAnimationT } from '@/types/animation.types';
 import EffectDetails from './EffectDetails/EffectDetails';
 import EffectPlayer from './EffectPlayer/EffectPlayer';
 import FrameGrid from './FrameGrid/FrameGrid';
-import ResizeHandle from '@/components/derived/ResizeHandle/ResizeHandle';
 import Attribute from '../Attribute/Attribute';
 import FrameHistoryTable from '../FrameComps/FrameHistoryTable/FrameHistoryTable';
 import styles from './EffectCreator.module.scss';

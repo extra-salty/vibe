@@ -1,10 +1,7 @@
-import UITable from '@/components/base/UITable/UITable';
-import { UITableHeaderProps } from '@/components/base/UITable/UITable.types';
-import { useFrameHistory } from '@/state/features/effect/effectSelector';
-import { FrameHistoryTypes } from '@/types/staticAnimation.types';
-import styles from './FrameHistoryTable.module.scss';
 import { IconButton } from '@mui/material';
 import { RedoOutlined, UndoOutlined } from '@mui/icons-material';
+import { FrameHistoryTypes } from '@/types/animation.types';
+import styles from './FrameHistoryTable.module.scss';
 
 export type FrameHistoryDataT = {
 	index: number;
@@ -13,28 +10,28 @@ export type FrameHistoryDataT = {
 };
 
 const FrameHistoryTable = () => {
-	const history = useFrameHistory();
+	// const history = useFrameHistory();
 
-	const header: UITableHeaderProps<FrameHistoryDataT>[] = [
-		{
-			id: 'index',
-			header: '#',
-		},
-		{
-			id: 'frameIndex',
-			header: 'Frame index',
-		},
-		{
-			id: 'type',
-			header: 'Type',
-		},
-	];
+	// const header: UITableHeaderProps<FrameHistoryDataT>[] = [
+	// 	{
+	// 		id: 'index',
+	// 		header: '#',
+	// 	},
+	// 	{
+	// 		id: 'frameIndex',
+	// 		header: 'Frame index',
+	// 	},
+	// 	{
+	// 		id: 'type',
+	// 		header: 'Type',
+	// 	},
+	// ];
 
-	const data: FrameHistoryDataT[] = history.map((item, i) => ({
-		index: ++i,
-		frameIndex: item.frameIndex,
-		type: item.type,
-	}));
+	// const data: FrameHistoryDataT[] = history.map((item, i) => ({
+	// 	index: ++i,
+	// 	frameIndex: item.frameIndex,
+	// 	type: item.type,
+	// }));
 
 	return (
 		<div>
@@ -45,7 +42,7 @@ const FrameHistoryTable = () => {
 				<RedoOutlined />
 			</IconButton>
 			<div className={styles.wrapper}>
-				<UITable header={header} data={data} />
+				{/* <UITable header={header} data={data} /> */}
 			</div>
 		</div>
 	);

@@ -16,6 +16,7 @@ import {
 import { getAnimationsDetail } from './playlistThunk';
 
 const newStatic: AnimationStateT = {
+	_id: 'asd',
 	type: AnimationTypesT.static,
 	name: 'newStatic',
 	dateCreated: new Date(),
@@ -28,6 +29,7 @@ const newStatic: AnimationStateT = {
 };
 
 const newGroup: AnimationStateT = {
+	_id: 'asd',
 	type: AnimationTypesT.group,
 	name: 'newGroup',
 	dateCreated: new Date(),
@@ -156,7 +158,7 @@ export const playlistSlice = createSlice({
 			state.children[0].children?.push(newGroup);
 		},
 		addStatic: (state, action: PayloadAction<number[]>) => {
-			state.children[1].children.push(newStatic);
+			// state.children[1].children.push(newStatic);
 		},
 	},
 });

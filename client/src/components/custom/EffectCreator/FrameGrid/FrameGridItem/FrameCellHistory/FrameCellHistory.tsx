@@ -1,8 +1,7 @@
-import { applyRedo, applyUndo } from '@/state/features/effect/effectSlice';
-import { FrameStateT } from '@/types/staticAnimation.types';
 import { RedoOutlined, UndoOutlined } from '@mui/icons-material';
 import { IconButton, IconButtonProps, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { FrameStateT } from '@/types/animation.types';
 import styles from './FrameCellHistory.module.scss';
 
 const FrameCellHistory = ({
@@ -21,13 +20,15 @@ const FrameCellHistory = ({
 			children: <UndoOutlined />,
 			disabled: !frame.undo.length,
 			'aria-label': 'Undo',
-			onClick: () => dispatch(applyUndo(frameIndex)),
+			onClick: () => {},
+			// dispatch(applyUndo(frameIndex))
 		},
 		{
 			children: <RedoOutlined />,
 			disabled: !frame.redo.length,
 			'aria-label': 'Redo',
-			onClick: () => dispatch(applyRedo(frameIndex)),
+			onClick: () => {},
+			// dispatch(applyRedo(frameIndex))
 		},
 	];
 

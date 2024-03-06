@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { AnimationT, AnimationTypesT, StaticAnimationT } from '@/types/animation.types';
-import mongoClientPromise from '@/services/mongodb/mongoClient';
+import mongoClientPromise from '@/libs/mongodb/mongoClient';
 import { DEFAULT_COLOR } from '@/state/features/color/colorSlice';
 
 export async function GET(req: NextRequest) {

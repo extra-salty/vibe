@@ -1,5 +1,5 @@
-import { MongoService } from '@/services/mongodb/MongoService';
-import { CacheOptions, MethodConfigT } from '@/services/HttpClient/HttpClient.types';
+import { MongoService } from '@/libs/mongodb/MongoService';
+import { CacheOptions, MethodConfigT } from '@/libs/http/HttpClient.types';
 import { AnimationT } from '@/types/animation.types';
 
 class AnimationsService extends MongoService {

@@ -1,7 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSSProperties, memo, useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { FrameStateT } from '@/types/staticAnimation.types';
 import { IconButton, Paper } from '@mui/material';
 import { DragHandleOutlined } from '@mui/icons-material';
 import FrameMenu from '@/components/custom/EffectCreator/FrameGrid/FrameGridItem/FrameMenu/FrameMenu';
@@ -9,6 +8,7 @@ import FrameDuration from './FrameDuration/FrameDuration';
 import Frame from '../../../FrameComps/Frame/Frame';
 import FrameCellHistory from './FrameCellHistory/FrameCellHistory';
 import styles from './FrameGridItem.module.scss';
+import { FrameStateT } from '@/types/animation.types';
 
 const FrameGridItem = ({
 	id,

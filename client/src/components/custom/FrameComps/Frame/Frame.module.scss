@@ -1,12 +1,10 @@
-@import '@/styles/variables.scss';
-
 .matrix {
 	display: flex;
 	flex-grow: 1;
 	padding: $spacing-1;
 
-	border: 3px solid $border-color;
-	border-radius: $border-radius-m;
+	border: 3px solid red;
+	border-radius: 12px;
 
 	.column {
 		display: flex;

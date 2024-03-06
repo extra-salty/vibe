@@ -1,16 +1,22 @@
 import { useDispatch } from 'react-redux';
-import { setFrameDuration } from '@/state/features/effect/effectSlice';
 import { IconButton, Popover, Slider, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { TimelapseOutlined } from '@mui/icons-material';
 import styles from './FrameDuration.module.scss';
 
-const FrameDuration = ({ frameIndex, duration }: { frameIndex: number; duration: number }) => {
+const FrameDuration = ({
+	frameIndex,
+	duration,
+}: {
+	frameIndex: number;
+	duration: number;
+}) => {
 	const dispatch = useDispatch();
 
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const isOpen = Boolean(anchorEl);
-	const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+	const handleOpen = (event: React.MouseEvent<HTMLElement>) =>
+		setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 
 	const [value, setValue] = useState<number>(0);
@@ -53,7 +59,9 @@ const FrameDuration = ({ frameIndex, duration }: { frameIndex: number; duration:
 						max={max}
 						aria-label='frame-duration-slider'
 						onChange={(_: Event, value: number | number[]) => {
-							dispatch(setFrameDuration({ frameIndex, value: sliderTransform(Number(value)) }));
+							// dispatch(
+							// 	setFrameDuration({ frameIndex, value: sliderTransform(Number(value)) }),
+							// );
 							setValue(Number(value));
 						}}
 						sx={{
