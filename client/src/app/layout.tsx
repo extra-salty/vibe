@@ -23,13 +23,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html lang='en'>
 			<body className={roboto.className}>
-				<div>asd</div>
-				{/* <Providers session={session}>
-					<Header />
+				<Providers session={null}>
+					<div>asd</div>
+					{/* <Header />
 					<main>
 						<Paper sx={{ height: '100%' }}>{children}</Paper>
-					</main>
-				</Providers> */}
+					</main> */}
+				</Providers>
 			</body>
 		</html>
 	);
