@@ -18,17 +18,17 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-	// const session = await getServerSession(authOptions);
+	const session = await getServerSession(authOptions);
 
 	return (
 		<html lang='en'>
 			<body className={roboto.className}>
-				<Providers session={null}>
-					<div>asd</div>
-					{/* <Header />
+				<Providers session={session}>
+					<Header />
 					<main>
-						<Paper sx={{ height: '100%' }}>{children}</Paper>
-					</main> */}
+						Asd
+						{/* <Paper sx={{ height: '100%' }}>{children}</Paper> */}
+					</main>
 				</Providers>
 			</body>
 		</html>
