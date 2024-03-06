@@ -26,8 +26,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 				<Providers session={session}>
 					<Header />
 					<main>
-						Asd
-						{/* <Paper sx={{ height: '100%' }}>{children}</Paper> */}
+						<Paper sx={{ height: '100%' }}>{children}</Paper>
 					</main>
 				</Providers>
 			</body>

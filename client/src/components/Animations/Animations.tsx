@@ -24,10 +24,10 @@ const Animations = ({
 			<Panel defaultSize={50} minSize={20}>
 				<LeftTabs />
 			</Panel>
-			<ResizeHandle />
+			{/* <ResizeHandle />
 			<Panel defaultSize={50} minSize={20}>
 				<RightTabs />
-			</Panel>
+			</Panel> */}
 		</PanelGroup>
 	);
 };
