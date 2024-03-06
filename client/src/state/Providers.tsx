@@ -1,14 +1,22 @@
 'use client';
+import { Provider as StateProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@/state/store';
-import { Provider as StateProvider } from 'react-redux';
+import { SessionProvider } from 'next-auth/react';
+import AppThemeProvider from '@/components/custom/PageComps/Header/Themes/AppThemeProvider';
 import { StyledEngineProvider } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import AppThemeProvider from '@/components/custom/PageComps/Header/Themes/AppThemeProvider';
+import { Session } from 'next-auth';
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const Providers = ({
+	children,
+	session,
+}: {
+	children: React.ReactNode;
+	session: Session | null;
+}) => {
 	// export const useAppStore: () => AppStore = useStore
 	// const storeRef = useRef<AppStore>()
 	// if (!storeRef.current) {
@@ -20,15 +28,17 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<StateProvider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<AppThemeProvider>
-					<StyledEngineProvider injectFirst>
-						<AppRouterCacheProvider>
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								{children}
-							</LocalizationProvider>
-						</AppRouterCacheProvider>
-					</StyledEngineProvider>
-				</AppThemeProvider>
+				<SessionProvider session={session}>
+					<AppThemeProvider>
+						<StyledEngineProvider injectFirst>
+							<AppRouterCacheProvider>
+								<LocalizationProvider dateAdapter={AdapterDayjs}>
+									{children}
+								</LocalizationProvider>
+							</AppRouterCacheProvider>
+						</StyledEngineProvider>
+					</AppThemeProvider>
+				</SessionProvider>
 			</PersistGate>
 		</StateProvider>
 	);

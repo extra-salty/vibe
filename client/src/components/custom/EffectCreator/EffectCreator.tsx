@@ -16,7 +16,7 @@ const EffectCreator = () => {
 
 	return (
 		<PanelGroup direction='horizontal' className={styles.effect}>
-			<Panel defaultSize={75} minSize={40} className={styles.row}>
+			<Panel defaultSize={100} minSize={40} className={styles.row}>
 				{/* <FrameGrid /> */}
 			</Panel>
 			{/* <ResizeHandle /> */}

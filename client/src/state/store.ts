@@ -7,6 +7,7 @@ import {
 	PURGE,
 	REGISTER,
 	REHYDRATE,
+	WebStorage,
 	persistReducer,
 	persistStore,
 } from 'redux-persist';
@@ -15,11 +16,33 @@ import { effectCreatorSlice } from './features/effect/effectSlice';
 import { animationsSlice } from './features/animationGroups/animationSlice';
 import { playlistSlice } from './features/playlist/playlistSlice';
 import { colorSlice } from './features/color/colorSlice';
-import storage from 'redux-persist/lib/storage';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+// import storage from 'redux-persist/lib/storage';
+
+const createPersistStorage = (): WebStorage => {
+	const isServer = typeof window === 'undefined';
+
+	// Returns noop (dummy) storage.
+	if (isServer) {
+		return {
+			getItem() {
+				return Promise.resolve(null);
+			},
+			setItem() {
+				return Promise.resolve();
+			},
+			removeItem() {
+				return Promise.resolve();
+			},
+		};
+	}
+
+	return createWebStorage('local');
+};
 
 const persistConfig = {
 	key: 'root',
-	storage,
+	storage: createPersistStorage(),
 	// blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],
 };
 

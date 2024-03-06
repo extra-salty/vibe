@@ -1,20 +1,70 @@
-import { useState } from 'react';
-import { Login, Logout } from '@mui/icons-material';
-import { IconButton, Tooltip } from '@mui/material';
-import LoginDrawer from './LoginDrawer/LoginDrawer';
+import { useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { Alert, Snackbar } from '@mui/material';
+import ProfileMenu from './ProfileMenu/Profile';
+import Login from './Login/Login';
 
 const Account = () => {
-	const [isLoginDrawerOpen, setIsLoginDrawerOpen] = useState<boolean>(false);
+	const { data: session } = useSession();
+
+	const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
+	const [isSuccessOpen, setIsSuccessOpen] = useState<boolean>(true);
+
+	const timeRef = useRef(true);
+
+	if (!session && timeRef.current) {
+		setTimeout(() => {
+			setIsInfoOpen(true);
+			timeRef.current = false;
+		}, 5000);
+	}
+
+	const handleInfoClose = (_: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setIsInfoOpen(false);
+	};
+
+	const handleSuccessClose = () => setIsSuccessOpen(false);
 
 	return (
-		<div>
-			<LoginDrawer open={isLoginDrawerOpen} setOpen={setIsLoginDrawerOpen} />
-			<Tooltip title='Log in'>
-				<IconButton onClick={() => setIsLoginDrawerOpen(true)}>
-					{true ? <Login /> : <Logout />}
-				</IconButton>
-			</Tooltip>
-		</div>
+		<>
+			{session ? <ProfileMenu /> : <Login />}
+			<Snackbar
+				open={isInfoOpen}
+				autoHideDuration={60000}
+				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+				onClose={handleInfoClose}
+			>
+				<Alert
+					severity='info'
+					variant='filled'
+					onClose={handleInfoClose}
+					sx={{ width: '100%' }}
+				>
+					Log in above to see the features
+				</Alert>
+			</Snackbar>
+			{session && (
+				<Snackbar
+					open={isSuccessOpen}
+					autoHideDuration={3000}
+					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+					onClose={handleSuccessClose}
+				>
+					<Alert
+						severity='success'
+						variant='filled'
+						onClose={handleSuccessClose}
+						sx={{ width: '100%' }}
+					>
+						Successfull login
+					</Alert>
+				</Snackbar>
+			)}
+		</>
 	);
 };
 

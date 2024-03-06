@@ -1,7 +1,5 @@
 import 'server-only';
-
 import { MongoClient } from 'mongodb';
-import { IS_DEVELOPMENT_ENV } from '../../../appConfig';
 
 const uri = process.env.MONGODB_URI;
 const options = {};
@@ -9,7 +7,7 @@ const options = {};
 let client;
 let mongoClientPromise: Promise<MongoClient>;
 
-if (IS_DEVELOPMENT_ENV()) {
+if ((process.env.NODE_ENV || '') === 'development') {
 	let globalWithMongo = global as typeof globalThis & {
 		_mongoClientPromise?: Promise<MongoClient>;
 	};

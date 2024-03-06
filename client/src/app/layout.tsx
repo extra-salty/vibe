@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Paper } from '@mui/material';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
 import Header from '@/components/custom/PageComps/Header/Header';
 import Providers from '@/state/Providers';
 import './_layout.scss';
@@ -15,11 +17,13 @@ export const metadata: Metadata = {
 	description: '',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+	const session = await getServerSession(authOptions);
+
 	return (
 		<html lang='en'>
 			<body className={roboto.className}>
-				<Providers>
+				<Providers session={session}>
 					<Header />
 					<main>
 						<Paper sx={{ height: '100%' }}>{children}</Paper>
@@ -28,4 +32,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;

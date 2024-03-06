@@ -19,9 +19,10 @@ const Header = () => {
 				alignItems: 'center',
 			}}
 		>
-			<Toolbar>
+			<Toolbar sx={{ display: 'flex', gap: '10px' }}>
 				<UILink href='/'>Animations</UILink>
 				<UILink href='/'>Effect</UILink>
+				<UILink href='/'>About</UILink>
 			</Toolbar>
 			<Box>
 				<Image src={'/vibe.svg'} priority alt='vibe-logo' width={200} height={80} />
