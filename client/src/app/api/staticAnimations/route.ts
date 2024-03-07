@@ -4,16 +4,14 @@ import { ObjectId } from 'mongodb';
 import mongoClientPromise from '@/libs/mongodb/mongoClient';
 
 export async function GET() {
-	// const client = await mongoClientPromise;
+	const client = await mongoClientPromise;
 
-	const staticAnimations: StaticAnimationT[] = [];
-
-	// const staticAnimations: StaticAnimationT[] = await client
-	// 	.db('vibe')
-	// 	.collection<StaticAnimationT>('staticAnimations')
-	// 	.find({})
-	// 	.sort({ name: 1 })
-	// 	.toArray();
+	const staticAnimations: StaticAnimationT[] = await client
+		.db('vibe')
+		.collection<StaticAnimationT>('staticAnimations')
+		.find({})
+		.sort({ name: 1 })
+		.toArray();
 
 	if (staticAnimations) {
 		return NextResponse.json(staticAnimations);

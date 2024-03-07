@@ -53,8 +53,7 @@ export class HttpClient {
 				// headers: {
 				// 	'Content-Type': type || ContentType.JSON,
 				// },
-				// cache: cache || CacheOptions.default,
-				cache: CacheOptions.noCache,
+				cache: cache || CacheOptions.default,
 				body: type === ContentType.JSON ? JSON.stringify(body) : body,
 			});
 
