@@ -7,6 +7,7 @@ import { Panel, PanelGroup } from 'react-resizable-panels';
 import LeftTabs from './LeftTabs/LeftTabs';
 import RightTabs from './RightTabs/RightTabs';
 import ResizeHandle from '@/components/misc/ResizeHandle/ResizeHandle';
+import { StaticAnimationsApi } from '@/app/api/staticAnimations/_service';
 
 const Animations = ({
 	staticAnimations,
@@ -16,6 +17,13 @@ const Animations = ({
 	animations: AnimationT[];
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
+
+	const getAnimation = async () => {
+		const staticAnimations = await StaticAnimationsApi.getAnimations();
+		console.log('🚀 ~ Home ~ staticAnimations:', staticAnimations);
+	};
+
+	getAnimation();
 
 	dispatch(animationsActions.setStaticData(staticAnimations));
 
