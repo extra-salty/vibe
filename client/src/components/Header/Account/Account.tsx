@@ -1,71 +1,59 @@
-import { useRef, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { useUser } from '@/state/Providers/UserProvider/useUser';
 import { Alert, Snackbar } from '@mui/material';
-import ProfileMenu from './ProfileMenu/Profile';
+import ProfileMenu from './ProfileMenu/ProfileMenu';
 import Login from './Login/Login';
 
 const Account = () => {
-	const { data: session } = useSession();
+	const { user } = useUser();
 
-	const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
-	const [isSuccessOpen, setIsSuccessOpen] = useState<boolean>(true);
-
-	const timeRef = useRef(true);
-
-	if (!session && timeRef.current) {
-		setTimeout(() => {
-			setIsInfoOpen(true);
-			timeRef.current = false;
-		}, 5000);
-	}
-
-	const handleInfoClose = (_: React.SyntheticEvent | Event, reason?: string) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setIsInfoOpen(false);
-	};
+	console.log('🚀 ~ Account:', user?.isLoggedIn);
+	const [isSuccessOpen, setIsSuccessOpen] = useState<boolean | undefined>(
+		user?.isLoggedIn,
+	);
+	console.log('🚀 ~ Account ~ isSuccessOpen:', isSuccessOpen);
 
 	const handleSuccessClose = () => setIsSuccessOpen(false);
 
 	return (
 		<>
-			{session ? <ProfileMenu /> : <Login />}
+			{user ? <ProfileMenu /> : <Login />}
 			<Snackbar
-				open={isInfoOpen}
-				autoHideDuration={60000}
+				open={isSuccessOpen}
+				autoHideDuration={5000}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-				onClose={handleInfoClose}
+				onClose={handleSuccessClose}
 			>
 				<Alert
-					severity='info'
+					severity='success'
 					variant='filled'
-					onClose={handleInfoClose}
+					onClose={handleSuccessClose}
 					sx={{ width: '100%' }}
 				>
-					Log in above to see the features
+					Successfull login
 				</Alert>
 			</Snackbar>
-			{session && (
-				<Snackbar
-					open={isSuccessOpen}
-					autoHideDuration={5000}
-					anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-					onClose={handleSuccessClose}
-				>
-					<Alert
-						severity='success'
-						variant='filled'
-						onClose={handleSuccessClose}
-						sx={{ width: '100%' }}
-					>
-						Successfull login
-					</Alert>
-				</Snackbar>
-			)}
 		</>
 	);
 };
 
 export default Account;
+
+// const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
+
+// const timeRef = useRef(true);
+
+// // if (!session && timeRef.current) {
+// // 	setTimeout(() => {
+// // 		setIsInfoOpen(true);
+// // 		timeRef.current = false;
+// // 	}, 5000);
+// // }
+
+// const handleInfoClose = (_: React.SyntheticEvent | Event, reason?: string) => {
+//   if (reason === 'clickaway') {
+//     return;
+//   }
+
+//   setIsInfoOpen(false);
+// };

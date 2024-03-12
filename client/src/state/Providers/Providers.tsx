@@ -2,21 +2,15 @@
 import { Provider as StateProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@/state/store';
-import { SessionProvider } from 'next-auth/react';
 import AppThemeProvider from '@/components/Header/Themes/AppThemeProvider';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Session } from 'next-auth';
+import UserProvider from './UserProvider/UserProvider';
+import { getApp } from 'realm-web';
 
-const Providers = ({
-	children,
-	session,
-}: {
-	children: React.ReactNode;
-	session: Session | null;
-}) => {
+const Providers = ({ children }: { children: React.ReactNode }) => {
 	// export const useAppStore: () => AppStore = useStore
 	// const storeRef = useRef<AppStore>()
 	// if (!storeRef.current) {
@@ -24,11 +18,12 @@ const Providers = ({
 	//   storeRef.current = makeStore()
 	// storeRef.current.dispatch(initializeCount(count))
 	// }
+	const app = getApp(process.env.NEXT_PUBLIC_APP_ID);
 
 	return (
-		<StateProvider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<SessionProvider session={session}>
+		<UserProvider app={app}>
+			<StateProvider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
 					<AppThemeProvider>
 						<StyledEngineProvider injectFirst>
 							<AppRouterCacheProvider>
@@ -38,9 +33,9 @@ const Providers = ({
 							</AppRouterCacheProvider>
 						</StyledEngineProvider>
 					</AppThemeProvider>
-				</SessionProvider>
-			</PersistGate>
-		</StateProvider>
+				</PersistGate>
+			</StateProvider>
+		</UserProvider>
 	);
 };
 

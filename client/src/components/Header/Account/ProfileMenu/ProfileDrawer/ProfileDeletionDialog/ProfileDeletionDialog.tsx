@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 	TextField,
 } from '@mui/material';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@/state/Providers/UserProvider/useUser';
 
 const ProfileDeletionDialog = ({
 	open,
@@ -18,8 +18,8 @@ const ProfileDeletionDialog = ({
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const { data } = useSession();
-	const userName = data?.user?.name;
+	const { user, actions } = useUser();
+	const userName = user?.profile.name;
 
 	const [textInput, setTextInput] = useState<string>('');
 
@@ -29,6 +29,10 @@ const ProfileDeletionDialog = ({
 
 	const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setTextInput(event.target.value);
+	};
+
+	const handleDelete = () => {
+		actions.delete();
 	};
 
 	return (
@@ -58,9 +62,9 @@ const ProfileDeletionDialog = ({
 				<Button onClick={handleClose}>Cancel</Button>
 				<LoadingButton
 					color='warning'
-					type='submit'
 					loading={false}
 					disabled={textInput !== userName}
+					onClick={handleDelete}
 				>
 					DELETE
 				</LoadingButton>

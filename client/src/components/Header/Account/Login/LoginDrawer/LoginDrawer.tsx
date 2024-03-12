@@ -39,5 +39,3 @@ const LoginDrawer = ({
 };
 
 export default LoginDrawer;
-
-// Appbar z index above side bar

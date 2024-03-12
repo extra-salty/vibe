@@ -17,19 +17,11 @@ const Animations = ({
 	animations: AnimationT[];
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
-
-	const getAnimation = async () => {
-		const staticAnimations = await StaticAnimationsApi.getAnimations();
-		console.log('🚀 ~ Home ~ staticAnimations:', staticAnimations);
-	};
-
-	getAnimation();
-
 	dispatch(animationsActions.setStaticData(staticAnimations));
 
 	return (
 		<PanelGroup direction='horizontal'>
-			<Panel defaultSize={50} minSize={20}>
+			<Panel defaultSize={100} minSize={20}>
 				<LeftTabs />
 			</Panel>
 			{/* <ResizeHandle />

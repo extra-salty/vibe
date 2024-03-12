@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useUser } from '@/state/Providers/UserProvider/useUser';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Avatar, Box, Button, Drawer, TextField, Typography } from '@mui/material';
 import ProfileDeletionDialog from './ProfileDeletionDialog/ProfileDeletionDialog';
@@ -11,8 +11,7 @@ const ProfileDrawer = ({
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const { data } = useSession();
-
+	const { user } = useUser();
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
 	return (
@@ -52,16 +51,15 @@ const ProfileDrawer = ({
 						<Typography variant='h4' sx={{ marginBottom: '25px' }}>
 							User Profile
 						</Typography>
-
 						<Avatar
-							alt={data?.user?.name || 'profile picture'}
-							src={data?.user?.image as string | undefined}
+							alt={user?.profile.name}
+							// src={data?.user?.image as string | undefined}
 							sx={{ width: 128, height: 128, fontSize: '32px' }}
-							imgProps={{ referrerPolicy: 'no-referrer' }}
+							slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
 						/>
 						<TextField
 							fullWidth
-							value={data?.user?.name}
+							value={user?.profile.name}
 							id='name'
 							label='Name'
 							InputProps={{
@@ -70,7 +68,7 @@ const ProfileDrawer = ({
 						/>
 						<TextField
 							fullWidth
-							value={data?.user?.email}
+							value={user?.profile.email}
 							id='email'
 							label='Email Address'
 							InputProps={{

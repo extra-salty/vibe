@@ -1,35 +1,23 @@
-import { Facebook, Google } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUser } from '@/state/Providers/UserProvider/useUser';
 
 const ExternalLoginProviders = () => {
+	const { actions } = useUser();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const handleLogin = async () => {
-		setIsLoading(true);
-
-		try {
-			await signIn('google');
-		} catch (e) {
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	useEffect(() => {
+		google.accounts.id.renderButton(document.getElementById('google') as HTMLElement, {
+			theme: 'filled_black',
+			width: 350,
+		});
+	}, [actions.login]);
 
 	return (
 		<>
-			<LoadingButton
-				variant='contained'
-				loading={isLoading}
-				startIcon={<Google />}
-				onClick={handleLogin}
-			>
-				Google
-			</LoadingButton>
-			<LoadingButton variant='contained' startIcon={<Facebook />}>
+			<div id='google' style={{ height: '44px' }}></div>
+			{/* <LoadingButton variant='contained' startIcon={<Facebook />}>
 				Facebook
-			</LoadingButton>
+			</LoadingButton> */}
 		</>
 	);
 };

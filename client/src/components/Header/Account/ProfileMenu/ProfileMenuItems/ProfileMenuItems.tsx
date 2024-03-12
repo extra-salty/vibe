@@ -1,7 +1,7 @@
+import { useUser } from '@/state/Providers/UserProvider/useUser';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Logout, ManageAccounts } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem, SvgIconProps } from '@mui/material';
-import { signOut } from 'next-auth/react';
 import ProfileDrawer from '../ProfileDrawer/ProfileDrawer';
 
 const ProfileMenuItems = ({
@@ -10,8 +10,9 @@ const ProfileMenuItems = ({
 	setOpen: Dispatch<SetStateAction<null | HTMLElement>>;
 }) => {
 	const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState<boolean>(false);
+	const { user, actions } = useUser();
 
-	const actions: {
+	const items: {
 		label: string;
 		icon: React.ReactElement<SvgIconProps>;
 		onClick: () => void;
@@ -27,14 +28,14 @@ const ProfileMenuItems = ({
 		{
 			label: 'Log out',
 			icon: <Logout />,
-			onClick: () => signOut(),
+			onClick: () => actions.logout(),
 		},
 	];
 
 	return (
 		<>
 			<ProfileDrawer open={isProfileDrawerOpen} setOpen={setIsProfileDrawerOpen} />
-			{actions.map(({ icon, label, onClick }, i) => (
+			{items.map(({ icon, label, onClick }, i) => (
 				<MenuItem key={i} onClick={onClick}>
 					<ListItemIcon>{icon}</ListItemIcon>
 					<ListItemText>{label}</ListItemText>
