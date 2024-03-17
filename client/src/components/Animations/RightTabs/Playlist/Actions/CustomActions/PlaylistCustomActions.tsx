@@ -42,9 +42,9 @@ const PlaylistCustomActions = ({ table }: { table: AnimationsTableInstanceT }) =
 		<Box sx={{ display: 'flex' }}>
 			<RemoveDialog open={isRemoveDialogOpen} setOpen={setIsRemoveDialogOpen} />
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
-				<Typography variant='h6' sx={{ marginInline: '10px' }}>
+				{/* <Typography variant='h6' sx={{ marginInline: '10px' }}>
 					Playlist:
-				</Typography>
+				</Typography> */}
 				{actions.map(({ title, icon, disabled, onClick }, i) => (
 					<Tooltip key={i} title={title}>
 						<span>

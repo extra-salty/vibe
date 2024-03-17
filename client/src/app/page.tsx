@@ -1,10 +1,20 @@
-import { StaticAnimationsApi } from './api/staticAnimations/_service';
+'use client';
+import { Paper } from '@mui/material';
+import Providers from '@/state/Providers/Providers';
 import Animations from '@/components/Animations/Animations';
+import Header from '@/components/Header/Header';
 
-const Home = async () => {
-	// const staticAnimations = await StaticAnimationsApi.getAnimations();
-
-	return <Animations staticAnimations={[]} animations={[]} />;
+const Home = () => {
+	return (
+		<Providers>
+			<Header />
+			<main>
+				<Paper sx={{ height: '100%' }}>
+					<Animations staticAnimations={[]} animations={[]} />
+				</Paper>
+			</main>
+		</Providers>
+	);
 };
 
 export default Home;

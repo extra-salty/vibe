@@ -21,13 +21,13 @@ const Animations = ({
 
 	return (
 		<PanelGroup direction='horizontal'>
-			<Panel defaultSize={100} minSize={20}>
+			<Panel defaultSize={50} minSize={20}>
 				<LeftTabs />
 			</Panel>
-			{/* <ResizeHandle />
+			<ResizeHandle />
 			<Panel defaultSize={50} minSize={20}>
 				<RightTabs />
-			</Panel> */}
+			</Panel>
 		</PanelGroup>
 	);
 };

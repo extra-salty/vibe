@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StaticAnimationT } from '@/types/animation.types';
-import { ObjectId } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 import mongoClientPromise from '@/libs/mongodb/mongoClient';
 
 export async function GET() {
 	const client = await mongoClientPromise;
 
-	const staticAnimations: StaticAnimationT[] = await client
-		.db('vibe')
-		.collection<StaticAnimationT>('staticAnimations')
-		.find({})
-		.sort({ name: 1 })
-		.toArray();
+	// const staticAnimations: Collection<StaticAnimationT> = await client
+	// 	.db('vibe')
+	// 	.collection<StaticAnimationT>('staticAnimations')
+	// 	.find({})
+	// 	.sort({ name: 1 })
+	// 	.toArray();
+	const staticAnimations = undefined;
 
 	if (staticAnimations) {
 		return NextResponse.json(staticAnimations);

@@ -44,6 +44,7 @@ export type FrameBaseT = {
 
 export type StaticAnimationT = {
 	_id: string;
+	user: string;
 	type: AnimationTypesT;
 	name: string;
 	description?: string;
@@ -143,20 +144,55 @@ const NUMBER_OF_ROWS = 12;
 // 	speed?: number;
 // };
 
-const animation = {
-	parent: {
-		_id: '1541646',
-		name: 'animation1',
+const staticAnimation = [
+	{
+		_id: '123',
+		user: 1566516,
+		name: 'static1',
 		description: 'description',
 		dateCreated: new Date(),
 		dateModified: new Date(),
 		frames: [],
-		children: ['1,2'],
 	},
+	{
+		_id: '456',
+		user: 1566516,
+		name: 'static2',
+		description: 'description',
+		dateCreated: new Date(),
+		dateModified: new Date(),
+		frames: [],
+	},
+];
+
+const animation = {
+	_id: '1541646',
+	user: 1566516,
+	name: 'animation1',
+	description: 'description',
+	dateCreated: new Date(),
+	dateModified: new Date(),
+	children: ['1.1,1.2'],
 	groups: {
-		'group-1': {
+		'1.1': {
 			id: '1.1',
 			name: 'group1',
+			description: 'desc1',
+			repeat: 2,
+			speed: 1,
+			children: ['1.1.1', '1.1.2'],
+		},
+		'1.1.1': {
+			id: '1.1.1',
+			name: 'static1',
+			description: 'desc1',
+			repeat: 2,
+			speed: 1,
+			children: ['1.1.1', '1.1.2'],
+		},
+		'1.1.2': {
+			id: '1.1.2',
+			name: 'static2',
 			description: 'desc1',
 			repeat: 2,
 			speed: 1,
@@ -168,23 +204,27 @@ const animation = {
 			description: 'desc2',
 			repeat: 2,
 			speed: 1,
-			children: ['1.2.1', '1.2.2'],
+			children: ['1541646'],
 		},
 	},
-	static: {
-		'1': {
-			id: '1',
-			name: 'frames1',
-			description: 'desc2',
-			data: [],
-			duration: 100,
+	statics: [
+		{
+			_id: '123',
+			user: 1566516,
+			name: 'static1',
+			description: 'description',
+			dateCreated: new Date(),
+			dateModified: new Date(),
+			frames: [],
 		},
-		'2': {
-			id: '1',
-			name: 'frames2',
-			description: 'desc2',
-			data: [],
-			duration: 100,
+		{
+			_id: '456',
+			user: 1566516,
+			name: 'static2',
+			description: 'description',
+			dateCreated: new Date(),
+			dateModified: new Date(),
+			frames: [],
 		},
-	},
+	],
 };

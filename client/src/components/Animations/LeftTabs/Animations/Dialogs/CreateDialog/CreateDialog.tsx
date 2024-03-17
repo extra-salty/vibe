@@ -11,6 +11,8 @@ import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import CreateDialogContent from './CreateDialogContent/CreateDialogContent';
 import { StaticAnimationApi } from '@/app/api/staticAnimation/_service';
+import { useUser } from '@/state/Providers/UserProvider/useUser';
+// import { useApp } from '@/state/Providers/AppProvider/useApp';
 
 const CreateDialog = ({
 	open,
@@ -19,6 +21,9 @@ const CreateDialog = ({
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+	const user = useUser();
+	// const { collections } = useApp();
+
 	const dispatch = useDispatch<AppDispatch>();
 	const [isInvalidName, setIsInvalidName] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,22 +37,32 @@ const CreateDialog = ({
 		const formData = new FormData(event.currentTarget);
 		const name = formData.get('name') as string;
 
-		try {
-			if (formData.get('type') === 'static') {
-				await StaticAnimationApi.validateName(name);
-			} else {
-				await AnimationServiceInstance.validateAnimationName(name);
-			}
-		} catch {
-			setIsInvalidName(true);
-		} finally {
-			setIsLoading(false);
-		}
+		// const result = await collections.animations.insertOne({
+		// 	name: 'lily of the valley',
+		// 	sunlight: 'full',
+		// 	color: 'white',
+		// 	type: 'perennial',
+		// 	_partition: 'Store 47',
+		// });
 
-		handleClose();
+		setIsLoading(false);
 
-		await dispatch(createStaticAnimation({ data: formData }));
-		await dispatch(getStaticAnimations());
+		// try {
+		// 	if (formData.get('type') === 'static') {
+		// 		await StaticAnimationApi.validateName(name);
+		// 	} else {
+		// 		await AnimationServiceInstance.validateAnimationName(name);
+		// 	}
+		// } catch {
+		// 	setIsInvalidName(true);
+		// } finally {
+		// 	setIsLoading(false);
+		// }
+
+		// handleClose();
+
+		// await dispatch(createStaticAnimation({ data: formData }));
+		// await dispatch(getStaticAnimations());
 	};
 
 	return (

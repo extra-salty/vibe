@@ -1,11 +1,8 @@
-import Link from 'next/link';
+// import Link from 'next/link';
+// import { forwardRef } from 'react';
 
-const UILink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-	return (
-		<Link href={href} className='text-white' style={{ color: 'white' }}>
-			{children}
-		</Link>
-	);
-};
+// const LinkBehaviour = forwardRef(function LinkBehaviour(props, ref) {
+// 	return <Link ref={ref} {...props} />;
+// });
 
-export default UILink;
+// export default LinkBehaviour;

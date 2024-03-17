@@ -8,7 +8,7 @@ export async function GET() {
 
 	const animationGroups: AnimationT[] = await client
 		.db(process.env.DB_NAME)
-		.collection<AnimationT>(process.env.DB_ANIMATIONS_COLLECTION)
+		.collection<AnimationT>(process.env.NEXT_PUBLIC_DB_STATIC_ANIMATION_COLLECTION)
 		.find({})
 		.sort({ name: 1 })
 		.toArray();
@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest) {
 
 		const result = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.DB_ANIMATIONS_COLLECTION)
+			.collection(process.env.NEXT_PUBLIC_DB_STATIC_ANIMATION_COLLECTION)
 			.deleteMany({ _id: { $in: objectIds } });
 
 		if (result.deletedCount === objectIds.length) {

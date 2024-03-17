@@ -15,3 +15,6 @@ https://stackoverflow.com/questions/7667958/clearing-localstorage-in-javascript
 - mongoClient general try catch
 - mui css baseline
 - add nonce token for auth
+- autocomplete for login window like google passwords
+- google login skeleton while loading
+- debounce password change
