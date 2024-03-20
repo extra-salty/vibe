@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
 import { AppDispatch } from '@/state/store';
 import {
 	getAnimations,
@@ -30,7 +30,7 @@ const CreateDialog = ({
 
 	const handleClose = () => setOpen(false);
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setIsLoading(true);
 

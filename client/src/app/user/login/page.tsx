@@ -1,39 +1,42 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { getApp } from 'realm-web';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { Alert, Snackbar } from '@mui/material';
-import LoginWindow from '@/components/Login/LoginWindow';
+import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
+import { Box, Button, Divider, Typography } from '@mui/material';
+import ExternalLoginProviders from '@/components/Login/ExternalLoginProviders/ExternalLoginProviders';
+import InternalLoginProvider from '@/components/Login/InternalLoginProvider/InternalLoginProvider';
 
 const Login = () => {
-	const router = useRouter();
-
-	const [isGoogleFailure, setGoogleFailure] = useState<boolean>(false);
-
-	const app = getApp(process.env.NEXT_PUBLIC_APP_ID);
-	const user = app.currentUser;
-
-	if (user) {
-		router.push('/');
-	}
+	const goToRegister = useRoutes('register');
 
 	return (
-		<GoogleOAuthProvider
-			clientId={process.env.NEXT_PUBLIC_GOOGLE_ID}
-			onScriptLoadError={() => setGoogleFailure(true)}
-		>
-			<LoginWindow />
-			<Snackbar
-				open={isGoogleFailure}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+		<>
+			<Typography variant='h4'>Log in to your account</Typography>
+			<ExternalLoginProviders />
+			<Divider>Or with email and password</Divider>
+			<InternalLoginProvider />
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
 			>
-				<Alert severity='error'>
-					Google login is unavailable. Choose a different login method.
-				</Alert>
-			</Snackbar>
-		</GoogleOAuthProvider>
+				<Typography>Don`t have an account?</Typography>
+				<Button onClick={goToRegister}>Sign Up</Button>
+			</Box>
+		</>
 	);
 };
 
 export default Login;
+
+{
+	/* <Snackbar
+open={isGoogleFailure}
+anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+>
+<Alert severity='error'>
+  Google login is unavailable. Choose a different login method.
+</Alert>
+			</Snackbar>
+ */
+}

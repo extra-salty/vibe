@@ -34,7 +34,7 @@ const AccountMenuItems = ({
 			onClick: async () => {
 				try {
 					await user.logOut();
-					router.push('/login');
+					router.push('/user/login');
 					//
 					// clear local storage
 					//

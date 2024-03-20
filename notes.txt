@@ -18,3 +18,4 @@ https://stackoverflow.com/questions/7667958/clearing-localstorage-in-javascript
 - autocomplete for login window like google passwords
 - google login skeleton while loading
 - debounce password change
+- move useApp to parent component?

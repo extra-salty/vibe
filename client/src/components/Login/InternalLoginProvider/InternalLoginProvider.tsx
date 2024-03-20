@@ -1,61 +1,70 @@
-import { useState } from 'react';
-import { LoadingButton } from '@mui/lab';
-import { Box, Button, IconButton, TextField } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Credentials, getApp } from 'realm-web';
-import { useRouter } from 'next/navigation';
+import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
 import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { FormEvent, useState } from 'react';
+import { RealmErrorMessages, RealmErrorCodes } from '@/types/realm.types';
+import { Credentials, MongoDBRealmError } from 'realm-web';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button } from '@mui/material';
+import Password from '@/components/User/Password/Password';
+import EmailAddress from '@/components/User/EmailAddress/EmailAddress';
 
 const InternalLoginProvider = () => {
-	const router = useRouter();
 	const app = useApp();
 
 	const [email, setEmail] = useState<string>('');
+	const [errorText, setErrorText] = useState<string>(' ');
 	const [password, setPassword] = useState<string>('');
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
 
-	const handleLogin = async () => {
-		setIsLoading(true);
+	const goToReset = useRoutes('reset', { email: email });
+	const goToHome = useRoutes('home');
 
-		const credentials = Credentials.emailPassword('', '');
+	const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		setLoading(true);
+		setErrorText(' ');
 
 		try {
+			const credentials = Credentials.emailPassword(email, password);
 			await app.logIn(credentials);
-			router.push('/');
-		} catch {
-			console.log('user log in failed');
-		} finally {
-			setIsLoading(false);
+			goToHome();
+		} catch (error) {
+			const e = error as MongoDBRealmError;
+
+			switch (e?.errorCode) {
+				case RealmErrorCodes.InvalidPassword:
+					setErrorText(RealmErrorMessages.Invalid);
+					break;
+				default:
+					console.log(e);
+					break;
+			}
 		}
-	};
 
-	const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
+		setLoading(false);
 	};
 
 	return (
-		<>
-			<TextField type='email' required id='email' label='Email Address' />
-			<TextField
-				required
+		<Box
+			component='form'
+			onSubmit={handleLogin}
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '15px',
+			}}
+		>
+			<EmailAddress
+				email={email}
+				setEmail={setEmail}
+				errorText={errorText}
+				setErrorText={setErrorText}
+			/>
+			<Password
 				id='password'
 				label='Password'
-				type={showPassword ? 'text' : 'password'}
-				InputProps={{
-					endAdornment: (
-						<IconButton
-							aria-label='toggle password visibility'
-							onClick={handleClickShowPassword}
-							onMouseDown={handleMouseDownPassword}
-							edge='end'
-						>
-							{showPassword ? <VisibilityOff /> : <Visibility />}
-						</IconButton>
-					),
-				}}
+				password={password}
+				setPassword={setPassword}
 			/>
 			<Box
 				sx={{
@@ -64,18 +73,12 @@ const InternalLoginProvider = () => {
 					alignItems: 'center',
 				}}
 			>
-				<LoadingButton
-					size='large'
-					variant='outlined'
-					loading={isLoading}
-					sx={{ paddingInline: '20px' }}
-					onClick={handleLogin}
-				>
+				<LoadingButton type='submit' size='large' variant='outlined' loading={loading}>
 					LOGIN
 				</LoadingButton>
-				<Button>Forgot Password?</Button>
+				<Button onClick={goToReset}>Forgot Password?</Button>
 			</Box>
-		</>
+		</Box>
 	);
 };
 

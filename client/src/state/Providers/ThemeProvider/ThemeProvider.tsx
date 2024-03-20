@@ -15,6 +15,7 @@ const ThemeProvider = ({
 
 	return (
 		<MUIThemeProvider theme={theme}>
+			{/* <CssBaseline /> */}
 			<StyledEngineProvider injectFirst>
 				<AppRouterCacheProvider>{children}</AppRouterCacheProvider>
 			</StyledEngineProvider>

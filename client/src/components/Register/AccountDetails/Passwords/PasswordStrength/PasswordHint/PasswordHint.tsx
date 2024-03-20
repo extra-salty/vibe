@@ -22,23 +22,20 @@ const PasswordHint = ({
 
 	return (
 		<>
-			{!!password && (
+			{!!password && (warning || !!suggestions.length) && (
 				<>
 					<Divider sx={{ fontSize: '12px' }}>Suggestions and warnings</Divider>
-					{suggestions && suggestions.length && (
-						<Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-							{suggestions.map((suggestion) => (
+					<Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+						{warning && (
+							<Typography variant='caption'>{translations.warnings[warning]}</Typography>
+						)}
+						{!!suggestions.length &&
+							suggestions.map((suggestion) => (
 								<Typography variant='caption' key={suggestion}>
-									{translations.suggestions[result.feedback.suggestions[0]]}
+									{translations.suggestions[suggestion]}
 								</Typography>
 							))}
-							{warning && (
-								<Typography variant='caption'>
-									{translations.warnings[warning]}
-								</Typography>
-							)}
-						</Box>
-					)}
+					</Box>
 				</>
 			)}
 		</>

@@ -8,5 +8,6 @@ namespace NodeJS {
 		//
 		NEXT_PUBLIC_BASE_API_URL: string;
 		NEXT_PUBLIC_GOOGLE_ID: string;
+		NEXT_PUBLIC_GITHUB_LINK: string;
 	}
 }

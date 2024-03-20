@@ -1,47 +1,57 @@
-import { GoogleLogin } from '@react-oauth/google';
-import { useRouter } from 'next/navigation';
-import { Credentials } from 'realm-web';
-import { Alert, Snackbar } from '@mui/material';
 import { useState } from 'react';
 import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useRouter } from 'next/navigation';
+import {
+	CredentialResponse,
+	GoogleLogin,
+	GoogleOAuthProvider,
+} from '@react-oauth/google';
+import { Credentials } from 'realm-web';
+import { Alert, Snackbar } from '@mui/material';
 
 const ExternalLoginProviders = () => {
 	const app = useApp();
 	const router = useRouter();
 
+	const [isGoogleFailure, setGoogleFailure] = useState<boolean>(false);
 	const [isGoogleLoginFailed, setGoogleLoginFailed] = useState<boolean>(false);
 
 	const handleClose = () => setGoogleLoginFailed(false);
 
-	const handleLogin = async (response: any) => {
-		const credentials = Credentials.google({ idToken: response.credential });
+	const handleLogin = async (response: CredentialResponse) => {
+		if (response.credential) {
+			try {
+				const credentials = Credentials.google({ idToken: response.credential });
+				await app.logIn(credentials);
 
-		try {
-			await app.logIn(credentials);
-			router.push('/');
-		} catch {
-			console.log('user log in failed');
+				router.push('/');
+			} catch (e) {
+				console.log('🚀 ~ handleLogin ~ e:', e);
+			}
 		}
 	};
 
 	return (
 		<>
-			<Snackbar
-				open={isGoogleLoginFailed}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			<GoogleOAuthProvider
+				clientId={process.env.NEXT_PUBLIC_GOOGLE_ID}
+				onScriptLoadError={() => setGoogleFailure(true)}
 			>
-				<Alert severity='error'>Google login failed. Please try again.</Alert>
-			</Snackbar>
-			{/* <div style={{ height: '44px' }}> */}
-			<GoogleLogin
-				useOneTap
-				onSuccess={handleLogin}
-				onError={() => setGoogleLoginFailed(true)}
-				theme='filled_black'
-				width='344px'
-				// containerProps={{ style: { backgroundColor: 'red' } }}
-			/>
-			{/* </div> */}
+				<Snackbar
+					open={isGoogleLoginFailed}
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+				>
+					<Alert severity='error'>Google login failed. Please try again.</Alert>
+				</Snackbar>
+				<GoogleLogin
+					useOneTap
+					onSuccess={handleLogin}
+					onError={() => setGoogleLoginFailed(true)}
+					theme='filled_black'
+					width='350px'
+					// containerProps={{ style: { backgroundColor: 'red' } }}
+				/>
+			</GoogleOAuthProvider>
 		</>
 	);
 };

@@ -1,24 +1,20 @@
+import { useState, ClipboardEvent } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
-import { useState } from 'react';
 
-const SecondPassword = ({
-	firstPasswordInvalid,
-	firstPassword,
-}: {
-	firstPassword: string;
-	firstPasswordInvalid: boolean;
-}) => {
-	const [password, setPassword] = useState<string>('');
-	const [passwordsMatch, setPasswordsMatch] = useState<boolean>(false);
+const SecondPassword = ({ firstPassword }: { firstPassword: string }) => {
+	const [password, setPassword] = useState<string>('password123A@');
+	const [passwordsMatch, setPasswordsMatch] = useState<boolean>(
+		firstPassword === password,
+	);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 
-	const helperTextVisible = !!firstPassword && !firstPasswordInvalid && !passwordsMatch;
+	const invalid = !!firstPassword && !passwordsMatch;
 
 	const handleSecondPasswordChange = ({
 		target,
 	}: React.ChangeEvent<HTMLInputElement>) => {
-		const password = target.value;
+		const password = target.value.trim();
 		setPassword(password);
 
 		const passwordsMatch = firstPassword === password;
@@ -27,16 +23,24 @@ const SecondPassword = ({
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+	const handlePreventDefault = (event: ClipboardEvent<HTMLInputElement>) => {
+		event.preventDefault();
+	};
+
 	return (
 		<TextField
 			required
 			id='secondPassword'
-			label='Password'
+			name='secondPassword'
+			label='Reenter password'
+			autoComplete='current-password'
 			value={password}
-			error={helperTextVisible}
+			error={invalid}
 			type={showPassword ? 'text' : 'password'}
-			helperText={helperTextVisible ? 'Must match with the first password' : ' '}
+			helperText={invalid ? 'Passwords do not match' : ' '}
 			onChange={handleSecondPasswordChange}
+			onCopy={handlePreventDefault}
+			onPaste={handlePreventDefault}
 			InputProps={{
 				endAdornment: (
 					<IconButton

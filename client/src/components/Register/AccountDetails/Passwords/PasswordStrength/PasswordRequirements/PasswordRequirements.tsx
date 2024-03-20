@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, memo } from 'react';
 import { Cancel, Check } from '@mui/icons-material';
 import {
 	Box,
@@ -11,10 +11,10 @@ import {
 
 const PasswordRequirements = ({
 	password,
-	setPasswordInvalid,
+	setError,
 }: {
 	password: string;
-	setPasswordInvalid: Dispatch<SetStateAction<boolean>>;
+	setError: Dispatch<SetStateAction<string>>;
 }) => {
 	const validations: Array<{ regex: RegExp; text: string }> = [
 		{
@@ -39,13 +39,6 @@ const PasswordRequirements = ({
 		},
 	];
 
-	let invalid = false;
-
-	useEffect(() => {
-		console.log(invalid);
-		setPasswordInvalid(invalid);
-	}, [invalid, setPasswordInvalid]);
-
 	return (
 		<Box>
 			<Typography>The password must contain:</Typography>
@@ -53,8 +46,8 @@ const PasswordRequirements = ({
 				{validations.map((validation, i) => {
 					const valid = new RegExp(validation.regex).test(password);
 
-					if (!valid) {
-						invalid = true;
+					if (!!password && !valid) {
+						setError('Invalid password format.');
 					}
 
 					return (
@@ -75,4 +68,4 @@ const PasswordRequirements = ({
 	);
 };
 
-export default PasswordRequirements;
+export default memo(PasswordRequirements);

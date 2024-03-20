@@ -1,5 +1,6 @@
 'use client';
-import RegisterWindow from '@/components/Register/RegisterWindow';
+import RegisterForm from '@/components/Register/AccountDetails/RegisterForm';
+import { Typography } from '@mui/material';
 import { Options, zxcvbnOptions } from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
 import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en';
@@ -16,7 +17,12 @@ const Register = () => {
 
 	zxcvbnOptions.setOptions(options);
 
-	return <RegisterWindow />;
+	return (
+		<>
+			<Typography variant='h4'>Create a new account</Typography>
+			<RegisterForm />
+		</>
+	);
 };
 
 export default Register;

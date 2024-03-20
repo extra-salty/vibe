@@ -8,11 +8,11 @@ import PasswordRequirements from './PasswordRequirements/PasswordRequirements';
 const PasswordStrength = ({
 	anchorEl,
 	password,
-	setPasswordInvalid,
+	setError,
 }: {
 	anchorEl: Element | null;
 	password: string;
-	setPasswordInvalid: Dispatch<SetStateAction<boolean>>;
+	setError: Dispatch<SetStateAction<string>>;
 }) => {
 	const open = Boolean(anchorEl);
 	const id = open ? 'password strength' : undefined;
@@ -32,15 +32,12 @@ const PasswordStrength = ({
 				vertical: 'bottom',
 				horizontal: 'left',
 			}}
-			slotProps={{ paper: { style: { width: '320px', padding: '10px' } } }}
+			slotProps={{ paper: { style: { width: '320px', padding: '15px' } } }}
 		>
-			<Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 				<LinearProgress variant='determinate' color={resultDetail.color} value={value} />
 				<Typography>Strength: {resultDetail.text}</Typography>
-				<PasswordRequirements
-					password={password}
-					setPasswordInvalid={setPasswordInvalid}
-				/>
+				<PasswordRequirements password={password} setError={setError} />
 				{result && <PasswordHint password={password} result={result} />}
 			</Box>
 		</Popover>

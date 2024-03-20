@@ -6,6 +6,7 @@ const useTheme = (themeMode: ThemeModeT) => {
 	return createTheme({
 		palette: {
 			mode: themeMode,
+			// background: {default: '',}
 		},
 		// transitions: {
 		// 	create: () => 'none',
