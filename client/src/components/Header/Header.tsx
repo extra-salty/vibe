@@ -1,15 +1,14 @@
 'use client';
-import { AppBar, Box, Link, Toolbar } from '@mui/material';
-import Image from 'next/image';
-// import UILink from '@/components/misc/UILink/UILink';
-import ThemeToggle from './ThemeToggle/ThemeToggle';
-import Device from './Device/Device';
-import AccountMenu from './AccountMenu/AccountMenu';
+import { AppBar } from '@mui/material';
+import DeviceToolbar from './Device/DeviceToolbar';
+import AppToolbar from './AppToolbar/AppToolbar';
+import Logo from '../Logo/Logo';
 
 const Header = () => {
 	return (
 		<AppBar
 			color='primary'
+			enableColorOnDark={false}
 			position='static'
 			sx={{
 				height: '100px',
@@ -17,21 +16,12 @@ const Header = () => {
 				flexDirection: 'row',
 				justifyContent: 'space-between',
 				alignItems: 'center',
+				paddingInline: '25px',
 			}}
 		>
-			<Toolbar sx={{ display: 'flex', gap: '10px' }}>
-				<Link href='/'>Animations</Link>
-				<Link href='/'>Effect</Link>
-				<Link href='/'>About</Link>
-			</Toolbar>
-			<Box>
-				<Image src={'/vibe.svg'} priority alt='vibe-logo' width={200} height={80} />
-			</Box>
-			<Toolbar>
-				<Device />
-				<ThemeToggle />
-				<AccountMenu />
-			</Toolbar>
+			<DeviceToolbar />
+			<Logo />
+			<AppToolbar />
 		</AppBar>
 	);
 };

@@ -1,8 +1,9 @@
 import { useUser } from '@/state/Providers/UserProvider/useUser';
-import { useRouter } from 'next/navigation';
+import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Logout, ManageAccounts } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem, SvgIconProps } from '@mui/material';
+import { googleLogout } from '@react-oauth/google';
 import AccountDrawer from '../AccountDrawer/AccountDrawer';
 
 const AccountMenuItems = ({
@@ -11,7 +12,7 @@ const AccountMenuItems = ({
 	setOpen: Dispatch<SetStateAction<null | HTMLElement>>;
 }) => {
 	const user = useUser();
-	const router = useRouter();
+	const goToLogin = useRoutes('login');
 
 	const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState<boolean>(false);
 
@@ -34,10 +35,9 @@ const AccountMenuItems = ({
 			onClick: async () => {
 				try {
 					await user.logOut();
-					router.push('/user/login');
-					//
-					// clear local storage
-					//
+
+					// googleLogout();
+					goToLogin();
 				} catch {
 					console.error('Failed to log out user.');
 				}

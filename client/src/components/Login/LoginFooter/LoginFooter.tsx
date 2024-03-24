@@ -1,7 +1,7 @@
 'use client';
 import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
 import { usePathname } from 'next/navigation';
-import { Box, Link as MUILink } from '@mui/material';
+import { Box, Link as MUILink, Tooltip } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Link from 'next/link';
@@ -13,35 +13,41 @@ const LoginFooter = () => {
 	const goToLogin = useRoutes('login');
 
 	return (
-		<>
+		<Box
+			sx={{
+				height: '75px',
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: isLoginPage ? 'flex-end' : 'space-between',
+			}}
+		>
 			{!isLoginPage && (
-				<Button size='large' fullWidth={false} onClick={goToLogin}>
-					Back to login
-				</Button>
+				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+					<Button size='large' fullWidth={false} onClick={goToLogin}>
+						Log In
+					</Button>
+				</Box>
 			)}
-			<Box
-				component='footer'
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					gap: '10px',
-					marginTop: isLoginPage ? '25px' : '15px',
-				}}
-			>
-				<GitHub fontSize='small' />
-				<MUILink
-					variant='caption'
-					underline='hover'
-					rel='noreferrer'
-					target='_blank'
-					href={githubLink}
-					component={Link}
-				>
-					{githubLink}
-				</MUILink>
+			<Box component='footer'>
+				<Tooltip title='Repository'>
+					<MUILink
+						variant='caption'
+						underline='hover'
+						rel='noreferrer'
+						target='_blank'
+						href={githubLink}
+						component={Link}
+						sx={{
+							display: 'flex',
+							gap: '10px',
+						}}
+					>
+						<GitHub fontSize='small' />
+						{githubLink}
+					</MUILink>
+				</Tooltip>
 			</Box>
-		</>
+		</Box>
 	);
 };
 

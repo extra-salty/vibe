@@ -1,8 +1,8 @@
-import { useState, ClipboardEvent } from 'react';
+import { useState, ClipboardEvent, useEffect } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, TextField } from '@mui/material';
 import { FocusEvent } from 'react';
-import PasswordStrength from '@/components/Register/AccountDetails/Passwords/PasswordStrength/PasswordStrength';
+import PasswordStrength from './PasswordStrength/PasswordStrength';
 
 const Password = ({
 	id,
@@ -12,11 +12,11 @@ const Password = ({
 }: {
 	id: string;
 	label: string;
-	initialError: string;
+	initialError?: string;
 	enableStrength: boolean;
 }) => {
 	const [password, setPassword] = useState<string>('');
-	const [error, setError] = useState<string>(initialError);
+	const [error, setError] = useState<string>('');
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLInputElement | null>(null);
 
@@ -26,18 +26,21 @@ const Password = ({
 		setError('');
 	};
 
-	const handleClickShowPassword = () => setShowPassword((show) => !show);
-
 	const handlePreventDefault = (event: ClipboardEvent<HTMLInputElement>) =>
 		event.preventDefault();
 
+	const handleOnFocus = (event: FocusEvent<HTMLInputElement>) =>
+		setAnchorEl(event.target);
+
 	const handleOnBlur = () => setAnchorEl(null);
 
-	const handleOnFocus = (event: FocusEvent<HTMLInputElement>) => {
-		setAnchorEl(event.target);
-	};
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
 	const showError = !!password && !!error;
+
+	useEffect(() => {
+		if (initialError) setError(initialError);
+	}, [initialError]);
 
 	return (
 		<>
@@ -53,7 +56,9 @@ const Password = ({
 				type={showPassword ? 'text' : 'password'}
 				autoComplete='current-password'
 				inputProps={{
-					pattern: '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}',
+					...(enableStrength && {
+						pattern: '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}',
+					}),
 				}}
 				onChange={handlePasswordChange}
 				onFocus={handleOnFocus}

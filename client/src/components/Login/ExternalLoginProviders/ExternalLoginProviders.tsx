@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '@/state/Providers/AppProvider/useApp';
-import { useRouter } from 'next/navigation';
 import {
 	CredentialResponse,
 	GoogleLogin,
@@ -8,10 +7,12 @@ import {
 } from '@react-oauth/google';
 import { Credentials } from 'realm-web';
 import { Alert, Snackbar } from '@mui/material';
+import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
+import CustomGoogleButton from './CustomGoogleButton';
 
 const ExternalLoginProviders = () => {
 	const app = useApp();
-	const router = useRouter();
+	const goToHome = useRoutes('home');
 
 	const [isGoogleFailure, setGoogleFailure] = useState<boolean>(false);
 	const [isGoogleLoginFailed, setGoogleLoginFailed] = useState<boolean>(false);
@@ -22,9 +23,9 @@ const ExternalLoginProviders = () => {
 		if (response.credential) {
 			try {
 				const credentials = Credentials.google({ idToken: response.credential });
-				await app.logIn(credentials);
 
-				router.push('/');
+				await app.logIn(credentials);
+				goToHome();
 			} catch (e) {
 				console.log('🚀 ~ handleLogin ~ e:', e);
 			}
@@ -49,8 +50,8 @@ const ExternalLoginProviders = () => {
 					onError={() => setGoogleLoginFailed(true)}
 					theme='filled_black'
 					width='350px'
-					// containerProps={{ style: { backgroundColor: 'red' } }}
 				/>
+				{/* <CustomGoogleButton /> */}
 			</GoogleOAuthProvider>
 		</>
 	);

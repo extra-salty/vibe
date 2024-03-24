@@ -1,22 +1,24 @@
 import { useApp } from '@/state/Providers/AppProvider/useApp';
 import { FormEvent, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
-import { Alert, Box, Fade } from '@mui/material';
+import { Alert, AlertTitle, Box, Fade } from '@mui/material';
 import { MongoDBRealmError } from 'realm-web';
 import { RealmErrorMessages, RealmErrorCodes } from '@/types/realm.types';
 import EmailAddress from '@/components/User/EmailAddress/EmailAddress';
 
-const ResetForm = ({ initialEmail }: { initialEmail: string }) => {
+const PasswordResetForm = () => {
 	const app = useApp();
 
-	const [email, setEmail] = useState<string>(initialEmail);
 	const [errorText, setErrorText] = useState<string>(' ');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [alert, setAlert] = useState<boolean>(false);
 
 	const handleReset = async (event: FormEvent<HTMLFormElement>) => {
-		setLoading(true);
 		event.preventDefault();
+		setLoading(true);
+
+		const formData = new FormData(event.currentTarget);
+		const email = formData.get('email') as string;
 
 		try {
 			await app.emailPasswordAuth.sendResetPasswordEmail({ email });
@@ -50,12 +52,7 @@ const ResetForm = ({ initialEmail }: { initialEmail: string }) => {
 				gap: '15px',
 			}}
 		>
-			<EmailAddress
-				email={email}
-				setEmail={setEmail}
-				errorText={errorText}
-				setErrorText={setErrorText}
-			/>
+			<EmailAddress initialError={errorText} />
 			<Box
 				sx={{
 					marginInline: 'auto',
@@ -74,11 +71,12 @@ const ResetForm = ({ initialEmail }: { initialEmail: string }) => {
 			</Box>
 			<Fade in={alert}>
 				<Alert variant='outlined'>
-					An email has been sent to the following address: ${email}
+					<AlertTitle>Password reset email sent successfully</AlertTitle>
+					To be able to log in create a new password by following the link from the email.
 				</Alert>
 			</Fade>
 		</Box>
 	);
 };
 
-export default ResetForm;
+export default PasswordResetForm;

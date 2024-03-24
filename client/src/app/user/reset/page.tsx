@@ -1,20 +1,18 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
 import { Typography } from '@mui/material';
-import ResetForm from '@/components/User/ResetForm/ResetForm';
+import PasswordResetForm from '@/components/User/PasswordResetForm/PasswordResetForm';
 
 const Reset = () => {
-	const searchParams = useSearchParams();
-	const email = searchParams.get('email') || '';
-
 	return (
 		<>
-			<Typography variant='h4'>Reset your password</Typography>
-			<Typography>
-				To reset your password, enter your email below and submit. An email will be sent
-				to you with instructions about how to complete the process.
+			<Typography variant='h4' alignSelf='center'>
+				Reset your password
 			</Typography>
-			<ResetForm initialEmail={email} />
+			<Typography>
+				To reset your password, enter your email address below and submit. An email will
+				be sent to you with instructions about how to complete the process.
+			</Typography>
+			<PasswordResetForm />
 		</>
 	);
 };

@@ -11,18 +11,20 @@ import EmailAddress from '@/components/User/EmailAddress/EmailAddress';
 const InternalLoginProvider = () => {
 	const app = useApp();
 
-	const [email, setEmail] = useState<string>('');
-	const [errorText, setErrorText] = useState<string>(' ');
-	const [password, setPassword] = useState<string>('');
+	const [errorText, setErrorText] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const goToReset = useRoutes('reset', { email: email });
+	const goToReset = useRoutes('reset');
 	const goToHome = useRoutes('home');
 
 	const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setLoading(true);
-		setErrorText(' ');
+		setErrorText('');
+
+		const formData = new FormData(event.currentTarget);
+		const email = formData.get('email') as string;
+		const password = formData.get('password') as string;
 
 		try {
 			const credentials = Credentials.emailPassword(email, password);
@@ -54,18 +56,8 @@ const InternalLoginProvider = () => {
 				gap: '15px',
 			}}
 		>
-			<EmailAddress
-				email={email}
-				setEmail={setEmail}
-				errorText={errorText}
-				setErrorText={setErrorText}
-			/>
-			<Password
-				id='password'
-				label='Password'
-				password={password}
-				setPassword={setPassword}
-			/>
+			<EmailAddress initialError={errorText} />
+			<Password id='password' label='Password' initialError='' enableStrength={false} />
 			<Box
 				sx={{
 					display: 'flex',

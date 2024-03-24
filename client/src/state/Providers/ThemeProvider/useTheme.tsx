@@ -1,6 +1,5 @@
 import { ThemeModeT } from '@/state/features/app/appSlice.types';
 import { createTheme } from '@mui/material';
-import Link from 'next/link';
 
 const useTheme = (themeMode: ThemeModeT) => {
 	return createTheme({

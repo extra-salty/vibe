@@ -4,16 +4,14 @@ body {
 	max-height: 100vh;
 	margin: 0;
 	padding: 0;
-	background-color: black;
-
-	// Google One tap patch
-	#g_a11y_announcement {
-		display: none;
-	}
+	overflow: hidden;
+	// overflow-y: hidden;
+	// overflow-x: auto;
 }
 
 main {
 	height: calc(100% - 100px);
+	// overflow: auto;
 }
 
 // TabPanel is not included in the theme overrides currently

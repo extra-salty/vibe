@@ -6,7 +6,7 @@ const Speakers = ({ deviceConnected }: { deviceConnected: boolean }) => {
 	const isRightMute = false;
 
 	return (
-		<Box sx={{ display: 'flex', alignItems: 'center' }}>
+		<Box sx={{ display: 'flex', alignItems: 'center', paddingInline: '12px' }}>
 			<Tooltip title={isLeftMute ? 'Unmute left channel' : 'Mute left channel'}>
 				<span>
 					<IconButton disabled={!deviceConnected}>

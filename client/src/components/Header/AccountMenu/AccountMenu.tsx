@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useUser } from '@/state/Providers/UserProvider/useUser';
-import { Avatar, Menu, Tooltip } from '@mui/material';
+import { Avatar, IconButton, Menu, Tooltip } from '@mui/material';
 import AccountMenuItems from './AccountMenuItems/AccountMenuItems';
+import { AccountCircle } from '@mui/icons-material';
 
 const AccountMenu = () => {
 	const user = useUser();
@@ -16,18 +17,24 @@ const AccountMenu = () => {
 
 	return (
 		<>
-			<Tooltip title='Profile'>
-				<Avatar
+			<Tooltip
+				title='Account'
+				sx={{
+					borderRadius: '64px',
+					padding: '18px',
+					border: '2px solid white',
+					margin: '-2px',
+				}}
+			>
+				<IconButton
 					id='profile-menu-button'
 					aria-haspopup='true'
 					aria-controls={isOpen ? 'profile-menu' : undefined}
 					aria-expanded={isOpen ? 'true' : undefined}
-					// src={data?.user?.image as string | undefined}
-					alt={user?.profile.name}
 					onClick={handleOpen}
-					sx={{ width: 24, height: 24 }}
-					imgProps={{ referrerPolicy: 'no-referrer' }}
-				/>
+				>
+					<AccountCircle />
+				</IconButton>
 			</Tooltip>
 			<Menu
 				id='profile-menu'

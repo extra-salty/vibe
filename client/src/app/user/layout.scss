@@ -10,7 +10,6 @@ main {
 
 .paper {
 	z-index: 1;
-	width: 350px;
 	padding: 50px;
 	padding-bottom: 10px;
 	display: flex;
@@ -22,8 +21,10 @@ main {
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
-	margin-top: 30px;
+	height: 600px;
+	width: 350px;
+	gap: 30px;
+	margin-top: 50px;
 }
 
 .gradientBorder {

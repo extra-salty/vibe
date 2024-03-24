@@ -1,26 +1,25 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 
-const EmailAddress = ({
-	errorText,
-	setErrorText,
-}: {
-	errorText: string;
-	setErrorText: Dispatch<SetStateAction<string>>;
-}) => {
+const EmailAddress = ({ initialError }: { initialError: string }) => {
 	const [email, setEmail] = useState<string>('');
+	const [error, setError] = useState<string>('');
 
 	const handleEmailChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		const address = target.value.trim();
 		setEmail(address);
 
 		if (!address || target.validity.valid) {
-			setErrorText('');
+			setError('');
 		} else {
-			setErrorText('Invalid email address');
+			setError('Invalid email address format.');
 		}
 	};
+
+	useEffect(() => {
+		if (initialError) setError(initialError);
+	}, [initialError]);
 
 	return (
 		<TextField
@@ -31,8 +30,8 @@ const EmailAddress = ({
 			type='email'
 			label='Email Address'
 			value={email}
-			error={!!email && !!errorText}
-			helperText={!!errorText ? errorText : ' '}
+			error={!!email && !!error}
+			helperText={!!error ? error : ' '}
 			onChange={handleEmailChange}
 			InputProps={{
 				startAdornment: (

@@ -22,7 +22,7 @@ const PasswordStrength = ({
 
 	return (
 		<Popover
-			elevation={15}
+			elevation={20}
 			id={id}
 			open={open}
 			disableAutoFocus={true}
@@ -36,7 +36,10 @@ const PasswordStrength = ({
 		>
 			<Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 				<LinearProgress variant='determinate' color={resultDetail.color} value={value} />
-				<Typography>Strength: {resultDetail.text}</Typography>
+				<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+					<Typography>Weak</Typography>
+					<Typography>Strong</Typography>
+				</Box>
 				<PasswordRequirements password={password} setError={setError} />
 				{result && <PasswordHint password={password} result={result} />}
 			</Box>
