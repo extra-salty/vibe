@@ -1,13 +1,14 @@
 import { useContext } from 'react';
 import { UserContext } from './UserProvider';
-import { useRouter } from 'next/navigation';
+import { useRoutes } from '../Routes/useRoutes/useRoutes';
 
 export const useUser = () => {
-	const router = useRouter();
 	const user = useContext(UserContext);
 
+	const goToLogin = useRoutes('login');
+
 	if (!user) {
-		router.push('/login');
+		goToLogin();
 		throw new Error('No active user found. Redirecting to login.');
 	}
 

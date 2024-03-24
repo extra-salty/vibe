@@ -7,11 +7,8 @@ const AppToolbar = () => {
 	return (
 		<Toolbar
 			sx={{
-				display: 'flex',
-				// backgroundColor: 'gray',
-				borderRadius: '64px',
-				border: '2px solid white',
-				boxSizing: 'border-box',
+				position: 'absolute',
+				right: '25px',
 			}}
 			disableGutters
 		>

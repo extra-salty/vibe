@@ -17,15 +17,7 @@ const AccountMenu = () => {
 
 	return (
 		<>
-			<Tooltip
-				title='Account'
-				sx={{
-					borderRadius: '64px',
-					padding: '18px',
-					border: '2px solid white',
-					margin: '-2px',
-				}}
-			>
+			<Tooltip title='Account' sx={{}}>
 				<IconButton
 					id='profile-menu-button'
 					aria-haspopup='true'

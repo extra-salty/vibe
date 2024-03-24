@@ -1,20 +1,21 @@
-import { useRouter } from 'next/navigation';
+import { useApp } from '../AppProvider/useApp';
 import { createContext, useEffect } from 'react';
-import { User, getApp } from 'realm-web';
+import { User } from 'realm-web';
+import { useRoutes } from '../Routes/useRoutes/useRoutes';
 
 export const UserContext = createContext<User | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-	const router = useRouter();
+	const goToLogin = useRoutes('login');
 
-	const app = getApp(process.env.NEXT_PUBLIC_APP_ID);
+	const app = useApp();
 	const user = app.currentUser;
 
 	useEffect(() => {
 		if (!user) {
-			router.push('/user/login');
+			goToLogin();
 		}
-	}, [router, user]);
+	}, [goToLogin, user]);
 
 	return (
 		<>

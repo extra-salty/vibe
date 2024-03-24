@@ -18,7 +18,7 @@ const RightTabs = () => {
 	return (
 		<TabContext value={activeTab}>
 			<TabList onChange={handleTabChange} aria-label='tables'>
-				<Tab label='Playlist' value={Tabs.playlist} />
+				<Tab label='Editor' value={Tabs.playlist} />
 				<Tab label='Color' value={Tabs.color} />
 			</TabList>
 			<TabPanel value={Tabs.playlist}>

@@ -40,7 +40,7 @@ const createPersistStorage = (): WebStorage => {
 	return createWebStorage('local');
 };
 
-const persistConfig = {
+export const persistConfig = {
 	key: 'root',
 	storage: createPersistStorage(),
 	// blacklist: ['persist/PERSIST', 'persist/REHYDRATE'],

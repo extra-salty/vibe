@@ -14,7 +14,7 @@ const LeftTabs = () => {
 	return (
 		<TabContext value={activeTab}>
 			<TabList onChange={handleTabChange} aria-label='tables'>
-				<Tab label='Animation Groups' value={AnimationTypesT.group} />
+				<Tab label='Animations' value={AnimationTypesT.group} />
 				{/* <Tab label='Dynamic Animations' value={AnimationTypesT.static} /> */}
 			</TabList>
 			<TabPanel value={AnimationTypesT.group}>

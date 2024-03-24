@@ -5,6 +5,8 @@ import { Logout, ManageAccounts } from '@mui/icons-material';
 import { ListItemIcon, ListItemText, MenuItem, SvgIconProps } from '@mui/material';
 import { googleLogout } from '@react-oauth/google';
 import AccountDrawer from '../AccountDrawer/AccountDrawer';
+import { purgeStoredState } from 'redux-persist';
+import { persistConfig } from '@/state/store';
 
 const AccountMenuItems = ({
 	setOpen,
@@ -35,11 +37,12 @@ const AccountMenuItems = ({
 			onClick: async () => {
 				try {
 					await user.logOut();
+					// purgeStoredState(persistConfig);
+					googleLogout();
 
-					// googleLogout();
 					goToLogin();
-				} catch {
-					console.error('Failed to log out user.');
+				} catch (e) {
+					console.error(e);
 				}
 			},
 		},
