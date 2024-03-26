@@ -1,10 +1,10 @@
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useApp } from '@/misc/hooks/useApp/useApp';
 import { FormEvent, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { MongoDBRealmError } from 'realm-web';
 import { Alert, AlertTitle, Box, Fade } from '@mui/material';
 import { RealmErrorMessages, RealmErrorCodes } from '@/types/realm.types';
-import EmailAddress from '../../User/EmailAddress/EmailAddress';
+import EmailAddress from '../EmailAddress/EmailAddress';
 import Password from '@/components/User/Password/Password';
 
 const RegisterForm = () => {
@@ -74,6 +74,7 @@ const RegisterForm = () => {
 					variant='outlined'
 					fullWidth={false}
 					loading={loading}
+					sx={{ marginInline: 'auto' }}
 				>
 					Create
 				</LoadingButton>

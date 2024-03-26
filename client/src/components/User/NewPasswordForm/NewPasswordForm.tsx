@@ -1,4 +1,4 @@
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useApp } from '@/misc/hooks/useApp/useApp';
 import { RealmErrorCodes, RealmErrorMessages } from '@/types/realm.types';
 import { LoadingButton } from '@mui/lab';
 import { Alert, AlertTitle, Box, Fade } from '@mui/material';

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useState } from 'react';
+import { useRoutes } from '@/misc/hooks/useRoutes/useRoutes';
+import { useApp } from '@/misc/hooks/useApp/useApp';
 import {
 	CredentialResponse,
 	GoogleLogin,
@@ -7,8 +8,6 @@ import {
 } from '@react-oauth/google';
 import { Credentials } from 'realm-web';
 import { Alert, Snackbar } from '@mui/material';
-import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
-import CustomGoogleButton from './CustomGoogleButton';
 
 const ExternalLoginProviders = () => {
 	const app = useApp();
@@ -51,7 +50,6 @@ const ExternalLoginProviders = () => {
 					theme='filled_black'
 					width='350px'
 				/>
-				{/* <CustomGoogleButton /> */}
 			</GoogleOAuthProvider>
 		</>
 	);

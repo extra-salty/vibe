@@ -1,15 +1,15 @@
-import { useApp } from '../AppProvider/useApp';
+import { useApp } from '../../../misc/hooks/useApp/useApp';
+import { Routes, useRoutes } from '../../../misc/hooks/useRoutes/useRoutes';
 import { createContext, useEffect } from 'react';
 import { User } from 'realm-web';
-import { useRoutes } from '../Routes/useRoutes/useRoutes';
 
 export const UserContext = createContext<User | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-	const goToLogin = useRoutes('login');
-
 	const app = useApp();
 	const user = app.currentUser;
+
+	const goToLogin = useRoutes(Routes.Login);
 
 	useEffect(() => {
 		if (!user) {
@@ -20,6 +20,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			{user ? <UserContext.Provider value={user}>{children}</UserContext.Provider> : null}
+			{/* <UserContext.Provider value={user}>{children}</UserContext.Provider> */}
 		</>
 	);
 };

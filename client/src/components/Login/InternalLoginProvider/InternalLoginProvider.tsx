@@ -1,5 +1,5 @@
-import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useRoutes } from '@/misc/hooks/useRoutes/useRoutes';
+import { useApp } from '@/misc/hooks/useApp/useApp';
 import { FormEvent, useState } from 'react';
 import { RealmErrorMessages, RealmErrorCodes } from '@/types/realm.types';
 import { Credentials, MongoDBRealmError } from 'realm-web';

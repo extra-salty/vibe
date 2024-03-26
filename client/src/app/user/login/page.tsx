@@ -1,5 +1,5 @@
 'use client';
-import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
+import { useRoutes } from '@/misc/hooks/useRoutes/useRoutes';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import ExternalLoginProviders from '@/components/Login/ExternalLoginProviders/ExternalLoginProviders';
 import InternalLoginProvider from '@/components/Login/InternalLoginProvider/InternalLoginProvider';
@@ -9,7 +9,9 @@ const Login = () => {
 
 	return (
 		<>
-			<Typography variant='h4'>Log in to your account</Typography>
+			<Typography variant='h4' textAlign='center'>
+				Log in to your account
+			</Typography>
 			<ExternalLoginProviders />
 			<Divider>Or with email and password</Divider>
 			<InternalLoginProvider />
@@ -28,15 +30,3 @@ const Login = () => {
 };
 
 export default Login;
-
-{
-	/* <Snackbar
-open={isGoogleFailure}
-anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
->
-<Alert severity='error'>
-  Google login is unavailable. Choose a different login method.
-</Alert>
-			</Snackbar>
- */
-}

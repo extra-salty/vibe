@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import './_layout.scss';
+import ThemeProvider from '@/state/Providers/ThemeProvider/ThemeProvider';
+import './_global.scss';
 
 const roboto = Roboto({
 	weight: ['300', '400', '500', '700'],
@@ -15,7 +16,9 @@ export const metadata: Metadata = {
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html lang='en'>
-			<body className={roboto.className}>{children}</body>
+			<body className={roboto.className}>
+				<ThemeProvider themeMode='dark'>{children}</ThemeProvider>
+			</body>
 		</html>
 	);
 };

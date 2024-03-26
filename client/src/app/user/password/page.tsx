@@ -24,15 +24,12 @@ const Password = () => {
 
 	return (
 		<>
-			<Typography
-				variant='h4'
-				alignSelf='center'
-				alignContent={'center'}
-				alignItems={'center'}
-			>
+			<Typography variant='h4' textAlign='center'>
 				Create a new password
 			</Typography>
-			<Typography>To reset your password, enter your email below and submit.</Typography>
+			<Typography textAlign='center'>
+				To reset your password, enter your email below and submit.
+			</Typography>
 			<NewPasswordForm token={token} tokenId={tokenId} />
 		</>
 	);

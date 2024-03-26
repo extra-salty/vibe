@@ -10,6 +10,7 @@ TODO:
 - duplicate dialog - form data - disabled state
 - dialog initialize state
 https://stackoverflow.com/questions/7667958/clearing-localstorage-in-javascript
+https://github.com/vkarpov15/mongo-sanitize
 
 
 - mongoClient general try catch

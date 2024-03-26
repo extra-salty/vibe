@@ -2,17 +2,11 @@ html,
 body {
 	height: 100vh;
 	max-height: 100vh;
-	min-width: 1000px;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
 	// overflow-y: hidden;
 	// overflow-x: auto;
-}
-
-main {
-	height: calc(100% - 100px);
-	// overflow: auto;
 }
 
 // TabPanel is not included in the theme overrides currently

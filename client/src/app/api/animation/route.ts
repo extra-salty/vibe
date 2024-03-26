@@ -16,11 +16,11 @@ export async function GET(req: NextRequest) {
 
 		const animations = await client
 			.db(process.env.DB_NAME)
-			.collection(process.env.NEXT_PUBLIC_DB_STATIC_ANIMATION_COLLECTION)
-			.find<AnimationT>({
-				_id: { $in: objectIds },
-			})
-			.toArray();
+			.collection(process.env.NEXT_PUBLIC_DB_STATIC_ANIMATION_COLLECTION);
+		// .find<AnimationT>({
+		// 	_id: { $in: objectIds },
+		// })
+		// .toArray();
 
 		if (!animations) {
 			return new NextResponse(null, {

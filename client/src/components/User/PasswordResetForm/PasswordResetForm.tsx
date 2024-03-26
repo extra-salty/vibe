@@ -1,4 +1,4 @@
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useApp } from '@/misc/hooks/useApp/useApp';
 import { FormEvent, useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { Alert, AlertTitle, Box, Fade } from '@mui/material';
@@ -53,22 +53,16 @@ const PasswordResetForm = () => {
 			}}
 		>
 			<EmailAddress initialError={errorText} />
-			<Box
-				sx={{
-					marginInline: 'auto',
-				}}
+			<LoadingButton
+				type='submit'
+				variant='outlined'
+				size='large'
+				fullWidth={false}
+				loading={loading}
+				sx={{ marginInline: 'auto' }}
 			>
-				<LoadingButton
-					type='submit'
-					variant='outlined'
-					size='large'
-					fullWidth={false}
-					loading={loading}
-					sx={{ width: 'auto' }}
-				>
-					Reset Password
-				</LoadingButton>
-			</Box>
+				Reset Password
+			</LoadingButton>
 			<Fade in={alert}>
 				<Alert variant='outlined'>
 					<AlertTitle>Password reset email sent successfully</AlertTitle>

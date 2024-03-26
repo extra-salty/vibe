@@ -1,21 +1,20 @@
 'use client';
-import { useApp } from '@/state/Providers/AppProvider/useApp';
+import { useApp } from '@/misc/hooks/useApp/useApp';
+import { useSearchParams } from 'next/navigation';
 import { RealmErrorCodes, RealmErrorMessages } from '@/types/realm.types';
 import { Alert, AlertTitle, CircularProgress } from '@mui/material';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { MongoDBRealmError, getApp } from 'realm-web';
+import { MongoDBRealmError } from 'realm-web';
 
 const ConfirmResult = () => {
-	// const app = useApp();
-	const app = getApp(process.env.NEXT_PUBLIC_APP_ID);
+	const app = useApp();
 	const searchParams = useSearchParams();
-
-	const token = searchParams.get('token') || '';
-	const tokenId = searchParams.get('tokenId') || '';
 
 	const [errorMessage, setErrorMessage] = useState<RealmErrorMessages | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
+
+	const token = searchParams.get('token') || '';
+	const tokenId = searchParams.get('tokenId') || '';
 
 	useEffect(() => {
 		const handleConfirm = async () => {

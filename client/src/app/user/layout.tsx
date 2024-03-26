@@ -1,11 +1,7 @@
 'use client';
-import { useApp } from '@/state/Providers/AppProvider/useApp';
-import { useRoutes } from '@/state/Providers/Routes/useRoutes/useRoutes';
-import { Paper } from '@mui/material';
-import ThemeProvider from '@/state/Providers/ThemeProvider/ThemeProvider';
-import Logo from '@/components/Logo/Logo';
-import LoginFooter from '@/components/Login/LoginFooter/LoginFooter';
-import './layout.scss';
+import { useApp } from '@/misc/hooks/useApp/useApp';
+import { useRoutes } from '@/misc/hooks/useRoutes/useRoutes';
+import Window from '@/components/Window/Window';
 
 const UserLayout = ({ children }: { children: React.ReactNode }) => {
 	const app = useApp();
@@ -15,19 +11,7 @@ const UserLayout = ({ children }: { children: React.ReactNode }) => {
 
 	if (user) goToHome();
 
-	return (
-		<ThemeProvider themeMode='dark'>
-			<main>
-				<div className='gradientBorder'>
-					<Paper elevation={10} classes={{ root: 'paper' }}>
-						<Logo />
-						<div className='content'>{children}</div>
-						<LoginFooter />
-					</Paper>
-				</div>
-			</main>
-		</ThemeProvider>
-	);
+	return <Window>{children}</Window>;
 };
 
 export default UserLayout;

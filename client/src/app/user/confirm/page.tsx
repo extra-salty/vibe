@@ -1,6 +1,6 @@
 'use client';
 import { Typography } from '@mui/material';
-import ConfirmResult from './asd';
+import ConfirmResult from '../../../components/User/ConfirmResult/ConfirmResult';
 
 const Confirm = () => {
 	return (

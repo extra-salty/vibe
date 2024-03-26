@@ -1,5 +1,5 @@
 'use client';
-import RegisterForm from '@/components/Register/AccountDetails/RegisterForm';
+import RegisterForm from '@/components/User/RegisterForm/RegisterForm';
 import { Typography } from '@mui/material';
 import { Options, zxcvbnOptions } from '@zxcvbn-ts/core';
 import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
@@ -19,7 +19,9 @@ const Register = () => {
 
 	return (
 		<>
-			<Typography variant='h4'>Create a new account</Typography>
+			<Typography variant='h4' textAlign='center'>
+				Create a new account
+			</Typography>
 			<RegisterForm />
 		</>
 	);

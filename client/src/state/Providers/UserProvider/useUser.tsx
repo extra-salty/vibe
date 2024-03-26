@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from './UserProvider';
-import { useRoutes } from '../Routes/useRoutes/useRoutes';
+import { useRoutes } from '../../../misc/hooks/useRoutes/useRoutes';
 
 export const useUser = () => {
 	const user = useContext(UserContext);

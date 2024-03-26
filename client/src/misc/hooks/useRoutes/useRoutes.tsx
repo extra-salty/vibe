@@ -2,12 +2,19 @@
 import { useRouter } from 'next/navigation';
 
 export type RoutesT = 'home' | 'login' | 'register' | 'reset' | 'confirm';
+export enum Routes {
+	Home = 'home',
+	Login = 'login',
+	Register = 'register',
+	Reset = 'reset',
+	Confirm = 'confirm',
+}
 type ParamT = Record<string, any>;
 
-export const useRoutes = (route: RoutesT, params?: ParamT) => {
+export const useRoutes = (route: RoutesT | Routes, params?: ParamT) => {
 	const router = useRouter();
 
-	const routes: Record<RoutesT, string> = {
+	const routes: Record<RoutesT | Routes, string> = {
 		home: '/',
 		login: '/user/login',
 		register: '/user/register',
